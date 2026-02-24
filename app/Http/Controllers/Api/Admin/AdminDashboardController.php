@@ -24,42 +24,57 @@ class AdminDashboardController extends Controller
         ]);
     }
 
-    public function recentActivity()
+    public function recentActivity(Request $request)
     {
+        $limit = min((int) $request->query('limit', 50), 200);
+        $perType = (int) ceil($limit / 3) + 5;
+
         $activity = collect();
 
         // Recent enquiries
-        Enquiry::latest()->take(5)->get()->each(function ($e) use ($activity) {
+        Enquiry::latest()->take($perType)->get()->each(function ($e) use ($activity) {
             $activity->push([
+                'id' => 'enquiry-' . $e->id,
                 'type' => 'enquiry',
                 'message' => "New enquiry from {$e->name}",
+                'detail' => $e->subject ?? $e->message ?? '',
+                'user' => $e->name,
+                'email' => $e->email ?? null,
                 'time' => $e->created_at->diffForHumans(),
-                'created_at' => $e->created_at,
+                'created_at' => $e->created_at->toISOString(),
             ]);
         });
 
         // Recent reviews
-        Review::with('user')->latest()->take(5)->get()->each(function ($r) use ($activity) {
+        Review::with('user')->latest()->take($perType)->get()->each(function ($r) use ($activity) {
             $activity->push([
+                'id' => 'review-' . $r->id,
                 'type' => 'review',
                 'message' => ($r->user?->name ?? 'Someone') . " left a {$r->rating}-star review",
+                'detail' => $r->comment ?? '',
+                'user' => $r->user?->name ?? 'Anonymous',
+                'email' => $r->user?->email ?? null,
                 'time' => $r->created_at->diffForHumans(),
-                'created_at' => $r->created_at,
+                'created_at' => $r->created_at->toISOString(),
             ]);
         });
 
         // Recent users
-        User::latest()->take(5)->get()->each(function ($u) use ($activity) {
+        User::latest()->take($perType)->get()->each(function ($u) use ($activity) {
             $activity->push([
+                'id' => 'user-' . $u->id,
                 'type' => 'user',
                 'message' => "{$u->name} registered",
+                'detail' => $u->email,
+                'user' => $u->name,
+                'email' => $u->email,
                 'time' => $u->created_at->diffForHumans(),
-                'created_at' => $u->created_at,
+                'created_at' => $u->created_at->toISOString(),
             ]);
         });
 
         return response()->json(
-            $activity->sortByDesc('created_at')->take(10)->values()
+            $activity->sortByDesc('created_at')->take($limit)->values()
         );
     }
 }
