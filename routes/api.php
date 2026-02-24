@@ -1,0 +1,229 @@
+<?php
+
+use App\Http\Controllers\Api\{
+    AuthController,
+    HomeController,
+    ServiceController,
+    ProductController,
+    BundleController,
+    FaqController,
+    ReviewController,
+    EnquiryController,
+    NewsletterController,
+    AIController,
+    BlogController
+};
+use App\Http\Controllers\Api\User\{
+    DashboardController,
+    WishlistController,
+    ChatController
+};
+use App\Http\Controllers\Api\Admin\{
+    CMSController,
+    SettingController,
+    BlogController as AdminBlogController,
+    PageController as AdminPageController,
+    AdminReviewController,
+    AdminEnquiryController,
+    AdminUserController,
+    AdminRoleController,
+    AdminBundleController,
+    AdminDashboardController,
+    AdminChatController
+};
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+*/
+
+// Public API Routes
+Route::prefix('v1')->group(function () {
+
+    // ──── Authentication ────
+    Route::prefix('auth')->group(function () {
+        Route::post('/login', [AuthController::class, 'login']);
+        Route::post('/register', [AuthController::class, 'register']);
+
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::get('/user', [AuthController::class, 'user']);
+            Route::post('/logout', [AuthController::class, 'logout']);
+        });
+    });
+
+    // ──── Homepage Data ────
+    Route::get('/home', [HomeController::class, 'index']);
+    Route::get('/home/faqs', [HomeController::class, 'faqs']);
+    Route::get('/home/team', [HomeController::class, 'team']);
+    Route::get('/home/map-data', [HomeController::class, 'mapData']);
+    
+    // ──── Services ────
+    Route::get('/services', [ServiceController::class, 'index']);
+    Route::get('/services/category/{category}', [ServiceController::class, 'byCategory']);
+    Route::get('/services/{slug}', [ServiceController::class, 'show']);
+    
+    // ──── Products ────
+    Route::get('/products', [ProductController::class, 'index']);
+    Route::get('/products/categories', [ProductController::class, 'categories']);
+    Route::get('/products/{slug}', [ProductController::class, 'show']);
+    
+    // ──── Bundles ────
+    Route::get('/bundles', [BundleController::class, 'index']);
+    Route::get('/bundles/{slug}', [BundleController::class, 'show']);
+    
+    // ──── FAQs ────
+    Route::get('/faqs', [FaqController::class, 'index']);
+    Route::get('/faqs/search', [FaqController::class, 'search']);
+    
+    // ──── Reviews ────
+    Route::get('/reviews/{type}/{id}', [ReviewController::class, 'index']);
+    Route::post('/reviews', [ReviewController::class, 'store'])->middleware('auth:sanctum');
+    
+    // ──── Enquiries ────
+    Route::post('/enquiries', [EnquiryController::class, 'store']);
+    
+    // ──── Newsletter ────
+    Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe']);
+    Route::post('/newsletter/unsubscribe', [NewsletterController::class, 'unsubscribe']);
+
+    // ──── Public Blog ────
+    Route::get('/blogs', [BlogController::class, 'index']);
+    Route::get('/blogs/categories', [BlogController::class, 'categories']);
+    Route::get('/blogs/{slug}', [BlogController::class, 'show']);
+
+    // ──── Public Settings ────
+    Route::get('/settings', [SettingController::class, 'publicSettings']);
+
+    // ──── Pages (Dynamic Pages) ────
+    Route::get('/pages/{slug}', [AdminPageController::class, 'showBySlug']);
+    
+    // ──── User Dashboard Routes (Protected) ────
+    Route::middleware('auth:sanctum')->prefix('user')->group(function () {
+        Route::get('/dashboard', [DashboardController::class, 'index']);
+        Route::get('/enquiries', [DashboardController::class, 'enquiries']);
+        Route::get('/reviews', [DashboardController::class, 'reviews']);
+        Route::get('/profile', [DashboardController::class, 'profile']);
+        Route::put('/profile', [DashboardController::class, 'profile']);
+        Route::put('/password', [DashboardController::class, 'changePassword']);
+        
+        // Wishlist
+        Route::get('/wishlist', [WishlistController::class, 'index']);
+        Route::post('/wishlist', [WishlistController::class, 'store']);
+        Route::delete('/wishlist/{id}', [WishlistController::class, 'destroy']);
+        
+        // Chat
+        Route::get('/chat/sessions', [ChatController::class, 'sessions']);
+        Route::post('/chat/messages', [ChatController::class, 'store']);
+        Route::get('/chat/sessions/{sessionId}/messages', [ChatController::class, 'messages']);
+    });
+    
+    // ──── Admin Routes (Protected) ────
+    Route::middleware(['auth:sanctum', 'role:admin|superadmin'])->prefix('admin')->group(function () {
+        // AI
+        Route::post('/ai/generate-content', [AIController::class, 'generateContent']);
+        Route::post('/ai/generate-seo', [AIController::class, 'generateSEO']);
+        Route::post('/ai/analyze-sentiment', [AIController::class, 'analyzeSentiment']);
+        Route::post('/ai/chatbot', [AIController::class, 'chatbot']);
+        Route::post('/ai/generate-steps', [AIController::class, 'generateSteps']);
+        Route::post('/ai/improve-text', [AIController::class, 'improveText']);
+
+        // CMS (Sliders, Services, Products, Clients, Counters)
+        Route::get('/sliders', [CMSController::class, 'sliders']);
+        Route::post('/sliders', [CMSController::class, 'storeSlider']);
+        Route::put('/sliders/{slider}', [CMSController::class, 'updateSlider']);
+        Route::delete('/sliders/{slider}', [CMSController::class, 'destroySlider']);
+
+        Route::get('/cms/services', [CMSController::class, 'services']);
+        Route::post('/cms/services', [CMSController::class, 'storeService']);
+        Route::put('/cms/services/{service}', [CMSController::class, 'updateService']);
+        Route::delete('/cms/services/{service}', [CMSController::class, 'destroyService']);
+
+        Route::get('/cms/products', [CMSController::class, 'products']);
+        Route::post('/cms/products', [CMSController::class, 'storeProduct']);
+        Route::put('/cms/products/{product}', [CMSController::class, 'updateProduct']);
+        Route::delete('/cms/products/{product}', [CMSController::class, 'destroyProduct']);
+
+        Route::get('/cms/clients', [CMSController::class, 'clients']);
+        Route::post('/cms/clients', [CMSController::class, 'storeClient']);
+        Route::put('/cms/clients/{client}', [CMSController::class, 'updateClient']);
+        Route::delete('/cms/clients/{client}', [CMSController::class, 'destroyClient']);
+
+        Route::get('/cms/counters', [CMSController::class, 'counters']);
+        Route::post('/cms/counters', [CMSController::class, 'storeCounter']);
+        Route::put('/cms/counters/{counter}', [CMSController::class, 'updateCounter']);
+        Route::delete('/cms/counters/{counter}', [CMSController::class, 'destroyCounter']);
+
+        // Settings
+        Route::get('/settings', [SettingController::class, 'index']);
+        Route::put('/settings', [SettingController::class, 'update']);
+        Route::post('/settings/logo', [SettingController::class, 'uploadLogo']);
+        Route::post('/settings/favicon', [SettingController::class, 'uploadFavicon']);
+
+        // Blog Management
+        Route::get('/blogs', [AdminBlogController::class, 'index']);
+        Route::post('/blogs', [AdminBlogController::class, 'store']);
+        Route::get('/blogs/{blog}', [AdminBlogController::class, 'show']);
+        Route::put('/blogs/{blog}', [AdminBlogController::class, 'update']);
+        Route::delete('/blogs/{blog}', [AdminBlogController::class, 'destroy']);
+
+        // Page Management
+        Route::get('/pages', [AdminPageController::class, 'index']);
+        Route::post('/pages', [AdminPageController::class, 'store']);
+        Route::get('/pages/{page}', [AdminPageController::class, 'show']);
+        Route::put('/pages/{page}', [AdminPageController::class, 'update']);
+        Route::delete('/pages/{page}', [AdminPageController::class, 'destroy']);
+        Route::post('/pages/{page}/sections', [AdminPageController::class, 'addSection']);
+        Route::put('/sections/{section}', [AdminPageController::class, 'updateSection']);
+        Route::delete('/sections/{section}', [AdminPageController::class, 'destroySection']);
+        Route::post('/pages/{page}/reorder', [AdminPageController::class, 'reorderSections']);
+
+        // Dashboard Stats
+        Route::get('/dashboard/stats', [AdminDashboardController::class, 'stats']);
+        Route::get('/dashboard/activity', [AdminDashboardController::class, 'recentActivity']);
+
+        // Reviews
+        Route::get('/reviews', [AdminReviewController::class, 'index']);
+        Route::get('/reviews/stats', [AdminReviewController::class, 'stats']);
+        Route::put('/reviews/{review}', [AdminReviewController::class, 'update']);
+        Route::post('/reviews/{review}/approve', [AdminReviewController::class, 'approve']);
+        Route::post('/reviews/{review}/reject', [AdminReviewController::class, 'reject']);
+        Route::delete('/reviews/{review}', [AdminReviewController::class, 'destroy']);
+
+        // Enquiries
+        Route::get('/enquiries', [AdminEnquiryController::class, 'index']);
+        Route::get('/enquiries/stats', [AdminEnquiryController::class, 'stats']);
+        Route::get('/enquiries/{enquiry}', [AdminEnquiryController::class, 'show']);
+        Route::put('/enquiries/{enquiry}', [AdminEnquiryController::class, 'update']);
+        Route::post('/enquiries/{enquiry}/reply', [AdminEnquiryController::class, 'reply']);
+        Route::delete('/enquiries/{enquiry}', [AdminEnquiryController::class, 'destroy']);
+
+        // Bundles
+        Route::get('/bundles', [AdminBundleController::class, 'index']);
+        Route::post('/bundles', [AdminBundleController::class, 'store']);
+        Route::put('/bundles/{bundle}', [AdminBundleController::class, 'update']);
+        Route::delete('/bundles/{bundle}', [AdminBundleController::class, 'destroy']);
+
+        // Chat (Admin)
+        Route::get('/chat/sessions', [AdminChatController::class, 'sessions']);
+        Route::get('/chat/sessions/{session}/messages', [AdminChatController::class, 'messages']);
+        Route::post('/chat/sessions/{session}/reply', [AdminChatController::class, 'reply']);
+        Route::post('/chat/sessions/{session}/close', [AdminChatController::class, 'closeSession']);
+        Route::get('/chat/stats', [AdminChatController::class, 'stats']);
+
+        // Users & Roles (SuperAdmin)
+        Route::get('/users', [AdminUserController::class, 'index']);
+        Route::get('/users/stats', [AdminUserController::class, 'stats']);
+        Route::post('/users', [AdminUserController::class, 'store']);
+        Route::put('/users/{user}', [AdminUserController::class, 'update']);
+        Route::delete('/users/{user}', [AdminUserController::class, 'destroy']);
+
+        Route::get('/roles', [AdminRoleController::class, 'index']);
+        Route::get('/permissions', [AdminRoleController::class, 'permissions']);
+        Route::post('/roles', [AdminRoleController::class, 'store']);
+        Route::put('/roles/{role}', [AdminRoleController::class, 'update']);
+        Route::delete('/roles/{role}', [AdminRoleController::class, 'destroy']);
+    });
+});
+
