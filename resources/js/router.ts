@@ -97,6 +97,30 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/auth/ForgotPassword.vue'),
     meta: { title: 'Forgot Password', guest: true },
   },
+  {
+    path: '/reset-password/:token',
+    name: 'reset-password',
+    component: () => import('@/pages/auth/ResetPassword.vue'),
+    meta: { title: 'Reset Password', guest: true },
+  },
+  {
+    path: '/confirm-password',
+    name: 'confirm-password',
+    component: () => import('@/pages/auth/ConfirmPassword.vue'),
+    meta: { title: 'Confirm Password', requiresAuth: true },
+  },
+  {
+    path: '/verify-email',
+    name: 'verify-email',
+    component: () => import('@/pages/auth/VerifyEmail.vue'),
+    meta: { title: 'Verify Email', requiresAuth: true },
+  },
+  {
+    path: '/two-factor-challenge',
+    name: 'two-factor-challenge',
+    component: () => import('@/pages/auth/TwoFactorChallenge.vue'),
+    meta: { title: 'Two-Factor Authentication', guest: true },
+  },
 
   // User dashboard routes
   {

@@ -1,5 +1,8 @@
 <template>
   <div id="app" class="min-h-screen bg-background text-foreground">
+    <!-- Global Loading Indicator -->
+    <LoadingIndicator />
+
     <RouterView />
     
     <!-- Toast Notifications -->
@@ -18,6 +21,7 @@ import { useChatStore } from '@/stores/chat';
 import { initializeTheme } from '@/composables/useAppearance';
 import ToastContainer from '@/components/shared/ToastContainer.vue';
 import ChatWidget from '@/components/shared/ChatWidget.vue';
+import LoadingIndicator from '@/components/shared/LoadingIndicator.vue';
 
 // Initialize theme before mount (SSR-safe)
 initializeTheme();

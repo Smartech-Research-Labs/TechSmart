@@ -41,10 +41,10 @@ import { useToast } from '@/composables';
 const { toasts, remove } = useToast();
 
 const toastClasses = {
-  success: 'bg-green-500/20 border-green-400/50 text-green-100',
-  error: 'bg-red-500/20 border-red-400/50 text-red-100',
-  warning: 'bg-amber-500/20 border-amber-400/50 text-amber-100',
-  info: 'bg-blue-500/20 border-blue-400/50 text-blue-100',
+  success: 'bg-green-500/15 border-green-500/30 text-green-700 dark:text-green-300',
+  error: 'bg-red-500/15 border-red-500/30 text-red-700 dark:text-red-300',
+  warning: 'bg-amber-500/15 border-amber-500/30 text-amber-700 dark:text-amber-300',
+  info: 'bg-blue-500/15 border-blue-500/30 text-blue-700 dark:text-blue-300',
 };
 
 type ToastType = 'success' | 'error' | 'warning' | 'info';

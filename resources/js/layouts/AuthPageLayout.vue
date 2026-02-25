@@ -1,0 +1,68 @@
+<template>
+  <div class="min-h-screen flex flex-col bg-background text-foreground">
+    <!-- Auth Header -->
+    <header class="sticky top-0 z-30 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div class="container mx-auto flex h-14 items-center justify-between px-4">
+        <router-link to="/" class="flex items-center gap-2 group">
+          <div class="w-8 h-8 bg-gradient-to-br from-primary to-primary/70 rounded-lg flex items-center justify-center">
+            <span class="text-primary-foreground font-bold text-sm">TS</span>
+          </div>
+          <span class="text-lg font-bold group-hover:text-primary transition-colors">TechSmart</span>
+        </router-link>
+
+        <div class="flex items-center gap-2">
+          <Button variant="ghost" size="icon" class="h-8 w-8" @click="cycleTheme" :title="`Theme: ${appearance}`">
+            <IconSun v-if="appearance === 'light'" class="size-4" />
+            <IconMoon v-else-if="appearance === 'dark'" class="size-4" />
+            <IconDeviceDesktop v-else class="size-4" />
+          </Button>
+          <router-link v-if="showLogin" to="/login">
+            <Button variant="ghost" size="sm">Sign in</Button>
+          </router-link>
+          <router-link v-if="showRegister" to="/register">
+            <Button variant="outline" size="sm">Sign up</Button>
+          </router-link>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <main class="flex flex-1 flex-col items-center justify-center p-6 md:p-10">
+      <slot />
+    </main>
+
+    <!-- Auth Footer -->
+    <footer class="border-t py-4">
+      <div class="container mx-auto flex flex-col items-center justify-between gap-2 px-4 text-xs text-muted-foreground sm:flex-row">
+        <p>&copy; {{ new Date().getFullYear() }} TechSmart. All rights reserved.</p>
+        <div class="flex items-center gap-4">
+          <router-link to="/" class="hover:text-foreground transition-colors">Home</router-link>
+          <router-link to="/contact" class="hover:text-foreground transition-colors">Contact</router-link>
+          <router-link to="/faqs" class="hover:text-foreground transition-colors">FAQs</router-link>
+        </div>
+      </div>
+    </footer>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import { IconSun, IconMoon, IconDeviceDesktop } from '@tabler/icons-vue'
+import { Button } from '@/components/ui/button'
+import { useAppearance } from '@/composables/useAppearance'
+import type { Appearance } from '@/types'
+
+const route = useRoute()
+const { appearance, updateAppearance } = useAppearance()
+
+const showLogin = computed(() => route.name !== 'login')
+const showRegister = computed(() => route.name !== 'register')
+
+const themes: Appearance[] = ['light', 'dark', 'system']
+
+function cycleTheme() {
+  const idx = themes.indexOf(appearance.value)
+  updateAppearance(themes[(idx + 1) % themes.length])
+}
+</script>
