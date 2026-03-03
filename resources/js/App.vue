@@ -19,6 +19,7 @@ import { RouterView } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 import { useChatStore } from '@/stores/chat';
 import { initializeTheme } from '@/composables/useAppearance';
+import { initializeThemeColors, useThemeColors } from '@/composables/useThemeColors';
 import ToastContainer from '@/components/shared/ToastContainer.vue';
 import ChatWidget from '@/components/shared/ChatWidget.vue';
 import LoadingIndicator from '@/components/shared/LoadingIndicator.vue';
@@ -26,8 +27,14 @@ import LoadingIndicator from '@/components/shared/LoadingIndicator.vue';
 // Initialize theme before mount (SSR-safe)
 initializeTheme();
 
+// Instant theme color application from localStorage (no flash)
+initializeThemeColors();
+
 const authStore = useAuthStore();
 const chatStore = useChatStore();
+
+// Activate reactive theme colour syncing from CMS settings
+useThemeColors();
 
 onMounted(async () => {
   // Initialize auth if token exists

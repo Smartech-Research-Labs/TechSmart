@@ -33,6 +33,7 @@ class SettingController extends Controller
             'facebook_url', 'twitter_url', 'linkedin_url', 'instagram_url', 'youtube_url', 'tiktok_url', 'whatsapp_number',
             'logo_path', 'favicon_path', 'marquee_text',
             'copyright_text',
+            'theme_preset', 'theme_primary_color', 'theme_accent_color',
         ];
 
         $settings = [];

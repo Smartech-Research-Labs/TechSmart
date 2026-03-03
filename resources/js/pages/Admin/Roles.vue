@@ -183,7 +183,7 @@
                   type="text"
                   placeholder="e.g. editor, moderator"
                   class="w-full px-4 py-2.5 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition"
-                  :disabled="editingRole && isSystemRole(editingRole.name)"
+                  :disabled="Boolean(editingRole && isSystemRole(editingRole.name))"
                 />
                 <p v-if="formErrors.name" class="text-destructive text-xs mt-1">{{ formErrors.name }}</p>
               </div>

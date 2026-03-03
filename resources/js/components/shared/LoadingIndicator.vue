@@ -65,7 +65,9 @@ function stopLoading() {
 }
 
 // Make available globally
-window.__loadingIndicator = { startLoading, stopLoading }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const win = window as Record<string, any>
+win.__loadingIndicator = { startLoading, stopLoading }
 
 onUnmounted(() => {
   if (routeTimer) clearTimeout(routeTimer)

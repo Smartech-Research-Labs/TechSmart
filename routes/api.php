@@ -29,7 +29,8 @@ use App\Http\Controllers\Api\Admin\{
     AdminRoleController,
     AdminBundleController,
     AdminDashboardController,
-    AdminChatController
+    AdminChatController,
+    TrashController
 };
 use Illuminate\Support\Facades\Route;
 
@@ -224,6 +225,12 @@ Route::prefix('v1')->group(function () {
         Route::post('/roles', [AdminRoleController::class, 'store']);
         Route::put('/roles/{role}', [AdminRoleController::class, 'update']);
         Route::delete('/roles/{role}', [AdminRoleController::class, 'destroy']);
+
+        // Trash Management (soft-deleted items)
+        Route::get('/trash/{type}', [TrashController::class, 'index']);
+        Route::post('/trash/{type}/{id}/restore', [TrashController::class, 'restore']);
+        Route::delete('/trash/{type}/{id}', [TrashController::class, 'forceDelete']);
+        Route::post('/trash/{type}/restore-all', [TrashController::class, 'restoreAll']);
     });
 });
 

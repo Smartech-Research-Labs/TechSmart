@@ -80,6 +80,11 @@ class DatabaseSeeder extends Seeder
             // SEO
             ['key' => 'seo_title',       'value' => 'TechSmart — Innovative Technology Solutions', 'group' => 'seo', 'type' => 'text'],
             ['key' => 'seo_description', 'value' => 'TechSmart delivers world-class web development, mobile apps, AI solutions, cloud infrastructure and cybersecurity services across Africa.', 'group' => 'seo', 'type' => 'textarea'],
+
+            // Theme
+            ['key' => 'theme_preset',        'value' => 'purple',  'group' => 'theme', 'type' => 'text'],
+            ['key' => 'theme_primary_color', 'value' => '#d311f5', 'group' => 'theme', 'type' => 'text'],
+            ['key' => 'theme_accent_color',  'value' => '#3b82f6', 'group' => 'theme', 'type' => 'text'],
         ];
 
         foreach ($settings as $s) {
@@ -155,121 +160,8 @@ class DatabaseSeeder extends Seeder
             CounterItem::create($c);
         }
 
-        // ──── Services ────
-        $services = [
-            [
-                'name'              => 'Web Development',
-                'slug'              => 'web-development',
-                'short_description' => 'Custom websites and web applications built with modern frameworks for performance, scalability, and stunning UX.',
-                'description'       => '<p>Our web development team crafts bespoke digital experiences using Laravel, Vue.js, React, and Next.js. From corporate portals to complex SaaS platforms, we deliver pixel-perfect, lightning-fast solutions.</p><p>Every project includes responsive design, SEO fundamentals, accessibility compliance, and a robust CMS so you stay in control.</p>',
-                'icon'              => 'code',
-                'category'          => 'Development',
-                'features'          => ['Custom CMS', 'Responsive Design', 'SEO Optimised', 'API Integrations', 'CI/CD Pipeline', 'Performance Monitoring'],
-                'process_steps'     => [
-                    ['title' => 'Discovery', 'description' => 'We learn your goals, audience, and competitors.'],
-                    ['title' => 'Design',    'description' => 'UI/UX wireframes and high-fidelity prototypes.'],
-                    ['title' => 'Develop',   'description' => 'Agile sprints with weekly demos.'],
-                    ['title' => 'Deploy',    'description' => 'Launch on optimised infrastructure with monitoring.'],
-                ],
-                'is_featured'  => true,
-                'is_published' => true,
-                'order'        => 1,
-            ],
-            [
-                'name'              => 'Mobile App Development',
-                'slug'              => 'mobile-app-development',
-                'short_description' => 'Native and cross-platform mobile apps for iOS and Android that users love.',
-                'description'       => '<p>We build performant mobile applications using React Native, Flutter, and native Swift/Kotlin when needed. Our apps are optimised for smooth animations, offline support, and push notifications.</p>',
-                'icon'              => 'smartphone',
-                'category'          => 'Development',
-                'features'          => ['Cross-Platform', 'Push Notifications', 'Offline Mode', 'Biometric Auth', 'App Store Optimisation', 'Analytics Dashboard'],
-                'process_steps'     => [
-                    ['title' => 'Strategy',  'description' => 'Market research and feature prioritisation.'],
-                    ['title' => 'Prototype', 'description' => 'Interactive mockups for user testing.'],
-                    ['title' => 'Build',     'description' => 'Iterative development with beta releases.'],
-                    ['title' => 'Launch',    'description' => 'App store submission and post-launch support.'],
-                ],
-                'is_featured'  => true,
-                'is_published' => true,
-                'order'        => 2,
-            ],
-            [
-                'name'              => 'Cloud & Infrastructure',
-                'slug'              => 'cloud-infrastructure',
-                'short_description' => 'Reliable, scalable cloud solutions on AWS, Azure, and Google Cloud tailored for African enterprises.',
-                'description'       => '<p>From cloud migration to fully managed infrastructure, we help you reduce costs and increase uptime. Our team holds AWS Solutions Architect and Azure Administrator certifications.</p>',
-                'icon'              => 'cloud',
-                'category'          => 'Infrastructure',
-                'features'          => ['Cloud Migration', 'Auto-Scaling', '24/7 Monitoring', 'Disaster Recovery', 'Cost Optimisation', 'Multi-Cloud Strategy'],
-                'process_steps'     => [
-                    ['title' => 'Assess',    'description' => 'Audit your current infrastructure.'],
-                    ['title' => 'Architect', 'description' => 'Design resilient, cost-effective architecture.'],
-                    ['title' => 'Migrate',   'description' => 'Phased migration with zero downtime.'],
-                    ['title' => 'Manage',    'description' => 'Ongoing monitoring and optimisation.'],
-                ],
-                'is_featured'  => true,
-                'is_published' => true,
-                'order'        => 3,
-            ],
-            [
-                'name'              => 'AI & Data Analytics',
-                'slug'              => 'ai-data-analytics',
-                'short_description' => 'Transform raw data into actionable insights with machine learning models and business intelligence dashboards.',
-                'description'       => '<p>Our data scientists build predictive models, recommendation engines, and NLP solutions that give you a competitive edge. We work with TensorFlow, PyTorch, and custom LLM integrations.</p>',
-                'icon'              => 'brain',
-                'category'          => 'AI',
-                'features'          => ['Predictive Analytics', 'NLP & Chatbots', 'Computer Vision', 'BI Dashboards', 'Data Pipelines', 'LLM Integration'],
-                'process_steps'     => [
-                    ['title' => 'Data Audit',   'description' => 'Evaluate data quality and sources.'],
-                    ['title' => 'Model Design', 'description' => 'Select and train appropriate ML models.'],
-                    ['title' => 'Integration',  'description' => 'Deploy models into production workflows.'],
-                    ['title' => 'Iterate',      'description' => 'Continuous learning and model refinement.'],
-                ],
-                'is_featured'  => true,
-                'is_published' => true,
-                'order'        => 4,
-            ],
-            [
-                'name'              => 'Cybersecurity',
-                'slug'              => 'cybersecurity',
-                'short_description' => 'Protect your digital assets with penetration testing, SOC-as-a-Service, and compliance frameworks.',
-                'description'       => '<p>Our security experts safeguard your organisation against evolving cyber threats. We provide vulnerability assessments, incident response, and compliance consulting for POPIA, GDPR, and ISO 27001.</p>',
-                'icon'              => 'shield',
-                'category'          => 'Security',
-                'features'          => ['Penetration Testing', 'SOC-as-a-Service', 'POPIA Compliance', 'Incident Response', 'Security Training', 'Threat Intelligence'],
-                'process_steps'     => [
-                    ['title' => 'Assessment',    'description' => 'Comprehensive vulnerability scan.'],
-                    ['title' => 'Strategy',      'description' => 'Risk-based security roadmap.'],
-                    ['title' => 'Implementation','description' => 'Deploy controls and monitoring.'],
-                    ['title' => 'Monitor',       'description' => '24/7 threat detection and response.'],
-                ],
-                'is_featured'  => false,
-                'is_published' => true,
-                'order'        => 5,
-            ],
-            [
-                'name'              => 'IT Consulting & Strategy',
-                'slug'              => 'it-consulting',
-                'short_description' => 'Strategic technology advisory to align IT investments with business goals and digital transformation.',
-                'description'       => '<p>We partner with executives and leadership teams to define technology roadmaps that accelerate growth. Our consultants bring decades of experience across fintech, e-commerce, healthcare, and logistics.</p>',
-                'icon'              => 'lightbulb',
-                'category'          => 'Consulting',
-                'features'          => ['Digital Transformation', 'Technology Roadmaps', 'Vendor Selection', 'Process Automation', 'Change Management', 'ROI Analysis'],
-                'process_steps'     => [
-                    ['title' => 'Discovery',     'description' => 'Understand your business context.'],
-                    ['title' => 'Analysis',      'description' => 'Gap analysis and opportunity mapping.'],
-                    ['title' => 'Recommendation','description' => 'Prioritised action plan with timelines.'],
-                    ['title' => 'Execution',     'description' => 'Hands-on support through implementation.'],
-                ],
-                'is_featured'  => false,
-                'is_published' => true,
-                'order'        => 6,
-            ],
-        ];
-
-        foreach ($services as $s) {
-            Service::create($s);
-        }
+        // ──── Services (handled by dedicated seeder) ────
+        $this->call(ServicesSeeder::class);
 
         // ──── Products ────
         $products = [
@@ -397,8 +289,8 @@ class DatabaseSeeder extends Seeder
         }
 
         // ──── Bundles ────
-        $webService  = Service::where('slug', 'web-development')->first();
-        $aiService   = Service::where('slug', 'ai-data-analytics')->first();
+        $webService  = Service::where('slug', 'custom-web-development')->first();
+        $aiService   = Service::where('slug', 'business-intelligence-analytics')->first();
         $cmsProduct  = Product::where('slug', 'smartcms-pro')->first();
         $chatProduct = Product::where('slug', 'smartchat-ai')->first();
 
@@ -528,8 +420,80 @@ class DatabaseSeeder extends Seeder
             Blog::create($post);
         }
 
+        // ──── Reviews (Approved Testimonials) ────
+        $reviews = [
+            [
+                'user_id'         => $admin->id,
+                'reviewable_type' => Service::class,
+                'reviewable_id'   => Service::where('slug', 'custom-web-development')->value('id') ?? 1,
+                'rating'          => 5,
+                'content'         => 'Outstanding service! TechSmart built our e-commerce platform in record time with exceptional quality. The team understood our vision perfectly and delivered a solution that exceeded expectations. Our online sales increased by 200% within three months of launch.',
+                'status'          => 'approved',
+            ],
+            [
+                'user_id'         => $user->id,
+                'reviewable_type' => Service::class,
+                'reviewable_id'   => Service::where('slug', 'mobile-app-development')->value('id') ?? 2,
+                'rating'          => 5,
+                'content'         => 'The team is incredibly professional. They delivered our mobile app ahead of schedule and under budget. The React Native app runs flawlessly on both iOS and Android, and our customers love the intuitive interface. Would absolutely hire them again.',
+                'status'          => 'approved',
+            ],
+            [
+                'user_id'         => $editor->id,
+                'reviewable_type' => Service::class,
+                'reviewable_id'   => Service::where('slug', 'automation-testing')->value('id') ?? 11,
+                'rating'          => 5,
+                'content'         => 'Great experience working with TechSmart. Their automation solutions saved us over 200 hours monthly. The CI/CD pipeline they built reduced our deployment time from days to minutes. A true game-changer for our operations.',
+                'status'          => 'approved',
+            ],
+            [
+                'user_id'         => $admin->id,
+                'reviewable_type' => Service::class,
+                'reviewable_id'   => Service::where('slug', 'seo-optimization-analytics')->value('id') ?? 6,
+                'rating'          => 5,
+                'content'         => 'Highly recommend! They transformed our outdated website into a modern, responsive platform that doubled our leads. The SEO work alone took us from page 5 to the first page of Google in under 4 months. Phenomenal ROI.',
+                'status'          => 'approved',
+            ],
+            [
+                'user_id'         => $user->id,
+                'reviewable_type' => Service::class,
+                'reviewable_id'   => Service::where('slug', 'cybersecurity-data-protection')->value('id') ?? 17,
+                'rating'          => 5,
+                'content'         => 'Their cybersecurity audit identified critical vulnerabilities we had no idea existed. Potentially saved us millions in breach costs. The SOC-as-a-Service monitoring gives us complete peace of mind. Essential investment for any business handling sensitive data.',
+                'status'          => 'approved',
+            ],
+            [
+                'user_id'         => $editor->id,
+                'reviewable_type' => Service::class,
+                'reviewable_id'   => Service::where('slug', 'paid-ads-management')->value('id') ?? 7,
+                'rating'          => 5,
+                'content'         => 'Best tech partner we have ever had. Their SEO and paid ads management tripled our online revenue in just 6 months. The Google Ads campaigns they built consistently deliver a 5x return on ad spend. Truly data-driven marketing.',
+                'status'          => 'approved',
+            ],
+            [
+                'user_id'         => $admin->id,
+                'reviewable_type' => Service::class,
+                'reviewable_id'   => Service::where('slug', 'cloud-deployment-devops')->value('id') ?? 14,
+                'rating'          => 5,
+                'content'         => 'The cloud migration was seamless. TechSmart moved our entire infrastructure to AWS with zero downtime. Our hosting costs dropped by 35% and application performance improved dramatically. Their DevOps expertise is world-class.',
+                'status'          => 'approved',
+            ],
+            [
+                'user_id'         => $user->id,
+                'reviewable_type' => Service::class,
+                'reviewable_id'   => Service::where('slug', 'e-commerce-development')->value('id') ?? 3,
+                'rating'          => 4,
+                'content'         => 'TechSmart built our multi-vendor marketplace from the ground up. The payment integrations with PayFast and Ozow work perfectly, and the vendor dashboard is incredibly intuitive. They truly understand the South African e-commerce landscape.',
+                'status'          => 'approved',
+            ],
+        ];
+
+        foreach ($reviews as $r) {
+            \App\Models\Review::create($r);
+        }
+
         $this->command->info('🚀 TechSmart database seeded successfully!');
-        $this->command->info('   Admin login: admin@techsmart.co.za / password');
+        $this->command->info('   Admin login: robertgicheha3@gmail.com / Admin@123');
         $this->command->info('   User login:  john@example.com / password');
     }
 }

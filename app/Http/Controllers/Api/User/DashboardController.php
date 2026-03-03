@@ -57,13 +57,16 @@ class DashboardController extends Controller
             $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email,' . $user->id,
+                'phone' => 'nullable|string|max:20',
+                'company' => 'nullable|string|max:255',
+                'bio' => 'nullable|string|max:1000',
             ]);
 
-            $user->update($request->only(['name', 'email']));
+            $user->update($request->only(['name', 'email', 'phone', 'company', 'bio']));
 
             return response()->json([
                 'message' => 'Profile updated successfully',
-                'user' => $user,
+                'user' => $user->fresh(),
             ]);
         }
 

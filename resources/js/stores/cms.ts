@@ -44,8 +44,14 @@ interface Service {
   title: string;
   slug: string;
   excerpt?: string;
+  short_description?: string;
   icon?: string;
   category?: string;
+  category_group?: string;
+  image_url?: string;
+  features?: string[];
+  price_from?: number;
+  price_label?: string;
   is_featured: boolean;
 }
 
@@ -96,12 +102,16 @@ interface Settings {
   tiktok_url?: string;
   whatsapp_number?: string;
   copyright_text?: string;
+  theme_preset?: string;
+  theme_primary_color?: string;
+  theme_accent_color?: string;
 }
 
 interface HomeData {
   sliders: Slider[];
   counters: Counter[];
   featured_services: Service[];
+  all_services: Service[];
   featured_products: Product[];
   featured_bundles: Bundle[];
   clients: Client[];

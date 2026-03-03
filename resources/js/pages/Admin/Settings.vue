@@ -21,12 +21,13 @@
 
       <!-- Settings Tabs -->
       <Tabs v-else default-value="general" class="space-y-6">
-        <TabsList class="grid w-full grid-cols-5">
+        <TabsList class="grid w-full grid-cols-6">
           <TabsTrigger value="general">General</TabsTrigger>
           <TabsTrigger value="contact">Contact</TabsTrigger>
           <TabsTrigger value="social">Social Links</TabsTrigger>
           <TabsTrigger value="seo">SEO</TabsTrigger>
           <TabsTrigger value="branding">Branding</TabsTrigger>
+          <TabsTrigger value="theme">Theme</TabsTrigger>
         </TabsList>
 
         <!-- ═══════ General ═══════ -->
@@ -283,6 +284,91 @@
             </Card>
           </div>
         </TabsContent>
+        <!-- ═══════ Theme ═══════ -->
+        <TabsContent value="theme">
+          <Card>
+            <CardHeader>
+              <CardTitle>Theme Colors</CardTitle>
+              <CardDescription>Customize the color scheme of your entire website. Changes apply instantly to buttons, links, accents, and more.</CardDescription>
+            </CardHeader>
+            <CardContent class="space-y-8">
+              <!-- Theme Presets -->
+              <div>
+                <Label class="mb-3 block">Quick Presets</Label>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  <button
+                    v-for="preset in themePresets"
+                    :key="preset.name"
+                    type="button"
+                    @click="applyPreset(preset)"
+                    :class="[
+                      'flex items-center gap-3 p-3 rounded-xl border-2 transition-all hover:shadow-md',
+                      form.theme_preset === preset.name
+                        ? 'border-primary bg-primary/5 shadow-sm'
+                        : 'border-border hover:border-primary/40'
+                    ]"
+                  >
+                    <div class="flex gap-1">
+                      <div class="w-6 h-6 rounded-full shadow-inner" :style="{ background: preset.primary }"></div>
+                      <div class="w-6 h-6 rounded-full shadow-inner" :style="{ background: preset.accent }"></div>
+                    </div>
+                    <span class="text-sm font-semibold text-foreground capitalize">{{ preset.name }}</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Custom Colors -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                  <Label for="theme_primary_color">Primary Color</Label>
+                  <div class="flex items-center gap-3">
+                    <input
+                      type="color"
+                      id="theme_primary_color"
+                      v-model="form.theme_primary_color"
+                      class="w-12 h-12 rounded-lg border border-border cursor-pointer"
+                    />
+                    <Input v-model="form.theme_primary_color" placeholder="#d311f5" class="flex-1" />
+                  </div>
+                  <p class="text-xs text-muted-foreground">Used for buttons, links, active tabs, and primary accents</p>
+                </div>
+                <div class="space-y-2">
+                  <Label for="theme_accent_color">Accent Color</Label>
+                  <div class="flex items-center gap-3">
+                    <input
+                      type="color"
+                      id="theme_accent_color"
+                      v-model="form.theme_accent_color"
+                      class="w-12 h-12 rounded-lg border border-border cursor-pointer"
+                    />
+                    <Input v-model="form.theme_accent_color" placeholder="#3b82f6" class="flex-1" />
+                  </div>
+                  <p class="text-xs text-muted-foreground">Used for secondary buttons, badges, and gradient endpoints</p>
+                </div>
+              </div>
+
+              <!-- Live Preview -->
+              <div>
+                <Label class="mb-3 block">Live Preview</Label>
+                <div class="p-6 bg-muted/30 rounded-2xl border border-border space-y-4">
+                  <div class="flex flex-wrap gap-3">
+                    <button :style="{ background: form.theme_primary_color || '#d311f5' }" class="px-6 py-2.5 text-white font-semibold rounded-lg shadow">Primary Button</button>
+                    <button :style="{ background: form.theme_accent_color || '#3b82f6' }" class="px-6 py-2.5 text-white font-semibold rounded-lg shadow">Accent Button</button>
+                    <button :style="{ border: '2px solid ' + (form.theme_primary_color || '#d311f5'), color: form.theme_primary_color || '#d311f5' }" class="px-6 py-2.5 font-semibold rounded-lg bg-transparent">Outline Button</button>
+                  </div>
+                  <div class="flex items-center gap-4">
+                    <span :style="{ color: form.theme_primary_color || '#d311f5' }" class="font-semibold">Primary Text</span>
+                    <span :style="{ color: form.theme_accent_color || '#3b82f6' }" class="font-semibold">Accent Text</span>
+                  </div>
+                  <div class="h-4 rounded-full overflow-hidden flex">
+                    <div :style="{ background: form.theme_primary_color || '#d311f5' }" class="flex-1"></div>
+                    <div :style="{ background: form.theme_accent_color || '#3b82f6' }" class="flex-1"></div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
       </Tabs>
     </div>
   </AdminLayout>
@@ -341,6 +427,10 @@ const form = reactive({
   // Branding (paths only — used for preview)
   logo_path: '',
   favicon_path: '',
+  // Theme
+  theme_preset: '',
+  theme_primary_color: '',
+  theme_accent_color: '',
 });
 
 // ── File upload refs ──
@@ -397,6 +487,9 @@ function buildPayload() {
     meta_title: 'seo',
     meta_description: 'seo',
     meta_keywords: 'seo',
+    theme_preset: 'theme',
+    theme_primary_color: 'theme',
+    theme_accent_color: 'theme',
   };
 
   return Object.entries(groupMap).map(([key, group]) => ({
@@ -486,6 +579,24 @@ async function uploadFavicon() {
   } finally {
     uploadingFavicon.value = false;
   }
+}
+
+// ── Theme Presets ──
+const themePresets = [
+  { name: 'purple', primary: '#d311f5', accent: '#3b82f6' },
+  { name: 'blue', primary: '#2563eb', accent: '#06b6d4' },
+  { name: 'green', primary: '#16a34a', accent: '#84cc16' },
+  { name: 'orange', primary: '#ea580c', accent: '#f59e0b' },
+  { name: 'red', primary: '#dc2626', accent: '#f43f5e' },
+  { name: 'teal', primary: '#0d9488', accent: '#06b6d4' },
+  { name: 'indigo', primary: '#4f46e5', accent: '#8b5cf6' },
+  { name: 'pink', primary: '#db2777', accent: '#f472b6' },
+];
+
+function applyPreset(preset: { name: string; primary: string; accent: string }) {
+  form.theme_preset = preset.name;
+  form.theme_primary_color = preset.primary;
+  form.theme_accent_color = preset.accent;
 }
 
 // ── Init ──

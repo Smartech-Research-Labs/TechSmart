@@ -1,6 +1,6 @@
 <template>
   <Teleport to="body">
-    <div class="toast-container fixed top-4 right-4 z-50 flex flex-col gap-3 max-w-md">
+    <div class="toast-container fixed top-4 left-1/2 -translate-x-1/2 z-[9998] flex flex-col gap-3 w-full max-w-md px-4">
       <TransitionGroup name="toast">
         <div
           v-for="toast in toasts"
@@ -69,27 +69,27 @@ function getIcon(type: string): string {
 
 .toast-enter-from {
   opacity: 0;
-  transform: translateX(100%);
+  transform: translateY(-100%);
 }
 
 .toast-leave-to {
   opacity: 0;
-  transform: translateX(100%) scale(0.9);
+  transform: translateY(-60%) scale(0.9);
 }
 
 .toast {
   cursor: pointer;
-  animation: slide-in 0.3s ease;
+  animation: slide-down 0.3s ease;
 }
 
-@keyframes slide-in {
+@keyframes slide-down {
   from {
     opacity: 0;
-    transform: translateX(100%);
+    transform: translateY(-100%);
   }
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
   }
 }
 </style>

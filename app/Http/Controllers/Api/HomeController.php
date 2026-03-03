@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\{Slider, CounterItem, Service, Product, Client, Faq, FaqCategory, TeamMember, MapDataPoint, Setting, Blog};
+use App\Models\{Slider, CounterItem, Service, Product, Client, Faq, FaqCategory, TeamMember, MapDataPoint, Setting, Blog, Review};
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
@@ -30,11 +30,9 @@ class HomeController extends Controller
                 ];
             });
 
-            // Map services
-            $services = Service::where('is_featured', true)
-                ->where('is_published', true)
+            // Map services — include all published, grouped by category
+            $allServices = Service::where('is_published', true)
                 ->orderBy('order')
-                ->take(6)
                 ->get()
                 ->map(function ($s) {
                     return [
@@ -43,10 +41,16 @@ class HomeController extends Controller
                         'slug' => $s->slug,
                         'excerpt' => $s->short_description,
                         'icon' => $s->icon,
+                        'image_url' => $s->image_url,
                         'category' => $s->category,
+                        'category_group' => $s->category_group,
+                        'price_label' => $s->price_label,
+                        'features' => $s->features ?? [],
                         'is_featured' => $s->is_featured,
                     ];
                 });
+
+            $featuredServices = $allServices->where('is_featured', true)->values()->take(9);
 
             // Map products
             $products = Product::where('is_featured', true)
@@ -86,16 +90,34 @@ class HomeController extends Controller
                 ->take(3)
                 ->get(['id', 'title', 'slug', 'excerpt', 'featured_image', 'published_at', 'category']);
 
+            // Approved reviews / testimonials
+            $reviews = Review::approved()
+                ->with('user:id,name')
+                ->latest()
+                ->take(8)
+                ->get()
+                ->map(function ($r) {
+                    return [
+                        'id'        => $r->id,
+                        'rating'    => $r->rating,
+                        'comment'   => $r->content,
+                        'user_name' => $r->user->name ?? 'Anonymous',
+                        'company'   => null,
+                    ];
+                });
+
             // Settings
             $logoPath = Setting::get('logo_path');
 
             return [
                 'sliders' => $sliders,
                 'counters' => CounterItem::visible()->get(),
-                'featured_services' => $services,
+                'featured_services' => $featuredServices,
+                'all_services' => $allServices,
                 'featured_products' => $products,
                 'clients' => $clients,
                 'recent_blogs' => $recentBlogs,
+                'top_reviews' => $reviews,
                 'settings' => [
                     'site_name' => Setting::get('site_name', 'TechSmart'),
                     'tagline' => Setting::get('tagline', 'Innovative Tech Solutions'),
@@ -113,6 +135,10 @@ class HomeController extends Controller
                     'tiktok_url' => Setting::get('tiktok_url'),
                     'whatsapp_number' => Setting::get('whatsapp_number'),
                     'copyright_text' => Setting::get('copyright_text'),
+                    // Theme color settings
+                    'theme_preset' => Setting::get('theme_preset', 'purple'),
+                    'theme_primary_color' => Setting::get('theme_primary_color'),
+                    'theme_accent_color' => Setting::get('theme_accent_color'),
                 ],
             ];
         });

@@ -12,23 +12,6 @@
         </button>
       </div>
 
-      <!-- Toast Notification -->
-      <Transition
-        enter-active-class="transition ease-out duration-300"
-        enter-from-class="opacity-0 translate-y-2"
-        enter-to-class="opacity-100 translate-y-0"
-        leave-active-class="transition ease-in duration-200"
-        leave-from-class="opacity-100 translate-y-0"
-        leave-to-class="opacity-0 translate-y-2"
-      >
-        <div v-if="toast.show" :class="[
-          'fixed top-6 right-6 z-[100] px-5 py-3 rounded-lg shadow-lg text-sm font-semibold',
-          toast.type === 'success' ? 'bg-green-500/90 text-white' : 'bg-red-500/90 text-white'
-        ]">
-          {{ toast.message }}
-        </div>
-      </Transition>
-
       <!-- Loading State -->
       <div v-if="loading" class="flex items-center justify-center py-20">
         <div class="flex items-center gap-3 text-muted-foreground">
@@ -240,8 +223,10 @@
 import { ref, onMounted } from 'vue';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import { useApi } from '@/composables/useApi';
+import { useToast } from '@/composables/useToast';
 
 const { get, post, put, delete: destroy } = useApi();
+const toast = useToast();
 
 // ── Types ──────────────────────────────────────────────
 interface Bundle {
@@ -278,7 +263,7 @@ const bundleToDelete = ref<Bundle | null>(null);
 const deleting = ref(false);
 
 // Toast
-const toast = ref({ show: false, message: '', type: 'success' as 'success' | 'error' });
+// Uses global useToast composable (toast is already declared above)
 
 const defaultForm = () => ({
   name: '',
@@ -297,8 +282,8 @@ const form = ref(defaultForm());
 
 // ── Toast helper ───────────────────────────────────────
 function showToast(message: string, type: 'success' | 'error' = 'success') {
-  toast.value = { show: true, message, type };
-  setTimeout(() => { toast.value.show = false; }, 3000);
+  if (type === 'success') toast.success(message);
+  else toast.error(message);
 }
 
 // ── Fetch ──────────────────────────────────────────────

@@ -28,6 +28,8 @@ const { appearance, updateAppearance } = useAppearance()
 
 const user = computed(() => authStore.user)
 
+const avatarSrc = computed(() => String(user.value?.profile_photo_url || ''))
+
 const themeIcon = computed(() => {
   if (appearance.value === 'dark') return IconMoon
   if (appearance.value === 'light') return IconSun
@@ -74,7 +76,7 @@ async function handleLogout() {
           <DropdownMenuTrigger as-child>
             <Button variant="ghost" class="relative h-8 gap-2 px-2">
               <Avatar class="h-7 w-7">
-                <AvatarImage :src="user?.profile_photo_url" :alt="user?.name" />
+                <AvatarImage :src="avatarSrc" :alt="user?.name" />
                 <AvatarFallback class="text-xs">
                   {{ user?.name?.charAt(0)?.toUpperCase() || '?' }}
                 </AvatarFallback>
