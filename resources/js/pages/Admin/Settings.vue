@@ -2,9 +2,9 @@
   <AdminLayout>
     <div class="space-y-8">
       <!-- Page Header -->
-      <div class="flex items-center justify-between">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 class="text-3xl font-display font-bold text-foreground mb-2">Site Settings</h1>
+          <h1 class="text-xl font-display font-bold text-foreground mb-1">Site Settings</h1>
           <p class="text-muted-foreground">Configure your website settings</p>
         </div>
         <Button :disabled="saving" @click="saveSettings">
@@ -21,7 +21,7 @@
 
       <!-- Settings Tabs -->
       <Tabs v-else default-value="general" class="space-y-6">
-        <TabsList class="grid w-full grid-cols-6">
+        <TabsList class="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-6">
           <TabsTrigger value="general">General</TabsTrigger>
           <TabsTrigger value="contact">Contact</TabsTrigger>
           <TabsTrigger value="social">Social Links</TabsTrigger>

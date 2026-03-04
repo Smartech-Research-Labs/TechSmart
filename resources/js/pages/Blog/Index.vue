@@ -1,27 +1,25 @@
 <template>
   <PublicLayout>
     <!-- Hero Section -->
-    <section class="relative py-20 bg-gradient-to-br from-card to-background">
-      <div class="container mx-auto px-4 text-center">
-        <h1 class="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">Our Blog</h1>
-        <p class="text-muted-foreground text-lg max-w-2xl mx-auto">
-          Insights, tutorials, and news from the world of technology
-        </p>
+    <section class="py-16 md:py-20 bg-muted/30 border-b border-border">
+      <div class="container mx-auto px-6">
+        <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Blog</p>
+        <h1 class="text-2xl md:text-3xl font-bold text-foreground mb-3">Insights & Articles</h1>
+        <p class="text-muted-foreground text-sm max-w-2xl">Industry news, tutorials, and insights from the world of technology.</p>
       </div>
     </section>
 
     <!-- Filters -->
-    <section class="py-8 border-b border-border">
-      <div class="container mx-auto px-4">
+    <section class="py-4 border-b border-border">
+      <div class="container mx-auto px-6">
         <div class="flex flex-wrap items-center justify-between gap-4">
-          <!-- Categories -->
           <div class="flex flex-wrap gap-2">
             <button
               @click="selectedCategory = ''"
               :class="[
-                'px-4 py-2 rounded-full text-sm font-medium transition',
+                'px-4 py-1.5 rounded-full text-xs font-medium transition-all',
                 !selectedCategory
-                  ? 'bg-primary text-foreground'
+                  ? 'bg-primary text-white'
                   : 'bg-card text-muted-foreground hover:text-foreground border border-border'
               ]"
             >
@@ -32,9 +30,9 @@
               :key="category"
               @click="selectedCategory = category"
               :class="[
-                'px-4 py-2 rounded-full text-sm font-medium transition',
+                'px-4 py-1.5 rounded-full text-xs font-medium transition-all',
                 selectedCategory === category
-                  ? 'bg-primary text-foreground'
+                  ? 'bg-primary text-white'
                   : 'bg-card text-muted-foreground hover:text-foreground border border-border'
               ]"
             >
@@ -42,7 +40,6 @@
             </button>
           </div>
 
-          <!-- Search -->
           <div class="relative">
             <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <circle cx="11" cy="11" r="8" />
@@ -52,7 +49,7 @@
               v-model="searchQuery"
               type="text"
               placeholder="Search articles..."
-              class="pl-10 pr-4 py-2 bg-card border border-border rounded-lg text-foreground placeholder-muted-foreground text-sm focus:outline-none focus:border-primary transition w-64"
+              class="pl-10 pr-4 py-1.5 bg-card border border-border rounded-md text-foreground placeholder-muted-foreground text-xs focus:outline-none focus:border-primary transition w-56"
             />
           </div>
         </div>
@@ -60,26 +57,26 @@
     </section>
 
     <!-- Blog Grid -->
-    <section class="py-16">
-      <div class="container mx-auto px-4">
-        <div v-if="loading" class="text-center py-20">
-          <div class="inline-block w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
-          <p class="text-muted-foreground mt-4">Loading articles...</p>
+    <section class="py-12">
+      <div class="container mx-auto px-6">
+        <div v-if="loading" class="text-center py-16">
+          <div class="inline-block w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+          <p class="text-muted-foreground text-sm mt-3">Loading articles...</p>
         </div>
 
-        <div v-else-if="blogs.length === 0" class="text-center py-20">
-          <p class="text-muted-foreground text-lg">No articles found.</p>
+        <div v-else-if="blogs.length === 0" class="text-center py-16">
+          <p class="text-muted-foreground text-sm">No articles found.</p>
         </div>
 
-        <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <router-link
             v-for="blog in blogs"
             :key="blog.id"
             :to="`/blog/${blog.slug}`"
-            class="group bg-card border border-border rounded-xl overflow-hidden hover:border-primary transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10"
+            class="group bg-card border border-border rounded-lg overflow-hidden hover:border-primary/30 hover:shadow-md transition-all duration-300"
           >
             <!-- Thumbnail -->
-            <div class="aspect-[16/10] bg-card overflow-hidden">
+            <div class="aspect-[16/10] bg-muted overflow-hidden">
               <img
                 v-if="blog.featured_image"
                 :src="blog.featured_image.startsWith('http') ? blog.featured_image : `/storage/${blog.featured_image}`"
@@ -94,46 +91,36 @@
             </div>
 
             <!-- Content -->
-            <div class="p-6">
-              <div class="flex items-center gap-3 mb-3">
-                <span v-if="blog.category" class="px-2.5 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full">
+            <div class="p-5">
+              <div class="flex items-center gap-2 mb-2">
+                <span v-if="blog.category" class="text-[10px] font-medium text-primary bg-primary/10 px-2 py-0.5 rounded">
                   {{ blog.category }}
                 </span>
-                <span class="text-xs text-muted-foreground">
+                <span class="text-[10px] text-muted-foreground">
                   {{ formatDate(blog.published_at) }}
                 </span>
               </div>
-              <h3 class="text-lg font-bold text-foreground mb-2 group-hover:text-primary transition line-clamp-2">
+              <h3 class="text-sm font-semibold text-foreground mb-1.5 group-hover:text-primary transition-colors line-clamp-2">
                 {{ blog.title }}
               </h3>
-              <p class="text-sm text-muted-foreground line-clamp-3 mb-4">
+              <p class="text-muted-foreground text-xs line-clamp-2 mb-3">
                 {{ blog.excerpt }}
               </p>
-              <div class="flex items-center justify-between">
-                <div v-if="blog.author" class="flex items-center gap-2">
-                  <div class="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-xs text-primary font-bold">
-                    {{ blog.author.name?.charAt(0) }}
-                  </div>
-                  <span class="text-xs text-muted-foreground">{{ blog.author.name }}</span>
-                </div>
-                <span class="text-primary text-sm font-semibold group-hover:translate-x-1 transition-transform">
-                  Read More →
-                </span>
-              </div>
+              <span class="text-primary text-xs font-medium">Read More &rarr;</span>
             </div>
           </router-link>
         </div>
 
         <!-- Pagination -->
-        <div v-if="totalPages > 1" class="flex justify-center mt-12 gap-2">
+        <div v-if="totalPages > 1" class="flex justify-center mt-10 gap-1.5">
           <button
             v-for="page in totalPages"
             :key="page"
             @click="currentPage = page"
             :class="[
-              'w-10 h-10 rounded-lg text-sm font-medium transition',
+              'w-8 h-8 rounded text-xs font-medium transition',
               currentPage === page
-                ? 'bg-primary text-foreground'
+                ? 'bg-primary text-white'
                 : 'bg-card text-muted-foreground border border-border hover:border-primary'
             ]"
           >

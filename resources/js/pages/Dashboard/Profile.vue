@@ -1,9 +1,9 @@
-<template>
+﻿<template>
   <DashboardLayout>
     <div class="space-y-8">
       <!-- Page Header -->
       <div>
-        <h1 class="text-3xl font-display font-bold text-foreground mb-2">My Profile</h1>
+        <h1 class="text-xl font-display font-bold text-foreground mb-1">My Profile</h1>
         <p class="text-muted-foreground">Manage your personal information and account settings</p>
       </div>
 
@@ -72,7 +72,7 @@
             <button
               type="submit"
               :disabled="savingProfile"
-              class="bg-primary hover:bg-primary/90 text-white font-semibold px-6 py-2.5 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              class="bg-primary hover:bg-primary/90 text-white font-medium px-4 py-2 text-sm rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             >
               <svg v-if="savingProfile" class="animate-spin size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
@@ -83,7 +83,7 @@
             <button
               type="button"
               @click="resetProfileForm"
-              class="border border-border hover:border-border text-muted-foreground font-semibold px-6 py-2.5 rounded-lg transition"
+              class="border border-border hover:border-border text-muted-foreground font-medium px-4 py-2 text-sm rounded-lg transition"
             >
               Cancel
             </button>
@@ -133,7 +133,7 @@
           <button
             type="submit"
             :disabled="savingPassword"
-            class="bg-primary hover:bg-primary/90 text-white font-semibold px-6 py-2.5 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            class="bg-primary hover:bg-primary/90 text-white font-medium px-4 py-2 text-sm rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
           >
             <svg v-if="savingPassword" class="animate-spin size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />

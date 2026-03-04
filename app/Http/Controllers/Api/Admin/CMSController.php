@@ -53,6 +53,8 @@ class CMSController extends Controller
             'background_image' => 'nullable|image|max:4096',
             'cta_label' => 'nullable|string|max:100',
             'cta_url' => 'nullable|string|max:255',
+            'cta_label_2' => 'nullable|string|max:100',
+            'cta_url_2' => 'nullable|string|max:255',
             'is_visible' => 'boolean',
             'order' => 'integer',
         ]);
@@ -218,7 +220,7 @@ class CMSController extends Controller
         ]);
 
         if ($request->hasFile('logo')) {
-            $validated['logo_url'] = $request->file('logo')
+            $validated['logo'] = $request->file('logo')
                 ->store('clients', 'public');
         }
 

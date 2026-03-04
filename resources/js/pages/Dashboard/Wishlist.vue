@@ -1,9 +1,9 @@
-<template>
+﻿<template>
   <DashboardLayout>
     <div class="space-y-8">
       <!-- Page Header -->
       <div>
-        <h1 class="text-3xl font-display font-bold text-foreground mb-2">My Wishlist</h1>
+        <h1 class="text-xl font-display font-bold text-foreground mb-1">My Wishlist</h1>
         <p class="text-muted-foreground">Items you've saved for later</p>
       </div>
 
@@ -28,16 +28,21 @@
         <p class="text-muted-foreground mb-4">{{ error }}</p>
         <button
           @click="loadWishlist"
-          class="inline-block bg-primary hover:bg-primary/90 text-white font-semibold px-6 py-2.5 rounded-lg transition"
+          class="inline-block bg-primary hover:bg-primary/90 text-white font-medium px-4 py-2 text-sm rounded-lg transition"
         >
           Retry
         </button>
       </div>
 
       <!-- Wishlist Items -->
-      <div v-else-if="wishlistStore.items.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div v-else-if="wishlistStore.items.length > 0">
+        <div class="mb-6">
+          <input v-model="searchQuery" type="text" placeholder="Search wishlist items..." class="w-full sm:w-80 px-4 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-primary" />
+        </div>
+        <div v-if="searchQuery && filteredItems.length === 0" class="py-8 text-center text-muted-foreground">No items match your search.</div>
+        <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div
-          v-for="item in wishlistStore.items"
+          v-for="item in filteredItems"
           :key="item.id"
           class="bg-card border border-border rounded-lg overflow-hidden hover:border-primary transition group"
         >
@@ -72,18 +77,19 @@
             <p class="text-muted-foreground text-sm mb-4">{{ getTypeLabel(item.wishlistable_type) }}</p>
             <div class="flex items-center justify-between">
               <span v-if="item.wishlistable?.price" class="text-primary font-bold">
-                R {{ Number(item.wishlistable.price).toLocaleString() }}
+                Ksh {{ Number(item.wishlistable.price).toLocaleString() }}
               </span>
-              <span v-else class="text-muted-foreground text-sm">—</span>
+              <span v-else class="text-muted-foreground text-sm">â€”</span>
               <router-link
                 v-if="item.wishlistable?.slug"
                 :to="getDetailLink(item)"
                 class="text-sm text-muted-foreground hover:text-foreground transition"
               >
-                View Details →
+                View Details â†’
               </router-link>
             </div>
           </div>
+        </div>
         </div>
       </div>
 
@@ -98,7 +104,7 @@
         <p class="text-muted-foreground mb-6">Start adding items you're interested in</p>
         <router-link
           to="/services"
-          class="inline-block bg-primary hover:bg-primary/90 text-white font-semibold px-6 py-2.5 rounded-lg transition"
+          class="inline-block bg-primary hover:bg-primary/90 text-white font-medium px-4 py-2 text-sm rounded-lg transition"
         >
           Browse Services
         </router-link>
@@ -108,7 +114,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { IconAlertTriangle } from '@tabler/icons-vue';
 import DashboardLayout from '@/layouts/DashboardLayout.vue';
 import { useWishlistStore } from '@/stores/wishlist';
@@ -120,6 +126,17 @@ const toast = useToast();
 const loading = ref(true);
 const error = ref<string | null>(null);
 const removingId = ref<number | null>(null);
+const searchQuery = ref('');
+
+const filteredItems = computed(() => {
+  if (!searchQuery.value) return wishlistStore.items;
+  const q = searchQuery.value.toLowerCase();
+  return wishlistStore.items.filter((item: any) =>
+    (item.wishlistable?.name || '').toLowerCase().includes(q) ||
+    (item.wishlistable?.title || '').toLowerCase().includes(q) ||
+    getTypeLabel(item.wishlistable_type).toLowerCase().includes(q)
+  );
+});
 
 function getTypeLabel(type: string): string {
   if (type.includes('Product')) return 'Product';
@@ -129,10 +146,10 @@ function getTypeLabel(type: string): string {
 }
 
 function getTypeEmoji(type: string): string {
-  if (type.includes('Product')) return '📦';
-  if (type.includes('Service')) return '🚀';
-  if (type.includes('Bundle')) return '📁';
-  return '💎';
+  if (type.includes('Product')) return 'ðŸ“¦';
+  if (type.includes('Service')) return 'ðŸš€';
+  if (type.includes('Bundle')) return 'ðŸ“';
+  return 'ðŸ’Ž';
 }
 
 function getDetailLink(item: any): string {

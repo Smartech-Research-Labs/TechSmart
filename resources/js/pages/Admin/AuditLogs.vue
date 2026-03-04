@@ -1,10 +1,10 @@
-<template>
+﻿<template>
   <AdminLayout>
     <div class="space-y-8">
       <!-- Page Header -->
       <div class="flex items-center justify-between">
         <div>
-          <h1 class="text-3xl font-display font-bold text-foreground mb-2">Activity Log</h1>
+          <h1 class="text-xl font-display font-bold text-foreground mb-1">Activity Log</h1>
           <p class="text-muted-foreground">Recent system activity across enquiries, reviews, and user registrations</p>
         </div>
         <button
@@ -28,7 +28,7 @@
             </svg>
           </div>
           <div>
-            <p class="text-2xl font-bold text-foreground">{{ typeCounts.enquiry }}</p>
+            <p class="text-lg font-bold text-foreground">{{ typeCounts.enquiry }}</p>
             <p class="text-xs text-muted-foreground">Enquiries</p>
           </div>
         </div>
@@ -39,7 +39,7 @@
             </svg>
           </div>
           <div>
-            <p class="text-2xl font-bold text-foreground">{{ typeCounts.review }}</p>
+            <p class="text-lg font-bold text-foreground">{{ typeCounts.review }}</p>
             <p class="text-xs text-muted-foreground">Reviews</p>
           </div>
         </div>
@@ -50,7 +50,7 @@
             </svg>
           </div>
           <div>
-            <p class="text-2xl font-bold text-foreground">{{ typeCounts.user }}</p>
+            <p class="text-lg font-bold text-foreground">{{ typeCounts.user }}</p>
             <p class="text-xs text-muted-foreground">Registrations</p>
           </div>
         </div>
@@ -214,7 +214,7 @@
       <!-- Pagination -->
       <div v-if="!loading && !error && filteredActivity.length > 0" class="flex items-center justify-between">
         <p class="text-sm text-muted-foreground">
-          Showing {{ paginationStart }}–{{ paginationEnd }} of {{ filteredActivity.length }} entries
+          Showing {{ paginationStart }}â€“{{ paginationEnd }} of {{ filteredActivity.length }} entries
         </p>
         <div class="flex gap-2">
           <button

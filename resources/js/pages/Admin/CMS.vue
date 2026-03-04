@@ -4,7 +4,7 @@
       <!-- Header -->
       <div class="flex items-center justify-between">
         <div>
-          <h1 class="text-3xl font-display font-bold text-foreground">CMS Management</h1>
+          <h1 class="text-xl font-display font-bold text-foreground">CMS Management</h1>
           <p class="text-muted-foreground mt-1">Manage sliders, clients, counters, pages and site settings</p>
         </div>
       </div>
@@ -477,7 +477,7 @@ async function fetchAll() {
     sliders.value = Array.isArray(s) ? s : (s?.data ?? []);
     clients.value = Array.isArray(cl) ? cl : (cl?.data ?? []);
     counters.value = Array.isArray(co) ? co : (co?.data ?? []);
-    pages.value = Array.isArray(p) ? p : (p?.data ?? []);
+    pages.value = Array.isArray(p) ? p : (p?.pages ?? p?.data ?? []);
   } catch {
     toast.error('Failed to load CMS data');
   } finally {

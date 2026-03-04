@@ -4,11 +4,11 @@
       <!-- Page Header -->
       <div class="flex items-center justify-between">
         <div>
-          <h1 class="text-3xl font-display font-bold text-foreground mb-2">Manage Pages</h1>
-          <p class="text-muted-foreground">Create and edit website pages</p>
+          <h1 class="text-xl font-display font-bold text-foreground mb-1">Manage Pages</h1>
+          <p class="text-sm text-muted-foreground">Create and edit website pages</p>
         </div>
         <button
-          class="bg-primary hover:bg-primary/90 text-white font-semibold px-6 py-2.5 rounded-lg transition"
+          class="bg-primary hover:bg-primary/90 text-white font-medium px-4 py-2 rounded-lg transition text-sm"
           @click="openCreateModal"
         >
           + Add New Page
@@ -45,56 +45,59 @@
         </button>
       </div>
 
-      <!-- Pages Table -->
-      <div v-else class="bg-card border border-border rounded-lg overflow-hidden">
-        <table class="w-full">
-          <thead class="bg-muted/30">
-            <tr class="border-b border-border">
-              <th class="text-left text-muted-foreground text-sm font-semibold p-4">Page Title</th>
-              <th class="text-left text-muted-foreground text-sm font-semibold p-4">Slug</th>
-              <th class="text-left text-muted-foreground text-sm font-semibold p-4">Status</th>
-              <th class="text-left text-muted-foreground text-sm font-semibold p-4">Last Updated</th>
-              <th class="text-right text-muted-foreground text-sm font-semibold p-4">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="page in pages" :key="page.id" class="border-b border-border hover:bg-muted/20 transition">
-              <td class="p-4">
-                <p class="text-foreground font-semibold">{{ page.title }}</p>
-              </td>
-              <td class="p-4">
-                <p class="text-muted-foreground">/{{ page.slug }}</p>
-              </td>
-              <td class="p-4">
-                <span :class="[
-                  'px-2 py-1 rounded text-xs font-semibold',
-                  page.is_published ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-muted-foreground'
-                ]">
-                  {{ page.is_published ? 'Published' : 'Draft' }}
-                </span>
-              </td>
-              <td class="p-4">
-                <p class="text-muted-foreground">{{ formatDate(page.updated_at) }}</p>
-              </td>
-              <td class="p-4">
-                <div class="flex items-center justify-end gap-2">
-                  <button
-                    class="text-primary hover:text-primary/80 text-sm font-semibold transition"
-                    @click="openEditModal(page)"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    class="text-red-400 hover:text-red-300 text-sm font-semibold transition"
-                    @click="confirmDelete(page)"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <!-- Search Bar -->
+      <div v-if="pages.length > 0" class="relative">
+        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <input
+          v-model="searchQuery"
+          type="text"
+          placeholder="Search pages..."
+          class="w-full bg-card border border-border rounded-lg pl-10 pr-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition"
+        />
+      </div>
+
+      <!-- Pages Card Grid -->
+      <div v-if="!loading && !error && filteredPages.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div
+          v-for="page in filteredPages"
+          :key="page.id"
+          class="bg-card border border-border rounded-lg p-4 hover:border-primary/50 transition group"
+        >
+          <div class="flex items-start justify-between mb-3">
+            <h3 class="text-sm font-semibold text-foreground group-hover:text-primary transition truncate pr-2">{{ page.title }}</h3>
+            <span :class="[
+              'px-2 py-0.5 rounded text-[10px] font-semibold shrink-0',
+              page.is_published ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-muted-foreground'
+            ]">
+              {{ page.is_published ? 'Published' : 'Draft' }}
+            </span>
+          </div>
+          <p class="text-xs text-muted-foreground mb-1">/{{ page.slug }}</p>
+          <p v-if="page.description" class="text-xs text-muted-foreground line-clamp-2 mb-3">{{ page.description }}</p>
+          <p class="text-[10px] text-muted-foreground/60 mb-3">Updated {{ formatDate(page.updated_at) }}</p>
+          <div class="flex items-center gap-2">
+            <button
+              class="text-xs text-primary hover:text-primary/80 font-medium transition"
+              @click="openEditModal(page)"
+            >
+              Edit
+            </button>
+            <span class="text-border">|</span>
+            <button
+              class="text-xs text-red-400 hover:text-red-300 font-medium transition"
+              @click="confirmDelete(page)"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- No search results -->
+      <div v-if="!loading && !error && pages.length > 0 && filteredPages.length === 0" class="text-center py-8">
+        <p class="text-muted-foreground text-sm">No pages match "{{ searchQuery }}"</p>
       </div>
 
       <!-- Create / Edit Modal -->
@@ -256,7 +259,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import { useApi } from '@/composables/useApi';
 import { useToast } from '@/composables/useToast';
@@ -282,6 +285,17 @@ const loading = ref(false);
 const error = ref<string | null>(null);
 const saving = ref(false);
 const deleting = ref(false);
+const searchQuery = ref('');
+
+const filteredPages = computed(() => {
+  if (!searchQuery.value.trim()) return pages.value;
+  const q = searchQuery.value.toLowerCase();
+  return pages.value.filter(p =>
+    p.title.toLowerCase().includes(q) ||
+    p.slug.toLowerCase().includes(q) ||
+    (p.description && p.description.toLowerCase().includes(q))
+  );
+});
 
 // Modal state
 const showModal = ref(false);
@@ -306,7 +320,7 @@ async function fetchPages() {
   error.value = null;
   try {
     const res = await get('/admin/pages');
-    pages.value = res.data ?? res;
+    pages.value = res.pages ?? res.data ?? res;
   } catch (e: any) {
     error.value = e.response?.data?.message || e.message || 'An unexpected error occurred';
     toast.error('Error', error.value!);
@@ -361,13 +375,13 @@ async function savePage() {
   try {
     if (editingPage.value) {
       const res = await put(`/admin/pages/${editingPage.value.id}`, form.value);
-      const updated = res.data ?? res;
+      const updated = res.page ?? res.data ?? res;
       const idx = pages.value.findIndex((p) => p.id === editingPage.value!.id);
       if (idx !== -1) pages.value[idx] = updated;
       toast.success('Page Updated', `"${updated.title}" has been updated.`);
     } else {
       const res = await post('/admin/pages', form.value);
-      const created = res.data ?? res;
+      const created = res.page ?? res.data ?? res;
       pages.value.unshift(created);
       toast.success('Page Created', `"${created.title}" has been created.`);
     }

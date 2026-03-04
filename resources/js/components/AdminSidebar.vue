@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {
+  IconArrowLeft,
   IconChartBar,
   IconDashboard,
   IconFileDescription,
@@ -100,24 +101,34 @@ const navDocuments = [
 ]
 
 const superAdminDocs = computed(() => {
-  if (!authStore.isSuperAdmin) return []
-  return [
-    {
+  const items: { name: string; url: string; icon: any }[] = []
+  
+  // Admin and SuperAdmin can manage users
+  if (authStore.isAdmin || authStore.isSuperAdmin) {
+    items.push({
       name: "Users",
       url: "/admin/users",
       icon: IconUsers,
-    },
-    {
-      name: "Roles & Permissions",
-      url: "/admin/roles",
-      icon: IconShield,
-    },
-    {
-      name: "Audit Logs",
-      url: "/admin/audit-logs",
-      icon: IconReport,
-    },
-  ]
+    })
+  }
+  
+  // Only SuperAdmin gets roles and audit logs
+  if (authStore.isSuperAdmin) {
+    items.push(
+      {
+        name: "Roles & Permissions",
+        url: "/admin/roles",
+        icon: IconShield,
+      },
+      {
+        name: "Audit Logs",
+        url: "/admin/audit-logs",
+        icon: IconReport,
+      },
+    )
+  }
+  
+  return items
 })
 
 const navSecondary = [
@@ -157,6 +168,16 @@ const navSecondary = [
       </SidebarMenu>
     </SidebarHeader>
     <SidebarContent>
+      <SidebarMenu class="px-2 pt-1">
+        <SidebarMenuItem>
+          <SidebarMenuButton as-child>
+            <router-link to="/dashboard" class="flex items-center gap-2 text-muted-foreground hover:text-foreground transition text-sm">
+              <IconArrowLeft class="!size-4" />
+              <span>Back to Dashboard</span>
+            </router-link>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarMenu>
       <NavMain :items="navMain" />
       <NavDocuments :items="navDocuments" />
       <NavDocuments v-if="superAdminDocs.length > 0" :items="superAdminDocs" />

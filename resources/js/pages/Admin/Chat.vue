@@ -1,9 +1,9 @@
-<template>
+﻿<template>
   <AdminLayout>
     <div class="space-y-8">
       <!-- Page Header -->
       <div>
-        <h1 class="text-3xl font-display font-bold text-foreground mb-2">Chat Management</h1>
+        <h1 class="text-xl font-display font-bold text-foreground mb-1">Chat Management</h1>
         <p class="text-muted-foreground">Monitor and manage customer chat conversations</p>
       </div>
 
@@ -11,19 +11,19 @@
       <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div class="bg-card border border-border rounded-lg p-6">
           <p class="text-muted-foreground text-sm mb-1">Total Sessions</p>
-          <p class="text-3xl font-bold text-foreground">{{ stats.total_sessions }}</p>
+          <p class="text-lg font-bold text-foreground">{{ stats.total_sessions }}</p>
         </div>
         <div class="bg-card border border-border rounded-lg p-6">
-          <p class="text-muted-foreground text-sm mb-1">Open</p>
-          <p class="text-3xl font-bold text-green-400">{{ stats.open_sessions }}</p>
+          <p class="text-muted-foreground text-sm mb-1">Active</p>
+          <p class="text-lg font-bold text-green-400">{{ stats.open_sessions }}</p>
         </div>
         <div class="bg-card border border-border rounded-lg p-6">
           <p class="text-muted-foreground text-sm mb-1">Closed</p>
-          <p class="text-3xl font-bold text-muted-foreground">{{ stats.closed_sessions }}</p>
+          <p class="text-lg font-bold text-muted-foreground">{{ stats.closed_sessions }}</p>
         </div>
         <div class="bg-card border border-border rounded-lg p-6">
           <p class="text-muted-foreground text-sm mb-1">Unread Messages</p>
-          <p class="text-3xl font-bold text-amber-400">{{ stats.unread_messages }}</p>
+          <p class="text-lg font-bold text-amber-400">{{ stats.unread_messages }}</p>
         </div>
       </div>
 
@@ -58,7 +58,7 @@
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
               </svg>
-              Loading sessions…
+              Loading sessionsâ€¦
             </div>
 
             <!-- Error -->
@@ -87,7 +87,7 @@
                 <div class="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-foreground font-bold text-sm shrink-0 relative">
                   {{ session.user?.name?.charAt(0) ?? '?' }}
                   <span
-                    v-if="session.status === 'open'"
+                    v-if="session.status === 'active'"
                     class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-card"
                   ></span>
                 </div>
@@ -100,9 +100,9 @@
                   <div class="flex items-center gap-2">
                     <span :class="[
                       'px-2 py-0.5 rounded text-xs font-semibold',
-                      session.status === 'open' ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-muted-foreground'
+                      session.status === 'active' ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-muted-foreground'
                     ]">
-                      {{ session.status }}
+                      {{ session.status === 'active' ? 'Active' : 'Closed' }}
                     </span>
                     <span
                       v-if="session.unread_count > 0"
@@ -140,17 +140,17 @@
               <div class="flex items-center gap-2">
                 <span :class="[
                   'px-2 py-1 rounded text-xs font-semibold',
-                  selectedSession.status === 'open' ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-muted-foreground'
+                  selectedSession.status === 'active' ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-muted-foreground'
                 ]">
-                  {{ selectedSession.status }}
+                  {{ selectedSession.status === 'active' ? 'Active' : 'Closed' }}
                 </span>
                 <button
-                  v-if="selectedSession.status === 'open'"
+                  v-if="selectedSession.status === 'active'"
                   @click="closeSession"
                   :disabled="closingSession"
                   class="px-3 py-1.5 bg-red-500/20 text-red-400 hover:bg-red-500/30 rounded-md text-xs font-medium transition disabled:opacity-50"
                 >
-                  {{ closingSession ? 'Closing…' : 'Close Session' }}
+                  {{ closingSession ? 'Closingâ€¦' : 'Close Session' }}
                 </button>
               </div>
             </div>
@@ -163,7 +163,7 @@
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                 </svg>
-                Loading messages…
+                Loading messagesâ€¦
               </div>
 
               <!-- Messages Error -->
@@ -213,12 +213,12 @@
             </div>
 
             <!-- Reply Input -->
-            <div v-if="selectedSession.status === 'open'" class="p-4 border-t border-border">
+            <div v-if="selectedSession.status === 'active'" class="p-4 border-t border-border">
               <form @submit.prevent="sendReply" class="flex gap-3">
                 <input
                   v-model="replyText"
                   type="text"
-                  placeholder="Type your reply…"
+                  placeholder="Type your replyâ€¦"
                   class="flex-1 bg-muted border border-border rounded-lg px-4 py-2.5 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
                   :disabled="sendingReply"
                 />
@@ -227,7 +227,7 @@
                   :disabled="!replyText.trim() || sendingReply"
                   class="px-5 py-2.5 bg-primary text-primary-foreground rounded-lg font-medium text-sm hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {{ sendingReply ? 'Sending…' : 'Send' }}
+                  {{ sendingReply ? 'Sendingâ€¦' : 'Send' }}
                 </button>
               </form>
             </div>
@@ -249,7 +249,7 @@ import AdminLayout from '@/layouts/AdminLayout.vue';
 import { useApi } from '@/composables/useApi';
 import { useToast } from '@/composables/useToast';
 
-// ── Types ───────────────────────────────────────────────────────────
+// â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 interface User {
   id: number;
   name: string;
@@ -286,11 +286,11 @@ interface Stats {
   unread_messages: number;
 }
 
-// ── Composables ─────────────────────────────────────────────────────
+// â”€â”€ Composables â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const { get, post } = useApi();
 const toast = useToast();
 
-// ── State ───────────────────────────────────────────────────────────
+// â”€â”€ State â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const stats = ref<Stats>({ total_sessions: 0, open_sessions: 0, closed_sessions: 0, unread_messages: 0 });
 
 const sessions = ref<ChatSession[]>([]);
@@ -300,7 +300,7 @@ const sessionsError = ref(false);
 const statusFilter = ref<string>('');
 const statusFilters = [
   { label: 'All', value: '' },
-  { label: 'Open', value: 'open' },
+  { label: 'Active', value: 'active' },
   { label: 'Closed', value: 'closed' },
 ];
 
@@ -315,7 +315,7 @@ const replyText = ref('');
 const sendingReply = ref(false);
 const closingSession = ref(false);
 
-// ── Helpers ─────────────────────────────────────────────────────────
+// â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function formatDate(dateStr: string): string {
   if (!dateStr) return '';
   const d = new Date(dateStr);
@@ -344,13 +344,13 @@ function scrollToBottom() {
   });
 }
 
-// ── API Calls ───────────────────────────────────────────────────────
+// â”€â”€ API Calls â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function fetchStats() {
   try {
     const data = await get<Stats>('/admin/chat/stats');
     stats.value = data;
   } catch {
-    // Silently fail — stats are non-critical
+    // Silently fail â€” stats are non-critical
   }
 }
 
@@ -439,7 +439,7 @@ async function closeSession() {
   }
 }
 
-// ── Init ────────────────────────────────────────────────────────────
+// â”€â”€ Init â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 onMounted(() => {
   fetchStats();
   fetchSessions();

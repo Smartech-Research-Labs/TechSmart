@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {
+  IconArrowLeft,
   IconDashboard,
   IconHeart,
   IconHelp,
@@ -104,6 +105,16 @@ const navSecondary = computed(() => {
       </SidebarMenu>
     </SidebarHeader>
     <SidebarContent>
+      <SidebarMenu class="px-2 pt-1">
+        <SidebarMenuItem>
+          <SidebarMenuButton as-child>
+            <router-link to="/" class="flex items-center gap-2 text-muted-foreground hover:text-foreground transition text-sm">
+              <IconArrowLeft class="!size-4" />
+              <span>Back to Site</span>
+            </router-link>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarMenu>
       <NavMain :items="navMain" />
       <NavSecondary :items="navSecondary" class="mt-auto" />
     </SidebarContent>

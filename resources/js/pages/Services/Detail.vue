@@ -67,7 +67,7 @@
                 <div class="space-y-6">
                   <div v-for="(step, i) in service.process_steps" :key="i" class="flex items-start gap-6">
                     <div class="w-12 h-12 shrink-0 bg-gradient-to-br from-primary to-accent rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-lg">
-                      {{ i + 1 }}
+                      {{ Number(i) + 1 }}
                     </div>
                     <div class="flex-1 pt-1">
                       <h3 class="text-lg font-bold text-foreground mb-1">{{ step.title || step }}</h3>
@@ -86,7 +86,7 @@
                 <p class="text-muted-foreground text-sm mb-4">Interested in this service? Contact us for a personalized quote.</p>
                 <div v-if="service.price_from" class="mb-4 p-4 bg-primary/5 border border-primary/20 rounded-xl">
                   <p class="text-xs text-muted-foreground mb-1">Starting from</p>
-                  <p class="text-3xl font-bold text-primary">R{{ Number(service.price_from).toLocaleString() }}</p>
+                  <p class="text-3xl font-bold text-primary">Ksh {{ Number(service.price_from).toLocaleString() }}</p>
                 </div>
                 <router-link to="/contact" class="block w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 px-6 rounded-xl text-center transition shadow-lg shadow-primary/25 mb-3">
                   Request This Service

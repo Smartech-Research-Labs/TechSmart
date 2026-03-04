@@ -5,13 +5,17 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Review;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Validator;
 
-class ReviewController extends Controller
+class ReviewController extends Controller implements HasMiddleware
 {
-    public function __construct()
+    public static function middleware(): array
     {
-        $this->middleware('auth:sanctum')->only(['store']);
+        return [
+            new Middleware('auth:sanctum', only: ['store']),
+        ];
     }
 
     public function index($type, $id)

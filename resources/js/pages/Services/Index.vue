@@ -1,42 +1,36 @@
 <template>
   <PublicLayout>
     <!-- Hero -->
-    <section class="relative py-24 bg-background overflow-hidden">
-      <div class="absolute inset-0 pointer-events-none">
-        <div class="absolute -top-20 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
-        <div class="absolute bottom-0 left-0 w-64 h-64 bg-accent/10 rounded-full blur-3xl"></div>
-      </div>
-      <div class="relative container mx-auto px-4">
-        <div class="max-w-4xl">
-          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">Our Services</div>
-          <h1 class="text-5xl md:text-6xl font-bold text-foreground mb-6">Technology solutions for <span class="text-primary">every need</span></h1>
-          <p class="text-xl text-muted-foreground max-w-3xl">Comprehensive technology services designed to help your business innovate, scale, and succeed in the digital world.</p>
-        </div>
+    <section class="py-16 md:py-20 bg-muted/30 border-b border-border">
+      <div class="container mx-auto px-6">
+        <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Services</p>
+        <h1 class="text-2xl md:text-3xl font-bold text-foreground mb-3">Technology Solutions for Every Need</h1>
+        <p class="text-muted-foreground text-sm max-w-2xl">Comprehensive technology services designed to help your business innovate, scale, and succeed in the digital world.</p>
       </div>
     </section>
 
     <!-- Category Filter Tabs -->
-    <section class="py-6 bg-muted/30 border-y border-border sticky top-16 z-30 backdrop-blur">
-      <div class="container mx-auto px-4">
-        <div class="flex flex-wrap justify-center gap-3">
+    <section class="py-4 bg-background border-b border-border sticky top-16 z-30">
+      <div class="container mx-auto px-6">
+        <div class="flex flex-wrap gap-2">
           <button
             @click="activeGroup = 'all'"
             :class="[
-              'px-5 py-2.5 rounded-full text-sm font-semibold transition-all',
+              'px-4 py-1.5 rounded-full text-xs font-medium transition-all',
               activeGroup === 'all'
-                ? 'bg-primary text-white shadow-lg shadow-primary/25'
-                : 'bg-card border border-border text-muted-foreground hover:text-primary hover:border-primary/40'
+                ? 'bg-primary text-white'
+                : 'bg-card border border-border text-muted-foreground hover:text-foreground'
             ]"
-          >All Services ({{ services.length }})</button>
+          >All ({{ services.length }})</button>
           <button
             v-for="group in categoryGroups"
             :key="group"
             @click="activeGroup = group"
             :class="[
-              'px-5 py-2.5 rounded-full text-sm font-semibold transition-all',
+              'px-4 py-1.5 rounded-full text-xs font-medium transition-all',
               activeGroup === group
-                ? 'bg-primary text-white shadow-lg shadow-primary/25'
-                : 'bg-card border border-border text-muted-foreground hover:text-primary hover:border-primary/40'
+                ? 'bg-primary text-white'
+                : 'bg-card border border-border text-muted-foreground hover:text-foreground'
             ]"
           >{{ group }}</button>
         </div>
@@ -44,15 +38,15 @@
     </section>
 
     <!-- Loading State -->
-    <section v-if="loading" class="py-24">
-      <div class="container mx-auto px-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div v-for="i in 6" :key="i" class="bg-card border border-border rounded-2xl overflow-hidden animate-pulse">
-            <div class="aspect-video bg-muted"></div>
-            <div class="p-6 space-y-3">
-              <div class="h-6 bg-muted rounded w-3/4"></div>
-              <div class="h-4 bg-muted rounded w-full"></div>
-              <div class="h-4 bg-muted rounded w-2/3"></div>
+    <section v-if="loading" class="py-16">
+      <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div v-for="i in 6" :key="i" class="bg-card border border-border rounded-lg overflow-hidden animate-pulse">
+            <div class="aspect-[16/10] bg-muted"></div>
+            <div class="p-5 space-y-2">
+              <div class="h-4 bg-muted rounded w-3/4"></div>
+              <div class="h-3 bg-muted rounded w-full"></div>
+              <div class="h-3 bg-muted rounded w-2/3"></div>
             </div>
           </div>
         </div>
@@ -60,46 +54,45 @@
     </section>
 
     <!-- Grouped Services -->
-    <section v-else class="py-16">
-      <div class="container mx-auto px-4">
+    <section v-else class="py-12">
+      <div class="container mx-auto px-6">
         <template v-if="activeGroup === 'all'">
-          <div v-for="group in categoryGroups" :key="group" class="mb-20 last:mb-0">
-            <div class="flex items-center gap-4 mb-10">
-              <h2 class="text-3xl font-bold text-foreground">{{ group }}</h2>
+          <div v-for="group in categoryGroups" :key="group" class="mb-14 last:mb-0">
+            <div class="flex items-center gap-4 mb-6">
+              <h2 class="text-lg font-bold text-foreground">{{ group }}</h2>
               <div class="flex-1 h-px bg-border"></div>
-              <span class="text-sm text-muted-foreground font-medium">{{ groupedServices[group]?.length || 0 }} services</span>
+              <span class="text-xs text-muted-foreground">{{ groupedServices[group]?.length || 0 }} services</span>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <ServiceCard v-for="service in groupedServices[group]" :key="service.id" :service="service" />
             </div>
           </div>
         </template>
         <template v-else>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <ServiceCard v-for="service in filteredServices" :key="service.id" :service="service" />
           </div>
         </template>
 
-        <div v-if="!loading && services.length === 0" class="text-center py-24">
-          <svg class="w-16 h-16 mx-auto text-muted-foreground/30 mb-6" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
-          <h3 class="text-2xl font-bold text-foreground mb-2">No services available</h3>
-          <p class="text-muted-foreground">Please check back later.</p>
+        <div v-if="!loading && services.length === 0" class="text-center py-16">
+          <svg class="w-12 h-12 mx-auto text-muted-foreground/20 mb-4" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+          <h3 class="text-lg font-bold text-foreground mb-1">No services available</h3>
+          <p class="text-muted-foreground text-sm">Please check back later.</p>
         </div>
       </div>
     </section>
 
     <!-- CTA -->
-    <section class="py-20 bg-gradient-to-br from-primary to-accent relative overflow-hidden">
-      <div class="absolute inset-0 pointer-events-none opacity-10">
-        <div class="absolute -top-40 -right-40 w-96 h-96 bg-white rounded-full blur-3xl"></div>
-      </div>
-      <div class="relative container mx-auto px-4 text-center max-w-3xl">
-        <h2 class="text-4xl font-bold text-white mb-6">Need a custom solution?</h2>
-        <p class="text-white/90 text-lg mb-8">Tell us about your project and we will provide a free consultation and estimate.</p>
-        <router-link to="/contact" class="inline-flex items-center gap-2 px-10 py-5 bg-white text-primary font-bold rounded-xl hover:bg-white/90 shadow-2xl transform hover:-translate-y-1 transition-all text-lg">
-          Get Free Consultation
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-        </router-link>
+    <section class="py-16 md:py-20">
+      <div class="container mx-auto px-6">
+        <div class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl p-8 md:p-12 text-center">
+          <h2 class="text-xl md:text-2xl font-bold text-white mb-3">Need a Custom Solution?</h2>
+          <p class="text-gray-400 text-sm mb-6 max-w-lg mx-auto">Tell us about your project and we will provide a free consultation and estimate.</p>
+          <router-link to="/contact" class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white text-sm font-semibold rounded-md hover:bg-primary/90 transition-all">
+            Get Free Consultation
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
+          </router-link>
+        </div>
       </div>
     </section>
   </PublicLayout>
@@ -108,6 +101,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, defineComponent, h } from 'vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
+import WishlistButton from '@/components/WishlistButton.vue';
 import axios from 'axios';
 
 //  Service Card Component (inline) 
@@ -116,42 +110,32 @@ const ServiceCard = defineComponent({
   setup(props) {
     return () => h('router-link', {
       to: `/services/${props.service.slug}`,
-      class: 'group bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 hover:-translate-y-1 block'
+      class: 'group bg-card border border-border rounded-lg overflow-hidden hover:border-primary/30 hover:shadow-md transition-all duration-300 block'
     }, [
       // Image
-      h('div', { class: 'aspect-video bg-muted overflow-hidden relative' }, [
+      h('div', { class: 'aspect-[16/10] bg-muted overflow-hidden relative' }, [
         props.service.image_url
-          ? h('img', { src: props.service.image_url, alt: props.service.title, class: 'w-full h-full object-cover group-hover:scale-110 transition-transform duration-500' })
+          ? h('img', { src: props.service.image_url, alt: props.service.title, class: 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-500' })
           : h('div', { class: 'w-full h-full flex items-center justify-center' }, [
-              h('svg', { class: 'w-12 h-12 text-muted-foreground/30', fill: 'none', stroke: 'currentColor', 'stroke-width': '1', viewBox: '0 0 24 24' }, [
+              h('svg', { class: 'w-10 h-10 text-muted-foreground/20', fill: 'none', stroke: 'currentColor', 'stroke-width': '1', viewBox: '0 0 24 24' }, [
                 h('path', { d: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4' })
               ])
             ]),
-        h('div', { class: 'absolute top-3 left-3' }, [
-          h('span', { class: 'px-3 py-1 bg-primary/90 text-white text-xs font-semibold rounded-full backdrop-blur' }, props.service.category)
+        h('div', { class: 'absolute top-2 left-2' }, [
+          h('span', { class: 'px-2 py-0.5 bg-primary/90 text-white text-[10px] font-medium rounded' }, props.service.category)
         ]),
-        props.service.price_label
-          ? h('div', { class: 'absolute top-3 right-3' }, [
-              h('span', { class: 'px-3 py-1 bg-black/60 text-white text-xs font-semibold rounded-full backdrop-blur' }, props.service.price_label)
-            ])
-          : null,
+        h('div', { class: 'absolute top-2 right-2 z-10', onClick: (e: Event) => e.preventDefault() }, [
+          h(WishlistButton, { type: 'App\\Models\\Service', itemId: props.service.id })
+        ]),
       ]),
       // Content
-      h('div', { class: 'p-6' }, [
-        h('h3', { class: 'text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors' }, props.service.title),
-        h('p', { class: 'text-muted-foreground text-sm leading-relaxed mb-4 line-clamp-2' }, props.service.excerpt || props.service.short_description),
-        h('div', { class: 'flex flex-wrap gap-2 mb-4' }, [
-          ...(props.service.features || []).slice(0, 4).map((feat: string, i: number) =>
-            h('span', { key: i, class: 'px-2.5 py-1 bg-muted text-muted-foreground text-xs rounded-md' }, feat)
-          ),
-          (props.service.features || []).length > 4
-            ? h('span', { class: 'px-2.5 py-1 bg-primary/10 text-primary text-xs rounded-md font-medium' }, `+${props.service.features.length - 4} more`)
-            : null,
-        ]),
-        h('span', { class: 'inline-flex items-center gap-2 text-primary font-semibold text-sm group-hover:gap-3 transition-all' }, [
+      h('div', { class: 'p-5' }, [
+        h('h3', { class: 'text-sm font-semibold text-foreground mb-1.5 group-hover:text-primary transition-colors' }, props.service.title),
+        h('p', { class: 'text-muted-foreground text-xs leading-relaxed mb-3 line-clamp-2' }, props.service.excerpt || props.service.short_description),
+        h('span', { class: 'inline-flex items-center gap-1 text-primary font-medium text-xs group-hover:gap-2 transition-all' }, [
           'Learn More',
-          h('svg', { class: 'w-4 h-4', fill: 'none', stroke: 'currentColor', 'stroke-width': '2', viewBox: '0 0 24 24' }, [
-            h('path', { d: 'M17 8l4 4m0 0l-4 4m4-4H3' })
+          h('svg', { class: 'w-3 h-3', fill: 'none', stroke: 'currentColor', 'stroke-width': '2', viewBox: '0 0 24 24' }, [
+            h('path', { d: 'M9 5l7 7-7 7' })
           ])
         ])
       ])

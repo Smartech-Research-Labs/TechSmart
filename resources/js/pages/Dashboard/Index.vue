@@ -18,7 +18,7 @@
     <template v-else>
       <!-- Welcome -->
       <div class="mb-2">
-        <h1 class="text-2xl font-display font-bold text-foreground">
+        <h1 class="text-xl font-display font-bold text-foreground">
           Welcome back, {{ authStore.user?.name ?? 'User' }}
         </h1>
         <p class="text-muted-foreground text-sm mt-1">Here's an overview of your account</p>
@@ -151,7 +151,7 @@
                     </CardTitle>
                     <CardDescription>{{ getTypeLabel(item.wishlistable_type) }}</CardDescription>
                     <p v-if="item.wishlistable?.price" class="text-sm font-bold text-primary mt-1">
-                      R {{ Number(item.wishlistable.price).toLocaleString() }}
+                      Ksh {{ Number(item.wishlistable.price).toLocaleString() }}
                     </p>
                   </div>
                 </div>

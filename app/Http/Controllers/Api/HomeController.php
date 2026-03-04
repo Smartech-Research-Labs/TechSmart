@@ -78,8 +78,8 @@ class HomeController extends Controller
                 return [
                     'id' => $c->id,
                     'name' => $c->name,
-                    'logo_url' => $c->logo_url
-                        ? (str_starts_with($c->logo_url, 'http') ? $c->logo_url : Storage::url($c->logo_url))
+                    'logo_url' => $c->logo
+                        ? (str_starts_with($c->logo, 'http') ? $c->logo : Storage::url($c->logo))
                         : null,
                     'website_url' => $c->website_url,
                 ];

@@ -77,11 +77,10 @@ class AdminChatController extends Controller
     public function stats()
     {
         return response()->json([
-            'active' => ChatSession::where('status', 'active')->count(),
-            'waiting' => ChatSession::where('status', 'waiting')->count(),
-            'closed_today' => ChatSession::where('status', 'closed')
-                ->whereDate('updated_at', today())->count(),
-            'total_today' => ChatSession::whereDate('created_at', today())->count(),
+            'total_sessions' => ChatSession::count(),
+            'open_sessions' => ChatSession::where('status', 'active')->count(),
+            'closed_sessions' => ChatSession::where('status', 'closed')->count(),
+            'unread_messages' => ChatMessage::where('sender_type', 'user')->where('is_read', false)->count(),
         ]);
     }
 }

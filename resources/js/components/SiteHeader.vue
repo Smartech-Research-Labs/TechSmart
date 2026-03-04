@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { IconLogout, IconUserCircle, IconMoon, IconSun, IconDeviceDesktop } from '@tabler/icons-vue'
+import { IconLogout, IconUserCircle, IconMoon, IconSun, IconDeviceDesktop, IconBell } from '@tabler/icons-vue'
 import { Separator } from '@/components/ui/separator'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import { Button } from '@/components/ui/button'
@@ -17,6 +17,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useAuthStore } from '@/stores/auth'
 import { useAppearance } from '@/composables/useAppearance'
+import { useApi } from '@/composables/useApi'
 
 defineProps<{
   title?: string
@@ -46,6 +47,40 @@ async function handleLogout() {
   await authStore.logout()
   router.push('/login')
 }
+
+// Notifications
+const { get, post } = useApi()
+const notifications = ref<any[]>([])
+const unreadCount = ref(0)
+const showNotifications = ref(false)
+
+const isAdmin = computed(() => {
+  const roles = user.value?.roles?.map((r: any) => r.name) || []
+  return roles.includes('admin') || roles.includes('super-admin') || roles.includes('superadmin')
+})
+
+async function fetchNotifications() {
+  if (!isAdmin.value) return
+  try {
+    const data = await get<any>('/admin/notifications')
+    notifications.value = data.notifications || []
+    unreadCount.value = data.unread_count || 0
+  } catch { /* ignore */ }
+}
+
+async function markAllRead() {
+  try {
+    await post('/admin/notifications/read-all', {})
+    unreadCount.value = 0
+    notifications.value = notifications.value.map(n => ({ ...n, read: true }))
+  } catch { /* ignore */ }
+}
+
+onMounted(() => {
+  fetchNotifications()
+  // Poll every 30 seconds
+  setInterval(fetchNotifications, 30000)
+})
 </script>
 
 <template>
@@ -68,6 +103,38 @@ async function handleLogout() {
         <Button variant="ghost" size="icon" class="h-8 w-8" @click="cycleTheme" :title="`Theme: ${appearance}`">
           <component :is="themeIcon" class="size-4" />
         </Button>
+
+        <!-- Notification bell (admin only) -->
+        <div v-if="isAdmin" class="relative">
+          <Button variant="ghost" size="icon" class="h-8 w-8 relative" @click="showNotifications = !showNotifications">
+            <IconBell class="size-4" />
+            <span v-if="unreadCount > 0" class="absolute -top-0.5 -right-0.5 w-4 h-4 bg-destructive text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+              {{ unreadCount > 9 ? '9+' : unreadCount }}
+            </span>
+          </Button>
+
+          <!-- Notifications dropdown -->
+          <div
+            v-if="showNotifications"
+            class="absolute right-0 top-10 w-80 bg-popover border border-border rounded-lg shadow-lg z-50 overflow-hidden"
+          >
+            <div class="flex items-center justify-between px-4 py-3 border-b border-border">
+              <span class="text-sm font-semibold">Notifications</span>
+              <button v-if="unreadCount > 0" @click="markAllRead" class="text-xs text-primary hover:underline">Mark all read</button>
+            </div>
+            <div class="max-h-72 overflow-y-auto">
+              <div v-if="notifications.length === 0" class="py-8 text-center text-muted-foreground text-sm">No notifications</div>
+              <div
+                v-for="n in notifications.slice(0, 15)"
+                :key="n.id"
+                :class="['px-4 py-3 border-b border-border/50 last:border-0 text-sm', !n.read ? 'bg-primary/5' : '']"
+              >
+                <p class="text-foreground text-xs">{{ n.message }}</p>
+                <p class="text-muted-foreground text-[10px] mt-1">{{ n.item_name }} · {{ n.time }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <Separator orientation="vertical" class="mx-1 data-[orientation=vertical]:h-4" />
 

@@ -24,7 +24,7 @@ class BlogController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'excerpt' => 'nullable|string|max:500',
-            'featured_image' => 'nullable|image|max:2048',
+            'featured_image' => 'nullable|string|max:2048',
             'category' => 'nullable|string|max:100',
             'tags' => 'nullable|array',
             'seo_title' => 'nullable|string|max:255',
@@ -35,11 +35,6 @@ class BlogController extends Controller
 
         $validated['slug'] = Str::slug($validated['title']);
         $validated['author_id'] = $request->user()->id;
-
-        if ($request->hasFile('featured_image')) {
-            $validated['featured_image'] = $request->file('featured_image')
-                ->store('blogs', 'public');
-        }
 
         if ($request->boolean('is_published') && empty($validated['published_at'])) {
             $validated['published_at'] = now();
@@ -66,7 +61,7 @@ class BlogController extends Controller
             'title' => 'sometimes|string|max:255',
             'content' => 'sometimes|string',
             'excerpt' => 'nullable|string|max:500',
-            'featured_image' => 'nullable|image|max:2048',
+            'featured_image' => 'nullable|string|max:2048',
             'category' => 'nullable|string|max:100',
             'tags' => 'nullable|array',
             'seo_title' => 'nullable|string|max:255',
@@ -77,11 +72,6 @@ class BlogController extends Controller
 
         if (isset($validated['title'])) {
             $validated['slug'] = Str::slug($validated['title']);
-        }
-
-        if ($request->hasFile('featured_image')) {
-            $validated['featured_image'] = $request->file('featured_image')
-                ->store('blogs', 'public');
         }
 
         if ($request->boolean('is_published') && ! $blog->published_at) {

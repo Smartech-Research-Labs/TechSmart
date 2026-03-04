@@ -1,9 +1,9 @@
-<template>
+﻿<template>
   <DashboardLayout>
     <div class="space-y-8">
       <!-- Page Header -->
       <div>
-        <h1 class="text-3xl font-display font-bold text-foreground mb-2">My Reviews</h1>
+        <h1 class="text-xl font-display font-bold text-foreground mb-1">My Reviews</h1>
         <p class="text-muted-foreground">Reviews and feedback you've submitted</p>
       </div>
 
@@ -33,7 +33,7 @@
         <p class="text-muted-foreground mb-4">{{ error }}</p>
         <button
           @click="fetchReviews"
-          class="inline-block bg-primary hover:bg-primary/90 text-white font-semibold px-6 py-2.5 rounded-lg transition"
+          class="inline-block bg-primary hover:bg-primary/90 text-white font-medium px-4 py-2 text-sm rounded-lg transition"
         >
           Retry
         </button>
@@ -41,8 +41,12 @@
 
       <!-- Reviews List -->
       <div v-else-if="reviews.length > 0" class="space-y-4">
+        <div class="mb-2">
+          <input v-model="searchQuery" type="text" placeholder="Search by item name, review content..." class="w-full sm:w-80 px-4 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-primary" />
+        </div>
+        <div v-if="searchQuery && filteredReviews.length === 0" class="py-8 text-center text-muted-foreground">No reviews match your search.</div>
         <div
-          v-for="review in reviews"
+          v-for="review in filteredReviews"
           :key="review.id"
           class="bg-card border border-border rounded-lg p-6 hover:border-primary transition"
         >
@@ -121,7 +125,7 @@
         <p class="text-muted-foreground mb-6">Share your experience with our services</p>
         <router-link
           to="/services"
-          class="inline-block bg-primary hover:bg-primary/90 text-white font-semibold px-6 py-2.5 rounded-lg transition"
+          class="inline-block bg-primary hover:bg-primary/90 text-white font-medium px-4 py-2 text-sm rounded-lg transition"
         >
           Browse Services
         </router-link>
@@ -131,7 +135,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { IconAlertTriangle } from '@tabler/icons-vue';
 import DashboardLayout from '@/layouts/DashboardLayout.vue';
 import { useApi } from '@/composables/useApi';
@@ -141,6 +145,18 @@ const { get } = useApi();
 const loading = ref(true);
 const error = ref<string | null>(null);
 const reviews = ref<any[]>([]);
+const searchQuery = ref('');
+
+const filteredReviews = computed(() => {
+  if (!searchQuery.value) return reviews.value;
+  const q = searchQuery.value.toLowerCase();
+  return reviews.value.filter((r: any) =>
+    (r.reviewable?.name || '').toLowerCase().includes(q) ||
+    (r.reviewable?.title || '').toLowerCase().includes(q) ||
+    (r.comment || r.content || '').toLowerCase().includes(q) ||
+    (r.status || '').toLowerCase().includes(q)
+  );
+});
 
 const pagination = ref({
   currentPage: 1,

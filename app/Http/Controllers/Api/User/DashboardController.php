@@ -4,12 +4,16 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class DashboardController extends Controller
+class DashboardController extends Controller implements HasMiddleware
 {
-    public function __construct()
+    public static function middleware(): array
     {
-        $this->middleware('auth:sanctum');
+        return [
+            new Middleware('auth:sanctum'),
+        ];
     }
 
     public function index()

@@ -4,10 +4,10 @@
       <!-- Page Header -->
       <div class="flex items-center justify-between">
         <div>
-          <h1 class="text-3xl font-display font-bold text-foreground mb-2">Manage Bundles</h1>
-          <p class="text-muted-foreground">Create and manage service bundles</p>
+          <h1 class="text-xl font-display font-bold text-foreground mb-1">Manage Bundles</h1>
+          <p class="text-sm text-muted-foreground">Create and manage service bundles</p>
         </div>
-        <button @click="openCreateModal" class="bg-primary hover:bg-primary/90 text-white font-semibold px-6 py-2.5 rounded-lg transition">
+        <button @click="openCreateModal" class="bg-primary hover:bg-primary/90 text-white font-medium px-4 py-2 rounded-lg transition text-sm">
           + Create Bundle
         </button>
       </div>
@@ -42,56 +42,67 @@
         </button>
       </div>
 
-      <!-- Bundles List -->
-      <div v-else class="space-y-4">
+      <!-- Search Bar -->
+      <div v-if="!loading && !error && bundles.length > 0" class="relative">
+        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <input
+          v-model="searchQuery"
+          type="text"
+          placeholder="Search bundles..."
+          class="w-full bg-card border border-border rounded-lg pl-10 pr-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition"
+        />
+      </div>
+
+      <!-- Bundles Card Grid -->
+      <div v-if="!loading && !error && filteredBundles.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <div
-          v-for="bundle in bundles"
+          v-for="bundle in filteredBundles"
           :key="bundle.id"
-          class="bg-card border border-border rounded-lg p-6 hover:border-primary transition"
+          class="bg-card border border-border rounded-lg p-4 hover:border-primary/50 transition group"
         >
-          <div class="flex items-start justify-between mb-4">
-            <div>
-              <div class="flex items-center gap-3 mb-2">
-                <h3 class="text-xl font-bold text-foreground">{{ bundle.name }}</h3>
-              </div>
-              <p class="text-muted-foreground mb-3">{{ bundle.short_description || bundle.description }}</p>
-              <div class="flex items-center gap-4">
-                <span class="text-2xl font-bold text-primary">${{ Number(bundle.price).toLocaleString() }}</span>
-                <span v-if="bundle.price_label" class="text-sm text-muted-foreground">{{ bundle.price_label }}</span>
-              </div>
-            </div>
-            <div class="flex items-center gap-2">
-              <span v-if="bundle.is_featured" class="px-2 py-1 rounded text-xs font-semibold bg-amber-500/20 text-amber-400">
-                Featured
+          <div class="flex items-start justify-between mb-2">
+            <h3 class="text-sm font-semibold text-foreground group-hover:text-primary transition truncate pr-2">{{ bundle.name }}</h3>
+            <div class="flex items-center gap-1 shrink-0">
+              <span v-if="bundle.is_featured" class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-amber-500/20 text-amber-400">
+                ★
               </span>
               <span :class="[
-                'px-2 py-1 rounded text-xs font-semibold',
+                'px-1.5 py-0.5 rounded text-[10px] font-semibold',
                 bundle.is_published ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-muted-foreground'
               ]">
-                {{ bundle.is_published ? 'Published' : 'Draft' }}
+                {{ bundle.is_published ? 'Live' : 'Draft' }}
               </span>
             </div>
           </div>
 
-          <div v-if="bundle.whats_included && bundle.whats_included.length" class="bg-muted/30 rounded-lg p-4 mb-4">
-            <p class="text-sm text-muted-foreground mb-2">Includes:</p>
-            <ul class="space-y-1">
-              <li v-for="(item, idx) in bundle.whats_included" :key="idx" class="text-muted-foreground text-sm flex items-center gap-2">
-                <span class="text-primary">✓</span>
-                {{ item }}
-              </li>
-            </ul>
+          <p class="text-xs text-muted-foreground line-clamp-2 mb-3">{{ bundle.short_description || bundle.description || 'No description' }}</p>
+
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-base font-bold text-primary">Ksh {{ Number(bundle.price).toLocaleString() }}</span>
+            <span v-if="bundle.price_label" class="text-[10px] text-muted-foreground">{{ bundle.price_label }}</span>
           </div>
 
-          <div class="flex gap-2">
-            <button @click="openEditModal(bundle)" class="bg-primary/10 hover:bg-primary/20 text-primary font-semibold py-2 px-4 rounded-lg transition text-sm">
-              Edit Bundle
+          <div v-if="bundle.whats_included && bundle.whats_included.length" class="bg-muted/20 rounded-md p-2 mb-3">
+            <p class="text-[10px] text-muted-foreground mb-1">Includes {{ bundle.whats_included.length }} items</p>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button @click="openEditModal(bundle)" class="text-xs text-primary hover:text-primary/80 font-medium transition">
+              Edit
             </button>
-            <button @click="confirmDelete(bundle)" class="border border-border hover:border-red-500/50 text-muted-foreground hover:text-red-400 font-semibold py-2 px-4 rounded-lg transition text-sm">
+            <span class="text-border">|</span>
+            <button @click="confirmDelete(bundle)" class="text-xs text-red-400 hover:text-red-300 font-medium transition">
               Delete
             </button>
           </div>
         </div>
+      </div>
+
+      <!-- No search results -->
+      <div v-if="!loading && !error && bundles.length > 0 && filteredBundles.length === 0" class="text-center py-8">
+        <p class="text-muted-foreground text-sm">No bundles match "{{ searchQuery }}"</p>
       </div>
     </div>
 
@@ -220,7 +231,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import { useApi } from '@/composables/useApi';
 import { useToast } from '@/composables/useToast';
@@ -249,6 +260,17 @@ interface Bundle {
 const bundles = ref<Bundle[]>([]);
 const loading = ref(false);
 const error = ref('');
+const searchQuery = ref('');
+
+const filteredBundles = computed(() => {
+  if (!searchQuery.value.trim()) return bundles.value;
+  const q = searchQuery.value.toLowerCase();
+  return bundles.value.filter(b =>
+    b.name.toLowerCase().includes(q) ||
+    (b.short_description && b.short_description.toLowerCase().includes(q)) ||
+    (b.description && b.description.toLowerCase().includes(q))
+  );
+});
 
 // Modal
 const showModal = ref(false);

@@ -1,13 +1,13 @@
-<template>
+﻿<template>
   <AdminLayout>
     <div class="space-y-8">
       <!-- Page Header -->
-      <div class="flex items-center justify-between">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 class="text-3xl font-display font-bold text-foreground mb-2">Manage Services</h1>
+          <h1 class="text-xl font-display font-bold text-foreground mb-1">Manage Services</h1>
           <p class="text-muted-foreground">Add, edit, and organize services</p>
         </div>
-        <button @click="openCreateModal" class="bg-primary hover:bg-primary/90 text-white font-semibold px-6 py-2.5 rounded-lg transition">
+        <button @click="openCreateModal" class="bg-primary hover:bg-primary/90 text-white font-medium px-4 py-2 text-sm rounded-lg transition whitespace-nowrap">
           + Add Service
         </button>
       </div>
@@ -34,23 +34,36 @@
 
       <!-- Empty State -->
       <div v-else-if="services.length === 0" class="bg-card border border-border rounded-lg p-12 text-center">
-        <p class="text-4xl mb-4">🛠️</p>
+        <p class="text-4xl mb-4">ðŸ› ï¸</p>
         <p class="text-foreground font-semibold text-lg mb-1">No services yet</p>
         <p class="text-muted-foreground text-sm mb-6">Create your first service to get started.</p>
-        <button @click="openCreateModal" class="bg-primary hover:bg-primary/90 text-white font-semibold px-6 py-2.5 rounded-lg transition">
+        <button @click="openCreateModal" class="bg-primary hover:bg-primary/90 text-white font-medium px-4 py-2 text-sm rounded-lg transition">
           + Add Service
         </button>
       </div>
 
       <!-- Services Grid -->
-      <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div v-else>
+        <!-- Search Bar -->
+        <div class="mb-6">
+          <div class="relative max-w-md">
+            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input v-model="searchQuery" type="text" placeholder="Search services..." class="w-full pl-10 pr-4 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-primary" />
+          </div>
+        </div>
+
+        <div v-if="filteredServices.length === 0" class="py-12 text-center text-muted-foreground">
+          {{ searchQuery ? 'No services match your search.' : 'No services yet. Create your first one.' }}
+        </div>
+
+        <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div
-          v-for="service in services"
+          v-for="service in filteredServices"
           :key="service.id"
           class="bg-card border border-border rounded-lg p-6 hover:border-primary transition"
         >
           <div class="flex items-start justify-between mb-4">
-            <span class="text-3xl">{{ service.icon || '🔧' }}</span>
+            <span class="text-3xl">{{ service.icon || 'ðŸ”§' }}</span>
             <div class="flex items-center gap-2">
               <span v-if="service.is_featured" class="px-2 py-1 rounded text-xs font-semibold bg-amber-500/20 text-amber-400">
                 Featured
@@ -78,6 +91,7 @@
             </button>
           </div>
         </div>
+      </div>
       </div>
     </div>
 
@@ -112,7 +126,7 @@
             </div>
             <div>
               <label class="block text-sm font-medium text-foreground mb-1">Icon</label>
-              <input v-model="form.icon" type="text" class="w-full px-3 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-primary" placeholder="e.g. 🚀 or icon class name" />
+              <input v-model="form.icon" type="text" class="w-full px-3 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-primary" placeholder="e.g. ðŸš€ or icon class name" />
             </div>
           </div>
 
@@ -229,7 +243,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import { useApi } from '@/composables/useApi';
 import { useToast } from '@/composables/useToast';
@@ -237,7 +251,7 @@ import { useToast } from '@/composables/useToast';
 const { get, post, put, delete: destroy } = useApi();
 const toast = useToast();
 
-// ── State ──────────────────────────────────────────────
+// â”€â”€ State â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 interface Service {
   id: number;
   name: string;
@@ -259,6 +273,17 @@ interface Service {
 const services = ref<Service[]>([]);
 const loading = ref(false);
 const error = ref('');
+const searchQuery = ref('');
+
+const filteredServices = computed(() => {
+  if (!searchQuery.value.trim()) return services.value;
+  const q = searchQuery.value.toLowerCase();
+  return services.value.filter(s =>
+    s.name.toLowerCase().includes(q) ||
+    (s.category || '').toLowerCase().includes(q) ||
+    (s.short_description || '').toLowerCase().includes(q)
+  );
+});
 
 // Modal
 const showModal = ref(false);
@@ -292,13 +317,13 @@ const defaultForm = () => ({
 
 const form = ref(defaultForm());
 
-// ── Toast helper ───────────────────────────────────────
+// â”€â”€ Toast helper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function showToast(message: string, type: 'success' | 'error' = 'success') {
   if (type === 'success') toast.success(message);
   else toast.error(message);
 }
 
-// ── Fetch ──────────────────────────────────────────────
+// â”€â”€ Fetch â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function fetchServices() {
   loading.value = true;
   error.value = '';
@@ -312,7 +337,7 @@ async function fetchServices() {
   }
 }
 
-// ── Create / Edit modal ───────────────────────────────
+// â”€â”€ Create / Edit modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function openCreateModal() {
   isEditing.value = false;
   editingId.value = null;
@@ -347,13 +372,13 @@ function closeModal() {
   formErrors.value = [];
 }
 
-// ── Features / Steps helpers ──────────────────────────
+// â”€â”€ Features / Steps helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function addFeature() { form.value.features.push(''); }
 function removeFeature(idx: number) { form.value.features.splice(idx, 1); }
 function addStep() { form.value.process_steps.push(''); }
 function removeStep(idx: number) { form.value.process_steps.splice(idx, 1); }
 
-// ── Submit (Create or Update) ─────────────────────────
+// â”€â”€ Submit (Create or Update) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function submitForm() {
   formErrors.value = [];
   submitting.value = true;
@@ -388,7 +413,7 @@ async function submitForm() {
   }
 }
 
-// ── Delete ─────────────────────────────────────────────
+// â”€â”€ Delete â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function confirmDelete(service: Service) {
   serviceToDelete.value = service;
   showDeleteModal.value = true;
@@ -410,6 +435,6 @@ async function deleteService() {
   }
 }
 
-// ── Init ───────────────────────────────────────────────
+// â”€â”€ Init â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 onMounted(fetchServices);
 </script>

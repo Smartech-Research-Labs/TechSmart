@@ -184,6 +184,11 @@ Route::prefix('v1')->group(function () {
         Route::get('/dashboard/stats', [AdminDashboardController::class, 'stats']);
         Route::get('/dashboard/activity', [AdminDashboardController::class, 'recentActivity']);
 
+        // Notifications
+        Route::get('/notifications', [AdminDashboardController::class, 'notifications']);
+        Route::post('/notifications/{id}/read', [AdminDashboardController::class, 'markNotificationRead']);
+        Route::post('/notifications/read-all', [AdminDashboardController::class, 'markAllNotificationsRead']);
+
         // Reviews
         Route::get('/reviews', [AdminReviewController::class, 'index']);
         Route::get('/reviews/stats', [AdminReviewController::class, 'stats']);

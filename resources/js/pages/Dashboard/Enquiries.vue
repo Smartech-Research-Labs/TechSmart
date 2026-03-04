@@ -1,9 +1,9 @@
-<template>
+﻿<template>
   <DashboardLayout>
     <div class="space-y-8">
       <!-- Page Header -->
       <div>
-        <h1 class="text-3xl font-display font-bold text-foreground mb-2">My Enquiries</h1>
+        <h1 class="text-xl font-display font-bold text-foreground mb-1">My Enquiries</h1>
         <p class="text-muted-foreground">Track your service and product inquiries</p>
       </div>
 
@@ -31,7 +31,7 @@
         <p class="text-muted-foreground mb-4">{{ error }}</p>
         <button
           @click="fetchEnquiries"
-          class="inline-block bg-primary hover:bg-primary/90 text-white font-semibold px-6 py-2.5 rounded-lg transition"
+          class="inline-block bg-primary hover:bg-primary/90 text-white font-medium px-4 py-2 text-sm rounded-lg transition"
         >
           Retry
         </button>
@@ -39,8 +39,12 @@
 
       <!-- Enquiries List -->
       <div v-else-if="enquiries.length > 0" class="space-y-4">
+        <div class="mb-2">
+          <input v-model="searchQuery" type="text" placeholder="Search by subject, message..." class="w-full sm:w-80 px-4 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-primary" />
+        </div>
+        <div v-if="searchQuery && filteredEnquiries.length === 0" class="py-8 text-center text-muted-foreground">No enquiries match your search.</div>
         <div
-          v-for="enquiry in enquiries"
+          v-for="enquiry in filteredEnquiries"
           :key="enquiry.id"
           class="bg-card border border-border rounded-lg p-6 hover:border-primary transition"
         >
@@ -123,7 +127,7 @@
         <p class="text-muted-foreground mb-6">Have questions? Get in touch with us</p>
         <router-link
           to="/contact"
-          class="inline-block bg-primary hover:bg-primary/90 text-white font-semibold px-6 py-2.5 rounded-lg transition"
+          class="inline-block bg-primary hover:bg-primary/90 text-white font-medium px-4 py-2 text-sm rounded-lg transition"
         >
           Contact Us
         </router-link>
@@ -133,7 +137,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive, onMounted, computed } from 'vue';
 import { IconAlertTriangle } from '@tabler/icons-vue';
 import DashboardLayout from '@/layouts/DashboardLayout.vue';
 import { useApi } from '@/composables/useApi';
@@ -144,6 +148,18 @@ const loading = ref(true);
 const error = ref<string | null>(null);
 const enquiries = ref<any[]>([]);
 const expanded = reactive(new Set<number>());
+const searchQuery = ref('');
+
+const filteredEnquiries = computed(() => {
+  if (!searchQuery.value) return enquiries.value;
+  const q = searchQuery.value.toLowerCase();
+  return enquiries.value.filter((e: any) =>
+    (e.subject || '').toLowerCase().includes(q) ||
+    (e.message || '').toLowerCase().includes(q) ||
+    (e.enquirable?.name || '').toLowerCase().includes(q) ||
+    (e.status || '').toLowerCase().includes(q)
+  );
+});
 
 const pagination = ref({
   currentPage: 1,

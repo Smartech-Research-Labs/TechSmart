@@ -5,13 +5,18 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Review;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Validator;
 
-class AdminReviewController extends Controller
+class AdminReviewController extends Controller implements HasMiddleware
 {
-    public function __construct()
+    public static function middleware(): array
     {
-        $this->middleware(['auth:sanctum', 'role:admin|superadmin']);
+        return [
+            new Middleware('auth:sanctum'),
+            new Middleware('role:admin|superadmin'),
+        ];
     }
 
     /**

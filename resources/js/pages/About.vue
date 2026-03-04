@@ -1,71 +1,83 @@
 <template>
   <PublicLayout>
     <!-- Hero -->
-    <section class="relative py-24 bg-background overflow-hidden">
-      <div class="absolute inset-0 pointer-events-none">
-        <div class="absolute -top-20 -right-20 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
-        <div class="absolute bottom-0 -left-20 w-72 h-72 bg-accent/10 rounded-full blur-3xl"></div>
-      </div>
-      <div class="relative container mx-auto px-4">
-        <div class="max-w-4xl">
-          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">About Us</div>
-          <h1 class="text-5xl md:text-6xl font-bold text-foreground mb-6">Building the future of <span class="text-primary">technology</span></h1>
-          <p class="text-xl text-muted-foreground leading-relaxed max-w-3xl">
-            We are a team of passionate technologists dedicated to delivering cutting-edge solutions that empower businesses to thrive in the digital age.
-          </p>
-        </div>
+    <section class="py-16 md:py-20 bg-muted/30 border-b border-border">
+      <div class="container mx-auto px-6">
+        <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">About Us</p>
+        <h1 class="text-2xl md:text-3xl font-bold text-foreground mb-3">Building the Future of Technology</h1>
+        <p class="text-muted-foreground text-sm max-w-2xl">We are a team of passionate technologists dedicated to delivering cutting-edge solutions that empower businesses to thrive in the digital age.</p>
       </div>
     </section>
 
-    <!-- Mission & Vision -->
-    <section class="py-20 bg-muted/30">
-      <div class="container mx-auto px-4">
-        <div class="grid md:grid-cols-2 gap-12">
-          <div class="bg-card border border-border rounded-2xl p-10">
-            <div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
-              <svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-            </div>
-            <h2 class="text-2xl font-bold text-foreground mb-4">Our Mission</h2>
-            <p class="text-muted-foreground leading-relaxed">To empower businesses with innovative, reliable, and scalable technology solutions that drive growth, efficiency, and digital transformation across Africa and beyond.</p>
+    <!-- Image + Text -->
+    <section class="py-16 md:py-20">
+      <div class="container mx-auto px-6">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div class="rounded-lg overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop&q=80" alt="TechSmart Team" class="w-full h-full object-cover aspect-[4/3]" />
           </div>
-          <div class="bg-card border border-border rounded-2xl p-10">
-            <div class="w-14 h-14 bg-accent/10 rounded-xl flex items-center justify-center mb-6">
-              <svg class="w-7 h-7 text-accent" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-            </div>
-            <h2 class="text-2xl font-bold text-foreground mb-4">Our Vision</h2>
-            <p class="text-muted-foreground leading-relaxed">To be the leading tech solutions provider in Africa, recognized for our innovation, quality, and commitment to client success in every project we deliver.</p>
+          <div>
+            <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Story</p>
+            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Technology That Transforms</h2>
+            <p class="text-muted-foreground text-sm leading-relaxed mb-4">Founded with a vision to make world-class technology accessible to businesses across Africa, TechSmart has grown into a trusted partner for organizations of all sizes.</p>
+            <p class="text-muted-foreground text-sm leading-relaxed">We combine deep technical expertise with genuine understanding of African business landscapes to deliver solutions that work in the real world.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Values -->
-    <section class="py-20 bg-background">
-      <div class="container mx-auto px-4">
-        <div class="text-center max-w-3xl mx-auto mb-16">
-          <h2 class="text-4xl font-bold text-foreground mb-4">Our Core Values</h2>
-          <p class="text-muted-foreground text-lg">The principles that guide everything we do</p>
+    <!-- Mission & Vision Cards -->
+    <section class="py-16 md:py-20 bg-muted/30">
+      <div class="container mx-auto px-6">
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="bg-card border border-border rounded-lg p-8">
+            <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+              <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+            </div>
+            <h2 class="text-lg font-bold text-foreground mb-3">Our Mission</h2>
+            <p class="text-muted-foreground text-sm leading-relaxed">To empower businesses with innovative, reliable, and scalable technology solutions that drive growth, efficiency, and digital transformation across Africa and beyond.</p>
+          </div>
+          <div class="bg-card border border-border rounded-lg p-8">
+            <div class="w-10 h-10 bg-accent/10 rounded-lg flex items-center justify-center mb-4">
+              <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+            </div>
+            <h2 class="text-lg font-bold text-foreground mb-3">Our Vision</h2>
+            <p class="text-muted-foreground text-sm leading-relaxed">To be the leading tech solutions provider in Africa, recognized for our innovation, quality, and commitment to client success in every project we deliver.</p>
+          </div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      </div>
+    </section>
+
+    <!-- Core Values -->
+    <section class="py-16 md:py-20">
+      <div class="container mx-auto px-6">
+        <div class="text-center max-w-xl mx-auto mb-10">
+          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">What We Believe</p>
+          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-3">Our Core Values</h2>
+          <p class="text-muted-foreground text-sm">The principles that guide everything we do.</p>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
           <div v-for="(value, i) in values" :key="i" class="text-center">
-            <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-5">
-              <span class="text-2xl">{{ value.emoji }}</span>
+            <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
+              <span class="text-xl">{{ value.emoji }}</span>
             </div>
-            <h3 class="text-lg font-bold text-foreground mb-2">{{ value.title }}</h3>
-            <p class="text-muted-foreground text-sm">{{ value.description }}</p>
+            <h3 class="text-sm font-semibold text-foreground mb-2">{{ value.title }}</h3>
+            <p class="text-muted-foreground text-xs leading-relaxed">{{ value.description }}</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Team CTA -->
-    <section class="py-20 bg-muted/30">
-      <div class="container mx-auto px-4 text-center max-w-3xl">
-        <h2 class="text-4xl font-bold text-foreground mb-6">Join Our Growing Team</h2>
-        <p class="text-muted-foreground text-lg mb-8">We're always looking for talented people who are passionate about technology and innovation.</p>
-        <router-link to="/contact" class="inline-block px-8 py-4 bg-primary text-white font-semibold rounded-xl hover:bg-primary/90 shadow-lg shadow-primary/25 transition-all">
-          Get In Touch
-        </router-link>
+    <!-- CTA -->
+    <section class="py-16 md:py-20 bg-muted/30">
+      <div class="container mx-auto px-6">
+        <div class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl p-8 md:p-12 text-center">
+          <h2 class="text-xl md:text-2xl font-bold text-white mb-3">Join Our Growing Team</h2>
+          <p class="text-gray-400 text-sm mb-6 max-w-lg mx-auto">We're always looking for talented people who are passionate about technology and innovation.</p>
+          <router-link to="/contact" class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white text-sm font-semibold rounded-md hover:bg-primary/90 transition-all">
+            Get In Touch
+          </router-link>
+        </div>
       </div>
     </section>
   </PublicLayout>

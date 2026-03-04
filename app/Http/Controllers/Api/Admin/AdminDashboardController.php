@@ -77,4 +77,41 @@ class AdminDashboardController extends Controller
             $activity->sortByDesc('created_at')->take($limit)->values()
         );
     }
+
+    public function notifications()
+    {
+        $user = auth()->user();
+        $notifications = $user->notifications()->latest()->take(50)->get()->map(fn ($n) => [
+            'id' => $n->id,
+            'message' => $n->data['message'] ?? '',
+            'item_type' => $n->data['item_type'] ?? '',
+            'item_name' => $n->data['item_name'] ?? '',
+            'user_name' => $n->data['user_name'] ?? '',
+            'read' => $n->read_at !== null,
+            'time' => $n->created_at->diffForHumans(),
+            'created_at' => $n->created_at->toISOString(),
+        ]);
+
+        return response()->json([
+            'notifications' => $notifications,
+            'unread_count' => $user->unreadNotifications()->count(),
+        ]);
+    }
+
+    public function markNotificationRead($id)
+    {
+        $notification = auth()->user()->notifications()->where('id', $id)->first();
+        if ($notification) {
+            $notification->markAsRead();
+        }
+
+        return response()->json(['message' => 'Notification marked as read']);
+    }
+
+    public function markAllNotificationsRead()
+    {
+        auth()->user()->unreadNotifications->markAsRead();
+
+        return response()->json(['message' => 'All notifications marked as read']);
+    }
 }

@@ -3,33 +3,33 @@
     <div class="space-y-8">
       <!-- Page Header -->
       <div>
-        <h1 class="text-3xl font-display font-bold text-foreground mb-2">Manage Reviews</h1>
-        <p class="text-muted-foreground">Review and moderate customer feedback</p>
+        <h1 class="text-xl font-display font-bold text-foreground mb-1">Manage Reviews</h1>
+        <p class="text-sm text-muted-foreground">Review and moderate customer feedback</p>
       </div>
 
       <!-- Stats Cards -->
-      <div v-if="stats" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-        <div class="bg-card border border-border rounded-lg p-5">
-          <p class="text-sm text-muted-foreground mb-1">Total Reviews</p>
-          <p class="text-2xl font-bold text-foreground">{{ stats.total }}</p>
+      <div v-if="stats" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+        <div class="bg-card border border-border rounded-lg p-3">
+          <p class="text-xs text-muted-foreground mb-0.5">Total</p>
+          <p class="text-lg font-bold text-foreground">{{ stats.total }}</p>
         </div>
-        <div class="bg-card border border-border rounded-lg p-5">
-          <p class="text-sm text-muted-foreground mb-1">Pending</p>
-          <p class="text-2xl font-bold text-amber-400">{{ stats.pending }}</p>
+        <div class="bg-card border border-border rounded-lg p-3">
+          <p class="text-xs text-muted-foreground mb-0.5">Pending</p>
+          <p class="text-lg font-bold text-amber-400">{{ stats.pending }}</p>
         </div>
-        <div class="bg-card border border-border rounded-lg p-5">
-          <p class="text-sm text-muted-foreground mb-1">Approved</p>
-          <p class="text-2xl font-bold text-green-400">{{ stats.approved }}</p>
+        <div class="bg-card border border-border rounded-lg p-3">
+          <p class="text-xs text-muted-foreground mb-0.5">Approved</p>
+          <p class="text-lg font-bold text-green-400">{{ stats.approved }}</p>
         </div>
-        <div class="bg-card border border-border rounded-lg p-5">
-          <p class="text-sm text-muted-foreground mb-1">Rejected</p>
-          <p class="text-2xl font-bold text-red-400">{{ stats.rejected }}</p>
+        <div class="bg-card border border-border rounded-lg p-3">
+          <p class="text-xs text-muted-foreground mb-0.5">Rejected</p>
+          <p class="text-lg font-bold text-red-400">{{ stats.rejected }}</p>
         </div>
-        <div class="bg-card border border-border rounded-lg p-5">
-          <p class="text-sm text-muted-foreground mb-1">Avg Rating</p>
-          <div class="flex items-center gap-2">
-            <p class="text-2xl font-bold text-amber-400">{{ Number(stats.avg_rating).toFixed(1) }}</p>
-            <svg class="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 24 24">
+        <div class="bg-card border border-border rounded-lg p-3">
+          <p class="text-xs text-muted-foreground mb-0.5">Avg Rating</p>
+          <div class="flex items-center gap-1">
+            <p class="text-lg font-bold text-amber-400">{{ Number(stats.avg_rating).toFixed(1) }}</p>
+            <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
             </svg>
           </div>

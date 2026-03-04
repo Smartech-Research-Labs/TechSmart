@@ -1,38 +1,38 @@
-<template>
+﻿<template>
   <AdminLayout>
     <div class="space-y-8">
       <!-- Page Header -->
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 class="text-3xl font-display font-bold text-foreground mb-2">User Management</h1>
+          <h1 class="text-xl font-display font-bold text-foreground mb-1">User Management</h1>
           <p class="text-muted-foreground">Manage registered users, assign roles, and monitor activity</p>
         </div>
-        <button @click="openCreateModal" class="bg-primary hover:bg-primary/90 text-white font-semibold px-6 py-2.5 rounded-lg transition whitespace-nowrap">
+        <button @click="openCreateModal" class="bg-primary hover:bg-primary/90 text-white font-medium px-4 py-2 text-sm rounded-lg transition whitespace-nowrap">
           + Add User
         </button>
       </div>
 
       <!-- Stats -->
-      <div class="grid grid-cols-1 sm:grid-cols-5 gap-4">
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
         <div class="bg-card border border-border rounded-xl p-5">
           <p class="text-muted-foreground text-sm mb-1">Total Users</p>
-          <p class="text-2xl font-bold text-foreground">{{ stats.total }}</p>
+          <p class="text-lg font-bold text-foreground">{{ stats.total }}</p>
         </div>
         <div class="bg-card border border-border rounded-xl p-5">
           <p class="text-muted-foreground text-sm mb-1">Admins</p>
-          <p class="text-2xl font-bold text-foreground">{{ stats.admins }}</p>
+          <p class="text-lg font-bold text-foreground">{{ stats.admins }}</p>
         </div>
         <div class="bg-card border border-border rounded-xl p-5">
           <p class="text-muted-foreground text-sm mb-1">Editors</p>
-          <p class="text-2xl font-bold text-foreground">{{ stats.editors }}</p>
+          <p class="text-lg font-bold text-foreground">{{ stats.editors }}</p>
         </div>
         <div class="bg-card border border-border rounded-xl p-5">
           <p class="text-muted-foreground text-sm mb-1">Regular Users</p>
-          <p class="text-2xl font-bold text-foreground">{{ stats.users }}</p>
+          <p class="text-lg font-bold text-foreground">{{ stats.users }}</p>
         </div>
         <div class="bg-card border border-border rounded-xl p-5">
           <p class="text-muted-foreground text-sm mb-1">New This Month</p>
-          <p class="text-2xl font-bold text-foreground">{{ stats.recent }}</p>
+          <p class="text-lg font-bold text-foreground">{{ stats.recent }}</p>
         </div>
       </div>
 
@@ -106,7 +106,7 @@
                   </div>
                 </td>
                 <td class="p-4 text-muted-foreground text-sm">{{ u.email }}</td>
-                <td class="p-4 text-muted-foreground text-sm">{{ u.phone || '—' }}</td>
+                <td class="p-4 text-muted-foreground text-sm">{{ u.phone || 'â€”' }}</td>
                 <td class="p-4">
                   <span :class="['px-2.5 py-1 rounded-full text-xs font-semibold', roleClass(u.role)]">
                     {{ capitalize(u.role) }}
@@ -132,7 +132,7 @@
         <!-- Pagination -->
         <div v-if="pagination.lastPage > 1" class="flex items-center justify-between px-4 py-3 border-t border-border">
           <p class="text-muted-foreground text-sm">
-            Showing {{ pagination.from }}–{{ pagination.to }} of {{ pagination.total }}
+            Showing {{ pagination.from }}â€“{{ pagination.to }} of {{ pagination.total }}
           </p>
           <div class="flex items-center gap-1">
             <button
@@ -195,14 +195,14 @@
                     Password
                     <span v-if="editingUser" class="text-muted-foreground font-normal">(leave blank to keep current)</span>
                   </label>
-                  <input v-model="form.password" type="password" :required="!editingUser" class="w-full bg-background border border-border rounded-lg px-4 py-2.5 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition" placeholder="••••••••" />
+                  <input v-model="form.password" type="password" :required="!editingUser" class="w-full bg-background border border-border rounded-lg px-4 py-2.5 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" />
                   <p v-if="formErrors.password" class="text-red-500 text-xs mt-1">{{ formErrors.password[0] }}</p>
                 </div>
 
                 <!-- Confirm Password -->
                 <div>
                   <label class="block text-sm font-medium text-foreground mb-1.5">Confirm Password</label>
-                  <input v-model="form.password_confirmation" type="password" :required="!!form.password" class="w-full bg-background border border-border rounded-lg px-4 py-2.5 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition" placeholder="••••••••" />
+                  <input v-model="form.password_confirmation" type="password" :required="!!form.password" class="w-full bg-background border border-border rounded-lg px-4 py-2.5 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" />
                 </div>
 
                 <!-- Role -->
@@ -210,7 +210,7 @@
                   <label class="block text-sm font-medium text-foreground mb-1.5">Role</label>
                   <select v-model="form.role" required class="w-full bg-background border border-border rounded-lg px-4 py-2.5 text-foreground focus:border-primary focus:outline-none transition">
                     <option value="" disabled>Select a role</option>
-                    <option v-for="r in roles" :key="r" :value="r">{{ capitalize(r) }}</option>
+                    <option v-for="r in assignableRoles" :key="r" :value="r">{{ capitalize(r) }}</option>
                   </select>
                   <p v-if="formErrors.role" class="text-red-500 text-xs mt-1">{{ formErrors.role[0] }}</p>
                 </div>
@@ -272,6 +272,13 @@ const authStore = useAuthStore();
 const users = ref<UserRecord[]>([]);
 const stats = reactive<Stats>({ total: 0, admins: 0, editors: 0, users: 0, recent: 0 });
 const roles = ref<string[]>([]);
+
+const assignableRoles = computed(() => {
+  if (authStore.isSuperAdmin) return roles.value;
+  // Admin can only assign 'user' role
+  return roles.value.filter(r => r === 'user');
+});
+
 const loading = ref(false);
 const fetchError = ref<string | null>(null);
 
@@ -340,7 +347,7 @@ function roleClass(role: string) {
 }
 
 function formatDate(dateStr: string) {
-  if (!dateStr) return '—';
+  if (!dateStr) return 'â€”';
   return new Date(dateStr).toLocaleDateString('en-ZA', {
     year: 'numeric',
     month: 'short',
