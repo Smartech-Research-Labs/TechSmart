@@ -178,7 +178,7 @@ class OpenAIService
     public function chatbotResponse(string $userMessage, array $context = [], array $companyInfo = []): string
     {
         try {
-            $companyName = $companyInfo['name'] ?? 'TechSmart';
+            $companyName = $companyInfo['name'] ?? 'Smartech Research Labs';
             $companyServices = $companyInfo['services'] ?? 'web development, mobile apps, cloud solutions';
 
             $systemPrompt = "You are a helpful customer support assistant for {$companyName}, a technology company. 
@@ -224,7 +224,7 @@ Answer customer questions professionally. If you don't know something specific, 
                 'error' => $e->getMessage(),
             ]);
 
-            return "I apologize, but I'm temporarily unable to assist. Please wait for one of our human agents to join the chat, or email us at support@techsmart.com.";
+            return "I apologize, but I'm temporarily unable to assist. Please wait for one of our human agents to join the chat, or email us at support@smartechresearchlabs.co.ke.";
         }
     }
 

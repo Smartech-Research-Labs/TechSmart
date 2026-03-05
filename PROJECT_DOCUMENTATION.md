@@ -1,4 +1,4 @@
-# TechSmart - Full-Stack Tech Company Website
+﻿# Smartech Research Labs - Full-Stack Tech Company Website
 
 ## 🚀 Project Overview
 
@@ -228,7 +228,7 @@ php artisan key:generate
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=techsmart
+DB_DATABASE=Smartech Research Labs
 DB_USERNAME=root
 DB_PASSWORD=
 
@@ -412,7 +412,7 @@ class OpenAIService
      */
     public function chatbotResponse(string $userMessage, array $context = []): string
     {
-        $systemPrompt = "You are a helpful tech support assistant for TechSmart. Answer questions about our services, products, and pricing.";
+        $systemPrompt = "You are a helpful tech support assistant for Smartech Research Labs. Answer questions about our services, products, and pricing.";
         
         $messages = [
             ['role' => 'system', 'content' => $systemPrompt],
@@ -481,8 +481,8 @@ php artisan db:seed --class=UserSeeder
 
 ### Test Accounts
 ```
-Superadmin: admin@techsmart.com / password
-User: user@techsmart.com / password
+Superadmin: admin@smartechresearchlabs.co.ke / password
+User: user@smartechresearchlabs.co.ke / password
 ```
 
 ---

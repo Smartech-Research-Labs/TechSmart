@@ -11,16 +11,20 @@ use App\Http\Controllers\Api\{
     EnquiryController,
     NewsletterController,
     AIController,
-    BlogController
+    BlogController,
+    CaseStudyController,
+    IndustryController
 };
 use App\Http\Controllers\Api\User\{
     DashboardController,
     WishlistController,
-    ChatController
+    ChatController,
+    DirectMessageController
 };
 use App\Http\Controllers\Api\Admin\{
     CMSController,
     SettingController,
+    MediaController,
     BlogController as AdminBlogController,
     PageController as AdminPageController,
     AdminReviewController,
@@ -30,6 +34,8 @@ use App\Http\Controllers\Api\Admin\{
     AdminBundleController,
     AdminDashboardController,
     AdminChatController,
+    AdminCaseStudyController,
+    IndustryController as AdminIndustryController,
     TrashController
 };
 use Illuminate\Support\Facades\Route;
@@ -94,6 +100,14 @@ Route::prefix('v1')->group(function () {
     Route::get('/blogs/categories', [BlogController::class, 'categories']);
     Route::get('/blogs/{slug}', [BlogController::class, 'show']);
 
+    // ──── Case Studies ────
+    Route::get('/case-studies', [CaseStudyController::class, 'index']);
+    Route::get('/case-studies/{slug}', [CaseStudyController::class, 'show']);
+
+    // ──── Industries ────
+    Route::get('/industries', [IndustryController::class, 'index']);
+    Route::get('/industries/{industry}', [IndustryController::class, 'show']);
+
     // ──── Public Settings ────
     Route::get('/settings', [SettingController::class, 'publicSettings']);
 
@@ -118,6 +132,14 @@ Route::prefix('v1')->group(function () {
         Route::get('/chat/sessions', [ChatController::class, 'sessions']);
         Route::post('/chat/messages', [ChatController::class, 'store']);
         Route::get('/chat/sessions/{sessionId}/messages', [ChatController::class, 'messages']);
+
+        // Direct Messages (User-to-User)
+        Route::get('/dm/conversations', [DirectMessageController::class, 'conversations']);
+        Route::get('/dm/conversations/{conversation}/messages', [DirectMessageController::class, 'messages']);
+        Route::post('/dm/send', [DirectMessageController::class, 'send']);
+        Route::post('/dm/conversations/{conversation}/read', [DirectMessageController::class, 'markRead']);
+        Route::get('/dm/users/online', [DirectMessageController::class, 'onlineUsers']);
+        Route::post('/dm/presence', [DirectMessageController::class, 'updatePresence']);
     });
     
     // ──── Admin Routes (Protected) ────
@@ -162,6 +184,11 @@ Route::prefix('v1')->group(function () {
         Route::post('/settings/logo', [SettingController::class, 'uploadLogo']);
         Route::post('/settings/favicon', [SettingController::class, 'uploadFavicon']);
 
+        // Media Gallery
+        Route::get('/media', [MediaController::class, 'index']);
+        Route::post('/media/upload', [MediaController::class, 'upload']);
+        Route::delete('/media', [MediaController::class, 'destroy']);
+
         // Blog Management
         Route::get('/blogs', [AdminBlogController::class, 'index']);
         Route::post('/blogs', [AdminBlogController::class, 'store']);
@@ -187,7 +214,10 @@ Route::prefix('v1')->group(function () {
         // Notifications
         Route::get('/notifications', [AdminDashboardController::class, 'notifications']);
         Route::post('/notifications/{id}/read', [AdminDashboardController::class, 'markNotificationRead']);
+        Route::post('/notifications/{id}/unread', [AdminDashboardController::class, 'markNotificationUnread']);
         Route::post('/notifications/read-all', [AdminDashboardController::class, 'markAllNotificationsRead']);
+        Route::delete('/notifications/{id}', [AdminDashboardController::class, 'deleteNotification']);
+        Route::delete('/notifications', [AdminDashboardController::class, 'deleteAllNotifications']);
 
         // Reviews
         Route::get('/reviews', [AdminReviewController::class, 'index']);
@@ -217,6 +247,21 @@ Route::prefix('v1')->group(function () {
         Route::post('/chat/sessions/{session}/reply', [AdminChatController::class, 'reply']);
         Route::post('/chat/sessions/{session}/close', [AdminChatController::class, 'closeSession']);
         Route::get('/chat/stats', [AdminChatController::class, 'stats']);
+        Route::get('/chat/metrics', [AdminChatController::class, 'metrics']);
+
+        // Case Studies
+        Route::get('/case-studies', [AdminCaseStudyController::class, 'index']);
+        Route::post('/case-studies', [AdminCaseStudyController::class, 'store']);
+        Route::get('/case-studies/{caseStudy}', [AdminCaseStudyController::class, 'show']);
+        Route::put('/case-studies/{caseStudy}', [AdminCaseStudyController::class, 'update']);
+        Route::delete('/case-studies/{caseStudy}', [AdminCaseStudyController::class, 'destroy']);
+
+        // Industries
+        Route::get('/industries', [AdminIndustryController::class, 'index']);
+        Route::post('/industries', [AdminIndustryController::class, 'store']);
+        Route::get('/industries/{industry}', [AdminIndustryController::class, 'show']);
+        Route::put('/industries/{industry}', [AdminIndustryController::class, 'update']);
+        Route::delete('/industries/{industry}', [AdminIndustryController::class, 'destroy']);
 
         // Users & Roles (SuperAdmin)
         Route::get('/users', [AdminUserController::class, 'index']);

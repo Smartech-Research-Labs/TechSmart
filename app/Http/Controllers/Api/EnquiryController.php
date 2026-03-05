@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Enquiry;
+use App\Models\User;
+use App\Notifications\EnquiryNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 
 class EnquiryController extends Controller
@@ -35,6 +38,15 @@ class EnquiryController extends Controller
 
         // TODO: Dispatch job to send email notification to admin
         // TODO: Broadcast Socket.IO event to admin dashboard
+
+        // Notify all admins
+        $admins = User::role(['admin', 'superadmin', 'super-admin'])->get();
+        Notification::send($admins, new EnquiryNotification(
+            $request->name,
+            $request->email,
+            $request->message ? mb_substr($request->message, 0, 80) : 'New enquiry',
+            $enquiry->id,
+        ));
 
         return response()->json([
             'message' => 'Enquiry submitted successfully',

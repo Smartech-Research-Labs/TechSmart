@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Review;
+use App\Models\User;
+use App\Notifications\ReviewNotification;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 
 class ReviewController extends Controller implements HasMiddleware
@@ -65,12 +68,20 @@ class ReviewController extends Controller implements HasMiddleware
             'status' => $status,
         ]);
 
-        // TODO: Dispatch job for AI sentiment analysis
-        // Notify admin if rating <= 3 (requires moderation)
-        if ($request->rating <= 3) {
-            // TODO: Dispatch notification job to admin
-            // dispatch(new NotifyAdminLowRating($review));
+        // Notify admins about the new review
+        $reviewableName = '';
+        $reviewable = $review->reviewable;
+        if ($reviewable) {
+            $reviewableName = $reviewable->name ?? $reviewable->title ?? 'Item';
         }
+        $admins = User::role(['admin', 'superadmin', 'super-admin'])->get();
+        Notification::send($admins, new ReviewNotification(
+            auth()->user()->name,
+            class_basename($request->reviewable_type),
+            $reviewableName,
+            $review->id,
+            $request->rating,
+        ));
 
         $message = $status === 'approved' 
             ? 'Thank you! Your review has been published.' 

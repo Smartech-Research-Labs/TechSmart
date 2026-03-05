@@ -3,7 +3,7 @@
     :href="`https://wa.me/254710351517?text=${encodeURIComponent('Hello! I would like to enquire about your services.')}`"
     target="_blank"
     rel="noopener noreferrer"
-    class="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-[#25D366] hover:bg-[#20BD5A] text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
+    class="fixed bottom-6 left-6 z-50 flex items-center gap-2 bg-[#25D366] hover:bg-[#20BD5A] text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
     aria-label="Chat on WhatsApp"
   >
     <div class="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14">
@@ -12,7 +12,7 @@
       </svg>
     </div>
     <span class="hidden sm:group-hover:inline-block pr-4 text-sm font-medium whitespace-nowrap">
-      Chat with us
+      Message us
     </span>
   </a>
 </template>

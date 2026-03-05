@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import {
   IconArrowLeft,
   IconDashboard,
@@ -6,6 +6,7 @@ import {
   IconHelp,
   IconInnerShadowTop,
   IconMail,
+  IconMessageCircle,
   IconSearch,
   IconSettings,
   IconStar,
@@ -61,6 +62,11 @@ const navMain = [
     url: "/dashboard/reviews",
     icon: IconStar,
   },
+  {
+    title: "Messages",
+    url: "/dashboard/messages",
+    icon: IconMessageCircle,
+  },
 ]
 
 const navSecondary = computed(() => {
@@ -98,7 +104,7 @@ const navSecondary = computed(() => {
           >
             <router-link to="/">
               <IconInnerShadowTop class="!size-5" />
-              <span class="text-base font-semibold">TechSmart</span>
+              <span class="text-base font-semibold">Smartech Research Labs</span>
             </router-link>
           </SidebarMenuButton>
         </SidebarMenuItem>

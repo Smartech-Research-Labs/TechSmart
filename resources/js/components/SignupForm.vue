@@ -1,8 +1,9 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { ref, computed } from 'vue';
 import type { HTMLAttributes } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
+import { useCmsStore } from '@/stores/cms';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -21,7 +22,9 @@ const props = defineProps<{
 
 const router = useRouter();
 const authStore = useAuthStore();
+const cmsStore = useCmsStore();
 
+const registerImage = computed(() => cmsStore.homeData?.settings?.register_page_image || '/images/signup-hero.jpg');
 const form = ref({
   name: '',
   email: '',
@@ -374,8 +377,8 @@ async function handleGoogleSignUp() {
         <!-- Image Side -->
         <div class="relative hidden bg-muted md:block">
           <img
-            src="/images/signup-hero.jpg"
-            alt="TechSmart Sign Up"
+            :src="registerImage"
+            alt="Smartech Research Labs Sign Up"
             class="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
           />
           <div class="absolute inset-0 bg-gradient-to-br from-primary/20 via-primary/5 to-accent/20 dark:from-primary/10 dark:via-transparent dark:to-accent/10"></div>
@@ -385,7 +388,7 @@ async function handleGoogleSignUp() {
                 <svg class="w-8 h-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
                 </svg>
-                <span class="text-xl font-bold text-foreground">TechSmart</span>
+                <span class="text-xl font-bold text-foreground">Smartech Research Labs</span>
               </div>
               <p class="text-sm text-muted-foreground">
                 Join thousands of clients building with us

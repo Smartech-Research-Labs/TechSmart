@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\{Slider, CounterItem, Service, Product, Client, Faq, FaqCategory, TeamMember, MapDataPoint, Setting, Blog, Review};
+use App\Models\{Slider, CounterItem, Service, Product, Client, Faq, FaqCategory, TeamMember, MapDataPoint, Setting, Blog, Review, CaseStudy};
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
@@ -109,6 +109,23 @@ class HomeController extends Controller
             // Settings
             $logoPath = Setting::get('logo_path');
 
+            // Impact / Case Studies for Population Impacted section
+            $impactProjects = class_exists(CaseStudy::class)
+                ? CaseStudy::where('is_published', true)
+                    ->where('is_featured', true)
+                    ->orderBy('order')
+                    ->take(6)
+                    ->get()
+                    ->map(fn ($cs) => [
+                        'id' => $cs->id,
+                        'title' => $cs->title,
+                        'slug' => $cs->slug,
+                        'category' => $cs->industry,
+                        'location' => $cs->client_name,
+                        'image' => $cs->image_url,
+                    ])
+                : collect();
+
             return [
                 'sliders' => $sliders,
                 'counters' => CounterItem::visible()->get(),
@@ -118,8 +135,9 @@ class HomeController extends Controller
                 'clients' => $clients,
                 'recent_blogs' => $recentBlogs,
                 'top_reviews' => $reviews,
+                'impact_projects' => $impactProjects,
                 'settings' => [
-                    'site_name' => Setting::get('site_name', 'TechSmart'),
+                    'site_name' => Setting::get('site_name', 'Smartech Research Labs'),
                     'tagline' => Setting::get('tagline', 'Innovative Tech Solutions'),
                     'contact_email' => Setting::get('contact_email'),
                     'contact_phone' => Setting::get('contact_phone'),
@@ -139,6 +157,51 @@ class HomeController extends Controller
                     'theme_preset' => Setting::get('theme_preset', 'purple'),
                     'theme_primary_color' => Setting::get('theme_primary_color'),
                     'theme_accent_color' => Setting::get('theme_accent_color'),
+                    // CMS Images
+                    'hero_bg_image' => Setting::get('hero_bg_image'),
+                    'about_section_image' => Setting::get('about_section_image'),
+                    'values_section_image' => Setting::get('values_section_image'),
+                    'cta_professional_image' => Setting::get('cta_professional_image'),
+                    'quote_section_image' => Setting::get('quote_section_image'),
+                    'office_image' => Setting::get('office_image'),
+                    'services_page_image' => Setting::get('services_page_image'),
+                    'products_page_image' => Setting::get('products_page_image'),
+                    'login_page_image' => Setting::get('login_page_image'),
+                    'register_page_image' => Setting::get('register_page_image'),
+                    'forgot_password_image' => Setting::get('forgot_password_image'),
+                    'industries_page_image' => Setting::get('industries_page_image'),
+                    'population_image' => Setting::get('population_image'),
+                    // SEO settings for schema markup
+                    'meta_title' => Setting::get('meta_title'),
+                    'meta_description' => Setting::get('meta_description'),
+                    'schema_org_type' => Setting::get('schema_org_type', 'Organization'),
+                    'schema_org_name' => Setting::get('schema_org_name'),
+                    'schema_org_logo' => Setting::get('schema_org_logo'),
+                    'schema_same_as' => Setting::get('schema_same_as'),
+                    'canonical_url' => Setting::get('canonical_url'),
+                    'og_image_default' => Setting::get('og_image_default'),
+                    'twitter_card_type' => Setting::get('twitter_card_type', 'summary_large_image'),
+                    'twitter_handle' => Setting::get('twitter_handle'),
+                    'site_description' => Setting::get('site_description'),
+                    'city' => Setting::get('city'),
+                    'country' => Setting::get('country'),
+                    // Per-page SEO
+                    'home_meta_title' => Setting::get('home_meta_title'),
+                    'home_meta_description' => Setting::get('home_meta_description'),
+                    'about_meta_title' => Setting::get('about_meta_title'),
+                    'about_meta_description' => Setting::get('about_meta_description'),
+                    'services_meta_title' => Setting::get('services_meta_title'),
+                    'services_meta_description' => Setting::get('services_meta_description'),
+                    'products_meta_title' => Setting::get('products_meta_title'),
+                    'products_meta_description' => Setting::get('products_meta_description'),
+                    'blog_meta_title' => Setting::get('blog_meta_title'),
+                    'blog_meta_description' => Setting::get('blog_meta_description'),
+                    'contact_meta_title' => Setting::get('contact_meta_title'),
+                    'contact_meta_description' => Setting::get('contact_meta_description'),
+                    'case_studies_meta_title' => Setting::get('case_studies_meta_title'),
+                    'case_studies_meta_description' => Setting::get('case_studies_meta_description'),
+                    'industries_meta_title' => Setting::get('industries_meta_title'),
+                    'industries_meta_description' => Setting::get('industries_meta_description'),
                 ],
             ];
         });

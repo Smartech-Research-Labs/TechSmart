@@ -1,6 +1,6 @@
-# Quick Start Guide
+﻿# Quick Start Guide
 
-This guide will help you get TechSmart running locally in under 10 minutes.
+This guide will help you get Smartech Research Labs running locally in under 10 minutes.
 
 ## Prerequisites Checklist
 
@@ -15,7 +15,7 @@ This guide will help you get TechSmart running locally in under 10 minutes.
 ```bash
 # Create database
 mysql -u root -p
-CREATE DATABASE techsmart CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE Smartech Research Labs CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 EXIT;
 ```
 
@@ -23,7 +23,7 @@ EXIT;
 
 ```bash
 # Clone/navigate to project
-cd E:\TechSmart
+cd E:\Smartech Research Labs
 
 # Install dependencies
 composer install
@@ -35,7 +35,7 @@ cp .env.example .env
 php artisan key:generate
 
 # Configure .env - Edit these lines:
-# DB_DATABASE=techsmart
+# DB_DATABASE=Smartech Research Labs
 # DB_USERNAME=root
 # DB_PASSWORD=your_password
 # OPENAI_API_KEY=sk-proj-your-key-here
@@ -47,7 +47,7 @@ php artisan migrate --seed
 # This creates:
 # - 25 database tables
 # - 3 roles: superadmin, admin, user
-# - Test user: admin@techsmart.com / password
+# - Test user: admin@smartechresearchlabs.co.ke / password
 ```
 
 ## 3. Frontend Setup (2 minutes)
@@ -187,7 +187,7 @@ php artisan queue:work redis --tries=3
 ### Test Authentication
 1. Visit http://localhost:8000
 2. Click "Login" (top right)
-3. Login with: `admin@techsmart.com` / `password`
+3. Login with: `admin@smartechresearchlabs.co.ke` / `password`
 4. You should see the dashboard
 
 ### Test Chat (Real-time Socket.IO)
@@ -230,8 +230,8 @@ dispatch(new SendEmailJob([
 
 | Email | Password | Role |
 |-------|----------|------|
-| admin@techsmart.com | password | Admin |
-| user@techsmart.com | password | User |
+| admin@smartechresearchlabs.co.ke | password | Admin |
+| user@smartechresearchlabs.co.ke | password | User |
 
 **⚠️ IMPORTANT:** Change these in production!
 
@@ -368,4 +368,4 @@ See [README.md](README.md) section "Production Deployment"
 
 ---
 
-**Need help?** Open an issue or contact support@techsmart.com
+**Need help?** Open an issue or contact support@smartechresearchlabs.co.ke

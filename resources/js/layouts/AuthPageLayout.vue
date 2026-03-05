@@ -1,13 +1,19 @@
-<template>
+﻿<template>
   <div class="min-h-screen flex flex-col bg-background text-foreground">
     <!-- Auth Header -->
     <header class="sticky top-0 z-30 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div class="container mx-auto flex h-14 items-center justify-between px-4">
         <router-link to="/" class="flex items-center gap-2 group">
-          <div class="w-8 h-8 bg-gradient-to-br from-primary to-primary/70 rounded-lg flex items-center justify-center">
+          <img
+            v-if="settings?.logo_path"
+            :src="`/storage/${settings.logo_path}`"
+            alt="Logo"
+            class="h-8 w-auto"
+          />
+          <div v-else class="w-8 h-8 bg-gradient-to-br from-primary to-primary/70 rounded-lg flex items-center justify-center">
             <span class="text-primary-foreground font-bold text-sm">TS</span>
           </div>
-          <span class="text-lg font-bold group-hover:text-primary transition-colors">TechSmart</span>
+          <span class="text-lg font-bold group-hover:text-primary transition-colors">{{ settings?.site_name || 'Smartech Research Labs' }}</span>
         </router-link>
 
         <div class="flex items-center gap-2">
@@ -34,7 +40,7 @@
     <!-- Auth Footer -->
     <footer class="border-t py-4">
       <div class="container mx-auto flex flex-col items-center justify-between gap-2 px-4 text-xs text-muted-foreground sm:flex-row">
-        <p>&copy; {{ new Date().getFullYear() }} TechSmart. All rights reserved.</p>
+        <p>&copy; {{ new Date().getFullYear() }} {{ settings?.site_name || 'Smartech Research Labs' }}. All rights reserved.</p>
         <div class="flex items-center gap-4">
           <router-link to="/" class="hover:text-foreground transition-colors">Home</router-link>
           <router-link to="/contact" class="hover:text-foreground transition-colors">Contact</router-link>
@@ -46,15 +52,25 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { IconSun, IconMoon, IconDeviceDesktop } from '@tabler/icons-vue'
 import { Button } from '@/components/ui/button'
 import { useAppearance } from '@/composables/useAppearance'
+import { useCmsStore } from '@/stores/cms'
 import type { Appearance } from '@/types'
 
 const route = useRoute()
+const cmsStore = useCmsStore()
 const { appearance, updateAppearance } = useAppearance()
+
+const settings = computed(() => cmsStore.homeData?.settings)
+
+onMounted(async () => {
+  if (!cmsStore.homeData) {
+    await cmsStore.fetchHomeData().catch(() => {})
+  }
+})
 
 const showLogin = computed(() => route.name !== 'login')
 const showRegister = computed(() => route.name !== 'register')

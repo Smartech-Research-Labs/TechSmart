@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { IconLogout, IconUserCircle, IconMoon, IconSun, IconDeviceDesktop, IconBell } from '@tabler/icons-vue'
+import { IconLogout, IconUserCircle, IconMoon, IconSun, IconDeviceDesktop, IconBell, IconTrash, IconCheck, IconChecks } from '@tabler/icons-vue'
 import { Separator } from '@/components/ui/separator'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import { Button } from '@/components/ui/button'
@@ -16,8 +16,8 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useAuthStore } from '@/stores/auth'
+import { useNotificationStore } from '@/stores/notifications'
 import { useAppearance } from '@/composables/useAppearance'
-import { useApi } from '@/composables/useApi'
 
 defineProps<{
   title?: string
@@ -25,10 +25,10 @@ defineProps<{
 
 const router = useRouter()
 const authStore = useAuthStore()
+const notifStore = useNotificationStore()
 const { appearance, updateAppearance } = useAppearance()
 
 const user = computed(() => authStore.user)
-
 const avatarSrc = computed(() => String(user.value?.profile_photo_url || ''))
 
 const themeIcon = computed(() => {
@@ -44,42 +44,56 @@ function cycleTheme() {
 }
 
 async function handleLogout() {
+  notifStore.stopPolling()
+  notifStore.disconnectSocket()
   await authStore.logout()
   router.push('/login')
 }
 
-// Notifications
-const { get, post } = useApi()
-const notifications = ref<any[]>([])
-const unreadCount = ref(0)
+// Notification panel state
 const showNotifications = ref(false)
+const notifTab = ref<'all' | 'unread'>('all')
 
 const isAdmin = computed(() => {
   const roles = user.value?.roles?.map((r: any) => r.name) || []
   return roles.includes('admin') || roles.includes('super-admin') || roles.includes('superadmin')
 })
 
-async function fetchNotifications() {
-  if (!isAdmin.value) return
-  try {
-    const data = await get<any>('/admin/notifications')
-    notifications.value = data.notifications || []
-    unreadCount.value = data.unread_count || 0
-  } catch { /* ignore */ }
+const displayedNotifications = computed(() => {
+  const list = notifTab.value === 'unread' ? notifStore.unreadNotifications : notifStore.sortedNotifications
+  return list.slice(0, 20)
+})
+
+function getNotifIcon(type: string) {
+  switch (type) {
+    case 'Enquiry': return '📩'
+    case 'Review': return '⭐'
+    case 'Chat': return '💬'
+    case 'Wishlist': return '❤️'
+    case 'Newsletter': return '📧'
+    default: return '🔔'
+  }
 }
 
-async function markAllRead() {
-  try {
-    await post('/admin/notifications/read-all', {})
-    unreadCount.value = 0
-    notifications.value = notifications.value.map(n => ({ ...n, read: true }))
-  } catch { /* ignore */ }
+// Close dropdown on outside click
+function onClickOutside(e: MouseEvent) {
+  const el = document.getElementById('notif-dropdown-wrapper')
+  if (el && !el.contains(e.target as Node)) {
+    showNotifications.value = false
+  }
 }
 
 onMounted(() => {
-  fetchNotifications()
-  // Poll every 30 seconds
-  setInterval(fetchNotifications, 30000)
+  if (isAdmin.value) {
+    notifStore.startPolling(30000)
+    notifStore.initSocket()
+  }
+  document.addEventListener('click', onClickOutside)
+})
+
+onUnmounted(() => {
+  notifStore.stopPolling()
+  document.removeEventListener('click', onClickOutside)
 })
 </script>
 
@@ -105,35 +119,102 @@ onMounted(() => {
         </Button>
 
         <!-- Notification bell (admin only) -->
-        <div v-if="isAdmin" class="relative">
-          <Button variant="ghost" size="icon" class="h-8 w-8 relative" @click="showNotifications = !showNotifications">
+        <div v-if="isAdmin" id="notif-dropdown-wrapper" class="relative">
+          <Button variant="ghost" size="icon" class="h-8 w-8 relative" @click.stop="showNotifications = !showNotifications">
             <IconBell class="size-4" />
-            <span v-if="unreadCount > 0" class="absolute -top-0.5 -right-0.5 w-4 h-4 bg-destructive text-white text-[10px] font-bold rounded-full flex items-center justify-center">
-              {{ unreadCount > 9 ? '9+' : unreadCount }}
+            <span v-if="notifStore.unreadCount > 0" class="absolute -top-0.5 -right-0.5 w-4 h-4 bg-destructive text-white text-[10px] font-bold rounded-full flex items-center justify-center animate-pulse">
+              {{ notifStore.unreadCount > 9 ? '9+' : notifStore.unreadCount }}
             </span>
           </Button>
 
-          <!-- Notifications dropdown -->
-          <div
-            v-if="showNotifications"
-            class="absolute right-0 top-10 w-80 bg-popover border border-border rounded-lg shadow-lg z-50 overflow-hidden"
+          <!-- Notification Dropdown -->
+          <Transition
+            enter-active-class="transition ease-out duration-150"
+            enter-from-class="opacity-0 scale-95 -translate-y-1"
+            enter-to-class="opacity-100 scale-100 translate-y-0"
+            leave-active-class="transition ease-in duration-100"
+            leave-from-class="opacity-100 scale-100 translate-y-0"
+            leave-to-class="opacity-0 scale-95 -translate-y-1"
           >
-            <div class="flex items-center justify-between px-4 py-3 border-b border-border">
-              <span class="text-sm font-semibold">Notifications</span>
-              <button v-if="unreadCount > 0" @click="markAllRead" class="text-xs text-primary hover:underline">Mark all read</button>
-            </div>
-            <div class="max-h-72 overflow-y-auto">
-              <div v-if="notifications.length === 0" class="py-8 text-center text-muted-foreground text-sm">No notifications</div>
-              <div
-                v-for="n in notifications.slice(0, 15)"
-                :key="n.id"
-                :class="['px-4 py-3 border-b border-border/50 last:border-0 text-sm', !n.read ? 'bg-primary/5' : '']"
-              >
-                <p class="text-foreground text-xs">{{ n.message }}</p>
-                <p class="text-muted-foreground text-[10px] mt-1">{{ n.item_name }} · {{ n.time }}</p>
+            <div
+              v-if="showNotifications"
+              class="absolute right-0 top-10 w-96 bg-popover border border-border rounded-xl shadow-xl z-50 overflow-hidden"
+            >
+              <!-- Header -->
+              <div class="flex items-center justify-between px-4 py-3 border-b border-border bg-muted/30">
+                <span class="text-sm font-semibold text-foreground">Notifications</span>
+                <div class="flex items-center gap-2">
+                  <button v-if="notifStore.unreadCount > 0" @click="notifStore.markAllRead()" class="text-[10px] text-primary hover:underline flex items-center gap-1">
+                    <IconChecks class="size-3" /> Mark all read
+                  </button>
+                  <button v-if="notifStore.notifications.length > 0" @click="notifStore.deleteAllNotifications()" class="text-[10px] text-destructive hover:underline flex items-center gap-1">
+                    <IconTrash class="size-3" /> Clear all
+                  </button>
+                </div>
+              </div>
+
+              <!-- Tabs -->
+              <div class="flex border-b border-border">
+                <button
+                  @click="notifTab = 'all'"
+                  :class="['flex-1 py-2 text-xs font-medium transition', notifTab === 'all' ? 'text-primary border-b-2 border-primary' : 'text-muted-foreground hover:text-foreground']"
+                >
+                  All ({{ notifStore.notifications.length }})
+                </button>
+                <button
+                  @click="notifTab = 'unread'"
+                  :class="['flex-1 py-2 text-xs font-medium transition', notifTab === 'unread' ? 'text-primary border-b-2 border-primary' : 'text-muted-foreground hover:text-foreground']"
+                >
+                  Unread ({{ notifStore.unreadCount }})
+                </button>
+              </div>
+
+              <!-- Notification List -->
+              <div class="max-h-80 overflow-y-auto">
+                <div v-if="displayedNotifications.length === 0" class="py-10 text-center">
+                  <span class="text-2xl block mb-2">🔔</span>
+                  <p class="text-muted-foreground text-sm">No notifications</p>
+                </div>
+                <div
+                  v-for="n in displayedNotifications"
+                  :key="n.id"
+                  :class="['group flex items-start gap-3 px-4 py-3 border-b border-border/50 last:border-0 hover:bg-muted/50 transition cursor-pointer', !n.read ? 'bg-primary/5' : '']"
+                  @click="!n.read && notifStore.markAsRead(n.id)"
+                >
+                  <span class="text-lg mt-0.5 flex-shrink-0">{{ getNotifIcon(n.item_type) }}</span>
+                  <div class="flex-1 min-w-0">
+                    <p class="text-foreground text-xs leading-relaxed">{{ n.message }}</p>
+                    <p class="text-muted-foreground text-[10px] mt-1">{{ n.time }}</p>
+                  </div>
+                  <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition flex-shrink-0">
+                    <button
+                      v-if="n.read"
+                      @click.stop="notifStore.markAsUnread(n.id)"
+                      class="p-1 text-muted-foreground hover:text-foreground rounded transition"
+                      title="Mark as unread"
+                    >
+                      <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/></svg>
+                    </button>
+                    <button
+                      v-else
+                      @click.stop="notifStore.markAsRead(n.id)"
+                      class="p-1 text-muted-foreground hover:text-primary rounded transition"
+                      title="Mark as read"
+                    >
+                      <IconCheck class="size-3" />
+                    </button>
+                    <button
+                      @click.stop="notifStore.deleteNotification(n.id)"
+                      class="p-1 text-muted-foreground hover:text-destructive rounded transition"
+                      title="Delete"
+                    >
+                      <IconTrash class="size-3" />
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          </Transition>
         </div>
 
         <Separator orientation="vertical" class="mx-1 data-[orientation=vertical]:h-4" />

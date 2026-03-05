@@ -21,6 +21,8 @@ const io = new Server(server, {
 const activeSessions = new Map(); // sessionId -> Set of socketIds
 const userSockets = new Map(); // userId -> socketId
 const adminSockets = new Map(); // adminId -> socketId
+const dmRooms = new Map(); // conversationId -> Set of socketIds
+const onlineUsers = new Set(); // Set of userIds currently online
 
 // Middleware for authentication
 io.use((socket, next) => {
@@ -208,15 +210,100 @@ io.on('connection', (socket) => {
     console.log(`[Socket.IO] Admin ${adminId} registered with socket ${socket.id}`);
   });
 
+  // =============================================
+  // Direct Messaging & Presence
+  // =============================================
+
+  /**
+   * Register user for DM and presence
+   */
+  socket.on('dm-register', ({ userId }) => {
+    if (!userId) return;
+    socket.userId = userId;
+    userSockets.set(userId, socket.id);
+    onlineUsers.add(userId);
+
+    // Broadcast presence to all connected users
+    socket.broadcast.emit('user-presence', { userId, isOnline: true });
+    console.log(`[Socket.IO] User ${userId} online (dm-register)`);
+  });
+
+  /**
+   * Join a DM conversation room
+   */
+  socket.on('dm-join', ({ conversationId }) => {
+    if (!conversationId) return;
+    socket.join(`dm-${conversationId}`);
+    if (!dmRooms.has(conversationId)) {
+      dmRooms.set(conversationId, new Set());
+    }
+    dmRooms.get(conversationId).add(socket.id);
+    console.log(`[Socket.IO] User ${socket.userId} joined DM room: ${conversationId}`);
+  });
+
+  /**
+   * Send a direct message
+   */
+  socket.on('dm-send', ({ conversationId, receiverId, message }) => {
+    if (!conversationId || !message) return;
+
+    // Emit to conversation room (both participants if in room)
+    socket.to(`dm-${conversationId}`).emit('dm-message', message);
+
+    // Also emit directly to receiver socket if they are not in the room
+    const receiverSocketId = userSockets.get(receiverId);
+    if (receiverSocketId) {
+      const receiverSocket = io.sockets.sockets.get(receiverSocketId);
+      if (receiverSocket && !receiverSocket.rooms.has(`dm-${conversationId}`)) {
+        receiverSocket.emit('dm-message', message);
+      }
+
+      // If receiver is in the room, auto-mark as delivered
+      if (dmRooms.has(conversationId) && dmRooms.get(conversationId).has(receiverSocketId)) {
+        socket.emit('dm-status-update', { messageId: message.id, status: 'delivered' });
+      }
+    }
+
+    console.log(`[Socket.IO] DM sent in conversation ${conversationId} from ${socket.userId} to ${receiverId}`);
+  });
+
+  /**
+   * Mark messages as read in a DM conversation
+   */
+  socket.on('dm-read', ({ conversationId, userId }) => {
+    if (!conversationId) return;
+    // Notify the other participant that messages were read
+    socket.to(`dm-${conversationId}`).emit('dm-status-update', {
+      conversationId,
+      readBy: userId,
+      status: 'read',
+    });
+    console.log(`[Socket.IO] DM read: conversation ${conversationId} by user ${userId}`);
+  });
+
+  /**
+   * DM typing indicator
+   */
+  socket.on('dm-typing', ({ conversationId, userName, isTyping }) => {
+    if (!conversationId) return;
+    socket.to(`dm-${conversationId}`).emit('dm-typing', {
+      conversationId,
+      userName,
+      isTyping,
+    });
+  });
+
   /**
    * Handle disconnection
    */
   socket.on('disconnect', () => {
     console.log(`[Socket.IO] User disconnected: ${socket.id}`);
     
-    // Clean up user socket tracking
+    // Clean up user socket tracking & broadcast offline presence
     if (socket.userId) {
       userSockets.delete(socket.userId);
+      onlineUsers.delete(socket.userId);
+      socket.broadcast.emit('user-presence', { userId: socket.userId, isOnline: false });
     }
     
     // Clean up admin socket tracking
@@ -232,6 +319,14 @@ io.on('connection', (socket) => {
       sockets.delete(socket.id);
       if (sockets.size === 0) {
         activeSessions.delete(sessionId);
+      }
+    }
+
+    // Clean up DM rooms
+    for (const [convId, sockets] of dmRooms.entries()) {
+      sockets.delete(socket.id);
+      if (sockets.size === 0) {
+        dmRooms.delete(convId);
       }
     }
   });
@@ -259,6 +354,8 @@ app.get('/health', (req, res) => {
     activeSessions: activeSessions.size,
     connectedUsers: userSockets.size,
     connectedAdmins: adminSockets.size,
+    onlineUsers: onlineUsers.size,
+    activeDMRooms: dmRooms.size,
     timestamp: new Date().toISOString()
   });
 });

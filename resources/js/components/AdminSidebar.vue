@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import {
   IconArrowLeft,
   IconChartBar,
@@ -40,7 +40,7 @@ const authStore = useAuthStore()
 
 const userData = computed(() => ({
   name: authStore.user?.name || "Admin",
-  email: authStore.user?.email || "admin@techsmart.co.za",
+  email: authStore.user?.email || "admin@smartechresearchlabs.co.ke",
   avatar: "",
 }))
 
@@ -64,6 +64,16 @@ const navMain = [
     title: "Blogs",
     url: "/admin/blogs",
     icon: IconWriting,
+  },
+  {
+    title: "Case Studies",
+    url: "/admin/case-studies",
+    icon: IconReport,
+  },
+  {
+    title: "Industries",
+    url: "/admin/industries",
+    icon: IconInnerShadowTop,
   },
   {
     title: "Services",
@@ -161,7 +171,7 @@ const navSecondary = [
           >
             <router-link to="/">
               <IconInnerShadowTop class="!size-5" />
-              <span class="text-base font-semibold">TechSmart Admin</span>
+              <span class="text-base font-semibold">Smartech Admin</span>
             </router-link>
           </SidebarMenuButton>
         </SidebarMenuItem>

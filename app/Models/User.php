@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -85,5 +86,15 @@ class User extends Authenticatable
     public function wishlistedServices(): MorphToMany
     {
         return $this->morphedByMany(Service::class, 'wishlistable', 'wishlists');
+    }
+
+    public function presence(): HasOne
+    {
+        return $this->hasOne(UserPresence::class);
+    }
+
+    public function conversations()
+    {
+        return Conversation::forUser($this->id);
     }
 }

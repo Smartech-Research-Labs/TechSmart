@@ -1,8 +1,8 @@
-{
+﻿{
   "$schema": "https://www.schemastore.org/package.json",
-  "name": "techsmart-server",
+  "name": "smartech-server",
   "version": "1.0.0",
-  "description": "Socket.IO and BullMQ server for TechSmart",
+  "description": "Socket.IO and BullMQ server for Smartech Research Labs",
   "main": "socket.js",
   "scripts": {
     "start": "node socket.js",
@@ -16,7 +16,7 @@
     "chat",
     "queue"
   ],
-  "author": "TechSmart",
+  "author": "Smartech Research Labs",
   "license": "MIT",
   "dependencies": {
     "express": "^4.18.2",

@@ -164,7 +164,7 @@ class AIController extends Controller
             // Get company info from settings
             $settings = \App\Models\Setting::first();
             $companyInfo = [
-                'name' => $settings->company_name ?? 'TechSmart',
+                'name' => $settings->company_name ?? 'Smartech Research Labs',
                 'services' => 'web development, mobile apps, cloud solutions, AI integration',
             ];
 

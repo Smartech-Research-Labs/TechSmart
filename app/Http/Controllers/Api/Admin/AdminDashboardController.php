@@ -114,4 +114,28 @@ class AdminDashboardController extends Controller
 
         return response()->json(['message' => 'All notifications marked as read']);
     }
+
+    public function markNotificationUnread($id)
+    {
+        $notification = auth()->user()->notifications()->where('id', $id)->first();
+        if ($notification) {
+            $notification->update(['read_at' => null]);
+        }
+
+        return response()->json(['message' => 'Notification marked as unread']);
+    }
+
+    public function deleteNotification($id)
+    {
+        auth()->user()->notifications()->where('id', $id)->delete();
+
+        return response()->json(['message' => 'Notification deleted']);
+    }
+
+    public function deleteAllNotifications()
+    {
+        auth()->user()->notifications()->delete();
+
+        return response()->json(['message' => 'All notifications deleted']);
+    }
 }

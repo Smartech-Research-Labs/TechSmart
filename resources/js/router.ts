@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
+﻿import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 
 const routes: RouteRecordRaw[] = [
@@ -78,6 +78,32 @@ const routes: RouteRecordRaw[] = [
     meta: { title: 'Blog Post' },
   },
 
+  // Case Studies
+  {
+    path: '/case-studies',
+    name: 'case-studies',
+    component: () => import('@/pages/CaseStudies/Index.vue'),
+    meta: { title: 'Case Studies' },
+  },
+  {
+    path: '/case-studies/:slug',
+    name: 'case-study-detail',
+    component: () => import('@/pages/CaseStudies/Detail.vue'),
+    meta: { title: 'Case Study' },
+  },
+  {
+    path: '/industries',
+    name: 'industries',
+    component: () => import('@/pages/Industries/Index.vue'),
+    meta: { title: 'Industries' },
+  },
+  {
+    path: '/industries/:slug',
+    name: 'industry-detail',
+    component: () => import('@/pages/Industries/Detail.vue'),
+    meta: { title: 'Industry' },
+  },
+
   // Auth routes
   {
     path: '/login',
@@ -153,6 +179,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/Dashboard/Reviews.vue'),
     meta: { title: 'My Reviews', requiresAuth: true },
   },
+  {
+    path: '/dashboard/messages',
+    name: 'messages',
+    component: () => import('@/pages/Dashboard/Messages.vue'),
+    meta: { title: 'Messages', requiresAuth: true },
+  },
 
   // Admin routes
   {
@@ -221,6 +253,18 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/Admin/Blogs.vue'),
     meta: { title: 'Manage Blog', requiresAuth: true, requiresAdmin: true },
   },
+  {
+    path: '/admin/case-studies',
+    name: 'admin-case-studies',
+    component: () => import('@/pages/Admin/CaseStudies.vue'),
+    meta: { title: 'Manage Case Studies', requiresAuth: true, requiresAdmin: true },
+  },
+  {
+    path: '/admin/industries',
+    name: 'admin-industries',
+    component: () => import('@/pages/Admin/Industries.vue'),
+    meta: { title: 'Manage Industries', requiresAuth: true, requiresAdmin: true },
+  },
 
   // SuperAdmin-only routes
   {
@@ -274,7 +318,7 @@ router.beforeEach(async (to, from, next) => {
   const guestOnly = to.matched.some(record => record.meta.guest);
 
   // Set page title
-  const appName = import.meta.env.VITE_APP_NAME || 'TechSmart';
+  const appName = import.meta.env.VITE_APP_NAME || 'Smartech Research Labs';
   document.title = to.meta.title ? `${to.meta.title} - ${appName}` : appName;
 
   // Fetch user if token exists but user not loaded

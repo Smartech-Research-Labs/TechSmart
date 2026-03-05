@@ -164,14 +164,17 @@
             </button>
           </div>
 
-          <!-- Process Steps (dynamic list) -->
+          <!-- Process Steps (dynamic list with title + description) -->
           <div>
             <label class="block text-sm font-medium text-foreground mb-1">Process Steps</label>
-            <div class="space-y-2">
-              <div v-for="(step, idx) in form.process_steps" :key="idx" class="flex items-center gap-2">
-                <span class="text-xs text-muted-foreground font-bold w-6 text-center">{{ idx + 1 }}</span>
-                <input v-model="form.process_steps[idx]" type="text" class="flex-1 px-3 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-primary" :placeholder="'Step ' + (idx + 1)" />
-                <button type="button" @click="removeStep(idx)" class="text-red-400 hover:text-red-300 transition p-1">
+            <div class="space-y-3">
+              <div v-for="(step, idx) in form.process_steps" :key="idx" class="flex items-start gap-2 bg-muted/30 border border-border rounded-lg p-3">
+                <span class="text-xs text-muted-foreground font-bold w-6 text-center mt-2.5">{{ idx + 1 }}</span>
+                <div class="flex-1 space-y-2">
+                  <input v-model="form.process_steps[idx].title" type="text" class="w-full px-3 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-primary" :placeholder="'Step ' + (idx + 1) + ' title'" />
+                  <input v-model="form.process_steps[idx].description" type="text" class="w-full px-3 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-primary" :placeholder="'Step ' + (idx + 1) + ' description (optional)'" />
+                </div>
+                <button type="button" @click="removeStep(idx)" class="text-red-400 hover:text-red-300 transition p-1 mt-2">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
               </div>
@@ -262,7 +265,7 @@ interface Service {
   image: string;
   category: string;
   features: string[];
-  process_steps: string[];
+  process_steps: Array<{ title: string; description: string }>;
   is_featured: boolean;
   is_published: boolean;
   order: number;
@@ -309,7 +312,7 @@ const defaultForm = () => ({
   image: '',
   category: '',
   features: [] as string[],
-  process_steps: [] as string[],
+  process_steps: [] as Array<{ title: string; description: string }>,
   is_featured: false,
   is_published: true,
   order: 0,
@@ -358,7 +361,7 @@ function openEditModal(service: Service) {
     image: service.image ?? '',
     category: service.category ?? '',
     features: Array.isArray(service.features) ? [...service.features] : [],
-    process_steps: Array.isArray(service.process_steps) ? [...service.process_steps] : [],
+    process_steps: Array.isArray(service.process_steps) ? service.process_steps.map((s: any) => typeof s === 'string' ? { title: s, description: '' } : { title: s.title || '', description: s.description || '' }) : [],
     is_featured: !!service.is_featured,
     is_published: !!service.is_published,
     order: service.order ?? 0,
@@ -375,7 +378,7 @@ function closeModal() {
 // â”€â”€ Features / Steps helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function addFeature() { form.value.features.push(''); }
 function removeFeature(idx: number) { form.value.features.splice(idx, 1); }
-function addStep() { form.value.process_steps.push(''); }
+function addStep() { form.value.process_steps.push({ title: '', description: '' }); }
 function removeStep(idx: number) { form.value.process_steps.splice(idx, 1); }
 
 // â”€â”€ Submit (Create or Update) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -387,7 +390,7 @@ async function submitForm() {
   const payload = {
     ...form.value,
     features: form.value.features.filter((f) => f.trim() !== ''),
-    process_steps: form.value.process_steps.filter((s) => s.trim() !== ''),
+    process_steps: form.value.process_steps.filter((s) => s.title.trim() !== ''),
   };
 
   try {
