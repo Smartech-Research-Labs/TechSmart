@@ -1,4 +1,5 @@
 ﻿<script setup lang="ts">
+import { ref } from 'vue'
 import {
   IconArrowLeft,
   IconChartBar,
@@ -24,6 +25,7 @@ import NavDocuments from "@/components/NavDocuments.vue"
 import NavMain from "@/components/NavMain.vue"
 import NavSecondary from "@/components/NavSecondary.vue"
 import NavUser from "@/components/NavUser.vue"
+import GlobalSearch from "@/components/GlobalSearch.vue"
 import {
   Sidebar,
   SidebarContent,
@@ -37,6 +39,9 @@ import { useAuthStore } from "@/stores/auth"
 import { computed } from "vue"
 
 const authStore = useAuthStore()
+
+// Global search state
+const showSearch = ref(false)
 
 const userData = computed(() => ({
   name: authStore.user?.name || "Admin",
@@ -152,12 +157,12 @@ const navSecondary = [
     url: "/contact",
     icon: IconHelp,
   },
-  {
-    title: "Search",
-    url: "#",
-    icon: IconSearch,
-  },
 ]
+
+// Search click handler
+function openSearch() {
+  showSearch.value = true
+}
 </script>
 
 <template>
@@ -187,6 +192,14 @@ const navSecondary = [
             </router-link>
           </SidebarMenuButton>
         </SidebarMenuItem>
+        <!-- Search Button -->
+        <SidebarMenuItem>
+          <SidebarMenuButton @click="openSearch" class="flex items-center gap-2 text-muted-foreground hover:text-foreground transition text-sm cursor-pointer">
+            <IconSearch class="!size-4" />
+            <span>Search</span>
+            <kbd class="ml-auto text-[10px] px-1.5 py-0.5 bg-muted text-muted-foreground rounded border border-border">Ctrl+K</kbd>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
       </SidebarMenu>
       <NavMain :items="navMain" />
       <NavDocuments :items="navDocuments" />
@@ -197,4 +210,7 @@ const navSecondary = [
       <NavUser :user="userData" />
     </SidebarFooter>
   </Sidebar>
+  
+  <!-- Global Search Modal -->
+  <GlobalSearch v-model="showSearch" />
 </template>

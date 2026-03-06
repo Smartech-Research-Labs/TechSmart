@@ -147,6 +147,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/auth/TwoFactorChallenge.vue'),
     meta: { title: 'Two-Factor Authentication', guest: true },
   },
+  {
+    path: '/auth/google/callback',
+    name: 'google-callback',
+    component: () => import('@/pages/auth/GoogleCallback.vue'),
+    meta: { title: 'Google Sign-In', guest: true },
+  },
 
   // User dashboard routes
   {

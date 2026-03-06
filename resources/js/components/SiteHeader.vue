@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { IconLogout, IconUserCircle, IconMoon, IconSun, IconDeviceDesktop, IconBell, IconTrash, IconCheck, IconChecks } from '@tabler/icons-vue'
+import { IconLogout, IconUserCircle, IconMoon, IconSun, IconDeviceDesktop, IconBell, IconTrash, IconCheck, IconChecks, IconSearch, IconVolume, IconVolumeOff } from '@tabler/icons-vue'
 import { Separator } from '@/components/ui/separator'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import { Button } from '@/components/ui/button'
@@ -18,6 +18,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useAuthStore } from '@/stores/auth'
 import { useNotificationStore } from '@/stores/notifications'
 import { useAppearance } from '@/composables/useAppearance'
+import GlobalSearch from '@/components/GlobalSearch.vue'
 
 defineProps<{
   title?: string
@@ -69,8 +70,14 @@ function getNotifIcon(type: string) {
     case 'Enquiry': return '📩'
     case 'Review': return '⭐'
     case 'Chat': return '💬'
+    case 'Message': return '💬'
+    case 'DirectMessage': return '📨'
     case 'Wishlist': return '❤️'
     case 'Newsletter': return '📧'
+    case 'ServerAlert': return '🚨'
+    case 'AuditLog': return '📋'
+    case 'User': return '👤'
+    case 'Login': return '🔐'
     default: return '🔔'
   }
 }
@@ -82,6 +89,9 @@ function onClickOutside(e: MouseEvent) {
     showNotifications.value = false
   }
 }
+
+// Global search state
+const showSearch = ref(false)
 
 onMounted(() => {
   if (isAdmin.value) {
@@ -113,6 +123,14 @@ onUnmounted(() => {
 
       <!-- Right side actions -->
       <div class="ml-auto flex items-center gap-2">
+        <!-- Search (admin only) -->
+        <Button v-if="isAdmin" variant="ghost" size="sm" class="h-8 gap-2 text-muted-foreground hover:text-foreground" @click="showSearch = true">
+          <IconSearch class="size-4" />
+          <span class="hidden lg:inline text-xs">Search</span>
+          <kbd class="hidden lg:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-mono bg-muted text-muted-foreground rounded border border-border ml-1">Ctrl+K</kbd>
+        </Button>
+        <GlobalSearch v-model="showSearch" />
+
         <!-- Theme toggle -->
         <Button variant="ghost" size="icon" class="h-8 w-8" @click="cycleTheme" :title="`Theme: ${appearance}`">
           <component :is="themeIcon" class="size-4" />
@@ -144,6 +162,15 @@ onUnmounted(() => {
               <div class="flex items-center justify-between px-4 py-3 border-b border-border bg-muted/30">
                 <span class="text-sm font-semibold text-foreground">Notifications</span>
                 <div class="flex items-center gap-2">
+                  <!-- Sound Toggle -->
+                  <button 
+                    @click="notifStore.toggleSound()" 
+                    class="text-[10px] text-muted-foreground hover:text-foreground flex items-center gap-1 transition"
+                    :title="notifStore.soundEnabled ? 'Sound On' : 'Sound Off'"
+                  >
+                    <IconVolume v-if="notifStore.soundEnabled" class="size-3" />
+                    <IconVolumeOff v-else class="size-3" />
+                  </button>
                   <button v-if="notifStore.unreadCount > 0" @click="notifStore.markAllRead()" class="text-[10px] text-primary hover:underline flex items-center gap-1">
                     <IconChecks class="size-3" /> Mark all read
                   </button>

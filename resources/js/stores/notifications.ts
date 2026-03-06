@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import { io, Socket } from 'socket.io-client';
+import { useNotificationSound } from '@/composables/useNotificationSound';
 
 interface AppNotification {
   id: string;
@@ -19,6 +20,10 @@ export const useNotificationStore = defineStore('notifications', () => {
   const unreadCount = ref(0);
   const loading = ref(false);
   const socket = ref<Socket | null>(null);
+  const soundEnabled = ref(true);
+  
+  // Sound utility
+  const { playChime, playMessageChime, toggleSound: toggleSoundUtil, audioEnabled } = useNotificationSound();
 
   const sortedNotifications = computed(() =>
     [...notifications.value].sort(
@@ -138,6 +143,34 @@ export const useNotificationStore = defineStore('notifications', () => {
     socket.value.on('notification', (data: AppNotification) => {
       notifications.value.unshift(data);
       unreadCount.value++;
+      
+      // Play notification sound based on type
+      if (soundEnabled.value) {
+        if (data.item_type === 'Chat' || data.item_type === 'Message' || data.item_type === 'DirectMessage') {
+          playMessageChime();
+        } else {
+          playChime();
+        }
+      }
+    });
+    
+    // Listen for various alert types
+    socket.value.on('server-alert', (data: AppNotification) => {
+      notifications.value.unshift({
+        ...data,
+        item_type: 'ServerAlert',
+      });
+      unreadCount.value++;
+      if (soundEnabled.value) playChime();
+    });
+    
+    socket.value.on('audit-log', (data: AppNotification) => {
+      notifications.value.unshift({
+        ...data,
+        item_type: 'AuditLog',
+      });
+      unreadCount.value++;
+      if (soundEnabled.value) playChime();
     });
   }
 
@@ -162,10 +195,17 @@ export const useNotificationStore = defineStore('notifications', () => {
     }
   }
 
+  // Toggle notification sound
+  function toggleSound() {
+    soundEnabled.value = !soundEnabled.value;
+    return soundEnabled.value;
+  }
+
   return {
     notifications,
     unreadCount,
     loading,
+    soundEnabled,
     sortedNotifications,
     unreadNotifications,
     readNotifications,
@@ -179,5 +219,8 @@ export const useNotificationStore = defineStore('notifications', () => {
     disconnectSocket,
     startPolling,
     stopPolling,
+    toggleSound,
+    playChime,
+    playMessageChime,
   };
 });

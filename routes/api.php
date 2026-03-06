@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\{
     AuthController,
+    SocialAuthController,
     HomeController,
     ServiceController,
     ProductController,
@@ -19,7 +20,8 @@ use App\Http\Controllers\Api\User\{
     DashboardController,
     WishlistController,
     ChatController,
-    DirectMessageController
+    DirectMessageController,
+    ProfileController
 };
 use App\Http\Controllers\Api\Admin\{
     CMSController,
@@ -36,7 +38,8 @@ use App\Http\Controllers\Api\Admin\{
     AdminChatController,
     AdminCaseStudyController,
     IndustryController as AdminIndustryController,
-    TrashController
+    TrashController,
+    SearchController
 };
 use Illuminate\Support\Facades\Route;
 
@@ -54,9 +57,18 @@ Route::prefix('v1')->group(function () {
         Route::post('/login', [AuthController::class, 'login']);
         Route::post('/register', [AuthController::class, 'register']);
 
+        // Email Two-Factor Authentication
+        Route::post('/2fa/verify', [AuthController::class, 'verifyTwoFactorEmail']);
+        Route::post('/2fa/resend', [AuthController::class, 'resendTwoFactorEmail']);
+
+        // Google OAuth
+        Route::get('/google/redirect', [SocialAuthController::class, 'redirectToGoogle']);
+        Route::get('/google/callback', [SocialAuthController::class, 'handleGoogleCallback']);
+
         Route::middleware('auth:sanctum')->group(function () {
             Route::get('/user', [AuthController::class, 'user']);
             Route::post('/logout', [AuthController::class, 'logout']);
+            Route::post('/2fa/toggle', [AuthController::class, 'toggleTwoFactorEmail']);
         });
     });
 
@@ -123,6 +135,14 @@ Route::prefix('v1')->group(function () {
         Route::put('/profile', [DashboardController::class, 'profile']);
         Route::put('/password', [DashboardController::class, 'changePassword']);
         
+        // Enhanced Profile
+        Route::get('/profile/full', [ProfileController::class, 'show']);
+        Route::put('/profile/full', [ProfileController::class, 'update']);
+        Route::post('/profile/avatar', [ProfileController::class, 'uploadAvatar']);
+        Route::delete('/profile/avatar', [ProfileController::class, 'removeAvatar']);
+        Route::get('/profile/sessions', [ProfileController::class, 'sessions']);
+        Route::get('/profile/activity', [ProfileController::class, 'activityLog']);
+        
         // Wishlist
         Route::get('/wishlist', [WishlistController::class, 'index']);
         Route::post('/wishlist', [WishlistController::class, 'store']);
@@ -182,6 +202,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/settings', [SettingController::class, 'index']);
         Route::put('/settings', [SettingController::class, 'update']);
         Route::post('/settings/logo', [SettingController::class, 'uploadLogo']);
+        Route::post('/settings/footer-logo', [SettingController::class, 'uploadFooterLogo']);
         Route::post('/settings/favicon', [SettingController::class, 'uploadFavicon']);
 
         // Media Gallery
@@ -210,6 +231,11 @@ Route::prefix('v1')->group(function () {
         // Dashboard Stats
         Route::get('/dashboard/stats', [AdminDashboardController::class, 'stats']);
         Route::get('/dashboard/activity', [AdminDashboardController::class, 'recentActivity']);
+        Route::get('/dashboard/overview', [AdminDashboardController::class, 'overview']);
+
+        // Global Search
+        Route::get('/search', [SearchController::class, 'search']);
+        Route::get('/search/suggestions', [SearchController::class, 'suggestions']);
 
         // Notifications
         Route::get('/notifications', [AdminDashboardController::class, 'notifications']);

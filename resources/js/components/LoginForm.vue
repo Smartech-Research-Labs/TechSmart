@@ -14,6 +14,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import axios from 'axios';
 
 const router = useRouter();
 const route = useRoute();
@@ -32,15 +33,42 @@ const processing = ref(false);
 const googleProcessing = ref(false);
 const showPassword = ref(false);
 
+// 2FA state
+const requires2FA = ref(false);
+const twoFactorCode = ref('');
+const twoFactorEmail = ref('');
+const emailHint = ref('');
+const resending = ref(false);
+const resendSuccess = ref('');
+
 async function handleSubmit() {
+  if (requires2FA.value) {
+    await verify2FACode();
+    return;
+  }
+
   processing.value = true;
   errors.value = {};
 
   try {
-    await authStore.login({
+    const response = await axios.post('/api/v1/auth/login', {
       email: form.value.email,
       password: form.value.password,
     });
+
+    // Check if 2FA is required
+    if (response.data.requires_2fa) {
+      requires2FA.value = true;
+      twoFactorEmail.value = form.value.email;
+      emailHint.value = response.data.email_hint || '';
+      return;
+    }
+
+    // Normal login - store token
+    authStore.token = response.data.token;
+    authStore.user = response.data.user;
+    localStorage.setItem('token', response.data.token);
+    axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
 
     const redirect = (route.query.redirect as string) || '/dashboard';
     router.push(redirect);
@@ -60,10 +88,63 @@ async function handleSubmit() {
   }
 }
 
+async function verify2FACode() {
+  processing.value = true;
+  errors.value = {};
+
+  try {
+    const response = await axios.post('/api/v1/auth/2fa/verify', {
+      email: twoFactorEmail.value,
+      code: twoFactorCode.value,
+    });
+
+    // Login successful after 2FA
+    authStore.token = response.data.token;
+    authStore.user = response.data.user;
+    localStorage.setItem('token', response.data.token);
+    axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+
+    const redirect = (route.query.redirect as string) || '/dashboard';
+    router.push(redirect);
+  } catch (err: any) {
+    errors.value.code = err.response?.data?.message || 'Invalid verification code.';
+    twoFactorCode.value = '';
+  } finally {
+    processing.value = false;
+  }
+}
+
+async function resend2FACode() {
+  resending.value = true;
+  resendSuccess.value = '';
+  errors.value = {};
+
+  try {
+    const response = await axios.post('/api/v1/auth/2fa/resend', {
+      email: twoFactorEmail.value,
+    });
+    resendSuccess.value = response.data.message;
+    setTimeout(() => { resendSuccess.value = ''; }, 5000);
+  } catch (err: any) {
+    errors.value.code = err.response?.data?.message || 'Failed to resend code.';
+  } finally {
+    resending.value = false;
+  }
+}
+
+function backToLogin() {
+  requires2FA.value = false;
+  twoFactorCode.value = '';
+  twoFactorEmail.value = '';
+  emailHint.value = '';
+  errors.value = {};
+}
+
 async function handleGoogleSignIn() {
   googleProcessing.value = true;
   try {
-    window.location.href = `${import.meta.env.VITE_API_URL}/auth/google/redirect`;
+    const response = await axios.get('/api/v1/auth/google/redirect');
+    window.location.href = response.data.url;
   } catch (err) {
     errors.value.email = 'Google sign-in failed. Please try again.';
     googleProcessing.value = false;
@@ -78,6 +159,87 @@ async function handleGoogleSignIn() {
         <!-- Form Side -->
         <div class="p-6 md:p-8">
           <div class="flex flex-col gap-6">
+            <!-- 2FA Verification View -->
+            <template v-if="requires2FA">
+              <CardHeader class="p-0">
+                <CardTitle class="text-2xl">
+                  Verify Your Identity
+                </CardTitle>
+                <CardDescription>
+                  We've sent a 6-digit verification code to <strong>{{ emailHint }}</strong>
+                </CardDescription>
+              </CardHeader>
+
+              <!-- Success banner -->
+              <div
+                v-if="resendSuccess"
+                class="flex items-start gap-3 p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-sm text-emerald-600 dark:text-emerald-400"
+              >
+                <svg class="w-4 h-4 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>{{ resendSuccess }}</span>
+              </div>
+
+              <!-- Error banner -->
+              <div
+                v-if="errors.code"
+                class="flex items-start gap-3 p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-sm text-destructive"
+              >
+                <svg class="w-4 h-4 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <span>{{ errors.code }}</span>
+              </div>
+
+              <form @submit.prevent="handleSubmit">
+                <div class="flex flex-col gap-6">
+                  <div class="grid gap-2">
+                    <Label for="twoFactorCode">Verification Code</Label>
+                    <Input
+                      id="twoFactorCode"
+                      v-model="twoFactorCode"
+                      type="text"
+                      inputmode="numeric"
+                      maxlength="6"
+                      placeholder="000000"
+                      autocomplete="one-time-code"
+                      autofocus
+                      class="text-center text-2xl tracking-[0.5em] font-mono"
+                    />
+                  </div>
+
+                  <Button type="submit" class="w-full" :disabled="processing || twoFactorCode.length !== 6">
+                    <svg v-if="processing" class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+                      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                    {{ processing ? 'Verifying...' : 'Verify & Sign In' }}
+                  </Button>
+
+                  <div class="flex items-center justify-between text-sm">
+                    <button
+                      type="button"
+                      class="text-muted-foreground hover:text-foreground underline-offset-4 hover:underline transition-colors"
+                      @click="backToLogin"
+                    >
+                      &larr; Back to login
+                    </button>
+                    <button
+                      type="button"
+                      class="text-primary hover:text-primary/80 underline-offset-4 hover:underline transition-colors"
+                      :disabled="resending"
+                      @click="resend2FACode"
+                    >
+                      {{ resending ? 'Sending...' : 'Resend code' }}
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </template>
+
+            <!-- Normal Login View -->
+            <template v-else>
             <CardHeader class="p-0">
               <CardTitle class="text-2xl">
                 Welcome back
@@ -223,6 +385,7 @@ async function handleGoogleSignIn() {
                 Sign up
               </router-link>
             </div>
+            </template>
           </div>
         </div>
 

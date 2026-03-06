@@ -306,6 +306,175 @@
         </div>
       </section>
 
+      <!-- ═══════════════ 8B. WHY CHOOSE US ═══════════════ -->
+      <section class="py-14 md:py-20">
+        <div class="container mx-auto px-6">
+          <div class="text-center max-w-2xl mx-auto mb-12">
+            <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Why Choose Us</p>
+            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">The Smartech Advantage</h2>
+            <p class="text-muted-foreground text-sm leading-relaxed">Why leading organizations trust us for their {{ service.category || 'technology' }} needs.</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div v-for="(benefit, i) in serviceBenefits" :key="i" class="group text-center">
+              <div class="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                  <path v-if="i === 0" stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+                  <path v-else-if="i === 1" stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <path v-else-if="i === 2" stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                  <path v-else stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                </svg>
+              </div>
+              <h3 class="text-sm font-semibold text-foreground mb-2">{{ benefit.title }}</h3>
+              <p class="text-xs text-muted-foreground leading-relaxed">{{ benefit.description }}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════ 8C. INDUSTRIES / AREAS OF INTEREST ═══════════════ -->
+      <section v-if="industries.length" class="py-14 md:py-20 bg-muted/30">
+        <div class="container mx-auto px-6">
+          <div class="text-center max-w-2xl mx-auto mb-12">
+            <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Industries We Serve</p>
+            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Areas You Might Be Interested In</h2>
+            <p class="text-muted-foreground text-sm leading-relaxed">Our {{ service.name }} service is tailored for various sectors and industries.</p>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            <router-link
+              v-for="ind in industries.slice(0, 12)"
+              :key="ind.id"
+              :to="`/industries/${ind.slug}`"
+              class="group flex flex-col items-center p-4 bg-card border border-border rounded-xl hover:shadow-md hover:border-primary/30 transition-all text-center"
+            >
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/5 to-accent/5 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                <img
+                  v-if="ind.icon_url"
+                  :src="ind.icon_url"
+                  :alt="ind.name"
+                  class="w-7 h-7 object-contain"
+                />
+                <svg v-else class="w-6 h-6 text-primary" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z" />
+                </svg>
+              </div>
+              <span class="text-xs font-medium text-foreground group-hover:text-primary transition-colors">{{ ind.name }}</span>
+            </router-link>
+          </div>
+
+          <div class="text-center mt-8">
+            <router-link to="/industries" class="inline-flex items-center gap-2 px-6 py-2.5 border border-border text-foreground text-sm font-medium rounded-full hover:bg-muted transition-all">
+              View All Industries
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </router-link>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════ 8D. TESTIMONIALS ═══════════════ -->
+      <section v-if="testimonials.length" class="py-14 md:py-20">
+        <div class="container mx-auto px-6">
+          <div class="text-center max-w-2xl mx-auto mb-12">
+            <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Client Testimonials</p>
+            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">What Our Clients Say</h2>
+            <p class="text-muted-foreground text-sm leading-relaxed">Hear from organizations that have transformed their operations with our solutions.</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div v-for="(testimonial, i) in testimonials.slice(0, 3)" :key="i" class="bg-card border border-border rounded-xl p-6 hover:shadow-md hover:border-primary/20 transition-all">
+              <!-- Stars -->
+              <div class="flex gap-1 mb-4">
+                <svg v-for="s in 5" :key="s" class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                </svg>
+              </div>
+              <!-- Quote -->
+              <p class="text-sm text-muted-foreground leading-relaxed mb-4 italic">"{{ testimonial.content }}"</p>
+              <!-- Author -->
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
+                  <span class="text-sm font-semibold text-primary">{{ testimonial.name?.charAt(0) || 'C' }}</span>
+                </div>
+                <div>
+                  <p class="text-sm font-semibold text-foreground">{{ testimonial.name }}</p>
+                  <p class="text-xs text-muted-foreground">{{ testimonial.position }}{{ testimonial.company ? `, ${testimonial.company}` : '' }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════ 8E. FAQ SECTION ═══════════════ -->
+      <section v-if="faqs.length" class="py-14 md:py-20 bg-muted/30">
+        <div class="container mx-auto px-6">
+          <div class="max-w-3xl mx-auto">
+            <div class="text-center mb-12">
+              <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Frequently Asked Questions</p>
+              <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Have Questions?</h2>
+              <p class="text-muted-foreground text-sm leading-relaxed">Find answers to common questions about our {{ service.name }} service.</p>
+            </div>
+
+            <div class="space-y-3">
+              <div
+                v-for="(faq, i) in faqs.slice(0, 6)"
+                :key="i"
+                class="bg-card border border-border rounded-xl overflow-hidden"
+              >
+                <button
+                  @click="toggleFaq(i)"
+                  class="w-full flex items-center justify-between p-5 text-left"
+                >
+                  <span class="text-sm font-semibold text-foreground pr-4">{{ faq.question }}</span>
+                  <svg
+                    :class="['w-5 h-5 text-muted-foreground transition-transform flex-shrink-0', openFaqIndex === i ? 'rotate-180' : '']"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                  </svg>
+                </button>
+                <div v-show="openFaqIndex === i" class="px-5 pb-5">
+                  <p class="text-sm text-muted-foreground leading-relaxed">{{ faq.answer }}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="text-center mt-8">
+              <p class="text-sm text-muted-foreground mb-3">Still have questions?</p>
+              <router-link to="/contact" class="inline-flex items-center gap-2 px-6 py-2.5 bg-primary text-white text-sm font-medium rounded-full hover:bg-primary/90 transition-all">
+                Contact Our Team
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+              </router-link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════ 8F. TRUST BADGES ═══════════════ -->
+      <section class="py-10 md:py-14">
+        <div class="container mx-auto px-6">
+          <div class="text-center mb-8">
+            <p class="text-xs text-muted-foreground font-medium uppercase tracking-wider">Trusted By Leading Organizations</p>
+          </div>
+          <div class="flex flex-wrap items-center justify-center gap-8 md:gap-12 opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500">
+            <div v-for="badge in trustBadges" :key="badge.name" class="flex flex-col items-center gap-2">
+              <div class="w-16 h-16 bg-muted/50 rounded-xl flex items-center justify-center">
+                <svg class="w-8 h-8 text-foreground/60" fill="currentColor" viewBox="0 0 24 24">
+                  <path v-if="badge.icon === 'shield'" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  <path v-else-if="badge.icon === 'award'" d="M12 15l-2 5.54.18-.55L8.5 18l-1.68 1.99.18-.55L5 20.98l3.54-2.09L12 15zm0 0l2 5.54-.18-.55 1.68 1.99L17.18 20l-.18.55 2 1.44-3.54-2.09L12 15zm0 0l-2-5.54-.18-.55-1.68-1.99.18.55-2-1.44 3.54 2.09L12 15zm0 0l2-5.54.18-.55 1.68-1.99-.18.55 2-1.44-3.54 2.09L12 15z"/>
+                  <path v-else d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <span class="text-[10px] font-medium text-muted-foreground text-center">{{ badge.name }}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- ═══════════════ 9. CTA BANNER ═══════════════ -->
       <section class="py-16 md:py-20 bg-gradient-to-r from-red-800 via-red-700 to-red-900 text-white">
         <div class="container mx-auto px-6 text-center">
@@ -446,6 +615,28 @@ const features = ref<any[]>([]);
 const processSteps = ref<any[]>([]);
 const whatsappNumber = ref('');
 
+// New sections data
+const industries = ref<any[]>([]);
+const testimonials = ref<any[]>([]);
+const faqs = ref<any[]>([]);
+const openFaqIndex = ref<number | null>(null);
+
+// Service benefits (static - can be overridden by API)
+const serviceBenefits = ref([
+  { title: 'Expert Team', description: 'Our specialists bring years of experience and deep domain expertise to every project.' },
+  { title: 'Fast Delivery', description: 'Agile methodology ensures quick turnaround without compromising quality.' },
+  { title: 'Dedicated Support', description: '24/7 support and ongoing maintenance to keep your solutions running smoothly.' },
+  { title: 'Proven Results', description: 'Track record of delivering measurable outcomes and ROI for our clients.' },
+]);
+
+// Trust badges
+const trustBadges = ref([
+  { name: 'ISO 27001 Certified', icon: 'shield' },
+  { name: 'GDPR Compliant', icon: 'shield' },
+  { name: 'Award Winner', icon: 'award' },
+  { name: 'Verified Partner', icon: 'check' },
+]);
+
 // Quote form
 const quoteForm = ref({
   name: '',
@@ -528,6 +719,44 @@ function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
+// Toggle FAQ accordion
+function toggleFaq(index: number) {
+  openFaqIndex.value = openFaqIndex.value === index ? null : index;
+}
+
+// Fetch additional data for new sections
+async function fetchAdditionalData() {
+  try {
+    // Fetch industries
+    const industriesRes = await api.get('/api/v1/industries?limit=12');
+    industries.value = industriesRes.data.data || industriesRes.data.industries || [];
+  } catch {
+    industries.value = [];
+  }
+
+  try {
+    // Fetch testimonials/reviews
+    const reviewsRes = await api.get('/api/v1/reviews?status=approved&limit=6');
+    testimonials.value = reviewsRes.data.data || reviewsRes.data.reviews || [];
+  } catch {
+    testimonials.value = [];
+  }
+
+  try {
+    // Fetch FAQs related to service category
+    const category = service.value?.category || 'general';
+    const faqsRes = await api.get(`/api/v1/faqs?category=${encodeURIComponent(category)}&limit=6`);
+    faqs.value = faqsRes.data.data || faqsRes.data.faqs || [];
+    // Fallback to general FAQs if none found
+    if (faqs.value.length === 0) {
+      const generalFaqsRes = await api.get('/api/v1/faqs?limit=6');
+      faqs.value = generalFaqsRes.data.data || generalFaqsRes.data.faqs || [];
+    }
+  } catch {
+    faqs.value = [];
+  }
+}
+
 onMounted(async () => {
   // Get whatsapp from CMS settings
   const settings = cmsStore.homeData?.settings;
@@ -535,6 +764,8 @@ onMounted(async () => {
     whatsappNumber.value = settings.whatsapp_number || (settings as any).whatsapp || '';
   }
   await fetchService(route.params.slug as string);
+  // Fetch additional data after service is loaded
+  await fetchAdditionalData();
 });
 
 watch(() => route.params.slug, (newSlug) => {

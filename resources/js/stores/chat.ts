@@ -53,12 +53,10 @@ export const useChatStore = defineStore('chat', () => {
 
     socket.value.on('connect', () => {
       isConnected.value = true;
-      console.log('Socket connected');
     });
 
     socket.value.on('disconnect', () => {
       isConnected.value = false;
-      console.log('Socket disconnected');
     });
 
     socket.value.on('new-message', (message: ChatMessage) => {

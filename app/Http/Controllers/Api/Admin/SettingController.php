@@ -31,9 +31,10 @@ class SettingController extends Controller
             'site_name', 'tagline', 'contact_email', 'contact_phone',
             'address', 'city', 'country',
             'facebook_url', 'twitter_url', 'linkedin_url', 'instagram_url', 'youtube_url', 'tiktok_url', 'whatsapp_number',
-            'logo_path', 'favicon_path', 'marquee_text',
+            'logo_path', 'footer_logo_path', 'favicon_path', 'marquee_text',
             'copyright_text',
             'theme_preset', 'theme_primary_color', 'theme_accent_color',
+            'logo_height', 'logo_border_radius',
         ];
 
         $settings = [];
@@ -105,10 +106,9 @@ class SettingController extends Controller
     public function uploadFavicon(Request $request)
     {
         $request->validate([
-            'favicon' => 'required|image|mimes:png,jpg,jpeg,ico,svg|max:1024', // Favicons are typically small
+            'favicon' => 'required|image|mimes:png,jpg,jpeg,ico,svg|max:1024',
         ]);
 
-        // Delete old favicon if exists
         $oldFavicon = Setting::get('favicon_path');
         if ($oldFavicon && Storage::disk('public')->exists($oldFavicon)) {
             Storage::disk('public')->delete($oldFavicon);
@@ -124,6 +124,33 @@ class SettingController extends Controller
             'message' => 'Favicon uploaded successfully',
             'favicon_url' => Storage::url($path),
             'favicon_path' => $path,
+        ]);
+    }
+
+    /**
+     * Upload a separate footer logo (for dark backgrounds).
+     */
+    public function uploadFooterLogo(Request $request)
+    {
+        $request->validate([
+            'footer_logo' => 'required|image|mimes:png,jpg,jpeg,svg,webp|max:4096',
+        ]);
+
+        $oldLogo = Setting::get('footer_logo_path');
+        if ($oldLogo && Storage::disk('public')->exists($oldLogo)) {
+            Storage::disk('public')->delete($oldLogo);
+        }
+
+        $path = $request->file('footer_logo')->store('logos', 'public');
+        Setting::set('footer_logo_path', $path, 'branding', 'image');
+
+        Cache::forget('settings');
+        Cache::forget('homepage_data');
+
+        return response()->json([
+            'message' => 'Footer logo uploaded successfully',
+            'footer_logo_url' => Storage::url($path),
+            'footer_logo_path' => $path,
         ]);
     }
 }

@@ -17,6 +17,8 @@ class Enquiry extends Model
         'email',
         'phone',
         'company',
+        'type',
+        'subject',
         'enquirable_type',
         'enquirable_id',
         'message',

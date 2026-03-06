@@ -25,20 +25,18 @@ export function useSocket() {
     // Connection events
     socket.value.on('connect', () => {
       isConnected.value = true;
-      console.log('Socket.IO connected:', socket.value?.id);
     });
 
-    socket.value.on('disconnect', (reason) => {
+    socket.value.on('disconnect', () => {
       isConnected.value = false;
-      console.log('Socket.IO disconnected:', reason);
     });
 
     socket.value.on('connect_error', (error) => {
       console.error('Socket.IO connection error:', error);
     });
 
-    socket.value.on('reconnect', (attemptNumber) => {
-      console.log('Socket.IO reconnected after', attemptNumber, 'attempts');
+    socket.value.on('reconnect', () => {
+      isConnected.value = true;
     });
 
     socket.value.on('reconnect_failed', () => {

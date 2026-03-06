@@ -21,7 +21,7 @@
 
       <!-- Settings Tabs -->
       <Tabs v-else default-value="general" class="space-y-6">
-        <TabsList class="grid w-full grid-cols-3 sm:grid-cols-5 md:grid-cols-9">
+        <TabsList class="grid w-full grid-cols-3 sm:grid-cols-5 md:grid-cols-10">
           <TabsTrigger value="general">General</TabsTrigger>
           <TabsTrigger value="contact">Contact</TabsTrigger>
           <TabsTrigger value="social">Social Links</TabsTrigger>
@@ -31,6 +31,7 @@
           <TabsTrigger value="theme">Theme</TabsTrigger>
           <TabsTrigger value="email">Email/SMTP</TabsTrigger>
           <TabsTrigger value="analytics">Analytics</TabsTrigger>
+          <TabsTrigger value="ai">AI</TabsTrigger>
         </TabsList>
 
         <!-- ═══════ General ═══════ -->
@@ -289,8 +290,8 @@
             <!-- Logo Upload -->
             <Card>
               <CardHeader>
-                <CardTitle>Site Logo</CardTitle>
-                <CardDescription>PNG, JPG, SVG or WebP — max 4 MB</CardDescription>
+                <CardTitle>Site Logo (Header)</CardTitle>
+                <CardDescription>PNG, JPG, SVG or WebP — max 4 MB. Used in the header navigation.</CardDescription>
               </CardHeader>
               <CardContent class="space-y-4">
                 <div
@@ -301,6 +302,9 @@
                     :src="logoPreview || storageUrl(form.logo_path)"
                     alt="Site logo"
                     class="max-h-24 object-contain"
+                    :style="{
+                      borderRadius: (form.logo_border_radius || '0') + 'px',
+                    }"
                   />
                 </div>
                 <div v-else class="flex items-center justify-center rounded-lg border border-dashed border-border bg-muted/20 p-10 text-muted-foreground text-sm">
@@ -322,6 +326,63 @@
                     {{ uploadingLogo ? 'Uploading...' : 'Upload Logo' }}
                   </Button>
                   <span v-if="logoFile" class="text-sm text-muted-foreground truncate max-w-[180px]">{{ logoFile.name }}</span>
+                </div>
+
+                <!-- Logo Styling Controls -->
+                <div class="border-t border-border pt-4 space-y-4">
+                  <h4 class="text-sm font-semibold text-foreground">Logo Display Settings</h4>
+                  <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                      <Label for="logo_height">Logo Height (px)</Label>
+                      <Input id="logo_height" v-model="form.logo_height" type="number" placeholder="40" min="20" max="120" />
+                      <p class="text-xs text-muted-foreground">Default: 40px</p>
+                    </div>
+                    <div class="space-y-2">
+                      <Label for="logo_border_radius">Border Radius (px)</Label>
+                      <Input id="logo_border_radius" v-model="form.logo_border_radius" type="number" placeholder="0" min="0" max="60" />
+                      <p class="text-xs text-muted-foreground">0 = square, 50+ = circle</p>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <!-- Footer Logo Upload -->
+            <Card>
+              <CardHeader>
+                <CardTitle>Footer Logo (Dark Background)</CardTitle>
+                <CardDescription>Separate logo for the footer. If not set, the header logo with an invert filter is used.</CardDescription>
+              </CardHeader>
+              <CardContent class="space-y-4">
+                <div
+                  v-if="footerLogoPreview || form.footer_logo_path"
+                  class="flex items-center justify-center rounded-lg border border-border bg-gray-900 p-6"
+                >
+                  <img
+                    :src="footerLogoPreview || storageUrl(form.footer_logo_path)"
+                    alt="Footer logo"
+                    class="max-h-24 object-contain"
+                  />
+                </div>
+                <div v-else class="flex items-center justify-center rounded-lg border border-dashed border-border bg-gray-900 p-10 text-gray-400 text-sm">
+                  No footer logo — using header logo with invert
+                </div>
+                <div class="flex items-center gap-3">
+                  <input
+                    ref="footerLogoInput"
+                    type="file"
+                    accept="image/png,image/jpeg,image/svg+xml,image/webp"
+                    class="hidden"
+                    @change="onFooterLogoSelected"
+                  />
+                  <Button variant="outline" :disabled="uploadingFooterLogo" @click="($refs.footerLogoInput as HTMLInputElement).click()">
+                    Choose File
+                  </Button>
+                  <Button v-if="footerLogoFile" :disabled="uploadingFooterLogo" @click="uploadFooterLogo">
+                    <Loader2 v-if="uploadingFooterLogo" class="mr-2 h-4 w-4 animate-spin" />
+                    {{ uploadingFooterLogo ? 'Uploading...' : 'Upload Footer Logo' }}
+                  </Button>
+                  <span v-if="footerLogoFile" class="text-sm text-muted-foreground truncate max-w-[180px]">{{ footerLogoFile.name }}</span>
                 </div>
               </CardContent>
             </Card>
@@ -642,6 +703,168 @@
             </CardContent>
           </Card>
         </TabsContent>
+
+        <!-- ═══════ AI API Settings ═══════ -->
+        <TabsContent value="ai">
+          <Card>
+            <CardHeader>
+              <CardTitle>AI API Settings</CardTitle>
+              <CardDescription>Configure API keys for AI-powered features. These keys enable smart chat, content generation, and other AI capabilities.</CardDescription>
+            </CardHeader>
+            <CardContent class="space-y-6">
+              <!-- OpenAI / ChatGPT -->
+              <div class="border-b border-border pb-6 space-y-4">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 bg-emerald-500/10 rounded-lg flex items-center justify-center">
+                    <svg class="w-6 h-6 text-emerald-500" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M22.282 9.821a5.985 5.985 0 0 0-.516-4.91 6.046 6.046 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.981 4.18a5.985 5.985 0 0 0-3.998 2.9 6.046 6.046 0 0 0 .743 7.097 5.98 5.98 0 0 0 .51 4.911 6.051 6.051 0 0 0 6.515 2.9A5.985 5.985 0 0 0 13.26 24a6.056 6.056 0 0 0 5.772-4.206 5.99 5.99 0 0 0 3.997-2.9 6.056 6.056 0 0 0-.747-7.073zM13.26 22.43a4.476 4.476 0 0 1-2.876-1.04l.141-.081 4.779-2.758a.795.795 0 0 0 .392-.681v-6.737l2.02 1.168a.071.071 0 0 1 .038.052v5.583a4.504 4.504 0 0 1-4.494 4.494zM3.6 18.304a4.47 4.47 0 0 1-.535-3.014l.142.085 4.783 2.759a.771.771 0 0 0 .78 0l5.843-3.369v2.332a.08.08 0 0 1-.033.062L9.74 19.95a4.5 4.5 0 0 1-6.14-1.646zM2.34 7.896a4.485 4.485 0 0 1 2.366-1.973V11.6a.766.766 0 0 0 .388.676l5.815 3.355-2.02 1.168a.076.076 0 0 1-.071 0l-4.83-2.786A4.504 4.504 0 0 1 2.34 7.896zm16.597 3.855l-5.833-3.387L15.119 7.2a.076.076 0 0 1 .071 0l4.83 2.791a4.494 4.494 0 0 1-.676 8.105v-5.678a.79.79 0 0 0-.407-.667zm2.01-3.023l-.141-.085-4.774-2.782a.776.776 0 0 0-.785 0L9.409 9.23V6.897a.066.066 0 0 1 .028-.061l4.83-2.787a4.5 4.5 0 0 1 6.68 4.66zm-12.64 4.135l-2.02-1.164a.08.08 0 0 1-.038-.057V6.075a4.5 4.5 0 0 1 7.375-3.453l-.142.08L8.704 5.46a.795.795 0 0 0-.393.681zm1.097-2.365l2.602-1.5 2.607 1.5v2.999l-2.597 1.5-2.607-1.5z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 class="text-sm font-semibold text-foreground">OpenAI / ChatGPT</h3>
+                    <p class="text-xs text-muted-foreground">Power your AI chat and content generation</p>
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="space-y-2">
+                    <Label for="openai_api_key">OpenAI API Key</Label>
+                    <Input id="openai_api_key" v-model="form.openai_api_key" type="password" placeholder="sk-..." />
+                    <p class="text-xs text-muted-foreground">Get your key from <a href="https://platform.openai.com/api-keys" target="_blank" class="text-primary hover:underline">OpenAI Platform</a></p>
+                  </div>
+                  <div class="space-y-2">
+                    <Label for="openai_model">Preferred Model</Label>
+                    <select id="openai_model" v-model="form.openai_model" class="w-full bg-background border border-border rounded-lg px-4 py-2.5 text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition">
+                      <option value="gpt-4o">GPT-4o (Latest)</option>
+                      <option value="gpt-4o-mini">GPT-4o Mini (Affordable)</option>
+                      <option value="gpt-4-turbo">GPT-4 Turbo</option>
+                      <option value="gpt-3.5-turbo">GPT-3.5 Turbo (Fast)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Google Gemini -->
+              <div class="border-b border-border pb-6 space-y-4">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 bg-blue-500/10 rounded-lg flex items-center justify-center">
+                    <svg class="w-6 h-6 text-blue-500" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 class="text-sm font-semibold text-foreground">Google Gemini</h3>
+                    <p class="text-xs text-muted-foreground">Google's multimodal AI for advanced tasks</p>
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="space-y-2">
+                    <Label for="gemini_api_key">Gemini API Key</Label>
+                    <Input id="gemini_api_key" v-model="form.gemini_api_key" type="password" placeholder="AIza..." />
+                    <p class="text-xs text-muted-foreground">Get your key from <a href="https://makersuite.google.com/app/apikey" target="_blank" class="text-primary hover:underline">Google AI Studio</a></p>
+                  </div>
+                  <div class="space-y-2">
+                    <Label for="gemini_model">Preferred Model</Label>
+                    <select id="gemini_model" v-model="form.gemini_model" class="w-full bg-background border border-border rounded-lg px-4 py-2.5 text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition">
+                      <option value="gemini-1.5-pro">Gemini 1.5 Pro (Best)</option>
+                      <option value="gemini-1.5-flash">Gemini 1.5 Flash (Fast)</option>
+                      <option value="gemini-pro">Gemini Pro</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Anthropic Claude -->
+              <div class="border-b border-border pb-6 space-y-4">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 bg-orange-500/10 rounded-lg flex items-center justify-center">
+                    <svg class="w-6 h-6 text-orange-500" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 class="text-sm font-semibold text-foreground">Anthropic Claude</h3>
+                    <p class="text-xs text-muted-foreground">Claude AI for safe and helpful responses</p>
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="space-y-2">
+                    <Label for="anthropic_api_key">Anthropic API Key</Label>
+                    <Input id="anthropic_api_key" v-model="form.anthropic_api_key" type="password" placeholder="sk-ant-..." />
+                    <p class="text-xs text-muted-foreground">Get your key from <a href="https://console.anthropic.com/" target="_blank" class="text-primary hover:underline">Anthropic Console</a></p>
+                  </div>
+                  <div class="space-y-2">
+                    <Label for="anthropic_model">Preferred Model</Label>
+                    <select id="anthropic_model" v-model="form.anthropic_model" class="w-full bg-background border border-border rounded-lg px-4 py-2.5 text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition">
+                      <option value="claude-3-5-sonnet-20241022">Claude 3.5 Sonnet (Latest)</option>
+                      <option value="claude-3-opus-20240229">Claude 3 Opus (Most Capable)</option>
+                      <option value="claude-3-haiku-20240307">Claude 3 Haiku (Fastest)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Free/Open Source AI Options -->
+              <div class="space-y-4">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 bg-purple-500/10 rounded-lg flex items-center justify-center">
+                    <svg class="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 class="text-sm font-semibold text-foreground">Other AI Services</h3>
+                    <p class="text-xs text-muted-foreground">Additional AI providers and local models</p>
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="space-y-2">
+                    <Label for="huggingface_api_key">Hugging Face API Key</Label>
+                    <Input id="huggingface_api_key" v-model="form.huggingface_api_key" type="password" placeholder="hf_..." />
+                    <p class="text-xs text-muted-foreground">Access thousands of free open-source models</p>
+                  </div>
+                  <div class="space-y-2">
+                    <Label for="groq_api_key">Groq API Key</Label>
+                    <Input id="groq_api_key" v-model="form.groq_api_key" type="password" placeholder="gsk_..." />
+                    <p class="text-xs text-muted-foreground">Ultra-fast inference for LLaMA and Mixtral</p>
+                  </div>
+                  <div class="space-y-2">
+                    <Label for="ollama_base_url">Ollama Base URL (Local)</Label>
+                    <Input id="ollama_base_url" v-model="form.ollama_base_url" placeholder="http://localhost:11434" />
+                    <p class="text-xs text-muted-foreground">Connect to self-hosted Ollama instance</p>
+                  </div>
+                  <div class="space-y-2">
+                    <Label for="default_ai_provider">Default AI Provider</Label>
+                    <select id="default_ai_provider" v-model="form.default_ai_provider" class="w-full bg-background border border-border rounded-lg px-4 py-2.5 text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition">
+                      <option value="openai">OpenAI (ChatGPT)</option>
+                      <option value="gemini">Google Gemini</option>
+                      <option value="anthropic">Anthropic Claude</option>
+                      <option value="groq">Groq</option>
+                      <option value="huggingface">Hugging Face</option>
+                      <option value="ollama">Ollama (Local)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- AI Usage Settings -->
+              <div class="border-t border-border pt-6 space-y-4">
+                <h3 class="text-sm font-semibold text-foreground">AI Usage Settings</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="space-y-2">
+                    <Label for="ai_max_tokens">Max Response Tokens</Label>
+                    <Input id="ai_max_tokens" v-model="form.ai_max_tokens" type="number" placeholder="2048" />
+                    <p class="text-xs text-muted-foreground">Maximum tokens per AI response (affects cost)</p>
+                  </div>
+                  <div class="space-y-2">
+                    <Label for="ai_temperature">Temperature</Label>
+                    <Input id="ai_temperature" v-model="form.ai_temperature" type="number" step="0.1" min="0" max="2" placeholder="0.7" />
+                    <p class="text-xs text-muted-foreground">Creativity level (0 = focused, 2 = creative)</p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
       </Tabs>
     </div>
   </AdminLayout>
@@ -670,6 +893,7 @@ const loading = ref(true);
 const saving = ref(false);
 const uploadingLogo = ref(false);
 const uploadingFavicon = ref(false);
+const uploadingFooterLogo = ref(false);
 
 // ── Form state ──
 const form = reactive({
@@ -729,7 +953,10 @@ const form = reactive({
   faqs_meta_description: '',
   // Branding (paths only — used for preview)
   logo_path: '',
+  footer_logo_path: '',
   favicon_path: '',
+  logo_height: '40',
+  logo_border_radius: '0',
   // Theme
   theme_preset: '',
   theme_primary_color: '',
@@ -768,15 +995,31 @@ const form = reactive({
   recaptcha_site_key: '',
   custom_head_scripts: '',
   custom_body_scripts: '',
+  // AI API Settings
+  openai_api_key: '',
+  openai_model: 'gpt-4o-mini',
+  gemini_api_key: '',
+  gemini_model: 'gemini-1.5-flash',
+  anthropic_api_key: '',
+  anthropic_model: 'claude-3-5-sonnet-20241022',
+  huggingface_api_key: '',
+  groq_api_key: '',
+  ollama_base_url: '',
+  default_ai_provider: 'openai',
+  ai_max_tokens: '2048',
+  ai_temperature: '0.7',
 });
 
 // ── File upload refs ──
 const logoInput = ref<HTMLInputElement | null>(null);
 const faviconInput = ref<HTMLInputElement | null>(null);
+const footerLogoInput = ref<HTMLInputElement | null>(null);
 const logoFile = ref<File | null>(null);
 const faviconFile = ref<File | null>(null);
+const footerLogoFile = ref<File | null>(null);
 const logoPreview = ref<string | null>(null);
 const faviconPreview = ref<string | null>(null);
+const footerLogoPreview = ref<string | null>(null);
 
 // ── Helpers ──
 function storageUrl(path: string | null | undefined): string {
@@ -853,6 +1096,9 @@ function buildPayload() {
     theme_preset: 'theme',
     theme_primary_color: 'theme',
     theme_accent_color: 'theme',
+    // Branding — Logo Settings
+    logo_height: 'branding',
+    logo_border_radius: 'branding',
     // Email / SMTP
     mail_mailer: 'email',
     mail_host: 'email',
@@ -887,6 +1133,19 @@ function buildPayload() {
     recaptcha_site_key: 'analytics',
     custom_head_scripts: 'analytics',
     custom_body_scripts: 'analytics',
+    // AI API Settings
+    openai_api_key: 'ai',
+    openai_model: 'ai',
+    gemini_api_key: 'ai',
+    gemini_model: 'ai',
+    anthropic_api_key: 'ai',
+    anthropic_model: 'ai',
+    huggingface_api_key: 'ai',
+    groq_api_key: 'ai',
+    ollama_base_url: 'ai',
+    default_ai_provider: 'ai',
+    ai_max_tokens: 'ai',
+    ai_temperature: 'ai',
   };
 
   return Object.entries(groupMap).map(([key, group]) => ({
@@ -975,6 +1234,34 @@ async function uploadFavicon() {
     toast.error('Upload failed', e?.response?.data?.message ?? 'Could not upload favicon.');
   } finally {
     uploadingFavicon.value = false;
+  }
+}
+
+// ── Footer Logo ──
+function onFooterLogoSelected(e: Event) {
+  const file = (e.target as HTMLInputElement).files?.[0];
+  if (!file) return;
+  footerLogoFile.value = file;
+  footerLogoPreview.value = URL.createObjectURL(file);
+}
+
+async function uploadFooterLogo() {
+  if (!footerLogoFile.value) return;
+  uploadingFooterLogo.value = true;
+  try {
+    const fd = new FormData();
+    fd.append('footer_logo', footerLogoFile.value);
+    const data = await post('/admin/settings/footer-logo', fd, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    form.footer_logo_path = data.footer_logo_path ?? '';
+    footerLogoFile.value = null;
+    if (footerLogoPreview.value) { URL.revokeObjectURL(footerLogoPreview.value); footerLogoPreview.value = null; }
+    toast.success('Footer logo uploaded', 'The footer logo has been updated.');
+  } catch (e: any) {
+    toast.error('Upload failed', e?.response?.data?.message ?? 'Could not upload footer logo.');
+  } finally {
+    uploadingFooterLogo.value = false;
   }
 }
 

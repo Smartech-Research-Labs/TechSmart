@@ -3,13 +3,17 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\{Blog, Bundle, ChatSession, Enquiry, Product, Review, Service, User};
+use App\Models\{Blog, Bundle, ChatSession, Enquiry, LoginHistory, Product, Review, Service, User};
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AdminDashboardController extends Controller
 {
     public function stats()
     {
+        $now = now();
+        $lastMonth = $now->copy()->subMonth();
+
         return response()->json([
             'services' => Service::where('is_published', true)->count(),
             'products' => Product::where('is_published', true)->count(),
@@ -21,7 +25,101 @@ class AdminDashboardController extends Controller
             'pending_reviews' => Review::where('status', 'pending')->count(),
             'new_enquiries' => Enquiry::where('status', 'new')->count(),
             'active_chats' => ChatSession::where('status', 'active')->count(),
+            // Trend data
+            'new_users_this_month' => User::where('created_at', '>=', $now->copy()->startOfMonth())->count(),
+            'new_users_last_month' => User::whereBetween('created_at', [$lastMonth->copy()->startOfMonth(), $lastMonth->copy()->endOfMonth()])->count(),
+            'enquiries_this_month' => Enquiry::where('created_at', '>=', $now->copy()->startOfMonth())->count(),
+            'enquiries_last_month' => Enquiry::whereBetween('created_at', [$lastMonth->copy()->startOfMonth(), $lastMonth->copy()->endOfMonth()])->count(),
+            'reviews_this_month' => Review::where('created_at', '>=', $now->copy()->startOfMonth())->count(),
+            // Chart data: users per month for last 6 months
+            'users_chart' => $this->getUsersChart(),
+            'enquiries_chart' => $this->getEnquiriesChart(),
         ]);
+    }
+
+    private function getUsersChart(): array
+    {
+        $data = [];
+        for ($i = 5; $i >= 0; $i--) {
+            $date = now()->subMonths($i);
+            $data[] = [
+                'month' => $date->format('M'),
+                'count' => User::whereYear('created_at', $date->year)
+                    ->whereMonth('created_at', $date->month)
+                    ->count(),
+            ];
+        }
+        return $data;
+    }
+
+    private function getEnquiriesChart(): array
+    {
+        $data = [];
+        for ($i = 5; $i >= 0; $i--) {
+            $date = now()->subMonths($i);
+            $data[] = [
+                'month' => $date->format('M'),
+                'count' => Enquiry::whereYear('created_at', $date->year)
+                    ->whereMonth('created_at', $date->month)
+                    ->count(),
+            ];
+        }
+        return $data;
+    }
+
+    public function overview()
+    {
+        $user = auth()->user();
+
+        return response()->json([
+            'user' => array_merge($user->toArray(), [
+                'profile_photo_url' => $user->profile_photo_url,
+                'profile_completion' => $user->profile_completion,
+                'member_since' => $user->created_at->diffForHumans(),
+                'account_age_days' => $user->created_at->diffInDays(now()),
+                'is_birthday' => $user->date_of_birth ? $user->date_of_birth->format('m-d') === now()->format('m-d') : false,
+                'join_anniversary' => $user->created_at->format('m-d') === now()->format('m-d'),
+            ]),
+            'recent_logins' => LoginHistory::where('user_id', $user->id)
+                ->latest('logged_in_at')
+                ->take(5)
+                ->get()
+                ->map(fn ($h) => [
+                    'device' => $h->device,
+                    'browser' => $h->browser,
+                    'platform' => $h->platform,
+                    'ip_address' => $h->ip_address,
+                    'time_ago' => $h->logged_in_at->diffForHumans(),
+                ]),
+            'system_health' => [
+                'php_version' => PHP_VERSION,
+                'laravel_version' => app()->version(),
+                'storage_used' => $this->getStorageUsed(),
+                'db_size' => $this->getDbSize(),
+            ],
+        ]);
+    }
+
+    private function getStorageUsed(): string
+    {
+        $path = storage_path('app/public');
+        if (! is_dir($path)) return '0 MB';
+        $size = 0;
+        foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path)) as $file) {
+            if ($file->isFile()) $size += $file->getSize();
+        }
+        return round($size / 1024 / 1024, 1) . ' MB';
+    }
+
+    private function getDbSize(): string
+    {
+        try {
+            $dbName = config('database.connections.mysql.database');
+            $result = DB::select("SELECT ROUND(SUM(data_length + index_length) / 1024 / 1024, 1) AS size FROM information_schema.tables WHERE table_schema = ?", [$dbName]);
+            return ($result[0]->size ?? '0') . ' MB';
+        } catch (\Exception $e) {
+            return 'N/A';
+        }
     }
 
     public function recentActivity(Request $request)

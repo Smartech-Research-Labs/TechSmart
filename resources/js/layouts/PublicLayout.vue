@@ -13,7 +13,8 @@
               v-if="settings?.logo_path"
               :src="`/storage/${settings.logo_path}`"
               alt="Logo"
-              class="h-10 w-auto"
+              class="w-auto object-contain"
+              :style="headerLogoStyle"
             />
             <div v-else class="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
               <span class="text-white font-bold text-xl">TS</span>
@@ -240,7 +241,13 @@
           <div class="lg:col-span-2">
             <router-link to="/" class="flex items-center gap-2 mb-5">
               <img
-                v-if="settings?.logo_path"
+                v-if="settings?.footer_logo_path"
+                :src="`/storage/${settings.footer_logo_path}`"
+                alt="Logo"
+                class="h-10 w-auto"
+              />
+              <img
+                v-else-if="settings?.logo_path"
                 :src="`/storage/${settings.logo_path}`"
                 alt="Logo"
                 class="h-10 w-auto brightness-0 invert"
@@ -383,8 +390,8 @@
     <!-- WhatsApp Floating Button (Bottom Left) -->
     <WhatsAppButton />
     
-    <!-- Chat Button with AI (Bottom Right) -->
-    <FloatingChatButton />
+    <!-- Chat Button with AI (Bottom Right) - Only show for guests, authenticated users have ChatWidget -->
+    <FloatingChatButton v-if="!authStore.isAuthenticated" />
     
     <!-- Scroll to Top Button (Bottom Right, above chat) -->
     <ScrollToTopButton />
@@ -416,6 +423,16 @@ const openDropdown = ref<string | null>(null);
 const mobileExpanded = ref<string | null>(null);
 
 const settings = computed(() => cmsStore.homeData?.settings);
+
+// Dynamic header logo styling from CMS settings
+const headerLogoStyle = computed(() => {
+  const height = settings.value?.logo_height || '40';
+  const borderRadius = settings.value?.logo_border_radius || '0';
+  return {
+    height: `${height}px`,
+    borderRadius: `${borderRadius}px`,
+  };
+});
 
 // Mega menu data
 const solutionsMenu = [

@@ -148,40 +148,50 @@
       </div>
     </section>
 
-   
-
-    <!-- ═══════════════ CORE VALUES ═══════════════ -->
+      <!-- ═══════════════ OUR SOLUTIONS (IMAGE CARDS) ═══════════════ -->
     <section class="py-16 md:py-24">
       <div class="container mx-auto px-6">
-        <div class="grid lg:grid-cols-[1fr_1.2fr] gap-14 items-center">
-          <!-- Left - Content -->
+        <div class="flex items-end justify-between mb-10">
           <div>
-            <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Foundation</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Our Core Values</h2>
-            <p class="text-muted-foreground text-sm leading-relaxed mb-8">These principles guide every decision we make and every solution we deliver.</p>
+            <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Solutions</p>
+            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight">Our Solutions</h2>
+          </div>
+          <router-link to="/services" class="hidden sm:inline-flex items-center gap-2 px-6 py-2.5 border border-primary text-primary text-xs font-semibold rounded-full hover:bg-primary hover:text-white transition-all">
+            View All
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </router-link>
+        </div>
 
-            <div class="space-y-4">
-              <div v-for="(value, i) in coreValues" :key="i" class="flex items-start gap-4 p-4 rounded-xl hover:bg-muted/30 transition-colors group">
-                <div class="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center text-xl" :class="value.bgClass">
-                  {{ value.icon }}
-                </div>
-                <div>
-                  <h3 class="text-sm font-bold text-foreground mb-1 group-hover:text-primary transition-colors">{{ value.title }}</h3>
-                  <p class="text-muted-foreground text-xs leading-relaxed">{{ value.desc }}</p>
-                </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
+          <router-link v-for="service in allServices.slice(0, 8)" :key="service.id" :to="`/services/${service.slug}`" class="group block bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/20 hover:shadow-sm transition-all duration-300">
+            <div class="aspect-[4/3] bg-muted overflow-hidden relative">
+              <img v-if="service.image_url" :src="service.image_url" :alt="service.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5">
+                <span class="text-3xl">{{ service.icon || '💡' }}</span>
               </div>
             </div>
-          </div>
-
-          <!-- Right - Image -->
-          <div class="relative">
-            <div class="rounded-2xl overflow-hidden shadow-lg">
-              <img :src="settings.values_section_image || 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop&q=80'" alt="Our Values" class="w-full aspect-[4/3] object-cover" />
+            <div class="p-5">
+              <h3 class="text-sm font-semibold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">{{ service.title }}</h3>
+              <p class="text-muted-foreground text-xs leading-relaxed line-clamp-2 mb-3">{{ service.excerpt || service.short_description }}</p>
+              <span class="text-primary font-medium text-xs flex items-center gap-1 group-hover:gap-2 transition-all">
+                Learn More <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
+              </span>
             </div>
-          </div>
+          </router-link>
+        </div>
+
+        <div class="text-center mt-10 sm:hidden">
+          <router-link to="/services" class="inline-flex items-center gap-2 px-7 py-3 border border-primary text-primary text-sm font-semibold rounded-full hover:bg-primary hover:text-white transition-all">
+            View All Services
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </router-link>
         </div>
       </div>
     </section>
+
+   
+
+   
 
     <!-- ═══════════════ WE SPECIALIZE IN ═══════════════ -->
     <section class="py-16 md:py-24">
@@ -633,6 +643,39 @@
       </div>
     </section>
 
+     <!-- ═══════════════ CORE VALUES ═══════════════ -->
+    <section class="py-16 md:py-24">
+      <div class="container mx-auto px-6">
+        <div class="grid lg:grid-cols-[1fr_1.2fr] gap-14 items-center">
+          <!-- Left - Content -->
+          <div>
+            <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Foundation</p>
+            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Our Core Values</h2>
+            <p class="text-muted-foreground text-sm leading-relaxed mb-8">These principles guide every decision we make and every solution we deliver.</p>
+
+            <div class="space-y-4">
+              <div v-for="(value, i) in coreValues" :key="i" class="flex items-start gap-4 p-4 rounded-xl hover:bg-muted/30 transition-colors group">
+                <div class="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center text-xl" :class="value.bgClass">
+                  {{ value.icon }}
+                </div>
+                <div>
+                  <h3 class="text-sm font-bold text-foreground mb-1 group-hover:text-primary transition-colors">{{ value.title }}</h3>
+                  <p class="text-muted-foreground text-xs leading-relaxed">{{ value.desc }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right - Image -->
+          <div class="relative">
+            <div class="rounded-2xl overflow-hidden shadow-lg">
+              <img :src="settings.values_section_image || 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop&q=80'" alt="Our Values" class="w-full aspect-[4/3] object-cover" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ═══════════════ CTA 2 — DARK MAROON ═══════════════ -->
     <section class="py-16 md:py-24">
       <div class="container mx-auto px-6">
@@ -656,94 +699,55 @@
       </div>
     </section>
 
-    <!-- ═══════════════ TRUSTED BY (STATIC GRID) ═══════════════ -->
+    <!-- ═══════════════ TRUSTED BY (SPLIT LAYOUT) ═══════════════ -->
     <section class="py-16 md:py-24 bg-muted/20">
       <div class="container mx-auto px-6">
-        <div class="text-center mb-12">
-          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Partners</p>
-          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Trusted By</h2>
-          <p class="text-muted-foreground text-sm leading-relaxed max-w-xl mx-auto">We are the go-to partner in empowering organizations and professionals with solutions and expertise globally.</p>
-        </div>
-
-        <!-- Static Logo Grid -->
-        <div v-if="clients.length" class="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-8 gap-4">
-          <a
-            v-for="client in clients.slice(0, 16)"
-            :key="client.id"
-            :href="client.website_url || '#'"
-            target="_blank"
-            rel="noopener"
-            class="aspect-square bg-card border border-border rounded-xl flex items-center justify-center p-4 hover:border-primary/40 hover:shadow-md transition-all group"
-          >
-            <img 
-              v-if="client.logo_url" 
-              :src="client.logo_url" 
-              :alt="client.name" 
-              class="max-h-10 max-w-full object-contain grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300" 
-            />
-            <span v-else class="text-muted-foreground font-semibold text-xs text-center leading-tight group-hover:text-primary transition-colors">{{ client.name }}</span>
-          </a>
-        </div>
-        <div v-else class="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-8 gap-4">
-          <div
-            v-for="name in fallbackPartners"
-            :key="name"
-            class="aspect-square bg-card border border-border rounded-xl flex items-center justify-center p-4 hover:border-primary/40 hover:shadow-md transition-all group"
-          >
-            <span class="text-muted-foreground font-semibold text-xs text-center leading-tight group-hover:text-primary transition-colors">{{ name }}</span>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+          <!-- Left: Copy -->
+          <div class="lg:col-span-4 lg:sticky lg:top-28">
+            <h2 class="text-3xl md:text-4xl font-bold text-primary leading-tight mb-5">Trusted By</h2>
+            <p class="text-muted-foreground text-base leading-relaxed mb-8">We are the go-to partner in empowering organizations and professionals with solutions and expertise globally</p>
+            <router-link to="/about" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-sm">
+              View More
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+            </router-link>
           </div>
-        </div>
 
-        <!-- View More Button -->
-        <div class="text-center mt-10">
-          <router-link to="/about" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-sm">
-            View More
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-          </router-link>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══════════════ OUR SOLUTIONS (IMAGE CARDS) ═══════════════ -->
-    <section class="py-16 md:py-24">
-      <div class="container mx-auto px-6">
-        <div class="flex items-end justify-between mb-10">
-          <div>
-            <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Solutions</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight">Our Solutions</h2>
-          </div>
-          <router-link to="/services" class="hidden sm:inline-flex items-center gap-2 px-6 py-2.5 border border-primary text-primary text-xs font-semibold rounded-full hover:bg-primary hover:text-white transition-all">
-            View All
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-          </router-link>
-        </div>
-
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
-          <router-link v-for="service in allServices.slice(0, 8)" :key="service.id" :to="`/services/${service.slug}`" class="group block bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/20 hover:shadow-sm transition-all duration-300">
-            <div class="aspect-[4/3] bg-muted overflow-hidden relative">
-              <img v-if="service.image_url" :src="service.image_url" :alt="service.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-              <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5">
-                <span class="text-3xl">{{ service.icon || '💡' }}</span>
+          <!-- Right: Logo Grid -->
+          <div class="lg:col-span-8">
+            <div v-if="clients.length" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 border-l border-t border-border">
+              <a
+                v-for="client in clients.slice(0, 42)"
+                :key="client.id"
+                :href="client.website_url || '#'"
+                target="_blank"
+                rel="noopener"
+                class="aspect-square bg-card border-r border-b border-border flex items-center justify-center p-3 hover:bg-primary/5 transition-colors group"
+              >
+                <img
+                  v-if="client.logo_url"
+                  :src="client.logo_url"
+                  :alt="client.name"
+                  class="max-h-12 max-w-full object-contain transition-transform duration-300 group-hover:scale-110"
+                />
+                <span v-else class="text-muted-foreground font-semibold text-[11px] text-center leading-tight group-hover:text-primary transition-colors">{{ client.name }}</span>
+              </a>
+            </div>
+            <div v-else class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 border-l border-t border-border">
+              <div
+                v-for="name in fallbackPartners"
+                :key="name"
+                class="aspect-square bg-card border-r border-b border-border flex items-center justify-center p-3 hover:bg-primary/5 transition-colors group"
+              >
+                <span class="text-muted-foreground font-semibold text-[11px] text-center leading-tight group-hover:text-primary transition-colors">{{ name }}</span>
               </div>
             </div>
-            <div class="p-5">
-              <h3 class="text-sm font-semibold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">{{ service.title }}</h3>
-              <p class="text-muted-foreground text-xs leading-relaxed line-clamp-2 mb-3">{{ service.excerpt || service.short_description }}</p>
-              <span class="text-primary font-medium text-xs flex items-center gap-1 group-hover:gap-2 transition-all">
-                Learn More <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
-              </span>
-            </div>
-          </router-link>
-        </div>
-
-        <div class="text-center mt-10 sm:hidden">
-          <router-link to="/services" class="inline-flex items-center gap-2 px-7 py-3 border border-primary text-primary text-sm font-semibold rounded-full hover:bg-primary hover:text-white transition-all">
-            View All Services
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-          </router-link>
+          </div>
         </div>
       </div>
     </section>
+
+  
 
     <!-- ═══════════════ REQUEST A QUOTE ═══════════════ -->
     <section class="py-16 md:py-24">

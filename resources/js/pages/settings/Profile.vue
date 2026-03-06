@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import { Form, Head, Link, usePage } from '@inertiajs/vue3';
 import DeleteUser from '@/components/DeleteUser.vue';
 import Heading from '@/components/Heading.vue';
@@ -28,7 +29,8 @@ const breadcrumbItems: BreadcrumbItem[] = [
 ];
 
 const page = usePage();
-const user = page.props.auth.user;
+// Use computed to make user data reactive to page prop changes
+const user = computed(() => page.props.auth.user);
 </script>
 
 <template>
@@ -56,7 +58,8 @@ const user = page.props.auth.user;
                             id="name"
                             class="mt-1 block w-full"
                             name="name"
-                            :default-value="user.name"
+                            :model-value="user.name"
+                            :key="user.name"
                             required
                             autocomplete="name"
                             placeholder="Full name"
@@ -71,7 +74,8 @@ const user = page.props.auth.user;
                             type="email"
                             class="mt-1 block w-full"
                             name="email"
-                            :default-value="user.email"
+                            :model-value="user.email"
+                            :key="user.email"
                             required
                             autocomplete="username"
                             placeholder="Email address"
