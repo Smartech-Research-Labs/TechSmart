@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'TechSmart') }}</title>
+        <title>{{ config('app.name', 'Smartech Research Labs') }}</title>
 
         @php
             $faviconPath = \App\Models\Setting::get('favicon_path');

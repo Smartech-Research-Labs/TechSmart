@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <PublicLayout>
     <div v-if="loading" class="py-20 text-center">
       <div class="inline-block w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
@@ -154,7 +154,7 @@ async function fetchBlog(slug: string) {
 
     // Update page title for SEO
     if (blog.value?.seo_title || blog.value?.title) {
-      document.title = `${blog.value.seo_title || blog.value.title} - TechSmart`;
+      document.title = `${blog.value.seo_title || blog.value.title} - Smartech Research Labs`;
     }
 
     // Add meta description

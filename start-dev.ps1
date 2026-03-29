@@ -1,8 +1,8 @@
-# PowerShell script to start all TechSmart services
+﻿# PowerShell script to start all Smartech Research Labs services
 # Run this with: .\start-dev.ps1
 
 Write-Host "==================================================" -ForegroundColor Cyan
-Write-Host "        TechSmart Development Environment        " -ForegroundColor Cyan
+Write-Host "        Smartech Research Labs Development Environment        " -ForegroundColor Cyan
 Write-Host "==================================================" -ForegroundColor Cyan
 Write-Host ""
 
@@ -111,7 +111,7 @@ Write-Host "  Socket.IO:    http://localhost:3000" -ForegroundColor White
 Write-Host "  Health Check: http://localhost:3000/health" -ForegroundColor White
 Write-Host ""
 Write-Host "Default Credentials:" -ForegroundColor Yellow
-Write-Host "  Email:    admin@techsmart.com" -ForegroundColor White
+Write-Host "  Email:    admin@smartechresearchlabs.co.ke" -ForegroundColor White
 Write-Host "  Password: password" -ForegroundColor White
 Write-Host ""
 Write-Host "To stop all services, close the terminal windows." -ForegroundColor Gray

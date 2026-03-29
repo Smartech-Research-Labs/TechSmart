@@ -161,11 +161,12 @@ class AIController extends Controller
         }
 
         try {
-            // Get company info from settings
-            $settings = \App\Models\Setting::first();
+            // Get company info from settings for context
+            $settings = \App\Models\Setting::all()->pluck('value', 'key');
             $companyInfo = [
-                'name' => $settings->company_name ?? 'TechSmart',
-                'services' => 'web development, mobile apps, cloud solutions, AI integration',
+                'name' => $settings['site_name'] ?? 'Smartech Research Labs',
+                'email' => $settings['contact_email'] ?? 'info@smartechresearchlabs.co.ke',
+                'phone' => $settings['contact_phone'] ?? '+254 710 351 517',
             ];
 
             $response = $this->aiService->chatbotResponse(

@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\NewsletterSubscriber;
+use App\Models\User;
+use App\Notifications\NewsletterNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 
 class NewsletterController extends Controller
@@ -22,6 +25,10 @@ class NewsletterController extends Controller
         $subscriber = NewsletterSubscriber::create([
             'email' => $request->email,
         ]);
+
+        // Notify admins about new subscriber
+        $admins = User::role(['admin', 'superadmin', 'super-admin'])->get();
+        Notification::send($admins, new NewsletterNotification($request->email));
 
         // TODO: Dispatch job to send welcome email
 

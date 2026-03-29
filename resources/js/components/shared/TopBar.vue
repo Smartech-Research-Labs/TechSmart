@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="top-bar bg-card text-foreground text-sm border-b border-border">
     <div class="container mx-auto px-4 flex items-center justify-between h-10">
       <!-- Marquee -->
@@ -57,7 +57,7 @@ const marqueeItems = computed(() => {
     return marquee.split('|').map((s: string) => s.trim()).filter(Boolean);
   }
   return [
-    '🚀 Welcome to TechSmart — Innovative Tech Solutions',
+    '🚀 Welcome to Smartech Research Labs — Innovative Tech Solutions',
     '💡 Free consultation for new clients',
     '🔥 Check out our latest products and services',
     '📞 Contact us today for a custom quote',

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\{Slider, Service, Product, Bundle, Client, CounterItem};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class CMSController extends Controller
@@ -52,6 +53,8 @@ class CMSController extends Controller
             'background_image' => 'nullable|image|max:4096',
             'cta_label' => 'nullable|string|max:100',
             'cta_url' => 'nullable|string|max:255',
+            'cta_label_2' => 'nullable|string|max:100',
+            'cta_url_2' => 'nullable|string|max:255',
             'is_visible' => 'boolean',
             'order' => 'integer',
         ]);
@@ -217,7 +220,7 @@ class CMSController extends Controller
         ]);
 
         if ($request->hasFile('logo')) {
-            $validated['logo_url'] = $request->file('logo')
+            $validated['logo'] = $request->file('logo')
                 ->store('clients', 'public');
         }
 
@@ -257,8 +260,8 @@ class CMSController extends Controller
     public function storeCounter(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'value' => 'required|integer|min:0',
+            'label' => 'required|string|max:255',
+            'number' => 'required|integer|min:0',
             'suffix' => 'nullable|string|max:10',
             'icon' => 'nullable|string|max:100',
             'is_visible' => 'boolean',
@@ -274,8 +277,8 @@ class CMSController extends Controller
     public function updateCounter(Request $request, CounterItem $counter)
     {
         $validated = $request->validate([
-            'label' => 'sometimes|string|max:255',
-            'number' => 'sometimes|integer|min:0',
+            'label' => 'required|string|max:255',
+            'number' => 'required|integer|min:0',
             'suffix' => 'nullable|string|max:10',
             'icon' => 'nullable|string|max:100',
             'is_visible' => 'boolean',

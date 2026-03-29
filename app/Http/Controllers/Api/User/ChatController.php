@@ -32,15 +32,21 @@ class ChatController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'message' => 'required|string',
-            'guest_name' => 'required_without:user_id|string|max:255',
-            'guest_email' => 'required_without:user_id|email|max:255',
-        ]);
+        $rules = ['message' => 'required|string'];
+        if (!auth()->check()) {
+            $rules['guest_name'] = 'required|string|max:255';
+            $rules['guest_email'] = 'required|email|max:255';
+        }
+        $request->validate($rules);
 
         $session = null;
 
-        if (auth()->check()) {
+        // If session_id is provided, use existing session
+        if ($request->filled('session_id')) {
+            $session = ChatSession::where('id', $request->session_id)
+                ->where('user_id', auth()->id())
+                ->firstOrFail();
+        } elseif (auth()->check()) {
             $session = ChatSession::firstOrCreate(
                 ['user_id' => auth()->id(), 'status' => 'active'],
                 ['session_token' => Str::random(32)]

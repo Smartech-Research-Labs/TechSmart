@@ -178,14 +178,27 @@ class OpenAIService
     public function chatbotResponse(string $userMessage, array $context = [], array $companyInfo = []): string
     {
         try {
-            $companyName = $companyInfo['name'] ?? 'TechSmart';
-            $companyServices = $companyInfo['services'] ?? 'web development, mobile apps, cloud solutions';
+            $companyName = $companyInfo['name'] ?? 'Smartech Research Labs';
 
-            $systemPrompt = "You are a helpful customer support assistant for {$companyName}, a technology company. 
+            // Build rich knowledge base from actual website data
+            $knowledgeBase = $this->buildKnowledgeBase($companyInfo);
 
-Our services include: {$companyServices}.
+        $contactEmail = $companyInfo['email'] ?? 'info@smartechresearchlabs.co.ke';
+        $contactPhone = $companyInfo['phone'] ?? '+254 710 351 517';
 
-Answer customer questions professionally. If you don't know something specific, suggest they wait for a human agent or provide the contact email. Keep responses concise (2-3 sentences max).";
+        $systemPrompt = "You are a helpful, friendly customer support assistant for {$companyName}. You have deep knowledge about the company, its services, products, and pricing.
+
+{$knowledgeBase}
+
+GUIDELINES:
+- Be professional, warm, and concise (2-4 sentences max unless the user asks for details).
+- Use the knowledge base above to answer questions accurately about services, products, pricing, and the company.
+- If the user asks about something not in your knowledge base, say you'll connect them with a human agent or suggest they email the team.
+- Never make up pricing, features, or claims not in the knowledge base.
+- For technical questions, provide helpful guidance and suggest booking a consultation.
+- Always end with a helpful follow-up question or CTA when appropriate.
+- Contact email: {$contactEmail}
+- Contact phone: {$contactPhone}";
 
             $messages = [
                 ['role' => 'system', 'content' => $systemPrompt],
@@ -224,7 +237,7 @@ Answer customer questions professionally. If you don't know something specific, 
                 'error' => $e->getMessage(),
             ]);
 
-            return "I apologize, but I'm temporarily unable to assist. Please wait for one of our human agents to join the chat, or email us at support@techsmart.com.";
+            return "I apologize, but I'm temporarily unable to assist. Please wait for one of our human agents to join the chat, or email us at support@smartechresearchlabs.co.ke.";
         }
     }
 
@@ -311,5 +324,75 @@ Return as JSON array: [{\"step\": 1, \"title\": \"Discovery\", \"description\": 
 
             return $text; // Return original if fails
         }
+    }
+
+    /**
+     * Build a knowledge base string from actual website data for the chatbot.
+     */
+    protected function buildKnowledgeBase(array $companyInfo = []): string
+    {
+        $sections = [];
+
+        // Company info from settings
+        $settings = \App\Models\Setting::all()->pluck('value', 'key');
+        $sections[] = "COMPANY INFORMATION:";
+        $sections[] = "- Name: " . ($settings['site_name'] ?? 'Smartech Research Labs');
+        $sections[] = "- Tagline: " . ($settings['tagline'] ?? '');
+        $sections[] = "- Description: " . ($settings['site_description'] ?? '');
+        $sections[] = "- Location: " . ($settings['address'] ?? '') . ', ' . ($settings['city'] ?? 'Nairobi') . ', ' . ($settings['country'] ?? 'Kenya');
+        $sections[] = "- Email: " . ($settings['contact_email'] ?? 'info@smartechresearchlabs.co.ke');
+        $sections[] = "- Phone: " . ($settings['contact_phone'] ?? '+254 710 351 517');
+        $sections[] = "- WhatsApp: " . ($settings['whatsapp_number'] ?? '+254 710 351 517');
+
+        // Services
+        $services = \App\Models\Service::where('is_published', true)->get(['name', 'short_description', 'category', 'price_from']);
+        if ($services->isNotEmpty()) {
+            $sections[] = "\nSERVICES WE OFFER:";
+            foreach ($services as $svc) {
+                $price = $svc->price_from ? " (Starting from KES " . number_format($svc->price_from) . ")" : '';
+                $sections[] = "- {$svc->name}" . ($svc->category ? " [{$svc->category}]" : '') . "{$price}: " . ($svc->short_description ?? '');
+            }
+        }
+
+        // Products
+        $products = \App\Models\Product::where('is_published', true)->get(['name', 'short_description', 'price', 'category']);
+        if ($products->isNotEmpty()) {
+            $sections[] = "\nPRODUCTS:";
+            foreach ($products as $prod) {
+                $price = $prod->price ? " (KES " . number_format($prod->price) . ")" : '';
+                $sections[] = "- {$prod->name}" . ($prod->category ? " [{$prod->category}]" : '') . "{$price}: " . ($prod->short_description ?? '');
+            }
+        }
+
+        // Bundles
+        $bundles = \App\Models\Bundle::where('is_published', true)->get(['name', 'description', 'price', 'original_price']);
+        if ($bundles->isNotEmpty()) {
+            $sections[] = "\nBUNDLES / PACKAGES:";
+            foreach ($bundles as $bundle) {
+                $saving = ($bundle->original_price && $bundle->price) ? " (Save KES " . number_format($bundle->original_price - $bundle->price) . ")" : '';
+                $price = $bundle->price ? " — KES " . number_format($bundle->price) : '';
+                $sections[] = "- {$bundle->name}{$price}{$saving}: " . mb_substr($bundle->description ?? '', 0, 100);
+            }
+        }
+
+        // FAQs
+        $faqs = \App\Models\Faq::where('is_visible', true)->take(15)->get(['question', 'answer']);
+        if ($faqs->isNotEmpty()) {
+            $sections[] = "\nFREQUENTLY ASKED QUESTIONS:";
+            foreach ($faqs as $faq) {
+                $sections[] = "Q: {$faq->question}\nA: " . mb_substr($faq->answer, 0, 200);
+            }
+        }
+
+        // Industries served
+        $industries = \App\Models\Industry::where('is_active', true)->get(['title', 'short_description']);
+        if ($industries->isNotEmpty()) {
+            $sections[] = "\nINDUSTRIES WE SERVE:";
+            foreach ($industries as $ind) {
+                $sections[] = "- {$ind->title}: " . ($ind->short_description ?? '');
+            }
+        }
+
+        return implode("\n", $sections);
     }
 }

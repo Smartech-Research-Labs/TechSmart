@@ -1,5 +1,12 @@
 import axios, { type AxiosInstance, type AxiosRequestConfig } from 'axios';
 
+// Global in-flight request counter for progress bar
+let activeRequests = 0;
+function getLoadingIndicator() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (window as any).__loadingIndicator as { startLoading: (msg?: string, overlay?: boolean) => void; stopLoading: () => void } | undefined;
+}
+
 // Create axios instance with default config
 const api: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL || '/api/v1',
@@ -10,12 +17,17 @@ const api: AxiosInstance = axios.create({
   withCredentials: true,
 });
 
-// Request interceptor to add auth token
+// Request interceptor to add auth token + start global loading
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
+    }
+    // Track active requests for progress bar
+    activeRequests++;
+    if (activeRequests === 1) {
+      getLoadingIndicator()?.startLoading();
     }
     return config;
   },
@@ -24,10 +36,21 @@ api.interceptors.request.use(
   }
 );
 
-// Response interceptor for error handling
+// Response interceptor for error handling + stop global loading
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    activeRequests = Math.max(0, activeRequests - 1);
+    if (activeRequests === 0) {
+      getLoadingIndicator()?.stopLoading();
+    }
+    return response;
+  },
   (error) => {
+    activeRequests = Math.max(0, activeRequests - 1);
+    if (activeRequests === 0) {
+      getLoadingIndicator()?.stopLoading();
+    }
+
     // Handle 401 Unauthorized
     if (error.response?.status === 401) {
       localStorage.removeItem('token');

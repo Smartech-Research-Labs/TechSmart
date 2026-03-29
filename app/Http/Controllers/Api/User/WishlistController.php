@@ -3,21 +3,26 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\{Product, Service, Wishlist};
+use App\Models\{Product, Service, User, Wishlist};
+use App\Notifications\WishlistNotification;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class WishlistController extends Controller
+class WishlistController extends Controller implements HasMiddleware
 {
-    public function __construct()
+    public static function middleware(): array
     {
-        $this->middleware('auth:sanctum');
+        return [
+            new Middleware('auth:sanctum'),
+        ];
     }
 
     public function index()
     {
         $wishlists = auth()->user()->wishlists()->with('wishlistable')->get();
 
-        return response()->json($wishlists);
+        return response()->json(['wishlist' => $wishlists]);
     }
 
     public function store(Request $request)
@@ -42,9 +47,24 @@ class WishlistController extends Controller
             'wishlistable_id' => $request->wishlistable_id,
         ]);
 
+        // Notify admin users
+        $item = $request->wishlistable_type::find($request->wishlistable_id);
+        $itemName = $item->name ?? $item->title ?? 'Unknown';
+        $userName = auth()->user()->name ?? auth()->user()->email;
+
+        $admins = User::role(['admin', 'super-admin'])->get();
+        foreach ($admins as $admin) {
+            $admin->notify(new WishlistNotification(
+                userName: $userName,
+                itemType: $request->wishlistable_type,
+                itemName: $itemName,
+                itemId: $request->wishlistable_id,
+            ));
+        }
+
         return response()->json([
             'message' => 'Added to wishlist',
-            'wishlist' => $wishlist->load('wishlistable'),
+            'wishlist_item' => $wishlist->load('wishlistable'),
         ], 201);
     }
 

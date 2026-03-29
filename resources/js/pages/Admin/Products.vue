@@ -1,15 +1,15 @@
-<template>
+﻿<template>
   <AdminLayout>
     <div class="space-y-8">
       <!-- Page Header -->
-      <div class="flex items-center justify-between">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 class="text-3xl font-display font-bold text-foreground mb-2">Manage Products</h1>
+          <h1 class="text-xl font-display font-bold text-foreground mb-1">Manage Products</h1>
           <p class="text-muted-foreground">Add, edit, and organize products</p>
         </div>
         <button
           @click="openCreateModal"
-          class="bg-primary hover:bg-primary/90 text-white font-semibold px-6 py-2.5 rounded-lg transition"
+          class="bg-primary hover:bg-primary/90 text-white font-medium px-4 py-2 text-sm rounded-lg transition whitespace-nowrap"
         >
           + Add Product
         </button>
@@ -31,84 +31,56 @@
       </div>
 
       <!-- Products Table -->
-      <div v-else class="bg-card border border-border rounded-lg overflow-hidden">
-        <table class="w-full">
-          <thead class="bg-muted/30">
-            <tr class="border-b border-border">
-              <th class="text-left text-muted-foreground text-sm font-semibold p-4">Product Name</th>
-              <th class="text-left text-muted-foreground text-sm font-semibold p-4">Category</th>
-              <th class="text-left text-muted-foreground text-sm font-semibold p-4">Price</th>
-              <th class="text-left text-muted-foreground text-sm font-semibold p-4">Featured</th>
-              <th class="text-left text-muted-foreground text-sm font-semibold p-4">Status</th>
-              <th class="text-left text-muted-foreground text-sm font-semibold p-4">Order</th>
-              <th class="text-right text-muted-foreground text-sm font-semibold p-4">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="product in products"
-              :key="product.id"
-              class="border-b border-border hover:bg-muted/20 transition"
-            >
-              <td class="p-4">
-                <p class="text-foreground font-semibold">{{ product.name }}</p>
-                <p v-if="product.short_description" class="text-muted-foreground text-xs mt-0.5 line-clamp-1">{{ product.short_description }}</p>
-              </td>
-              <td class="p-4">
-                <p class="text-muted-foreground">{{ product.category || '—' }}</p>
-              </td>
-              <td class="p-4">
-                <p class="text-foreground font-semibold">{{ product.price_label || formatPrice(product.price) }}</p>
-              </td>
-              <td class="p-4">
-                <span
-                  :class="[
-                    'px-2 py-1 rounded text-xs font-semibold',
-                    product.is_featured ? 'bg-yellow-500/20 text-yellow-400' : 'bg-gray-500/20 text-muted-foreground'
-                  ]"
-                >
-                  {{ product.is_featured ? 'Featured' : 'No' }}
-                </span>
-              </td>
-              <td class="p-4">
-                <span
-                  :class="[
-                    'px-2 py-1 rounded text-xs font-semibold',
-                    product.is_published ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-muted-foreground'
-                  ]"
-                >
-                  {{ product.is_published ? 'Published' : 'Draft' }}
-                </span>
-              </td>
-              <td class="p-4">
-                <p class="text-muted-foreground">{{ product.order ?? '—' }}</p>
-              </td>
-              <td class="p-4">
-                <div class="flex items-center justify-end gap-2">
-                  <button
-                    @click="openEditModal(product)"
-                    class="text-primary hover:text-primary/80 text-sm font-semibold transition"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    @click="confirmDelete(product)"
-                    class="text-red-400 hover:text-red-300 text-sm font-semibold transition"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <!-- Products Card Grid -->
+      <div v-else>
+        <!-- Search Bar -->
+        <div class="mb-6">
+          <div class="relative max-w-md">
+            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input v-model="searchQuery" type="text" placeholder="Search products..." class="w-full pl-10 pr-4 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-primary" />
+          </div>
+        </div>
 
-        <div v-if="products.length === 0" class="py-12 text-center text-muted-foreground">
-          No products yet. Create your first one!
+        <div v-if="filteredProducts.length === 0" class="py-12 text-center text-muted-foreground">
+          {{ searchQuery ? 'No products match your search.' : 'No products yet. Create your first one!' }}
+        </div>
+
+        <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div
+            v-for="product in filteredProducts"
+            :key="product.id"
+            class="bg-card border border-border rounded-lg overflow-hidden hover:border-primary/30 transition group"
+          >
+            <div class="p-5">
+              <div class="flex items-start justify-between mb-3">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span v-if="product.is_featured" class="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-500/20 text-amber-400">Featured</span>
+                  <span :class="['px-2 py-0.5 rounded text-[10px] font-semibold', product.is_published ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-muted-foreground']">
+                    {{ product.is_published ? 'Published' : 'Draft' }}
+                  </span>
+                </div>
+                <span v-if="product.order != null" class="text-[10px] text-muted-foreground">#{{ product.order }}</span>
+              </div>
+
+              <h3 class="text-sm font-bold text-foreground mb-1 group-hover:text-primary transition-colors">{{ product.name }}</h3>
+              <p v-if="product.category" class="text-[10px] text-primary font-medium mb-2">{{ product.category }}</p>
+              <p v-if="product.short_description" class="text-muted-foreground text-xs line-clamp-2 mb-3">{{ product.short_description }}</p>
+
+              <div class="flex items-center justify-between mb-4">
+                <span class="text-sm font-bold text-foreground">{{ product.price_label || formatPrice(product.price) }}</span>
+                <span v-if="product.features?.length" class="text-[10px] text-muted-foreground">{{ product.features.length }} features</span>
+              </div>
+
+              <div class="flex gap-2">
+                <button @click="openEditModal(product)" class="flex-1 bg-primary/10 hover:bg-primary/20 text-primary font-medium py-1.5 rounded-md transition text-xs">Edit</button>
+                <button @click="confirmDelete(product)" class="flex-1 border border-border hover:border-red-500/50 text-muted-foreground hover:text-red-400 font-medium py-1.5 rounded-md transition text-xs">Delete</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Create / Edit Modal -->
+            <!-- Create / Edit Modal -->
       <div
         v-if="showFormModal"
         class="fixed inset-0 z-50 flex items-center justify-center bg-muted/70 backdrop-blur-sm p-4"
@@ -140,7 +112,7 @@
             </div>
 
             <!-- Category & Price row -->
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label class="block text-sm font-medium text-foreground mb-1">Category</label>
                 <input
@@ -164,7 +136,7 @@
             </div>
 
             <!-- Price Label & Order row -->
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label class="block text-sm font-medium text-foreground mb-1">Price Label</label>
                 <input
@@ -321,7 +293,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import { useApi } from '@/composables/useApi';
 import { useToast } from '@/composables/useToast';
@@ -363,6 +335,17 @@ const toast = useToast();
 const products = ref<Product[]>([]);
 const loading = ref(false);
 const fetchError = ref('');
+const searchQuery = ref('');
+
+const filteredProducts = computed(() => {
+  if (!searchQuery.value.trim()) return products.value;
+  const q = searchQuery.value.toLowerCase();
+  return products.value.filter(p =>
+    p.name.toLowerCase().includes(q) ||
+    (p.category || '').toLowerCase().includes(q) ||
+    (p.short_description || '').toLowerCase().includes(q)
+  );
+});
 
 // Form modal state
 const showFormModal = ref(false);
@@ -496,7 +479,7 @@ async function deleteProduct() {
 // --- Helpers ---
 function formatPrice(price?: number) {
   if (price == null) return '—';
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price);
+  return `Ksh ${price.toLocaleString()}`;
 }
 
 onMounted(fetchProducts);

@@ -1,33 +1,16 @@
-<template>
+﻿<template>
   <AdminLayout>
     <div class="space-y-8">
       <!-- Page Header -->
-      <div class="flex items-center justify-between">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 class="text-3xl font-display font-bold text-foreground mb-2">Manage Services</h1>
+          <h1 class="text-xl font-display font-bold text-foreground mb-1">Manage Services</h1>
           <p class="text-muted-foreground">Add, edit, and organize services</p>
         </div>
-        <button @click="openCreateModal" class="bg-primary hover:bg-primary/90 text-white font-semibold px-6 py-2.5 rounded-lg transition">
+        <button @click="openCreateModal" class="bg-primary hover:bg-primary/90 text-white font-medium px-4 py-2 text-sm rounded-lg transition whitespace-nowrap">
           + Add Service
         </button>
       </div>
-
-      <!-- Toast Notification -->
-      <Transition
-        enter-active-class="transition ease-out duration-300"
-        enter-from-class="opacity-0 translate-y-2"
-        enter-to-class="opacity-100 translate-y-0"
-        leave-active-class="transition ease-in duration-200"
-        leave-from-class="opacity-100 translate-y-0"
-        leave-to-class="opacity-0 translate-y-2"
-      >
-        <div v-if="toast.show" :class="[
-          'fixed top-6 right-6 z-[100] px-5 py-3 rounded-lg shadow-lg text-sm font-semibold',
-          toast.type === 'success' ? 'bg-green-500/90 text-white' : 'bg-red-500/90 text-white'
-        ]">
-          {{ toast.message }}
-        </div>
-      </Transition>
 
       <!-- Loading State -->
       <div v-if="loading" class="flex items-center justify-center py-20">
@@ -51,23 +34,36 @@
 
       <!-- Empty State -->
       <div v-else-if="services.length === 0" class="bg-card border border-border rounded-lg p-12 text-center">
-        <p class="text-4xl mb-4">🛠️</p>
+        <p class="text-4xl mb-4">ðŸ› ï¸</p>
         <p class="text-foreground font-semibold text-lg mb-1">No services yet</p>
         <p class="text-muted-foreground text-sm mb-6">Create your first service to get started.</p>
-        <button @click="openCreateModal" class="bg-primary hover:bg-primary/90 text-white font-semibold px-6 py-2.5 rounded-lg transition">
+        <button @click="openCreateModal" class="bg-primary hover:bg-primary/90 text-white font-medium px-4 py-2 text-sm rounded-lg transition">
           + Add Service
         </button>
       </div>
 
       <!-- Services Grid -->
-      <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div v-else>
+        <!-- Search Bar -->
+        <div class="mb-6">
+          <div class="relative max-w-md">
+            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input v-model="searchQuery" type="text" placeholder="Search services..." class="w-full pl-10 pr-4 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-primary" />
+          </div>
+        </div>
+
+        <div v-if="filteredServices.length === 0" class="py-12 text-center text-muted-foreground">
+          {{ searchQuery ? 'No services match your search.' : 'No services yet. Create your first one.' }}
+        </div>
+
+        <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div
-          v-for="service in services"
+          v-for="service in filteredServices"
           :key="service.id"
           class="bg-card border border-border rounded-lg p-6 hover:border-primary transition"
         >
           <div class="flex items-start justify-between mb-4">
-            <span class="text-3xl">{{ service.icon || '🔧' }}</span>
+            <span class="text-3xl">{{ service.icon || 'ðŸ”§' }}</span>
             <div class="flex items-center gap-2">
               <span v-if="service.is_featured" class="px-2 py-1 rounded text-xs font-semibold bg-amber-500/20 text-amber-400">
                 Featured
@@ -95,6 +91,7 @@
             </button>
           </div>
         </div>
+      </div>
       </div>
     </div>
 
@@ -129,7 +126,7 @@
             </div>
             <div>
               <label class="block text-sm font-medium text-foreground mb-1">Icon</label>
-              <input v-model="form.icon" type="text" class="w-full px-3 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-primary" placeholder="e.g. 🚀 or icon class name" />
+              <input v-model="form.icon" type="text" class="w-full px-3 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-primary" placeholder="e.g. ðŸš€ or icon class name" />
             </div>
           </div>
 
@@ -167,14 +164,17 @@
             </button>
           </div>
 
-          <!-- Process Steps (dynamic list) -->
+          <!-- Process Steps (dynamic list with title + description) -->
           <div>
             <label class="block text-sm font-medium text-foreground mb-1">Process Steps</label>
-            <div class="space-y-2">
-              <div v-for="(step, idx) in form.process_steps" :key="idx" class="flex items-center gap-2">
-                <span class="text-xs text-muted-foreground font-bold w-6 text-center">{{ idx + 1 }}</span>
-                <input v-model="form.process_steps[idx]" type="text" class="flex-1 px-3 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-primary" :placeholder="'Step ' + (idx + 1)" />
-                <button type="button" @click="removeStep(idx)" class="text-red-400 hover:text-red-300 transition p-1">
+            <div class="space-y-3">
+              <div v-for="(step, idx) in form.process_steps" :key="idx" class="flex items-start gap-2 bg-muted/30 border border-border rounded-lg p-3">
+                <span class="text-xs text-muted-foreground font-bold w-6 text-center mt-2.5">{{ idx + 1 }}</span>
+                <div class="flex-1 space-y-2">
+                  <input v-model="form.process_steps[idx].title" type="text" class="w-full px-3 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-primary" :placeholder="'Step ' + (idx + 1) + ' title'" />
+                  <input v-model="form.process_steps[idx].description" type="text" class="w-full px-3 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-primary" :placeholder="'Step ' + (idx + 1) + ' description (optional)'" />
+                </div>
+                <button type="button" @click="removeStep(idx)" class="text-red-400 hover:text-red-300 transition p-1 mt-2">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
               </div>
@@ -246,13 +246,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import { useApi } from '@/composables/useApi';
+import { useToast } from '@/composables/useToast';
 
 const { get, post, put, delete: destroy } = useApi();
+const toast = useToast();
 
-// ── State ──────────────────────────────────────────────
+// â”€â”€ State â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 interface Service {
   id: number;
   name: string;
@@ -263,7 +265,7 @@ interface Service {
   image: string;
   category: string;
   features: string[];
-  process_steps: string[];
+  process_steps: Array<{ title: string; description: string }>;
   is_featured: boolean;
   is_published: boolean;
   order: number;
@@ -274,6 +276,17 @@ interface Service {
 const services = ref<Service[]>([]);
 const loading = ref(false);
 const error = ref('');
+const searchQuery = ref('');
+
+const filteredServices = computed(() => {
+  if (!searchQuery.value.trim()) return services.value;
+  const q = searchQuery.value.toLowerCase();
+  return services.value.filter(s =>
+    s.name.toLowerCase().includes(q) ||
+    (s.category || '').toLowerCase().includes(q) ||
+    (s.short_description || '').toLowerCase().includes(q)
+  );
+});
 
 // Modal
 const showModal = ref(false);
@@ -288,7 +301,7 @@ const serviceToDelete = ref<Service | null>(null);
 const deleting = ref(false);
 
 // Toast
-const toast = ref({ show: false, message: '', type: 'success' as 'success' | 'error' });
+// Uses global useToast composable (toast is already declared above)
 
 const defaultForm = () => ({
   name: '',
@@ -299,7 +312,7 @@ const defaultForm = () => ({
   image: '',
   category: '',
   features: [] as string[],
-  process_steps: [] as string[],
+  process_steps: [] as Array<{ title: string; description: string }>,
   is_featured: false,
   is_published: true,
   order: 0,
@@ -307,13 +320,13 @@ const defaultForm = () => ({
 
 const form = ref(defaultForm());
 
-// ── Toast helper ───────────────────────────────────────
+// â”€â”€ Toast helper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function showToast(message: string, type: 'success' | 'error' = 'success') {
-  toast.value = { show: true, message, type };
-  setTimeout(() => { toast.value.show = false; }, 3000);
+  if (type === 'success') toast.success(message);
+  else toast.error(message);
 }
 
-// ── Fetch ──────────────────────────────────────────────
+// â”€â”€ Fetch â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function fetchServices() {
   loading.value = true;
   error.value = '';
@@ -327,7 +340,7 @@ async function fetchServices() {
   }
 }
 
-// ── Create / Edit modal ───────────────────────────────
+// â”€â”€ Create / Edit modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function openCreateModal() {
   isEditing.value = false;
   editingId.value = null;
@@ -348,7 +361,7 @@ function openEditModal(service: Service) {
     image: service.image ?? '',
     category: service.category ?? '',
     features: Array.isArray(service.features) ? [...service.features] : [],
-    process_steps: Array.isArray(service.process_steps) ? [...service.process_steps] : [],
+    process_steps: Array.isArray(service.process_steps) ? service.process_steps.map((s: any) => typeof s === 'string' ? { title: s, description: '' } : { title: s.title || '', description: s.description || '' }) : [],
     is_featured: !!service.is_featured,
     is_published: !!service.is_published,
     order: service.order ?? 0,
@@ -362,13 +375,13 @@ function closeModal() {
   formErrors.value = [];
 }
 
-// ── Features / Steps helpers ──────────────────────────
+// â”€â”€ Features / Steps helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function addFeature() { form.value.features.push(''); }
 function removeFeature(idx: number) { form.value.features.splice(idx, 1); }
-function addStep() { form.value.process_steps.push(''); }
+function addStep() { form.value.process_steps.push({ title: '', description: '' }); }
 function removeStep(idx: number) { form.value.process_steps.splice(idx, 1); }
 
-// ── Submit (Create or Update) ─────────────────────────
+// â”€â”€ Submit (Create or Update) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function submitForm() {
   formErrors.value = [];
   submitting.value = true;
@@ -377,7 +390,7 @@ async function submitForm() {
   const payload = {
     ...form.value,
     features: form.value.features.filter((f) => f.trim() !== ''),
-    process_steps: form.value.process_steps.filter((s) => s.trim() !== ''),
+    process_steps: form.value.process_steps.filter((s) => s.title.trim() !== ''),
   };
 
   try {
@@ -403,7 +416,7 @@ async function submitForm() {
   }
 }
 
-// ── Delete ─────────────────────────────────────────────
+// â”€â”€ Delete â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function confirmDelete(service: Service) {
   serviceToDelete.value = service;
   showDeleteModal.value = true;
@@ -425,6 +438,6 @@ async function deleteService() {
   }
 }
 
-// ── Init ───────────────────────────────────────────────
+// â”€â”€ Init â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 onMounted(fetchServices);
 </script>

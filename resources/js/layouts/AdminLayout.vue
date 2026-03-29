@@ -6,6 +6,7 @@
       <div class="flex flex-1 flex-col gap-4 p-4 @container/main lg:p-6">
         <slot />
       </div>
+      <DashboardFooter />
     </SidebarInset>
   </SidebarProvider>
 </template>
@@ -15,6 +16,7 @@ import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import AdminSidebar from '@/components/AdminSidebar.vue';
 import SiteHeader from '@/components/SiteHeader.vue';
+import DashboardFooter from '@/components/DashboardFooter.vue';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 
 const route = useRoute();

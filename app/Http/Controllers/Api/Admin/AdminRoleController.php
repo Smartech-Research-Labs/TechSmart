@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -11,7 +12,18 @@ class AdminRoleController extends Controller
 {
     public function index()
     {
-        $roles = Role::with('permissions')->withCount('users')->get();
+        $roles = Role::with('permissions')->get();
+
+        // Count users per role via pivot table directly to avoid
+        // Spatie's guard-model resolution issue in API context
+        $userCounts = DB::table('model_has_roles')
+            ->select('role_id', DB::raw('count(*) as count'))
+            ->groupBy('role_id')
+            ->pluck('count', 'role_id');
+
+        $roles->each(function ($role) use ($userCounts) {
+            $role->users_count = $userCounts[$role->id] ?? 0;
+        });
 
         return response()->json($roles);
     }
@@ -71,6 +83,6 @@ class AdminRoleController extends Controller
 
     public function permissions()
     {
-        return response()->json(Permission::orderBy('name')->get());
+        return response()->json(Permission::orderBy('name')->pluck('name'));
     }
 }

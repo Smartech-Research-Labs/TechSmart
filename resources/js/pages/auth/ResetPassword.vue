@@ -1,89 +1,115 @@
 <script setup lang="ts">
-import { Form, Head } from '@inertiajs/vue3';
-import { ref } from 'vue';
-import InputError from '@/components/InputError.vue';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Spinner } from '@/components/ui/spinner';
-import AuthLayout from '@/layouts/AuthLayout.vue';
-import { update } from '@/routes/password';
+import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import axios from 'axios'
+import AuthPageLayout from '@/layouts/AuthPageLayout.vue'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Spinner } from '@/components/ui/spinner'
 
-const props = defineProps<{
-    token: string;
-    email: string;
-}>();
+const route = useRoute()
+const router = useRouter()
 
-const inputEmail = ref(props.email);
+const token = route.params.token as string
+const emailFromQuery = (route.query.email as string) ?? ''
+
+const email = ref(emailFromQuery)
+const password = ref('')
+const passwordConfirmation = ref('')
+const errors = ref<Record<string, string[]>>({})
+const processing = ref(false)
+
+async function submit() {
+  errors.value = {}
+  processing.value = true
+
+  try {
+    await axios.get('/sanctum/csrf-cookie')
+    await axios.post(
+      '/reset-password',
+      {
+        token,
+        email: email.value,
+        password: password.value,
+        password_confirmation: passwordConfirmation.value,
+      },
+      { headers: { Accept: 'application/json' } },
+    )
+    router.push('/login')
+  } catch (err: any) {
+    if (err.response?.status === 422) {
+      errors.value = err.response.data.errors ?? {}
+    } else {
+      errors.value = { email: ['Something went wrong. Please try again.'] }
+    }
+  } finally {
+    processing.value = false
+  }
+}
 </script>
 
 <template>
-    <AuthLayout
-        title="Reset password"
-        description="Please enter your new password below"
-    >
-        <Head title="Reset password" />
+  <AuthPageLayout>
+    <div class="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
+      <div class="flex flex-col space-y-2 text-center">
+        <h1 class="text-2xl font-semibold tracking-tight">Reset password</h1>
+        <p class="text-sm text-muted-foreground">Please enter your new password below</p>
+      </div>
 
-        <Form
-            v-bind="update.form()"
-            :transform="(data) => ({ ...data, token, email })"
-            :reset-on-success="['password', 'password_confirmation']"
-            v-slot="{ errors, processing }"
-        >
-            <div class="grid gap-6">
-                <div class="grid gap-2">
-                    <Label for="email">Email</Label>
-                    <Input
-                        id="email"
-                        type="email"
-                        name="email"
-                        autocomplete="email"
-                        v-model="inputEmail"
-                        class="mt-1 block w-full"
-                        readonly
-                    />
-                    <InputError :message="errors.email" class="mt-2" />
-                </div>
+      <form class="space-y-6" @submit.prevent="submit">
+        <div class="grid gap-6">
+          <div class="grid gap-2">
+            <Label for="email">Email</Label>
+            <Input
+              id="email"
+              v-model="email"
+              type="email"
+              autocomplete="email"
+              class="mt-1 block w-full"
+              readonly
+            />
+            <p v-if="errors.email" class="text-sm text-destructive">{{ errors.email[0] }}</p>
+          </div>
 
-                <div class="grid gap-2">
-                    <Label for="password">Password</Label>
-                    <Input
-                        id="password"
-                        type="password"
-                        name="password"
-                        autocomplete="new-password"
-                        class="mt-1 block w-full"
-                        autofocus
-                        placeholder="Password"
-                    />
-                    <InputError :message="errors.password" />
-                </div>
+          <div class="grid gap-2">
+            <Label for="password">Password</Label>
+            <Input
+              id="password"
+              v-model="password"
+              type="password"
+              autocomplete="new-password"
+              class="mt-1 block w-full"
+              autofocus
+              placeholder="Password"
+            />
+            <p v-if="errors.password" class="text-sm text-destructive">{{ errors.password[0] }}</p>
+          </div>
 
-                <div class="grid gap-2">
-                    <Label for="password_confirmation">
-                        Confirm Password
-                    </Label>
-                    <Input
-                        id="password_confirmation"
-                        type="password"
-                        name="password_confirmation"
-                        autocomplete="new-password"
-                        class="mt-1 block w-full"
-                        placeholder="Confirm password"
-                    />
-                    <InputError :message="errors.password_confirmation" />
-                </div>
+          <div class="grid gap-2">
+            <Label for="password_confirmation">Confirm Password</Label>
+            <Input
+              id="password_confirmation"
+              v-model="passwordConfirmation"
+              type="password"
+              autocomplete="new-password"
+              class="mt-1 block w-full"
+              placeholder="Confirm password"
+            />
+            <p v-if="errors.password_confirmation" class="text-sm text-destructive">{{ errors.password_confirmation[0] }}</p>
+          </div>
 
-                <Button
-                    type="submit"
-                    class="mt-4 w-full"
-                    :disabled="processing"
-                    data-test="reset-password-button"
-                >
-                    <Spinner v-if="processing" />
-                    Reset password
-                </Button>
-            </div>
-        </Form>
-    </AuthLayout>
+          <Button
+            type="submit"
+            class="mt-4 w-full"
+            :disabled="processing"
+            data-test="reset-password-button"
+          >
+            <Spinner v-if="processing" class="mr-2" />
+            Reset password
+          </Button>
+        </div>
+      </form>
+    </div>
+  </AuthPageLayout>
 </template>

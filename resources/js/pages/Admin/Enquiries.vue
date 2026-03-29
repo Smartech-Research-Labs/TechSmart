@@ -1,9 +1,9 @@
-<template>
+﻿<template>
   <AdminLayout>
     <div class="space-y-8">
       <!-- Page Header -->
       <div>
-        <h1 class="text-3xl font-display font-bold text-foreground mb-2">Manage Enquiries</h1>
+        <h1 class="text-xl font-display font-bold text-foreground mb-1">Manage Enquiries</h1>
         <p class="text-muted-foreground">View and respond to customer inquiries</p>
       </div>
 
@@ -11,19 +11,19 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="bg-card border border-border rounded-lg p-5">
           <p class="text-sm text-muted-foreground mb-1">Total</p>
-          <p class="text-2xl font-bold text-foreground">{{ stats.total }}</p>
+          <p class="text-lg font-bold text-foreground">{{ stats.total }}</p>
         </div>
         <div class="bg-card border border-blue-500/30 rounded-lg p-5">
           <p class="text-sm text-blue-400 mb-1">New</p>
-          <p class="text-2xl font-bold text-blue-400">{{ stats.new }}</p>
+          <p class="text-lg font-bold text-blue-400">{{ stats.new }}</p>
         </div>
         <div class="bg-card border border-amber-500/30 rounded-lg p-5">
           <p class="text-sm text-amber-400 mb-1">In Progress</p>
-          <p class="text-2xl font-bold text-amber-400">{{ stats.in_progress }}</p>
+          <p class="text-lg font-bold text-amber-400">{{ stats.in_progress }}</p>
         </div>
         <div class="bg-card border border-green-500/30 rounded-lg p-5">
           <p class="text-sm text-green-400 mb-1">Resolved</p>
-          <p class="text-2xl font-bold text-green-400">{{ stats.resolved }}</p>
+          <p class="text-lg font-bold text-green-400">{{ stats.resolved }}</p>
         </div>
       </div>
 
@@ -265,7 +265,7 @@ async function fetchStats() {
     stats.in_progress = data.in_progress ?? 0;
     stats.resolved = data.resolved ?? 0;
   } catch {
-    // stats are non-critical — silently ignore
+    // stats are non-critical â€” silently ignore
   }
 }
 

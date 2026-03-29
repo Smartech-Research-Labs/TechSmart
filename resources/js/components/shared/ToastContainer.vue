@@ -1,6 +1,6 @@
 <template>
   <Teleport to="body">
-    <div class="toast-container fixed top-4 right-4 z-50 flex flex-col gap-3 max-w-md">
+    <div class="toast-container fixed top-4 left-1/2 -translate-x-1/2 z-[9998] flex flex-col gap-3 w-full max-w-md px-4">
       <TransitionGroup name="toast">
         <div
           v-for="toast in toasts"
@@ -41,10 +41,10 @@ import { useToast } from '@/composables';
 const { toasts, remove } = useToast();
 
 const toastClasses = {
-  success: 'bg-green-500/20 border-green-400/50 text-green-100',
-  error: 'bg-red-500/20 border-red-400/50 text-red-100',
-  warning: 'bg-amber-500/20 border-amber-400/50 text-amber-100',
-  info: 'bg-blue-500/20 border-blue-400/50 text-blue-100',
+  success: 'bg-green-500/15 border-green-500/30 text-green-700 dark:text-green-300',
+  error: 'bg-red-500/15 border-red-500/30 text-red-700 dark:text-red-300',
+  warning: 'bg-amber-500/15 border-amber-500/30 text-amber-700 dark:text-amber-300',
+  info: 'bg-blue-500/15 border-blue-500/30 text-blue-700 dark:text-blue-300',
 };
 
 type ToastType = 'success' | 'error' | 'warning' | 'info';
@@ -69,27 +69,27 @@ function getIcon(type: string): string {
 
 .toast-enter-from {
   opacity: 0;
-  transform: translateX(100%);
+  transform: translateY(-100%);
 }
 
 .toast-leave-to {
   opacity: 0;
-  transform: translateX(100%) scale(0.9);
+  transform: translateY(-60%) scale(0.9);
 }
 
 .toast {
   cursor: pointer;
-  animation: slide-in 0.3s ease;
+  animation: slide-down 0.3s ease;
 }
 
-@keyframes slide-in {
+@keyframes slide-down {
   from {
     opacity: 0;
-    transform: translateX(100%);
+    transform: translateY(-100%);
   }
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
   }
 }
 </style>

@@ -53,12 +53,10 @@ export const useChatStore = defineStore('chat', () => {
 
     socket.value.on('connect', () => {
       isConnected.value = true;
-      console.log('Socket connected');
     });
 
     socket.value.on('disconnect', () => {
       isConnected.value = false;
-      console.log('Socket disconnected');
     });
 
     socket.value.on('new-message', (message: ChatMessage) => {
@@ -105,7 +103,7 @@ export const useChatStore = defineStore('chat', () => {
     error.value = null;
     try {
       const response = await axios.get('/api/v1/user/chat/sessions');
-      sessions.value = response.data.sessions;
+      sessions.value = response.data.sessions || response.data.data || response.data || [];
       return response.data;
     } catch (err: any) {
       error.value = err.response?.data?.message || 'Failed to fetch sessions';
@@ -119,9 +117,17 @@ export const useChatStore = defineStore('chat', () => {
     loading.value = true;
     error.value = null;
     try {
-      const response = await axios.post('/api/v1/user/chat/sessions', data || {});
+      const response = await axios.post('/api/v1/user/chat/messages', {
+        message: 'Hello, I need help.',
+        ...(data || {}),
+      });
       currentSession.value = response.data.session;
-      sessions.value.unshift(response.data.session);
+      if (response.data.session) {
+        sessions.value.unshift(response.data.session);
+      }
+      if (response.data.message) {
+        messages.value.push(response.data.message);
+      }
       
       // Join socket room
       if (socket.value?.connected) {
@@ -142,7 +148,7 @@ export const useChatStore = defineStore('chat', () => {
     error.value = null;
     try {
       const response = await axios.get(`/api/v1/user/chat/sessions/${sessionId}/messages`);
-      messages.value = response.data.messages;
+      messages.value = response.data.messages || response.data.data || response.data || [];
       currentSession.value = sessions.value.find(s => s.id === sessionId) || null;
       
       // Mark as read
@@ -166,27 +172,46 @@ export const useChatStore = defineStore('chat', () => {
   }
 
   function sendMessage(message: string) {
-    if (!currentSession.value || !socket.value?.connected) {
-      error.value = 'Not connected to chat';
+    if (!currentSession.value) {
+      error.value = 'No active chat session';
       return;
     }
 
-    const messageData = {
-      sessionId: currentSession.value.id,
-      message,
-      timestamp: new Date().toISOString(),
-    };
-
-    socket.value.emit('send-message', messageData);
-
     // Optimistically add message
-    messages.value.push({
-      id: Date.now(), // temporary ID
+    const tempMessage: ChatMessage = {
+      id: Date.now(),
       chat_session_id: currentSession.value.id,
       message,
       is_from_admin: false,
-      created_at: messageData.timestamp,
-    });
+      created_at: new Date().toISOString(),
+    };
+    messages.value.push(tempMessage);
+
+    // Try Socket.IO first, fall back to HTTP
+    if (socket.value?.connected) {
+      socket.value.emit('send-message', {
+        sessionId: currentSession.value.id,
+        message,
+        timestamp: tempMessage.created_at,
+      });
+    } else {
+      // HTTP fallback
+      axios.post('/api/v1/user/chat/messages', {
+        message,
+        session_id: currentSession.value.id,
+      }).then(response => {
+        // Replace temp message with server response
+        const idx = messages.value.findIndex(m => m.id === tempMessage.id);
+        if (idx !== -1 && response.data.message) {
+          messages.value[idx] = response.data.message;
+        }
+      }).catch(() => {
+        // Remove optimistic message on failure
+        const idx = messages.value.findIndex(m => m.id === tempMessage.id);
+        if (idx !== -1) messages.value.splice(idx, 1);
+        error.value = 'Failed to send message';
+      });
+    }
   }
 
   function emitTyping(isTypingNow: boolean) {

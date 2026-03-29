@@ -31,3 +31,10 @@ declare module 'vue' {
         $headManager: ReturnType<typeof createHeadManager>;
     }
 }
+
+interface Window {
+    __loadingIndicator?: {
+        startLoading: (message?: string, overlay?: boolean) => void;
+        stopLoading: () => void;
+    };
+}

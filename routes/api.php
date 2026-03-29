@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\{
     AuthController,
+    SocialAuthController,
     HomeController,
     ServiceController,
     ProductController,
@@ -11,16 +12,21 @@ use App\Http\Controllers\Api\{
     EnquiryController,
     NewsletterController,
     AIController,
-    BlogController
+    BlogController,
+    CaseStudyController,
+    IndustryController
 };
 use App\Http\Controllers\Api\User\{
     DashboardController,
     WishlistController,
-    ChatController
+    ChatController,
+    DirectMessageController,
+    ProfileController
 };
 use App\Http\Controllers\Api\Admin\{
     CMSController,
     SettingController,
+    MediaController,
     BlogController as AdminBlogController,
     PageController as AdminPageController,
     AdminReviewController,
@@ -29,7 +35,11 @@ use App\Http\Controllers\Api\Admin\{
     AdminRoleController,
     AdminBundleController,
     AdminDashboardController,
-    AdminChatController
+    AdminChatController,
+    AdminCaseStudyController,
+    IndustryController as AdminIndustryController,
+    TrashController,
+    SearchController
 };
 use Illuminate\Support\Facades\Route;
 
@@ -47,9 +57,18 @@ Route::prefix('v1')->group(function () {
         Route::post('/login', [AuthController::class, 'login']);
         Route::post('/register', [AuthController::class, 'register']);
 
+        // Email Two-Factor Authentication
+        Route::post('/2fa/verify', [AuthController::class, 'verifyTwoFactorEmail']);
+        Route::post('/2fa/resend', [AuthController::class, 'resendTwoFactorEmail']);
+
+        // Google OAuth
+        Route::get('/google/redirect', [SocialAuthController::class, 'redirectToGoogle']);
+        Route::get('/google/callback', [SocialAuthController::class, 'handleGoogleCallback']);
+
         Route::middleware('auth:sanctum')->group(function () {
             Route::get('/user', [AuthController::class, 'user']);
             Route::post('/logout', [AuthController::class, 'logout']);
+            Route::post('/2fa/toggle', [AuthController::class, 'toggleTwoFactorEmail']);
         });
     });
 
@@ -93,6 +112,14 @@ Route::prefix('v1')->group(function () {
     Route::get('/blogs/categories', [BlogController::class, 'categories']);
     Route::get('/blogs/{slug}', [BlogController::class, 'show']);
 
+    // ──── Case Studies ────
+    Route::get('/case-studies', [CaseStudyController::class, 'index']);
+    Route::get('/case-studies/{slug}', [CaseStudyController::class, 'show']);
+
+    // ──── Industries ────
+    Route::get('/industries', [IndustryController::class, 'index']);
+    Route::get('/industries/{industry}', [IndustryController::class, 'show']);
+
     // ──── Public Settings ────
     Route::get('/settings', [SettingController::class, 'publicSettings']);
 
@@ -108,6 +135,14 @@ Route::prefix('v1')->group(function () {
         Route::put('/profile', [DashboardController::class, 'profile']);
         Route::put('/password', [DashboardController::class, 'changePassword']);
         
+        // Enhanced Profile
+        Route::get('/profile/full', [ProfileController::class, 'show']);
+        Route::put('/profile/full', [ProfileController::class, 'update']);
+        Route::post('/profile/avatar', [ProfileController::class, 'uploadAvatar']);
+        Route::delete('/profile/avatar', [ProfileController::class, 'removeAvatar']);
+        Route::get('/profile/sessions', [ProfileController::class, 'sessions']);
+        Route::get('/profile/activity', [ProfileController::class, 'activityLog']);
+        
         // Wishlist
         Route::get('/wishlist', [WishlistController::class, 'index']);
         Route::post('/wishlist', [WishlistController::class, 'store']);
@@ -117,6 +152,14 @@ Route::prefix('v1')->group(function () {
         Route::get('/chat/sessions', [ChatController::class, 'sessions']);
         Route::post('/chat/messages', [ChatController::class, 'store']);
         Route::get('/chat/sessions/{sessionId}/messages', [ChatController::class, 'messages']);
+
+        // Direct Messages (User-to-User)
+        Route::get('/dm/conversations', [DirectMessageController::class, 'conversations']);
+        Route::get('/dm/conversations/{conversation}/messages', [DirectMessageController::class, 'messages']);
+        Route::post('/dm/send', [DirectMessageController::class, 'send']);
+        Route::post('/dm/conversations/{conversation}/read', [DirectMessageController::class, 'markRead']);
+        Route::get('/dm/users/online', [DirectMessageController::class, 'onlineUsers']);
+        Route::post('/dm/presence', [DirectMessageController::class, 'updatePresence']);
     });
     
     // ──── Admin Routes (Protected) ────
@@ -159,7 +202,13 @@ Route::prefix('v1')->group(function () {
         Route::get('/settings', [SettingController::class, 'index']);
         Route::put('/settings', [SettingController::class, 'update']);
         Route::post('/settings/logo', [SettingController::class, 'uploadLogo']);
+        Route::post('/settings/footer-logo', [SettingController::class, 'uploadFooterLogo']);
         Route::post('/settings/favicon', [SettingController::class, 'uploadFavicon']);
+
+        // Media Gallery
+        Route::get('/media', [MediaController::class, 'index']);
+        Route::post('/media/upload', [MediaController::class, 'upload']);
+        Route::delete('/media', [MediaController::class, 'destroy']);
 
         // Blog Management
         Route::get('/blogs', [AdminBlogController::class, 'index']);
@@ -182,6 +231,19 @@ Route::prefix('v1')->group(function () {
         // Dashboard Stats
         Route::get('/dashboard/stats', [AdminDashboardController::class, 'stats']);
         Route::get('/dashboard/activity', [AdminDashboardController::class, 'recentActivity']);
+        Route::get('/dashboard/overview', [AdminDashboardController::class, 'overview']);
+
+        // Global Search
+        Route::get('/search', [SearchController::class, 'search']);
+        Route::get('/search/suggestions', [SearchController::class, 'suggestions']);
+
+        // Notifications
+        Route::get('/notifications', [AdminDashboardController::class, 'notifications']);
+        Route::post('/notifications/{id}/read', [AdminDashboardController::class, 'markNotificationRead']);
+        Route::post('/notifications/{id}/unread', [AdminDashboardController::class, 'markNotificationUnread']);
+        Route::post('/notifications/read-all', [AdminDashboardController::class, 'markAllNotificationsRead']);
+        Route::delete('/notifications/{id}', [AdminDashboardController::class, 'deleteNotification']);
+        Route::delete('/notifications', [AdminDashboardController::class, 'deleteAllNotifications']);
 
         // Reviews
         Route::get('/reviews', [AdminReviewController::class, 'index']);
@@ -211,6 +273,21 @@ Route::prefix('v1')->group(function () {
         Route::post('/chat/sessions/{session}/reply', [AdminChatController::class, 'reply']);
         Route::post('/chat/sessions/{session}/close', [AdminChatController::class, 'closeSession']);
         Route::get('/chat/stats', [AdminChatController::class, 'stats']);
+        Route::get('/chat/metrics', [AdminChatController::class, 'metrics']);
+
+        // Case Studies
+        Route::get('/case-studies', [AdminCaseStudyController::class, 'index']);
+        Route::post('/case-studies', [AdminCaseStudyController::class, 'store']);
+        Route::get('/case-studies/{caseStudy}', [AdminCaseStudyController::class, 'show']);
+        Route::put('/case-studies/{caseStudy}', [AdminCaseStudyController::class, 'update']);
+        Route::delete('/case-studies/{caseStudy}', [AdminCaseStudyController::class, 'destroy']);
+
+        // Industries
+        Route::get('/industries', [AdminIndustryController::class, 'index']);
+        Route::post('/industries', [AdminIndustryController::class, 'store']);
+        Route::get('/industries/{industry}', [AdminIndustryController::class, 'show']);
+        Route::put('/industries/{industry}', [AdminIndustryController::class, 'update']);
+        Route::delete('/industries/{industry}', [AdminIndustryController::class, 'destroy']);
 
         // Users & Roles (SuperAdmin)
         Route::get('/users', [AdminUserController::class, 'index']);
@@ -224,6 +301,12 @@ Route::prefix('v1')->group(function () {
         Route::post('/roles', [AdminRoleController::class, 'store']);
         Route::put('/roles/{role}', [AdminRoleController::class, 'update']);
         Route::delete('/roles/{role}', [AdminRoleController::class, 'destroy']);
+
+        // Trash Management (soft-deleted items)
+        Route::get('/trash/{type}', [TrashController::class, 'index']);
+        Route::post('/trash/{type}/{id}/restore', [TrashController::class, 'restore']);
+        Route::delete('/trash/{type}/{id}', [TrashController::class, 'forceDelete']);
+        Route::post('/trash/{type}/restore-all', [TrashController::class, 'restoreAll']);
     });
 });
 

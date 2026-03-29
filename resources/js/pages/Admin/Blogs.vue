@@ -1,9 +1,9 @@
 <template>
   <AdminLayout>
     <div class="p-6">
-      <div class="flex items-center justify-between mb-8">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
         <div>
-          <h1 class="text-2xl font-display font-bold text-foreground">Blog Management</h1>
+          <h1 class="text-xl font-display font-bold text-foreground">Blog Management</h1>
           <p class="text-sm text-muted-foreground mt-1">{{ blogs.length }} post{{ blogs.length !== 1 ? 's' : '' }} total</p>
         </div>
         <button
@@ -24,55 +24,48 @@
       </div>
 
       <!-- Blog List -->
-      <div v-else class="bg-card border border-border rounded-xl overflow-hidden">
-        <table class="w-full">
-          <thead>
-            <tr class="border-b border-border">
-              <th class="text-left py-3 px-4 text-xs font-semibold text-muted-foreground uppercase">Title</th>
-              <th class="text-left py-3 px-4 text-xs font-semibold text-muted-foreground uppercase">Category</th>
-              <th class="text-left py-3 px-4 text-xs font-semibold text-muted-foreground uppercase">Tags</th>
-              <th class="text-left py-3 px-4 text-xs font-semibold text-muted-foreground uppercase">Status</th>
-              <th class="text-left py-3 px-4 text-xs font-semibold text-muted-foreground uppercase">Views</th>
-              <th class="text-left py-3 px-4 text-xs font-semibold text-muted-foreground uppercase">Date</th>
-              <th class="text-right py-3 px-4 text-xs font-semibold text-muted-foreground uppercase">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="blog in blogs" :key="blog.id" class="border-b border-border last:border-0 hover:bg-white/5 transition">
-              <td class="py-3 px-4">
-                <div class="text-sm font-medium text-foreground">{{ blog.title }}</div>
-                <div v-if="blog.slug" class="text-xs text-muted-foreground truncate max-w-[200px]">/{{ blog.slug }}</div>
-              </td>
-              <td class="py-3 px-4 text-sm text-muted-foreground">{{ blog.category || '—' }}</td>
-              <td class="py-3 px-4">
-                <div class="flex flex-wrap gap-1">
-                  <span
-                    v-for="tag in parseTags(blog.tags)"
-                    :key="tag"
-                    class="px-1.5 py-0.5 text-[10px] bg-primary/10 text-primary rounded"
-                  >{{ tag }}</span>
-                  <span v-if="!parseTags(blog.tags).length" class="text-sm text-muted-foreground">—</span>
+      <div v-else>
+        <!-- Search -->
+        <div class="mb-6">
+          <input v-model="searchQuery" type="text" placeholder="Search posts by title, category, tags..." class="w-full sm:w-80 px-4 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-primary" />
+        </div>
+
+        <div v-if="filteredBlogs.length === 0" class="py-12 text-center text-muted-foreground">
+          {{ searchQuery ? 'No posts match your search.' : 'No blog posts yet. Create your first one!' }}
+        </div>
+
+        <div v-else class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          <div v-for="blog in filteredBlogs" :key="blog.id" class="bg-card border border-border rounded-xl overflow-hidden hover:border-primary/40 transition group">
+            <div v-if="blog.featured_image" class="h-40 overflow-hidden">
+              <img :src="blog.featured_image" :alt="blog.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+            </div>
+            <div class="p-4 space-y-3">
+              <div class="flex items-start justify-between gap-2">
+                <div class="min-w-0">
+                  <h3 class="text-sm font-semibold text-foreground truncate">{{ blog.title }}</h3>
+                  <p v-if="blog.slug" class="text-xs text-muted-foreground truncate">/{{ blog.slug }}</p>
                 </div>
-              </td>
-              <td class="py-3 px-4">
-                <span :class="['px-2 py-1 text-xs rounded-full font-medium', blog.is_published ? 'bg-green-500/10 text-green-400' : 'bg-yellow-500/10 text-yellow-400']">
+                <span :class="['shrink-0 px-2 py-0.5 text-[10px] rounded-full font-medium', blog.is_published ? 'bg-green-500/10 text-green-400' : 'bg-yellow-500/10 text-yellow-400']">
                   {{ blog.is_published ? 'Published' : 'Draft' }}
                 </span>
-              </td>
-              <td class="py-3 px-4 text-sm text-muted-foreground">{{ blog.views || 0 }}</td>
-              <td class="py-3 px-4 text-sm text-muted-foreground">{{ formatDate(blog.published_at || blog.created_at) }}</td>
-              <td class="py-3 px-4 text-right space-x-2">
-                <button @click="openEditModal(blog)" class="text-primary hover:text-primary/80 text-sm font-medium transition">Edit</button>
-                <button @click="deleteBlog(blog.id)" :disabled="deleting === blog.id" class="text-red-400 hover:text-red-300 text-sm font-medium transition disabled:opacity-50">
+              </div>
+              <p v-if="blog.excerpt" class="text-xs text-muted-foreground line-clamp-2">{{ blog.excerpt }}</p>
+              <div class="flex items-center gap-3 text-xs text-muted-foreground">
+                <span v-if="blog.category" class="px-1.5 py-0.5 bg-primary/10 text-primary rounded">{{ blog.category }}</span>
+                <span>{{ blog.views || 0 }} views</span>
+                <span>{{ formatDate(blog.published_at || blog.created_at) }}</span>
+              </div>
+              <div v-if="parseTags(blog.tags).length" class="flex flex-wrap gap-1">
+                <span v-for="tag in parseTags(blog.tags)" :key="tag" class="px-1.5 py-0.5 text-[10px] bg-accent/10 text-accent rounded">{{ tag }}</span>
+              </div>
+              <div class="flex items-center gap-2 pt-2 border-t border-border">
+                <button @click="openEditModal(blog)" class="text-primary hover:text-primary/80 text-xs font-medium transition">Edit</button>
+                <button @click="deleteBlog(blog.id)" :disabled="deleting === blog.id" class="text-red-400 hover:text-red-300 text-xs font-medium transition disabled:opacity-50">
                   {{ deleting === blog.id ? 'Deleting...' : 'Delete' }}
                 </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div v-if="blogs.length === 0" class="py-12 text-center text-muted-foreground">
-          No blog posts yet. Create your first one!
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -108,7 +101,7 @@
                 <input v-model="form.title" type="text" required class="w-full px-3 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-primary" />
                 <p v-if="errors.title" class="text-red-400 text-xs mt-1">{{ errors.title }}</p>
               </div>
-              <div class="grid grid-cols-2 gap-4">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label class="block text-sm font-medium text-foreground mb-1">Category</label>
                   <input v-model="form.category" type="text" class="w-full px-3 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-primary" placeholder="e.g. Technology, Business" />
@@ -187,7 +180,7 @@
                 <input v-model="form.title" type="text" required class="w-full px-3 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-primary" />
                 <p v-if="errors.title" class="text-red-400 text-xs mt-1">{{ errors.title }}</p>
               </div>
-              <div class="grid grid-cols-2 gap-4">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label class="block text-sm font-medium text-foreground mb-1">Slug</label>
                   <input v-model="form.slug" type="text" class="w-full px-3 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-primary" placeholder="auto-generated-from-title" />
@@ -257,7 +250,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive, onMounted, computed } from 'vue';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import { useApi } from '@/composables/useApi';
 import { useToast } from '@/composables/useToast';
@@ -273,6 +266,19 @@ const deleting = ref<number | null>(null);
 const showCreateModal = ref(false);
 const showEditModal = ref(false);
 const editingId = ref<number | null>(null);
+
+const searchQuery = ref('');
+
+const filteredBlogs = computed(() => {
+  if (!searchQuery.value) return blogs.value;
+  const q = searchQuery.value.toLowerCase();
+  return blogs.value.filter((b: any) =>
+    (b.title || '').toLowerCase().includes(q) ||
+    (b.category || '').toLowerCase().includes(q) ||
+    (b.excerpt || '').toLowerCase().includes(q) ||
+    parseTags(b.tags).some((t: string) => t.toLowerCase().includes(q))
+  );
+});
 
 const pagination = reactive({
   currentPage: 1,

@@ -1,9 +1,9 @@
-@echo off
-REM Simple batch script to start all TechSmart services
+﻿@echo off
+REM Simple batch script to start all Smartech Research Labs services
 REM Run this with: dev.bat
 
 echo ==================================================
-echo       TechSmart Development Environment        
+echo       Smartech Research Labs Development Environment        
 echo ==================================================
 echo.
 echo Starting all services with concurrently...

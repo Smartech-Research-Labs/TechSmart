@@ -1,5 +1,7 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
+import { ref } from 'vue'
 import {
+  IconArrowLeft,
   IconChartBar,
   IconDashboard,
   IconFileDescription,
@@ -23,6 +25,7 @@ import NavDocuments from "@/components/NavDocuments.vue"
 import NavMain from "@/components/NavMain.vue"
 import NavSecondary from "@/components/NavSecondary.vue"
 import NavUser from "@/components/NavUser.vue"
+import GlobalSearch from "@/components/GlobalSearch.vue"
 import {
   Sidebar,
   SidebarContent,
@@ -37,9 +40,12 @@ import { computed } from "vue"
 
 const authStore = useAuthStore()
 
+// Global search state
+const showSearch = ref(false)
+
 const userData = computed(() => ({
   name: authStore.user?.name || "Admin",
-  email: authStore.user?.email || "admin@techsmart.co.za",
+  email: authStore.user?.email || "admin@smartechresearchlabs.co.ke",
   avatar: "",
 }))
 
@@ -63,6 +69,16 @@ const navMain = [
     title: "Blogs",
     url: "/admin/blogs",
     icon: IconWriting,
+  },
+  {
+    title: "Case Studies",
+    url: "/admin/case-studies",
+    icon: IconReport,
+  },
+  {
+    title: "Industries",
+    url: "/admin/industries",
+    icon: IconInnerShadowTop,
   },
   {
     title: "Services",
@@ -100,24 +116,34 @@ const navDocuments = [
 ]
 
 const superAdminDocs = computed(() => {
-  if (!authStore.isSuperAdmin) return []
-  return [
-    {
+  const items: { name: string; url: string; icon: any }[] = []
+  
+  // Admin and SuperAdmin can manage users
+  if (authStore.isAdmin || authStore.isSuperAdmin) {
+    items.push({
       name: "Users",
       url: "/admin/users",
       icon: IconUsers,
-    },
-    {
-      name: "Roles & Permissions",
-      url: "/admin/roles",
-      icon: IconShield,
-    },
-    {
-      name: "Audit Logs",
-      url: "/admin/audit-logs",
-      icon: IconReport,
-    },
-  ]
+    })
+  }
+  
+  // Only SuperAdmin gets roles and audit logs
+  if (authStore.isSuperAdmin) {
+    items.push(
+      {
+        name: "Roles & Permissions",
+        url: "/admin/roles",
+        icon: IconShield,
+      },
+      {
+        name: "Audit Logs",
+        url: "/admin/audit-logs",
+        icon: IconReport,
+      },
+    )
+  }
+  
+  return items
 })
 
 const navSecondary = [
@@ -131,12 +157,12 @@ const navSecondary = [
     url: "/contact",
     icon: IconHelp,
   },
-  {
-    title: "Search",
-    url: "#",
-    icon: IconSearch,
-  },
 ]
+
+// Search click handler
+function openSearch() {
+  showSearch.value = true
+}
 </script>
 
 <template>
@@ -150,13 +176,31 @@ const navSecondary = [
           >
             <router-link to="/">
               <IconInnerShadowTop class="!size-5" />
-              <span class="text-base font-semibold">TechSmart Admin</span>
+              <span class="text-base font-semibold">Smartech Admin</span>
             </router-link>
           </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarMenu>
     </SidebarHeader>
     <SidebarContent>
+      <SidebarMenu class="px-2 pt-1">
+        <SidebarMenuItem>
+          <SidebarMenuButton as-child>
+            <router-link to="/dashboard" class="flex items-center gap-2 text-muted-foreground hover:text-foreground transition text-sm">
+              <IconArrowLeft class="!size-4" />
+              <span>Back to Dashboard</span>
+            </router-link>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        <!-- Search Button -->
+        <SidebarMenuItem>
+          <SidebarMenuButton @click="openSearch" class="flex items-center gap-2 text-muted-foreground hover:text-foreground transition text-sm cursor-pointer">
+            <IconSearch class="!size-4" />
+            <span>Search</span>
+            <kbd class="ml-auto text-[10px] px-1.5 py-0.5 bg-muted text-muted-foreground rounded border border-border">Ctrl+K</kbd>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarMenu>
       <NavMain :items="navMain" />
       <NavDocuments :items="navDocuments" />
       <NavDocuments v-if="superAdminDocs.length > 0" :items="superAdminDocs" />
@@ -166,4 +210,7 @@ const navSecondary = [
       <NavUser :user="userData" />
     </SidebarFooter>
   </Sidebar>
+  
+  <!-- Global Search Modal -->
+  <GlobalSearch v-model="showSearch" />
 </template>

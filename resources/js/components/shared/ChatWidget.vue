@@ -3,7 +3,7 @@
     <!-- Chat Button -->
     <button
       v-if="!isOpen"
-      class="chat-button fixed bottom-6 right-6 z-40 bg-gradient-to-r from-primary to-accent text-white rounded-full p-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
+      class="chat-button fixed bottom-20 right-6 z-40 bg-gradient-to-r from-primary to-accent text-white rounded-full p-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
       @click="toggleChat"
     >
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -17,18 +17,17 @@
     <!-- Chat Window -->
     <div
       v-if="isOpen"
-      class="chat-window fixed bottom-6 right-6 z-40 w-96 max-w-[calc(100vw-3rem)] h-[600px] max-h-[calc(100vh-6rem)] bg-card border border-border rounded-lg shadow-2xl flex flex-col overflow-hidden"
+      class="chat-window fixed bottom-20 right-6 z-40 w-96 max-w-[calc(100vw-3rem)] h-[600px] max-h-[calc(100vh-6rem)] bg-card border border-border rounded-lg shadow-2xl flex flex-col overflow-hidden"
     >
       <!-- Header -->
       <div class="chat-header bg-gradient-to-r from-primary to-accent text-white p-4 flex items-center justify-between">
         <div>
           <h3 class="font-bold text-lg">Chat Support</h3>
           <p class="text-xs opacity-90">
-            <span v-if="chatStore.isConnected" class="flex items-center gap-1">
-              <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-              Online
+            <span class="flex items-center gap-1">
+              <span class="w-2 h-2 bg-green-400 rounded-full"></span>
+              We typically reply in minutes
             </span>
-            <span v-else>Offline</span>
           </p>
         </div>
         <button @click="toggleChat" class="hover:bg-white/20 rounded-full p-2 transition">
@@ -40,6 +39,17 @@
 
       <!-- Messages -->
       <div ref="messagesContainer" class="chat-messages flex-1 overflow-y-auto p-4 space-y-3">
+        <!-- Welcome message when empty -->
+        <div v-if="chatStore.messages.length === 0 && !chatStore.loading" class="flex flex-col items-center justify-center h-full text-center px-4">
+          <div class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+            <svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+            </svg>
+          </div>
+          <h4 class="text-foreground font-semibold text-sm mb-1">Welcome to Chat Support</h4>
+          <p class="text-muted-foreground text-xs">Type a message below to start a conversation with our team.</p>
+        </div>
+
         <div
           v-for="message in chatStore.messages"
           :key="message.id"
@@ -81,12 +91,12 @@
             v-model="messageInput"
             type="text"
             placeholder="Type your message..."
-            class="flex-1 bg-muted text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+            class="flex-1 bg-muted text-foreground rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
             @input="handleTyping"
           />
           <button
             type="submit"
-            :disabled="!messageInput.trim() || !chatStore.isConnected"
+            :disabled="!messageInput.trim()"
             class="bg-primary hover:bg-accent text-white rounded-lg px-4 py-2 disabled:opacity-50 disabled:cursor-not-allowed transition"
           >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -116,16 +126,11 @@ const unreadCount = computed(() => chatStore.unreadCount);
 onMounted(async () => {
   // Load existing sessions
   await chatStore.fetchSessions().catch(() => {
-    console.error('Failed to fetch chat sessions');
+    // No existing sessions, that's OK
   });
 
-  // If no current session, create one
-  if (!chatStore.currentSession && chatStore.sessions.length === 0) {
-    await chatStore.createSession().catch(() => {
-      console.error('Failed to create chat session');
-    });
-  } else if (chatStore.sessions.length > 0) {
-    // Load messages from most recent session
+  // If there are existing sessions, load the latest one's messages
+  if (chatStore.sessions.length > 0) {
     const latestSession = chatStore.sessions[0];
     await chatStore.fetchMessages(latestSession.id).catch(() => {
       console.error('Failed to fetch chat messages');
@@ -142,8 +147,17 @@ function toggleChat() {
   }
 }
 
-function sendMessage() {
+async function sendMessage() {
   if (!messageInput.value.trim()) return;
+  
+  // Create session if none exists
+  if (!chatStore.currentSession) {
+    try {
+      await chatStore.createSession();
+    } catch {
+      return; // Failed to create session
+    }
+  }
   
   chatStore.sendMessage(messageInput.value.trim());
   messageInput.value = '';
