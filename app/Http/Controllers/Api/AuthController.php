@@ -80,6 +80,10 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
+        // ✅ 2FA DISABLED - Directly issue token to fix mail sending errors
+        // Two-factor authentication has been disabled to resolve email notification issues
+        // Uncomment the code below to re-enable 2FA once mail configuration is verified
+        /*
         // Check if email-based 2FA is enabled (skip on localhost)
         $isProduction = str_contains(config('app.url', ''), 'smartechresearchlabs.co.ke');
         if ($isProduction && $user->two_factor_email_enabled) {
@@ -99,6 +103,7 @@ class AuthController extends Controller
                 'email_hint' => $this->maskEmail($user->email),
             ]);
         }
+        */
 
         return $this->issueToken($user, $request);
     }

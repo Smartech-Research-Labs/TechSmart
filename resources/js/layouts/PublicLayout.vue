@@ -220,8 +220,8 @@
     <footer class="bg-gray-950 text-gray-300">
       <!-- Newsletter Strip -->
       <div class="border-b border-gray-800">
-        <div class="container mx-auto px-4 py-8">
-          <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="container mx-auto px-4 py-6">
+          <div class="flex flex-col md:flex-row items-center justify-between gap-6 max-w-5xl mx-auto">
             <div>
               <h3 class="text-lg font-bold text-white mb-1">Stay Ahead with Smartech</h3>
               <p class="text-gray-400 text-sm">Get the latest insights, news, and exclusive offers delivered to your inbox.</p>
@@ -235,14 +235,14 @@
       </div>
 
       <!-- Main Footer Grid -->
-      <div class="container mx-auto px-4 py-12">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10">
+      <div class="container mx-auto px-4 py-10">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 max-w-6xl mx-auto">
           <!-- Brand Column -->
           <div class="lg:col-span-2">
             <router-link to="/" class="flex items-center gap-2 mb-5">
               <img
-                v-if="settings?.footer_logo_path"
-                :src="`/storage/${settings.footer_logo_path}`"
+                v-if="(settings as any)?.footer_logo_path"
+                :src="`/storage/${(settings as any)?.footer_logo_path}`"
                 alt="Logo"
                 class="h-10 w-auto"
               />
@@ -374,7 +374,7 @@
 
       <!-- Bottom Bar -->
       <div class="border-t border-gray-800">
-        <div class="container mx-auto px-4 py-5 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
           <p class="text-sm text-gray-500">
             &copy; {{ new Date().getFullYear() }} {{ settings?.site_name || 'Smartech Research Labs' }}. All rights reserved.
           </p>
@@ -426,8 +426,8 @@ const settings = computed(() => cmsStore.homeData?.settings);
 
 // Dynamic header logo styling from CMS settings
 const headerLogoStyle = computed(() => {
-  const height = settings.value?.logo_height || '40';
-  const borderRadius = settings.value?.logo_border_radius || '0';
+  const height = (settings.value as any)?.logo_height || '40';
+  const borderRadius = (settings.value as any)?.logo_border_radius || '0';
   return {
     height: `${height}px`,
     borderRadius: `${borderRadius}px`,
@@ -471,21 +471,21 @@ const pageNameMap: Record<string, string> = {
 watchEffect(() => {
   const s = settings.value;
   if (!s) return;
-  const baseUrl = s.canonical_url || window.location.origin;
+  const baseUrl = (s as any)?.canonical_url || window.location.origin;
 
   // Organization / Website schema
   const orgSchema: any = {
     '@context': 'https://schema.org',
-    '@type': s.schema_org_type || 'Organization',
-    name: s.schema_org_name || s.site_name || 'Smartech Research Labs',
+    '@type': (s as any)?.schema_org_type || 'Organization',
+    name: (s as any)?.schema_org_name || s.site_name || 'Smartech Research Labs',
     url: baseUrl,
-    description: s.meta_description || s.site_description || '',
+    description: (s as any)?.meta_description || (s as any)?.site_description || '',
   };
-  if (s.schema_org_logo || s.logo_path) {
-    orgSchema.logo = s.schema_org_logo || `${baseUrl}/storage/${s.logo_path}`;
+  if ((s as any)?.schema_org_logo || s.logo_path) {
+    orgSchema.logo = (s as any)?.schema_org_logo || `${baseUrl}/storage/${s.logo_path}`;
   }
-  if (s.schema_same_as) {
-    orgSchema.sameAs = s.schema_same_as.split(',').map((u: string) => u.trim()).filter(Boolean);
+  if ((s as any)?.schema_same_as) {
+    orgSchema.sameAs = (s as any)?.schema_same_as.split(',').map((u: string) => u.trim()).filter(Boolean);
   }
   if (s.contact_email) orgSchema.email = s.contact_email;
   if (s.contact_phone) orgSchema.telephone = s.contact_phone;
@@ -493,8 +493,8 @@ watchEffect(() => {
     orgSchema.address = {
       '@type': 'PostalAddress',
       streetAddress: s.address,
-      ...(s.city && { addressLocality: s.city }),
-      ...(s.country && { addressCountry: s.country }),
+      ...(((s as any)?.city) && { addressLocality: (s as any)?.city }),
+      ...(((s as any)?.country) && { addressCountry: (s as any)?.country }),
     };
   }
 
@@ -544,8 +544,8 @@ watchEffect(() => {
 
   // Update meta tags
   const pageKey = path === '/' ? 'home' : path.split('/')[1]?.replace(/-/g, '_');
-  const metaTitle = (s as any)[`${pageKey}_meta_title`] || s.meta_title || s.site_name;
-  const metaDesc = (s as any)[`${pageKey}_meta_description`] || s.meta_description || '';
+  const metaTitle = (s as any)[`${pageKey}_meta_title`] || (s as any)?.meta_title || s.site_name;
+  const metaDesc = (s as any)[`${pageKey}_meta_description`] || (s as any)?.meta_description || '';
 
   document.title = metaTitle;
   let descTag = document.querySelector('meta[name="description"]') as HTMLMetaElement;
@@ -560,9 +560,9 @@ watchEffect(() => {
   setMetaTag('og:title', metaTitle);
   setMetaTag('og:description', metaDesc);
   setMetaTag('og:url', `${baseUrl}${path}`);
-  if (s.og_image_default) setMetaTag('og:image', s.og_image_default);
-  if (s.twitter_card_type) setMetaTag('twitter:card', s.twitter_card_type);
-  if (s.twitter_handle) setMetaTag('twitter:site', s.twitter_handle);
+  if ((s as any)?.og_image_default) setMetaTag('og:image', (s as any)?.og_image_default);
+  if ((s as any)?.twitter_card_type) setMetaTag('twitter:card', (s as any)?.twitter_card_type);
+  if ((s as any)?.twitter_handle) setMetaTag('twitter:site', (s as any)?.twitter_handle);
 });
 
 function setMetaTag(property: string, content: string) {

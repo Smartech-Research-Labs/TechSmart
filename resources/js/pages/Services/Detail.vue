@@ -311,7 +311,7 @@
         <div class="container mx-auto px-6">
           <div class="text-center max-w-2xl mx-auto mb-12">
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Why Choose Us</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">The Smartech Advantage</h2>
+            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">The OmniviaTech Advantage</h2>
             <p class="text-muted-foreground text-sm leading-relaxed">Why leading organizations trust us for their {{ service.category || 'technology' }} needs.</p>
           </div>
 
@@ -599,9 +599,9 @@ import { Autoplay, Navigation } from 'swiper/modules';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import { useCmsStore } from '@/stores/cms';
 import api from '@/services/api';
-
-import 'swiper/css';
-import 'swiper/css/navigation';
+// Swiper styles are imported globally in the main layout
+// import 'swiper/css';
+// import 'swiper/css/navigation';
 
 const route = useRoute();
 const cmsStore = useCmsStore();

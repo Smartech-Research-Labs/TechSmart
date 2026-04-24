@@ -137,7 +137,7 @@ class HomeController extends Controller
                 'top_reviews' => $reviews,
                 'impact_projects' => $impactProjects,
                 'settings' => [
-                    'site_name' => Setting::get('site_name', 'Smartech Research Labs'),
+                    'site_name' => Setting::get('site_name', 'OmniviaTech'),
                     'tagline' => Setting::get('tagline', 'Innovative Tech Solutions'),
                     'contact_email' => Setting::get('contact_email'),
                     'contact_phone' => Setting::get('contact_phone'),

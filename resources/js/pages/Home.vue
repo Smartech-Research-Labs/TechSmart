@@ -19,11 +19,11 @@
           class="hero-swiper"
         >
           <SwiperSlide v-for="slide in sliders" :key="slide.id">
-            <div class="container mx-auto px-6 py-16 md:py-24">
+            <div class="container mx-auto px-6 py-12 md:py-16">
               <div class="grid lg:grid-cols-2 gap-10 items-center">
                 <div class="max-w-lg">
                   <p v-if="slide.subtitle" class="text-primary font-semibold text-xs tracking-widest uppercase mb-3">{{ slide.subtitle }}</p>
-                  <h1 class="text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-tight text-foreground mb-4">{{ slide.title }}</h1>
+                  <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight text-foreground mb-4">{{ slide.title }}</h1>
                   <p v-if="slide.description" class="text-muted-foreground text-sm leading-relaxed mb-8 max-w-md">{{ slide.description }}</p>
                   <div class="flex flex-wrap gap-3">
                     <router-link v-if="slide.cta_text && slide.cta_link" :to="slide.cta_link" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
@@ -42,10 +42,10 @@
         </Swiper>
 
         <!-- Fallback if no sliders -->
-        <div v-if="!sliders.length && !loading" class="container mx-auto px-6 py-16 md:py-24">
+        <div v-if="!sliders.length && !loading" class="container mx-auto px-6 py-12 md:py-16">
           <div class="max-w-lg">
             <p class="text-primary font-semibold text-xs tracking-widest uppercase mb-3">Welcome to Smartech Research Labs</p>
-            <h1 class="text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-tight text-foreground mb-4">Innovative Technology Solutions for Africa</h1>
+            <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight text-foreground mb-4">Innovative Technology Solutions for Africa</h1>
             <p class="text-muted-foreground text-sm leading-relaxed mb-8">We build software, automate workflows, and drive digital transformation for businesses across the continent.</p>
             <router-link to="/services" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
               Read More
@@ -56,22 +56,22 @@
       </div>
     </section>
 
-    <!-- ═══════════════ COUNTER BAR (TEAL/CYAN GRADIENT) ═══════════════ -->
-    <section class="bg-gradient-to-r from-teal-500 via-cyan-500 to-teal-400 py-6 shadow-lg">
-      <div class="container mx-auto px-6">
+    <!-- ═══════════════ COUNTER BAR ═══════════════ -->
+    <section class="bg-gradient-to-r from-primary via-primary/80 to-accent py-6 md:py-8 shadow-lg">
+      <div class="container mx-auto px-6 max-w-5xl">
         <div class="flex flex-wrap justify-between items-center gap-8">
-          <div v-for="counter in countersFinal" :key="counter.id" class="flex-1 min-w-[120px] text-center">
-            <div class="text-2xl md:text-3xl font-bold text-white mb-1">
+          <div v-for="counter in countersFinal" :key="counter.id" class="flex-1 min-w-[140px] text-center">
+            <div class="text-2xl md:text-3xl font-bold text-white mb-2">
               <span ref="counterRefs" :data-target="counter.number || counter.value" :data-suffix="counter.suffix || '+'">0</span>
             </div>
-            <div class="text-white/80 text-xs font-medium tracking-wide">{{ counter.label || counter.title }}</div>
+            <div class="text-white/90 text-xs font-semibold tracking-wide">{{ counter.label || counter.title }}</div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Trusted By -->
-    <section class="py-16 border-y border-border bg-muted/30">
+    <section class="py-12 border-y border-border bg-muted/30">
       <div class="container mx-auto px-4">
         <p class="text-center text-sm text-muted-foreground font-medium uppercase tracking-widest mb-10">Trusted by innovative companies</p>
         <div v-if="clients.length" class="flex flex-wrap items-center justify-center gap-12 md:gap-16">
@@ -90,8 +90,8 @@
  
 
     <!-- ═══════════════ ABOUT US ═══════════════ -->
-    <section class="py-16 md:py-24">
-      <div class="container mx-auto px-6">
+    <section class="py-12 md:py-16">
+      <div class="container mx-auto px-6 max-w-5xl">
         <div class="grid lg:grid-cols-2 gap-14 items-center">
           <!-- Left - Image -->
           <div class="relative">
@@ -108,7 +108,7 @@
           <!-- Right - Content -->
           <div>
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">About Us</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Your Trusted Technology Partner</h2>
+            <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight mb-4">Your Trusted Technology Partner</h2>
             <p class="text-muted-foreground text-sm leading-relaxed mb-4">Smartech Research Labs is a leading technology company dedicated to empowering businesses with innovative digital solutions. We combine deep technical expertise with a passion for solving real-world challenges.</p>
             <p class="text-muted-foreground text-sm leading-relaxed mb-8">From startups to enterprises, we help organizations harness the power of technology to improve efficiency, scale operations, and drive growth across Africa and beyond.</p>
 
@@ -149,17 +149,11 @@
     </section>
 
       <!-- ═══════════════ OUR SOLUTIONS (IMAGE CARDS) ═══════════════ -->
-    <section class="py-16 md:py-24">
-      <div class="container mx-auto px-6">
-        <div class="flex items-end justify-between mb-10">
-          <div>
-            <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Solutions</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight">Our Solutions</h2>
-          </div>
-          <router-link to="/services" class="hidden sm:inline-flex items-center gap-2 px-6 py-2.5 border border-primary text-primary text-xs font-semibold rounded-full hover:bg-primary hover:text-white transition-all">
-            View All
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-          </router-link>
+    <section class="py-12 md:py-16">
+      <div class="container mx-auto px-6 max-w-5xl">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Solutions</p>
+          <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">Our Solutions</h2>
         </div>
 
         <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
@@ -191,57 +185,66 @@
 
    
 
-   
-
+  
     <!-- ═══════════════ WE SPECIALIZE IN ═══════════════ -->
-    <section class="py-16 md:py-24">
-      <div class="container mx-auto px-6">
-        <div class="text-center max-w-2xl mx-auto mb-12">
+    <section class="py-12 md:py-16">
+      <div class="container mx-auto px-6 max-w-5xl">
+        <div class="text-center max-w-2xl mx-auto mb-10">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">What We Do</p>
-          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">We Specialize In</h2>
+          <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">We Specialize In</h2>
           <p class="text-muted-foreground text-sm leading-relaxed">End-to-end technology and digital solutions designed to help your business thrive in the modern economy.</p>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
-          <div v-for="(spec, i) in specializations" :key="i" class="bg-card border border-border rounded-2xl p-6 text-center hover:border-primary/30 hover:shadow-sm transition-all duration-300 group">
-            <div class="w-14 h-14 mx-auto bg-primary/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-              <span class="text-2xl">{{ spec.icon }}</span>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div v-for="(spec, i) in specializations" :key="i" class="relative bg-card border border-border rounded-2xl p-8 text-center hover:border-primary/50 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div class="relative z-10">
+              <div class="w-16 h-16 mx-auto bg-gradient-to-br from-primary/15 to-accent/10 rounded-2xl flex items-center justify-center mb-5 group-hover:from-primary/25 group-hover:to-accent/20 transition-all duration-300 shadow-sm">
+                <span class="text-3xl">{{ spec.icon }}</span>
+              </div>
+              <h3 class="text-base font-bold text-foreground mb-3 group-hover:text-primary transition-colors">{{ spec.title }}</h3>
+              <p class="text-muted-foreground text-sm leading-relaxed">{{ spec.desc }}</p>
             </div>
-            <h3 class="text-sm font-semibold text-foreground mb-2">{{ spec.title }}</h3>
-            <p class="text-muted-foreground text-xs leading-relaxed">{{ spec.desc }}</p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ═══════════════ INDUSTRIES WE SERVE ═══════════════ -->
-    <section class="py-16 md:py-24 bg-muted/20">
-      <div class="container mx-auto px-6">
-        <div class="flex items-end justify-between mb-10">
-          <div>
-            <p class="text-accent text-xs font-semibold tracking-widest uppercase mb-3">Industries</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight">Industries We Serve</h2>
-          </div>
-          <router-link to="/industries" class="hidden sm:inline-flex items-center gap-2 px-6 py-2.5 border border-accent text-accent text-xs font-semibold rounded-full hover:bg-accent hover:text-white transition-all">
-            View All
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-          </router-link>
+    <section class="py-12 md:py-16 bg-muted/20">
+      <div class="container mx-auto px-6 max-w-5xl">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <p class="text-accent text-xs font-semibold tracking-widest uppercase mb-3">Industries</p>
+          <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">Industries We Serve</h2>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
-          <router-link v-for="(industry, i) in industries" :key="i" :to="`/industries#${industry.title.toLowerCase()}`" class="group block bg-card border border-border rounded-2xl overflow-hidden hover:border-accent/20 hover:shadow-sm transition-all duration-300">
-            <div class="aspect-[4/3] bg-muted overflow-hidden">
-              <img :src="industry.image" :alt="industry.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-            </div>
-            <div class="p-5 text-center">
-              <div class="w-10 h-10 mx-auto bg-accent/10 rounded-lg flex items-center justify-center mb-3 group-hover:bg-accent/20 transition-colors">
-                <span class="text-lg">{{ industry.icon }}</span>
+        <Swiper
+          :modules="[Autoplay]"
+          :slides-per-view="1"
+          :space-between="16"
+          :autoplay="{ delay: 3000, disableOnInteraction: false }"
+          :loop="true"
+          :breakpoints="{ 480: { slidesPerView: 2 }, 768: { slidesPerView: 3 }, 1024: { slidesPerView: 4 } }"
+          @mouseenter="($refs.industriesSwiper as any)?.$el.__swiper.autoplay.stop()"
+          @mouseleave="($refs.industriesSwiper as any)?.$el.__swiper.autoplay.start()"
+          ref="industriesSwiper"
+          class="industries-carousel"
+        >
+          <SwiperSlide v-for="(industry, i) in industries" :key="i">
+            <router-link :to="`/industries#${industry.title.toLowerCase()}`" class="group block bg-card border border-border rounded-xl overflow-hidden hover:border-accent/40 hover:shadow-md transition-all duration-300 h-full">
+              <div class="aspect-video bg-muted overflow-hidden">
+                <img :src="industry.image" :alt="industry.title" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
               </div>
-              <h3 class="text-sm font-semibold text-foreground mb-1 group-hover:text-accent transition-colors">{{ industry.title }}</h3>
-              <p class="text-muted-foreground text-xs leading-relaxed">{{ industry.desc }}</p>
-            </div>
-          </router-link>
-        </div>
+              <div class="p-4 text-center">
+                <div class="w-9 h-9 mx-auto bg-accent/15 rounded-lg flex items-center justify-center mb-2 group-hover:bg-accent/25 transition-colors">
+                  <span class="text-base">{{ industry.icon }}</span>
+                </div>
+                <h3 class="text-xs font-bold text-foreground mb-1 group-hover:text-accent transition-colors line-clamp-2">{{ industry.title }}</h3>
+                <p class="text-muted-foreground text-xs leading-snug line-clamp-2">{{ industry.desc }}</p>
+              </div>
+            </router-link>
+          </SwiperSlide>
+        </Swiper>
 
         <div class="text-center mt-10 sm:hidden">
           <router-link to="/industries" class="inline-flex items-center gap-2 px-7 py-3 border border-accent text-accent text-sm font-semibold rounded-full hover:bg-accent hover:text-white transition-all">
@@ -253,17 +256,11 @@
     </section>
 
     <!-- ═══════════════ SERVICES CAROUSEL ═══════════════ -->
-    <section v-if="allServices.length" class="py-16 md:py-24 bg-muted/20">
-      <div class="container mx-auto px-6">
-        <div class="flex items-end justify-between mb-10">
-          <div>
-            <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Services</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight">Services That Drive Growth</h2>
-          </div>
-          <router-link to="/services" class="hidden sm:inline-flex items-center gap-2 px-6 py-2.5 border border-primary text-primary text-xs font-semibold rounded-full hover:bg-primary hover:text-white transition-all">
-            View All
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-          </router-link>
+    <section v-if="allServices.length" class="py-12 md:py-16 bg-muted/20">
+      <div class="container mx-auto px-6 max-w-5xl">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Services</p>
+          <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">Services That Drive Growth</h2>
         </div>
 
         <Swiper
@@ -289,8 +286,7 @@
               <div class="p-5">
                 <h3 class="text-sm font-semibold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">{{ service.title }}</h3>
                 <p class="text-muted-foreground text-xs leading-relaxed line-clamp-2 mb-3">{{ service.excerpt || service.short_description }}</p>
-                <div class="flex items-center justify-between">
-                  <span v-if="service.price_label" class="text-primary font-bold text-sm">{{ service.price_label }}</span>
+                <div class="flex items-center justify-end">
                   <span class="text-primary font-medium text-xs flex items-center gap-1 group-hover:gap-2 transition-all">
                     Learn More <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
                   </span>
@@ -302,47 +298,58 @@
       </div>
     </section>
 
-    <!-- ═══════════════ CTA 1 — MAROON/RED ═══════════════ -->
-    <section class="py-16 md:py-24">
+    <!-- ═══════════════ CTA 1 — THEME COLOR ═══════════════ -->
+    <section class="py-12 md:py-16">
       <div class="container mx-auto px-6">
-        <div class="relative bg-gradient-to-br from-red-900 via-red-800 to-red-900 rounded-3xl overflow-hidden shadow-lg">
-          <div class="absolute inset-0 opacity-15 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&q=40')] bg-cover bg-center"></div>
+        <div class="relative bg-gradient-to-br from-primary via-primary/85 to-accent rounded-3xl overflow-hidden shadow-lg">
+          <div class="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1633356122544-f134324ef6db?w=1200&q=40')] bg-cover bg-center"></div>
           <div class="relative grid lg:grid-cols-2 items-center">
-            <div class="p-10 md:p-14 lg:p-16">
-              <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-white leading-tight mb-5">Ready to Transform Your Business with Technology?</h2>
-              <p class="text-red-100/80 text-sm leading-relaxed mb-4">Let us build innovative solutions that drive real results. From custom software to AI-powered automation — we deliver digital transformation that matters.</p>
-              <p class="text-red-100/70 text-sm leading-relaxed mb-8">Expand your reach, build your digital presence, impact customers and grow revenue.</p>
-              <router-link to="/contact" class="inline-flex items-center gap-2 px-8 py-3.5 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-md">
+            <div class="p-8 md:p-10 lg:p-12">
+              <h2 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4">Ready to Transform Your Business with Technology?</h2>
+              <p class="text-white/90 text-sm leading-relaxed mb-3">Let us build innovative solutions that drive real results. From custom software to AI-powered automation — we deliver digital transformation that matters.</p>
+              <p class="text-white/80 text-sm leading-relaxed mb-6">Expand your reach, build your digital presence, impact customers and grow revenue.</p>
+              <router-link to="/contact" class="inline-flex items-center gap-2 px-8 py-3 bg-white text-primary text-sm font-semibold rounded-full hover:bg-white/90 transition-all shadow-md">
                 Get Started
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
               </router-link>
             </div>
-            <div class="hidden lg:flex items-end justify-end h-full min-h-[380px]">
-              <img :src="settings.cta_professional_image || 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=500&h=600&fit=crop&q=80'" alt="Professional" class="h-full max-h-[420px] object-cover object-top" />
-            </div>
+            <!-- <div class="hidden lg:flex items-center justify-end h-full min-h-[280px] py-8">
+              <img src="https://images.unsplash.com/photo-1633356122544-f134324ef6db?w=500&h=400&fit=crop&q=80" alt="Technology" class="h-full max-h-[300px] object-cover rounded-2xl mr-6" />
+            </div> -->
           </div>
         </div>
       </div>
     </section>
 
      <!-- ═══════════════ WHY CHOOSE US ═══════════════ -->
-    <section class="py-16 md:py-24 bg-muted/20">
-      <div class="container mx-auto px-6">
-        <div class="text-center max-w-2xl mx-auto mb-12">
-          <p class="text-accent text-xs font-semibold tracking-widest uppercase mb-3">Why Choose Us</p>
-          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Why Smartech Research Labs?</h2>
-          <p class="text-muted-foreground text-sm leading-relaxed">We go beyond just building software — we build partnerships that drive lasting impact.</p>
+    <section class="py-12 md:py-16 bg-gradient-to-b from-background to-muted/30">
+      <div class="container mx-auto px-6 max-w-5xl">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Why Choose Us</p>
+          <h2 class="text-xl md:text-2xl font-bold text-foreground">Why Smartech Research Labs?</h2>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div v-for="(reason, i) in whyUsReasons" :key="i" class="relative bg-card border border-border rounded-2xl p-8 hover:border-primary/30 hover:shadow-md transition-all duration-300 group overflow-hidden">
-            <div class="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-bl-full group-hover:bg-primary/10 transition-colors"></div>
-            <div class="relative">
-              <div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-5 group-hover:bg-primary/20 transition-colors">
-                <span class="text-2xl" v-html="reason.icon"></span>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div v-for="(reason, i) in whyUsReasons" :key="i" class="relative group">
+            <!-- Gradient background on hover -->
+            <div class="absolute -inset-0.5 bg-gradient-to-br from-primary/20 to-accent/20 rounded-3xl opacity-0 group-hover:opacity-100 blur-xl transition-all duration-500"></div>
+            
+            <!-- Card -->
+            <div class="relative bg-gradient-to-br from-card to-card/50 border border-primary/10 group-hover:border-primary/30 rounded-3xl p-10 transition-all duration-300 overflow-hidden h-full">
+              <!-- Animated background gradient -->
+              <div class="absolute inset-0 opacity-0 group-hover:opacity-50 bg-gradient-to-br from-primary/5 to-accent/5 transition-opacity duration-500"></div>
+              
+              <!-- Decorative element -->
+              <div class="absolute -top-8 -right-8 w-32 h-32 bg-primary/10 rounded-full group-hover:scale-150 group-hover:bg-primary/20 transition-all duration-500"></div>
+              
+              <!-- Content -->
+              <div class="relative z-10">
+                <div class="w-16 h-16 bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl flex items-center justify-center mb-6 group-hover:from-primary/30 group-hover:to-accent/30 group-hover:scale-110 transition-all duration-300 shadow-lg">
+                  <span class="text-3xl" v-html="reason.icon"></span>
+                </div>
+                <h3 class="text-lg font-bold text-foreground mb-3 group-hover:text-primary transition-colors">{{ reason.title }}</h3>
+                <p class="text-muted-foreground text-sm leading-relaxed group-hover:text-foreground/80 transition-colors">{{ reason.desc }}</p>
               </div>
-              <h3 class="text-base font-bold text-foreground mb-3">{{ reason.title }}</h3>
-              <p class="text-muted-foreground text-sm leading-relaxed">{{ reason.desc }}</p>
             </div>
           </div>
         </div>
@@ -350,17 +357,11 @@
     </section>
 
     <!-- ═══════════════ PRODUCTS CAROUSEL ═══════════════ -->
-    <section v-if="products.length" class="py-16 md:py-24 bg-muted/20">
-      <div class="container mx-auto px-6">
-        <div class="flex items-end justify-between mb-10">
-          <div>
-            <p class="text-accent text-xs font-semibold tracking-widest uppercase mb-3">Our Products</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight">Featured Products</h2>
-          </div>
-          <router-link to="/products" class="hidden sm:inline-flex items-center gap-2 px-6 py-2.5 border border-accent text-accent text-xs font-semibold rounded-full hover:bg-accent hover:text-white transition-all">
-            View All
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-          </router-link>
+    <section v-if="products.length" class="py-12 md:py-16 bg-muted/20">
+      <div class="container mx-auto px-6 max-w-5xl">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <p class="text-accent text-xs font-semibold tracking-widest uppercase mb-3">Our Products</p>
+          <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">Featured Products</h2>
         </div>
 
         <Swiper
@@ -398,196 +399,186 @@
       </div>
     </section>
 
-  <!-- ═══════════════ POPULATION IMPACTED ═══════════════ -->
-<section class="py-16 md:py-24">
-  <div class="container mx-auto px-6">
+      <!-- ═══════════════ POPULATION IMPACTED ═══════════════ -->
+    <section class="py-12 md:py-16">
+      <div class="container mx-auto px-6 max-w-5xl">
 
-    <!-- Header -->
-    <div class="text-center max-w-4xl mx-auto mb-12">
-      <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">
-        Global Impact
-      </p>
-      <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">
-        Population Impacted
-      </h2>
-      <p class="text-muted-foreground text-sm leading-relaxed">
-        In line with our mission to partner with organizations worldwide, providing them with
-        data-driven insights and transformative training, we have partnered with several
-        organizations within the NGO, private, and public sectors to achieve the UN's
-        Sustainable Development Goals (SDGs).
-      </p>
-    </div>
-
-    <!-- Two-column grid -->
-    <div class="grid lg:grid-cols-2 gap-8 items-stretch">
-
-      <!-- ── LEFT: population.png image ── -->
-      <div class="relative rounded-2xl overflow-hidden min-h-[420px]">
-        <img
-          :src="settings.population_image || populationImage || '/images/population.png'"
-          alt="Global population impacted by Smartech Research Labs"
-          class="w-full h-full object-cover"
-        />
-        <!-- Subtle overlay so the image doesn't feel flat -->
-        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-        <!-- Optional caption badge at bottom-left -->
-        <div class="absolute bottom-5 left-5 right-5">
-          <span class="inline-block bg-primary text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow">
-            Delivering impact across {{ impactStats[0]?.value ?? '30+' }} countries
-          </span>
-        </div>
-      </div>
-
-      <!-- ── RIGHT: Project carousel ── -->
-      <div class="bg-gray-100 dark:bg-gray-800 rounded-2xl overflow-hidden flex flex-col min-h-[420px]">
-
-        <!-- Carousel header -->
-        <div class="px-6 pt-6 pb-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
-          <h3 class="text-sm font-semibold text-foreground uppercase tracking-widest">
-            Featured Projects
-          </h3>
-          <!-- Slide counter -->
-          <span class="text-xs text-muted-foreground tabular-nums">
-            {{ activeSlide + 1 }} / {{ impactProjects.length }}
-          </span>
+        <!-- Header -->
+        <div class="text-center mb-10">
+          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Global Impact</p>
+          <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">Population Impacted</h2>
         </div>
 
-        <div class="flex-1 relative">
-          <Swiper
-            :modules="[Autoplay, Navigation]"
-            :slides-per-view="1"
-            :space-between="0"
-            :navigation="{
-              prevEl: '.pop-prev',
-              nextEl: '.pop-next',
-            }"
-            :autoplay="{ delay: 5000, disableOnInteraction: false }"
-            :loop="true"
-            @slide-change="onSlideChange"
-            class="h-full"
-          >
-            <SwiperSlide
-              v-for="(project, i) in impactProjects"
-              :key="i"
-            >
-              <div class="flex flex-col h-full p-6 gap-4">
+        <!-- Two-column grid -->
+        <div class="grid lg:grid-cols-2 gap-8 items-stretch">
 
-                <!-- Project image -->
-                <div class="rounded-xl overflow-hidden bg-white dark:bg-gray-900 flex items-center justify-center h-48 shrink-0">
-                  <img
-                    v-if="project.image"
-                    :src="project.image"
-                    :alt="project.title"
-                    class="w-full h-full object-cover"
-                  />
-                  <!-- Placeholder if no image -->
-                  <div
-                    v-else
-                    class="w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700"
-                  >
-                    <span class="text-muted-foreground text-xs">No image available</span>
+          <!-- ── LEFT: population.png image ── -->
+          <div class="relative rounded-2xl overflow-hidden min-h-[420px]">
+            <img
+              :src="settings.population_image || populationImage || '/images/population.png'"
+              alt="Global population impacted by Smartech Research Labs"
+              class="w-full h-full object-cover"
+            />
+            <!-- Subtle overlay so the image doesn't feel flat -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+            <!-- Optional caption badge at bottom-left -->
+            <div class="absolute bottom-5 left-5 right-5">
+              <span class="inline-block bg-primary text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow">
+                Delivering impact across {{ impactStats[0]?.value ?? '30+' }} countries
+              </span>
+            </div>
+          </div>
+
+          <!-- ── RIGHT: Project carousel ── -->
+          <div class="bg-gray-100 dark:bg-gray-800 rounded-2xl overflow-hidden flex flex-col min-h-[420px]">
+
+            <!-- Carousel header -->
+            <div class="px-6 pt-6 pb-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+              <h3 class="text-sm font-semibold text-foreground uppercase tracking-widest">
+                Featured Projects
+              </h3>
+              <!-- Slide counter -->
+              <span class="text-xs text-muted-foreground tabular-nums">
+                {{ activeSlide + 1 }} / {{ impactProjects.length }}
+              </span>
+            </div>
+
+            <div class="flex-1 relative">
+              <Swiper
+                :modules="[Autoplay, Navigation]"
+                :slides-per-view="1"
+                :space-between="0"
+                :navigation="{
+                  prevEl: '.pop-prev',
+                  nextEl: '.pop-next',
+                }"
+                :autoplay="{ delay: 5000, disableOnInteraction: false }"
+                :loop="true"
+                @slide-change="onSlideChange"
+                class="h-full"
+              >
+                <SwiperSlide
+                  v-for="(project, i) in impactProjects"
+                  :key="i"
+                >
+                  <div class="flex flex-col h-full p-6 gap-4">
+
+                    <!-- Project image -->
+                    <div class="rounded-xl overflow-hidden bg-white dark:bg-gray-900 flex items-center justify-center h-48 shrink-0">
+                      <img
+                        v-if="project.image"
+                        :src="project.image"
+                        :alt="project.title"
+                        class="w-full h-full object-cover"
+                      />
+                      <!-- Placeholder if no image -->
+                      <div
+                        v-else
+                        class="w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700"
+                      >
+                        <span class="text-muted-foreground text-xs">No image available</span>
+                      </div>
+                    </div>
+
+                    <!-- Project meta -->
+                    <div class="flex items-center gap-2 flex-wrap">
+                      <span class="bg-primary/10 text-primary text-xs font-semibold px-2.5 py-1 rounded-full">
+                        {{ project.sector ?? 'Research' }}
+                      </span>
+                      <span class="text-muted-foreground text-xs">
+                        {{ project.location }}
+                      </span>
+                    </div>
+
+                    <!-- Title -->
+                    <h3 class="text-lg md:text-xl font-bold text-foreground leading-snug">
+                      {{ project.title }}
+                    </h3>
+
+                    <!-- Description -->
+                    <p class="text-muted-foreground text-sm leading-relaxed line-clamp-3 flex-1">
+                      {{ project.description }}
+                    </p>
+
+                    <!-- CTA button -->
+                    <div class="pt-2">
+                      <RouterLink
+                        :to="`/case-studies/${project.case_study_slug}`"
+                        class="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors"
+                      >
+                        View Case Study
+                        <!-- Arrow icon -->
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="w-4 h-4"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                      </RouterLink>
+                    </div>
+
                   </div>
-                </div>
+                </SwiperSlide>
+              </Swiper>
 
-                <!-- Project meta -->
-                <div class="flex items-center gap-2 flex-wrap">
-                  <span class="bg-primary/10 text-primary text-xs font-semibold px-2.5 py-1 rounded-full">
-                    {{ project.sector ?? 'Research' }}
-                  </span>
-                  <span class="text-muted-foreground text-xs">
-                    {{ project.location }}
-                  </span>
-                </div>
-
-                <!-- Title -->
-                <h3 class="text-lg md:text-xl font-bold text-foreground leading-snug">
-                  {{ project.title }}
-                </h3>
-
-                <!-- Description -->
-                <p class="text-muted-foreground text-sm leading-relaxed line-clamp-3 flex-1">
-                  {{ project.description }}
-                </p>
-
-                <!-- CTA button -->
-                <div class="pt-2">
-                  <RouterLink
-                    :to="`/case-studies/${project.case_study_slug}`"
-                    class="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors"
-                  >
-                    View Case Study
-                    <!-- Arrow icon -->
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="w-4 h-4"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <path d="M5 12h14M12 5l7 7-7 7"/>
-                    </svg>
-                  </RouterLink>
-                </div>
-
+              <!-- Custom nav arrows — positioned at bottom-right -->
+              <div class="absolute bottom-6 right-6 flex items-center gap-2 z-10">
+                <button
+                  class="pop-prev w-8 h-8 rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 flex items-center justify-center hover:border-primary hover:text-primary transition-colors disabled:opacity-30"
+                  aria-label="Previous project"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                </button>
+                <button
+                  class="pop-next w-8 h-8 rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 flex items-center justify-center hover:border-primary hover:text-primary transition-colors"
+                  aria-label="Next project"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
               </div>
-            </SwiperSlide>
-          </Swiper>
+            </div>
 
-          <!-- Custom nav arrows — positioned at bottom-right -->
-          <div class="absolute bottom-6 right-6 flex items-center gap-2 z-10">
-            <button
-              class="pop-prev w-8 h-8 rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 flex items-center justify-center hover:border-primary hover:text-primary transition-colors disabled:opacity-30"
-              aria-label="Previous project"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-            </button>
-            <button
-              class="pop-next w-8 h-8 rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 flex items-center justify-center hover:border-primary hover:text-primary transition-colors"
-              aria-label="Next project"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
           </div>
         </div>
 
+        <!-- Stats Row -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-10">
+          <div
+            v-for="(stat, i) in impactStats.slice(0, 4)"
+            :key="i"
+            class="bg-card border border-border rounded-xl p-5 text-center hover:shadow-sm hover:border-primary/20 transition-all"
+          >
+            <div class="text-2xl md:text-3xl font-bold text-primary mb-1">{{ stat.value }}</div>
+            <div class="text-muted-foreground text-xs font-medium">{{ stat.label }}</div>
+          </div>
+        </div>
+
+        <!-- Link to all case studies -->
+        <div class="text-center mt-10">
+          <RouterLink
+            to="/case-studies"
+            class="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline underline-offset-4"
+          >
+            Browse all case studies
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </RouterLink>
+        </div>
+
       </div>
-    </div>
-
-    <!-- Stats Row -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-10">
-      <div
-        v-for="(stat, i) in impactStats.slice(0, 4)"
-        :key="i"
-        class="bg-card border border-border rounded-xl p-5 text-center hover:shadow-sm hover:border-primary/20 transition-all"
-      >
-        <div class="text-2xl md:text-3xl font-bold text-primary mb-1">{{ stat.value }}</div>
-        <div class="text-muted-foreground text-xs font-medium">{{ stat.label }}</div>
-      </div>
-    </div>
-
-    <!-- Link to all case studies -->
-    <div class="text-center mt-10">
-      <RouterLink
-        to="/case-studies"
-        class="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline underline-offset-4"
-      >
-        Browse all case studies
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </RouterLink>
-    </div>
-
-  </div>
-</section>
+    </section>
 
       <!-- Process -->
-    <section class="py-24 bg-background">
-      <div class="container mx-auto px-4">
-        <div class="text-center max-w-3xl mx-auto mb-16">
-          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">Our Process</div>
-          <h2 class="text-4xl md:text-5xl font-bold text-foreground mb-6">How we bring your <span class="text-primary">ideas</span> to life</h2>
+    <section class="py-12 md:py-16 bg-background">
+      <div class="container mx-auto px-6 max-w-5xl">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Process</p>
+          <h2 class="text-xl md:text-2xl font-bold text-foreground">How we bring your ideas to life</h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div v-for="(step, idx) in processSteps" :key="idx" class="relative text-center">
@@ -603,37 +594,37 @@
     </section>
 
     <!-- ═══════════════ TESTIMONIALS CAROUSEL ═══════════════ -->
-    <section v-if="topReviews.length" class="py-16 md:py-24 bg-muted/20">
-      <div class="container mx-auto px-6">
-        <div class="text-center max-w-xl mx-auto mb-12">
-          <p class="text-amber-600 dark:text-amber-400 text-xs font-semibold tracking-widest uppercase mb-3">Testimonials</p>
-          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">What Our Clients Say</h2>
-          <p class="text-muted-foreground text-sm leading-relaxed">Trusted by businesses across Africa and beyond.</p>
+    <section v-if="topReviews.length" class="py-12 md:py-16 bg-muted/20">
+      <div class="container mx-auto px-6 max-w-6xl">
+        <div class="text-center max-w-xl mx-auto mb-10">
+          <p class="text-amber-600 dark:text-amber-400 text-xs font-semibold tracking-widest uppercase mb-2">Testimonials</p>
+          <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight mb-3">What Our Clients Say</h2>
+          <p class="text-muted-foreground text-xs leading-relaxed">Trusted by businesses across Africa and beyond.</p>
         </div>
 
         <Swiper
           :modules="[Autoplay, Pagination]"
           :slides-per-view="1"
-          :space-between="24"
+          :space-between="16"
           :pagination="{ clickable: true }"
           :autoplay="{ delay: 5000, disableOnInteraction: false }"
-          :breakpoints="{ 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }"
-          class="testimonials-swiper pb-14"
+          :breakpoints="{ 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 }, 1280: { slidesPerView: 4 } }"
+          class="testimonials-swiper pb-10"
         >
           <SwiperSlide v-for="review in topReviews" :key="review.id">
-            <div class="bg-card border border-border rounded-2xl p-6 h-full flex flex-col shadow-sm">
-              <div class="flex gap-1 mb-4">
-                <svg v-for="s in review.rating" :key="s" class="w-5 h-5 text-amber-400 fill-current" viewBox="0 0 20 20">
+            <div class="bg-card border border-border rounded-lg p-4 h-full flex flex-col shadow-xs hover:shadow-sm transition-all">
+              <div class="flex gap-0.5 mb-3">
+                <svg v-for="s in review.rating" :key="s" class="w-3.5 h-3.5 text-amber-400 fill-current" viewBox="0 0 20 20">
                   <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                 </svg>
               </div>
-              <p class="text-muted-foreground text-sm leading-relaxed mb-5 flex-1 line-clamp-5">"{{ review.comment }}"</p>
-              <div class="flex items-center gap-3 pt-4 border-t border-border">
-                <div class="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0">
+              <p class="text-muted-foreground text-xs leading-relaxed mb-3 flex-1 line-clamp-3">"{{ review.comment }}"</p>
+              <div class="flex items-center gap-2 pt-3 border-t border-border">
+                <div class="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0">
                   {{ review.user_name?.charAt(0).toUpperCase() }}
                 </div>
                 <div class="min-w-0">
-                  <div class="font-semibold text-foreground text-sm truncate">{{ review.user_name }}</div>
+                  <div class="font-semibold text-foreground text-xs truncate">{{ review.user_name }}</div>
                   <div class="text-muted-foreground text-xs truncate">{{ review.company || 'Verified Client' }}</div>
                 </div>
               </div>
@@ -644,68 +635,59 @@
     </section>
 
      <!-- ═══════════════ CORE VALUES ═══════════════ -->
-    <section class="py-16 md:py-24">
-      <div class="container mx-auto px-6">
-        <div class="grid lg:grid-cols-[1fr_1.2fr] gap-14 items-center">
-          <!-- Left - Content -->
-          <div>
-            <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Foundation</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Our Core Values</h2>
-            <p class="text-muted-foreground text-sm leading-relaxed mb-8">These principles guide every decision we make and every solution we deliver.</p>
+    <section class="py-12 md:py-16">
+      <div class="container mx-auto px-6 max-w-5xl">
+        <div class="text-center mb-10">
+          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-2">Our Foundation</p>
+          <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight mb-3">Our Core Values</h2>
+          <p class="text-muted-foreground text-xs leading-relaxed max-w-2xl mx-auto">These principles guide every decision we make and every solution we deliver.</p>
+        </div>
 
-            <div class="space-y-4">
-              <div v-for="(value, i) in coreValues" :key="i" class="flex items-start gap-4 p-4 rounded-xl hover:bg-muted/30 transition-colors group">
-                <div class="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center text-xl" :class="value.bgClass">
-                  {{ value.icon }}
-                </div>
-                <div>
-                  <h3 class="text-sm font-bold text-foreground mb-1 group-hover:text-primary transition-colors">{{ value.title }}</h3>
-                  <p class="text-muted-foreground text-xs leading-relaxed">{{ value.desc }}</p>
-                </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div v-for="(value, i) in coreValues" :key="i" class="relative group">
+            <div class="absolute -inset-0.5 bg-gradient-to-br from-primary/10 to-accent/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm"></div>
+            <div class="relative bg-card border border-primary/5 group-hover:border-primary/20 rounded-lg p-5 transition-all duration-300 h-full flex flex-col">
+              <div class="w-10 h-10 shrink-0 rounded-lg flex items-center justify-center text-base mb-3" :class="value.bgClass">
+                {{ value.icon }}
               </div>
-            </div>
-          </div>
-
-          <!-- Right - Image -->
-          <div class="relative">
-            <div class="rounded-2xl overflow-hidden shadow-lg">
-              <img :src="settings.values_section_image || 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop&q=80'" alt="Our Values" class="w-full aspect-[4/3] object-cover" />
+              <h3 class="text-sm font-bold text-foreground mb-2 group-hover:text-primary transition-colors">{{ value.title }}</h3>
+              <p class="text-muted-foreground text-xs leading-relaxed flex-1">{{ value.desc }}</p>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ═══════════════ CTA 2 — DARK MAROON ═══════════════ -->
-    <section class="py-16 md:py-24">
+    <!-- ═══════════════ CTA 2 — THEME COLOR ═══════════════ -->
+    <section class="py-12 md:py-16">
       <div class="container mx-auto px-6">
-        <div class="relative bg-gradient-to-br from-red-900 via-rose-900 to-red-900 rounded-3xl overflow-hidden shadow-lg">
-          <div class="absolute inset-0 opacity-15 bg-[url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1200&q=40')] bg-cover bg-center"></div>
+        <div class="relative bg-gradient-to-br from-accent via-accent/85 to-primary rounded-3xl overflow-hidden shadow-lg">
+          <div class="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&q=40')] bg-cover bg-center"></div>
           <div class="relative grid lg:grid-cols-2 items-center">
-            <div class="p-10 md:p-14 lg:p-16">
-              <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-white leading-tight mb-5">Partner With Us — Build the Future Together</h2>
-              <p class="text-red-100/80 text-sm leading-relaxed mb-4">In line with our mission to empower businesses with cutting-edge technology, we are looking for innovators, creators, and problem-solvers to join our ecosystem.</p>
-              <p class="text-red-100/70 text-sm leading-relaxed mb-8">Expand your professional network, build expertise, impact businesses, and earn.</p>
-              <router-link to="/contact" class="inline-flex items-center gap-2 px-8 py-3.5 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-md">
+            <div class="p-8 md:p-10 lg:p-12">
+              <h2 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4">Partner With Us — Build the Future Together</h2>
+              <p class="text-white/90 text-sm leading-relaxed mb-3">In line with our mission to empower businesses with cutting-edge technology, we are looking for innovators, creators, and problem-solvers to join our ecosystem.</p>
+              <p class="text-white/80 text-sm leading-relaxed mb-6">Expand your professional network, build expertise, impact businesses, and earn.</p>
+              <router-link to="/contact" class="inline-flex items-center gap-2 px-8 py-3 bg-white text-accent text-sm font-semibold rounded-full hover:bg-white/90 transition-all shadow-md">
                 Apply Now
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
               </router-link>
             </div>
-            <div class="hidden lg:flex items-end justify-end h-full min-h-[350px]">
-              <img :src="settings.cta_professional_image || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&h=600&fit=crop&q=80'" alt="Business Professional" class="h-full max-h-[400px] object-cover object-top" />
-            </div>
+            <!-- <div class="hidden lg:flex items-center justify-end h-full min-h-[280px] py-8">
+              <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=400&fit=crop&q=80" alt="Technology Partnership" class="h-full max-h-[300px] object-cover rounded-2xl mr-6" />
+            </div> -->
           </div>
         </div>
       </div>
     </section>
 
     <!-- ═══════════════ TRUSTED BY (SPLIT LAYOUT) ═══════════════ -->
-    <section class="py-16 md:py-24 bg-muted/20">
-      <div class="container mx-auto px-6">
+    <section class="py-12 md:py-16 bg-muted/20">
+      <div class="container mx-auto px-6 max-w-6xl">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
           <!-- Left: Copy -->
           <div class="lg:col-span-4 lg:sticky lg:top-28">
-            <h2 class="text-3xl md:text-4xl font-bold text-primary leading-tight mb-5">Trusted By</h2>
+            <h2 class="text-2xl md:text-3xl font-bold text-primary leading-tight mb-5">Trusted By</h2>
             <p class="text-muted-foreground text-base leading-relaxed mb-8">We are the go-to partner in empowering organizations and professionals with solutions and expertise globally</p>
             <router-link to="/about" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-sm">
               View More
@@ -750,15 +732,18 @@
   
 
     <!-- ═══════════════ REQUEST A QUOTE ═══════════════ -->
-    <section class="py-16 md:py-24">
-      <div class="container mx-auto px-6">
+    <section class="py-12 md:py-16">
+      <div class="container mx-auto px-6 max-w-5xl">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <p class="text-accent text-xs font-semibold tracking-widest uppercase mb-3">Get Started</p>
+          <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight mb-3">Request a Quote</h2>
+          <p class="text-muted-foreground text-sm leading-relaxed">Tell us about your project and we'll get back to you within 24 hours.</p>
+        </div>
+      </div>
+      <div class="container mx-auto px-6 max-w-5xl">
         <div class="grid lg:grid-cols-2 gap-14 items-center">
           <!-- Left - Form -->
           <div>
-            <p class="text-accent text-xs font-semibold tracking-widest uppercase mb-3">Get Started</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-3">Request a Quote</h2>
-            <p class="text-muted-foreground text-sm leading-relaxed mb-8">Tell us about your project and we'll get back to you within 24 hours.</p>
-
             <form @submit.prevent="submitQuoteRequest" class="space-y-4">
               <div class="grid grid-cols-2 gap-4">
                 <input v-model="quoteForm.name" type="text" required class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all" placeholder="Full Name *" />
@@ -804,70 +789,14 @@
       </div>
     </section>
 
-    <!-- ═══════════════ CONTACT US ═══════════════ -->
-    <section class="py-16 md:py-24 bg-muted/20">
-      <div class="container mx-auto px-6">
-        <div class="grid lg:grid-cols-2 gap-14 items-center">
-          <!-- Left - Image & Contact Info -->
-          <div>
-            <div class="rounded-2xl overflow-hidden shadow-lg mb-8">
-              <img :src="settings.office_image || 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=500&fit=crop&q=80'" alt="Our Office" class="w-full aspect-[4/3] object-cover" />
-            </div>
-            <div class="space-y-4">
-              <div v-if="settings.address" class="flex items-center gap-4">
-                <div class="w-11 h-11 shrink-0 bg-primary/10 rounded-xl flex items-center justify-center">
-                  <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                </div>
-                <span class="text-muted-foreground text-sm">{{ settings.address }}</span>
-              </div>
-              <div v-if="settings.contact_email" class="flex items-center gap-4">
-                <div class="w-11 h-11 shrink-0 bg-accent/10 rounded-xl flex items-center justify-center">
-                  <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                </div>
-                <a :href="`mailto:${settings.contact_email}`" class="text-muted-foreground text-sm hover:text-primary transition">{{ settings.contact_email }}</a>
-              </div>
-              <div v-if="settings.contact_phone" class="flex items-center gap-4">
-                <div class="w-11 h-11 shrink-0 bg-green-500/10 rounded-xl flex items-center justify-center">
-                  <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
-                </div>
-                <a :href="`tel:${settings.contact_phone}`" class="text-muted-foreground text-sm hover:text-primary transition">{{ settings.contact_phone }}</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- Right - Form -->
-          <div>
-            <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Get In Touch</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-3">Contact Us</h2>
-            <p class="text-muted-foreground text-sm leading-relaxed mb-8">Have a question? We're here to help. Send us a message and we'll respond promptly.</p>
-
-            <form @submit.prevent="submitContactForm" class="space-y-4">
-              <div class="grid grid-cols-2 gap-4">
-                <input v-model="contactForm.name" type="text" required class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all" placeholder="Full Name *" />
-                <input v-model="contactForm.email" type="email" required class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all" placeholder="Email *" />
-              </div>
-              <input v-model="contactForm.phone" type="tel" class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all" placeholder="Phone Number" />
-              <textarea v-model="contactForm.message" required rows="5" class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm resize-none transition-all" placeholder="How can we help you?"></textarea>
-              <button type="submit" :disabled="contactFormSubmitting" class="w-full px-6 py-3.5 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary/90 disabled:opacity-50 transition-all shadow-sm">
-                {{ contactFormSubmitting ? 'Sending...' : 'Send Message' }}
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </section>
+   
 
     <!-- ═══════════════ BLOG ═══════════════ -->
-    <section v-if="recentBlogs.length" class="py-16 md:py-24">
-      <div class="container mx-auto px-6">
-        <div class="flex items-end justify-between mb-10">
-          <div>
-            <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Latest Insights</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight">From Our Blog</h2>
-          </div>
-          <router-link to="/blog" class="hidden sm:inline-flex items-center gap-2 text-primary font-semibold text-sm hover:gap-3 transition-all">
-            View All <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
-          </router-link>
+    <section v-if="recentBlogs.length" class="py-12 md:py-16">
+      <div class="container mx-auto px-6 max-w-5xl">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Latest Insights</p>
+          <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">From Our Blog</h2>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -906,11 +835,11 @@
     </section>
 
     <!-- ═══════════════ FAQ ═══════════════ -->
-    <section v-if="faqs.length" class="py-16 md:py-24">
+    <section v-if="faqs.length" class="py-12 md:py-16">
       <div class="container mx-auto px-6 max-w-3xl">
         <div class="text-center mb-10">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">FAQ</p>
-          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-3">Frequently Asked Questions</h2>
+          <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">Frequently Asked Questions</h2>
         </div>
 
         <div class="space-y-3">
@@ -933,8 +862,11 @@
 import { ref, computed, onMounted } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+// @ts-ignore
 import 'swiper/css';
+// @ts-ignore
 import 'swiper/css/pagination';
+// @ts-ignore
 import 'swiper/css/navigation';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import WishlistButton from '@/components/WishlistButton.vue';

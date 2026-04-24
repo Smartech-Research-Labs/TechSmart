@@ -154,7 +154,7 @@ async function fetchBlog(slug: string) {
 
     // Update page title for SEO
     if (blog.value?.seo_title || blog.value?.title) {
-      document.title = `${blog.value.seo_title || blog.value.title} - Smartech Research Labs`;
+      document.title = `${blog.value.seo_title || blog.value.title} - OmniviaTech`;
     }
 
     // Add meta description

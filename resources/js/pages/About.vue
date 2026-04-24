@@ -24,12 +24,12 @@
       <div class="container mx-auto px-6">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
           <div class="rounded-xl overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop&q=80" alt="Smartech Research Labs Team" class="w-full h-full object-cover aspect-[4/3]" />
+            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop&q=80" alt="OmniviaTech Team" class="w-full h-full object-cover aspect-[4/3]" />
           </div>
           <div>
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Story</p>
             <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Technology That Transforms</h2>
-            <p class="text-muted-foreground text-sm leading-relaxed mb-4">Founded with a vision to make world-class technology accessible to businesses across Africa, Smartech Research Labs has grown into a trusted partner for organizations of all sizes.</p>
+            <p class="text-muted-foreground text-sm leading-relaxed mb-4">Founded with a vision to make world-class technology accessible to businesses across Africa, OmniviaTech has grown into a trusted partner for organizations of all sizes.</p>
             <p class="text-muted-foreground text-sm leading-relaxed mb-4">We combine deep technical expertise with genuine understanding of African business landscapes to deliver solutions that work in the real world.</p>
             <div class="grid grid-cols-3 gap-4 pt-4">
               <div class="text-center">
@@ -142,7 +142,7 @@
       <div class="container mx-auto px-6">
         <div class="text-center max-w-xl mx-auto mb-8">
           <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-3">Other Areas You Might Be Interested In</h2>
-          <p class="text-muted-foreground text-sm">Explore more of what Smartech Research Labs has to offer.</p>
+          <p class="text-muted-foreground text-sm">Explore more of what OmniviaTech has to offer.</p>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
           <router-link v-for="area in otherAreas" :key="area.label" :to="area.to" class="group bg-card border border-border rounded-xl p-5 text-center hover:border-primary/40 hover:shadow-md transition-all">

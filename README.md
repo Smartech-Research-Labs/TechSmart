@@ -1,4 +1,4 @@
-﻿# Smartech Research Labs - Full Stack Tech Company Website
+﻿# OmniviaTech - Full Stack Tech Company Website
 
 A comprehensive tech company website built with Laravel 12, Vue 3, Socket.IO, and BullMQ. Features include CMS management, real-time chat, AI-powered content generation, wishlist functionality, and advanced admin dashboard.
 
@@ -80,7 +80,7 @@ A comprehensive tech company website built with Laravel 12, Vue 3, Socket.IO, an
 
 ```bash
 # Navigate to project
-cd E:\Smartech Research Labs
+cd E:\OmniviaTech
 
 # Install PHP dependencies
 composer install
@@ -95,7 +95,7 @@ php artisan key:generate
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=Smartech Research Labs
+DB_DATABASE=omniviatech
 DB_USERNAME=root
 DB_PASSWORD=your_password
 
@@ -561,7 +561,7 @@ pm2 startup
 server {
     listen 80;
     server_name yourdomain.com;
-    root /var/www/Smartech Research Labs/public;
+    root /var/www/OmniviaTech/public;
 
     index index.php;
 
@@ -606,8 +606,8 @@ This project is proprietary software. All rights reserved.
 ## 📞 Support
 
 For issues or questions:
-- Email: support@smartechresearchlabs.co.ke
-- GitHub Issues: [https://github.com/smartechresearchlabs/issues](https://github.com/smartechresearchlabs/issues)
+- Email: support@omniviatech.com
+- GitHub Issues: [https://github.com/omniviatech/issues](https://github.com/omniviatech/issues)
 
 ---
 

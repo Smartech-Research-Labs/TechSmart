@@ -57,7 +57,7 @@ const marqueeItems = computed(() => {
     return marquee.split('|').map((s: string) => s.trim()).filter(Boolean);
   }
   return [
-    '🚀 Welcome to Smartech Research Labs — Innovative Tech Solutions',
+    '🚀 Welcome to OmniviaTech — Innovative Tech Solutions',
     '💡 Free consultation for new clients',
     '🔥 Check out our latest products and services',
     '📞 Contact us today for a custom quote',

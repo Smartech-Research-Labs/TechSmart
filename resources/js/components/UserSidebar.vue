@@ -104,7 +104,7 @@ const navSecondary = computed(() => {
           >
             <router-link to="/">
               <IconInnerShadowTop class="!size-5" />
-              <span class="text-base font-semibold">Smartech Research Labs</span>
+              <span class="text-base font-semibold">OmniviaTech</span>
             </router-link>
           </SidebarMenuButton>
         </SidebarMenuItem>

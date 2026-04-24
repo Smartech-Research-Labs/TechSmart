@@ -164,8 +164,8 @@ class AIController extends Controller
             // Get company info from settings for context
             $settings = \App\Models\Setting::all()->pluck('value', 'key');
             $companyInfo = [
-                'name' => $settings['site_name'] ?? 'Smartech Research Labs',
-                'email' => $settings['contact_email'] ?? 'info@smartechresearchlabs.co.ke',
+                'name' => $settings['site_name'] ?? 'OmniviaTech',
+                'email' => $settings['contact_email'] ?? 'info@omniviatech.com',
                 'phone' => $settings['contact_phone'] ?? '+254 710 351 517',
             ];
 

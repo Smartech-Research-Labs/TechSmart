@@ -1,6 +1,6 @@
 ﻿# Environment Variables Configuration Guide
 
-This guide explains all environment variables needed for Smartech Research Labs.
+This guide explains all environment variables needed for OmniviaTech.
 
 ## Table of Contents
 1. [Laravel Backend (.env)](#laravel-backend-env)
@@ -16,7 +16,7 @@ This guide explains all environment variables needed for Smartech Research Labs.
 
 ```bash
 # Application
-APP_NAME="Smartech Research Labs"
+APP_NAME="OmniviaTech"
 APP_ENV=local
 APP_DEBUG=true
 APP_TIMEZONE=Africa/Johannesburg
@@ -31,7 +31,7 @@ APP_KEY=base64:your_generated_key_here
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=Smartech Research Labs
+DB_DATABASE=omniviatech
 DB_USERNAME=root
 DB_PASSWORD=your_mysql_password
 ```
@@ -47,7 +47,7 @@ REDIS_PASSWORD=null
 SESSION_DRIVER=redis
 SESSION_LIFETIME=120
 CACHE_STORE=redis
-CACHE_PREFIX=Smartech Research Labs_cache
+CACHE_PREFIX=omniviatech_cache
 
 # Queue
 QUEUE_CONNECTION=redis
@@ -75,7 +75,7 @@ MAIL_PORT=2525
 MAIL_USERNAME=your_username
 MAIL_PASSWORD=your_password
 MAIL_ENCRYPTION=tls
-MAIL_FROM_ADDRESS="noreply@smartechresearchlabs.co.ke"
+MAIL_FROM_ADDRESS="noreply@omniviatech.com"
 MAIL_FROM_NAME="${APP_NAME}"
 ```
 
@@ -221,7 +221,7 @@ MAIL_PORT=587
 MAIL_USERNAME=your_email@gmail.com
 MAIL_PASSWORD=your_app_password_here  # 16-character password
 MAIL_ENCRYPTION=tls
-MAIL_FROM_ADDRESS="noreply@smartechresearchlabs.co.ke"
+MAIL_FROM_ADDRESS="noreply@omniviatech.com"
 ```
 
 ### 5. Setup Mailtrap (Development Email Testing)
@@ -337,7 +337,7 @@ php artisan tinker
 
 In tinker:
 ```php
-config('database.connections.mysql.database');  // Should show 'Smartech Research Labs'
+config('database.connections.mysql.database');  // Should show 'omniviatech'
 config('services.openai.key');  // Should show your key
 exit
 ```
@@ -425,7 +425,7 @@ Before starting the application, verify:
 - [ ] `server/.env` file exists
 - [ ] `APP_KEY` is generated (not empty)
 - [ ] Database credentials are correct
-- [ ] Database `Smartech Research Labs` exists
+- [ ] Database `omniviatech` exists
 - [ ] Migrations have run (`php artisan migrate`)
 - [ ] Redis is running (`redis-cli ping`)
 - [ ] OpenAI API key is set (if using AI features)

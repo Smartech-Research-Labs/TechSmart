@@ -45,7 +45,7 @@ const showSearch = ref(false)
 
 const userData = computed(() => ({
   name: authStore.user?.name || "Admin",
-  email: authStore.user?.email || "admin@smartechresearchlabs.co.ke",
+  email: authStore.user?.email || "admin@omniviatech.com",
   avatar: "",
 }))
 
@@ -176,7 +176,7 @@ function openSearch() {
           >
             <router-link to="/">
               <IconInnerShadowTop class="!size-5" />
-              <span class="text-base font-semibold">Smartech Admin</span>
+              <span class="text-base font-semibold">OmniviaTech Admin</span>
             </router-link>
           </SidebarMenuButton>
         </SidebarMenuItem>

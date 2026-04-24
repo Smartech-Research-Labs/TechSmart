@@ -170,7 +170,7 @@
       <div class="container mx-auto px-6">
         <div class="text-center max-w-xl mx-auto mb-8">
           <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-3">Other Areas You Might Be Interested In</h2>
-          <p class="text-muted-foreground text-sm">Explore more of what Smartech Research Labs has to offer.</p>
+          <p class="text-muted-foreground text-sm">Explore more of what OmniviaTech has to offer.</p>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
           <router-link v-for="area in otherAreas" :key="area.label" :to="area.to" class="group bg-card border border-border rounded-xl p-5 text-center hover:border-primary/40 hover:shadow-md transition-all">

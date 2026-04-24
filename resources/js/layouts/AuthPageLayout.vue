@@ -13,7 +13,7 @@
           <div v-else class="w-8 h-8 bg-gradient-to-br from-primary to-primary/70 rounded-lg flex items-center justify-center">
             <span class="text-primary-foreground font-bold text-sm">TS</span>
           </div>
-          <span class="text-lg font-bold group-hover:text-primary transition-colors">{{ settings?.site_name || 'Smartech Research Labs' }}</span>
+          <span class="text-lg font-bold group-hover:text-primary transition-colors">{{ settings?.site_name || 'OmniviaTech' }}</span>
         </router-link>
 
         <div class="flex items-center gap-2">
@@ -40,7 +40,7 @@
     <!-- Auth Footer -->
     <footer class="border-t py-4">
       <div class="container mx-auto flex flex-col items-center justify-between gap-2 px-4 text-xs text-muted-foreground sm:flex-row">
-        <p>&copy; {{ new Date().getFullYear() }} {{ settings?.site_name || 'Smartech Research Labs' }}. All rights reserved.</p>
+        <p>&copy; {{ new Date().getFullYear() }} {{ settings?.site_name || 'OmniviaTech' }}. All rights reserved.</p>
         <div class="flex items-center gap-4">
           <router-link to="/" class="hover:text-foreground transition-colors">Home</router-link>
           <router-link to="/contact" class="hover:text-foreground transition-colors">Contact</router-link>
