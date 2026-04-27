@@ -4,7 +4,7 @@
     <TopBar />
 
     <!-- Navigation -->
-    <nav class="navbar sticky top-0 z-30 bg-card/90 backdrop-blur-xl border-b border-border">
+    <nav class="navbar sticky top-0 z-30 backdrop-blur-xl border-b border-border" style="background-color: #262626;">
       <div class="container mx-auto px-4 py-3">
         <div class="flex items-center justify-between">
           <!-- Logo -->
@@ -19,19 +19,19 @@
             <div v-else class="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
               <span class="text-white font-bold text-xl">TS</span>
             </div>
-            <span class="text-xl font-display font-bold text-foreground group-hover:text-primary transition">
-              {{ settings?.site_name || 'Smartech Research Labs' }}
+            <span class="text-xl font-display font-bold text-white group-hover:text-primary transition">
+              {{ settings?.site_name || 'OmniviaTech' }}
             </span>
           </router-link>
 
           <!-- Desktop Mega Menu -->
           <div class="hidden lg:flex items-center gap-1">
             <!-- Home -->
-            <router-link to="/" class="nav-link px-3 py-2 text-muted-foreground hover:text-primary transition font-medium text-sm rounded-lg hover:bg-muted/50" active-class="text-primary">Home</router-link>
+            <router-link to="/" class="nav-link px-3 py-2 text-white/75 hover:text-primary transition font-medium text-sm rounded-lg hover:bg-white/10" active-class="text-primary">Home</router-link>
 
             <!-- Solutions Dropdown -->
             <div class="relative group" @mouseenter="openDropdown = 'solutions'" @mouseleave="openDropdown = null">
-              <button class="nav-link px-3 py-2 text-muted-foreground hover:text-primary transition font-medium text-sm rounded-lg hover:bg-muted/50 flex items-center gap-1" :class="{ 'text-primary': isSolutionsActive }">
+              <button class="nav-link px-3 py-2 text-white/75 hover:text-primary transition font-medium text-sm rounded-lg hover:bg-white/10 flex items-center gap-1" :class="{ 'text-primary': isSolutionsActive }">
                 Solutions
                 <svg class="w-3.5 h-3.5 transition-transform duration-200" :class="{ 'rotate-180': openDropdown === 'solutions' }" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
               </button>
@@ -52,7 +52,7 @@
 
             <!-- Company Dropdown -->
             <div class="relative group" @mouseenter="openDropdown = 'company'" @mouseleave="openDropdown = null">
-              <button class="nav-link px-3 py-2 text-muted-foreground hover:text-primary transition font-medium text-sm rounded-lg hover:bg-muted/50 flex items-center gap-1" :class="{ 'text-primary': isCompanyActive }">
+              <button class="nav-link px-3 py-2 text-white/75 hover:text-primary transition font-medium text-sm rounded-lg hover:bg-white/10 flex items-center gap-1" :class="{ 'text-primary': isCompanyActive }">
                 Company
                 <svg class="w-3.5 h-3.5 transition-transform duration-200" :class="{ 'rotate-180': openDropdown === 'company' }" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
               </button>
@@ -72,10 +72,10 @@
             </div>
 
             <!-- Blog -->
-            <router-link to="/blog" class="nav-link px-3 py-2 text-muted-foreground hover:text-primary transition font-medium text-sm rounded-lg hover:bg-muted/50" active-class="text-primary">Blog</router-link>
+            <router-link to="/blog" class="nav-link px-3 py-2 text-white/75 hover:text-primary transition font-medium text-sm rounded-lg hover:bg-white/10" active-class="text-primary">Blog</router-link>
 
             <!-- Contact -->
-            <router-link to="/contact" class="nav-link px-3 py-2 text-muted-foreground hover:text-primary transition font-medium text-sm rounded-lg hover:bg-muted/50" active-class="text-primary">Contact</router-link>
+            <router-link to="/contact" class="nav-link px-3 py-2 text-white/75 hover:text-primary transition font-medium text-sm rounded-lg hover:bg-white/10" active-class="text-primary">Contact</router-link>
           </div>
 
           <!-- Right Side: Theme Toggle + Auth -->
@@ -223,7 +223,7 @@
         <div class="container mx-auto px-4 py-6">
           <div class="flex flex-col md:flex-row items-center justify-between gap-6 max-w-5xl mx-auto">
             <div>
-              <h3 class="text-lg font-bold text-white mb-1">Stay Ahead with Smartech</h3>
+              <h3 class="text-lg font-bold text-white mb-1">Stay Ahead with OmniviaTech</h3>
               <p class="text-gray-400 text-sm">Get the latest insights, news, and exclusive offers delivered to your inbox.</p>
             </div>
             <form @submit.prevent="handleNewsletter" class="flex gap-3 w-full md:w-auto">
@@ -256,7 +256,7 @@
                 <span class="text-white font-bold text-xl">TS</span>
               </div>
               <span class="text-lg font-bold text-white">
-                {{ settings?.site_name || 'Smartech Research Labs' }}
+                {{ settings?.site_name || 'OmniviaTech' }}
               </span>
             </router-link>
             <p class="text-gray-400 text-sm leading-relaxed mb-6 max-w-sm">
@@ -376,7 +376,7 @@
       <div class="border-t border-gray-800">
         <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
           <p class="text-sm text-gray-500">
-            &copy; {{ new Date().getFullYear() }} {{ settings?.site_name || 'Smartech Research Labs' }}. All rights reserved.
+            &copy; {{ new Date().getFullYear() }} {{ settings?.site_name || 'OmniviaTech' }}. All rights reserved.
           </p>
           <div class="flex items-center gap-6 text-sm text-gray-500">
             <router-link to="/privacy" class="hover:text-primary transition">Privacy Policy</router-link>
@@ -477,7 +477,7 @@ watchEffect(() => {
   const orgSchema: any = {
     '@context': 'https://schema.org',
     '@type': (s as any)?.schema_org_type || 'Organization',
-    name: (s as any)?.schema_org_name || s.site_name || 'Smartech Research Labs',
+    name: (s as any)?.schema_org_name || s.site_name || 'OmniviaTech',
     url: baseUrl,
     description: (s as any)?.meta_description || (s as any)?.site_description || '',
   };

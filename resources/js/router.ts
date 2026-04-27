@@ -103,6 +103,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/Industries/Detail.vue'),
     meta: { title: 'Industry' },
   },
+  {
+    path: '/specializations/:slug',
+    name: 'specialization',
+    component: () => import('@/pages/Specialization.vue'),
+    meta: { title: 'Specialization' },
+  },
 
   // Auth routes
   {

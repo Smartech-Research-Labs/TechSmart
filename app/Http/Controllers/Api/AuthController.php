@@ -85,7 +85,7 @@ class AuthController extends Controller
         // Uncomment the code below to re-enable 2FA once mail configuration is verified
         /*
         // Check if email-based 2FA is enabled (skip on localhost)
-        $isProduction = str_contains(config('app.url', ''), 'smartechresearchlabs.co.ke');
+        $isProduction = str_contains(config('app.url', ''), 'omniviatech.com');
         if ($isProduction && $user->two_factor_email_enabled) {
             $code = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
 

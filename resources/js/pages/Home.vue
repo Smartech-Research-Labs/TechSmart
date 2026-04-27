@@ -1,70 +1,54 @@
 ﻿<template>
   <PublicLayout>
     <!-- ═══════════════ HERO SECTION ═══════════════ -->
-    <section class="relative min-h-[60vh] md:min-h-[70vh] flex items-center">
-      <!-- Tech Background Image -->
-      <div class="absolute inset-0 z-0">
-        <img :src="settings.hero_bg_image || 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&h=1080&fit=crop&q=80'" alt="Technology Background" class="w-full h-full object-cover" />
-        <div class="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-background/40 dark:from-background/95 dark:via-background/80 dark:to-background/50"></div>
-      </div>
+    <section class="relative min-h-[60vh] md:min-h-[70vh] flex items-center overflow-hidden">
+      <Swiper
+        :modules="[Autoplay, Pagination]"
+        :slides-per-view="1"
+        :autoplay="{ delay: 6000, disableOnInteraction: false }"
+        :pagination="{ clickable: true }"
+        :loop="true"
+        class="hero-swiper w-full h-full"
+      >
+        <SwiperSlide v-for="slide in heroSlides" :key="slide.id">
+          <div class="relative w-full min-h-[60vh] md:min-h-[70vh] flex items-center">
+            <!-- Background Image -->
+            <div class="absolute inset-0 z-0">
+              <img :src="slide.bg_image" :alt="slide.title" class="w-full h-full object-cover" />
+              <div class="absolute inset-0 bg-black/60"></div>
+            </div>
 
-      <!-- Slider Content -->
-      <div class="relative z-10 w-full">
-        <Swiper
-          :modules="[Autoplay, Pagination]"
-          :slides-per-view="1"
-          :autoplay="{ delay: 6000, disableOnInteraction: false }"
-          :pagination="{ clickable: true }"
-          :loop="true"
-          class="hero-swiper"
-        >
-          <SwiperSlide v-for="slide in sliders" :key="slide.id">
-            <div class="container mx-auto px-6 py-12 md:py-16">
-              <div class="grid lg:grid-cols-2 gap-10 items-center">
-                <div class="max-w-lg">
-                  <p v-if="slide.subtitle" class="text-primary font-semibold text-xs tracking-widest uppercase mb-3">{{ slide.subtitle }}</p>
-                  <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight text-foreground mb-4">{{ slide.title }}</h1>
-                  <p v-if="slide.description" class="text-muted-foreground text-sm leading-relaxed mb-8 max-w-md">{{ slide.description }}</p>
-                  <div class="flex flex-wrap gap-3">
-                    <router-link v-if="slide.cta_text && slide.cta_link" :to="slide.cta_link" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
+            <!-- Content -->
+            <div class="relative z-10 w-full">
+              <div class="container mx-auto px-6 py-12 md:py-16">
+                <div class="max-w-2xl">
+                  <p class="text-primary font-semibold text-xs tracking-widest uppercase mb-3">{{ slide.subtitle }}</p>
+                  <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-white mb-6">{{ slide.title }}</h1>
+                  <p class="text-white/90 text-base leading-relaxed mb-8 max-w-lg">{{ slide.description }}</p>
+                  <div class="flex flex-wrap gap-4">
+                    <router-link :to="slide.cta_link" class="inline-flex items-center gap-2 px-8 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
                       {{ slide.cta_text }}
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
                     </router-link>
-                    <router-link v-if="slide.cta_text_2 && slide.cta_link_2" :to="slide.cta_link_2" class="px-7 py-3 border border-border text-foreground text-sm font-medium rounded-full hover:bg-muted transition-all">{{ slide.cta_text_2 }}</router-link>
+                    <router-link v-if="slide.cta_text_2" :to="slide.cta_link_2" class="px-8 py-3 border-2 border-white text-white text-sm font-semibold rounded-full hover:bg-white/10 transition-all">{{ slide.cta_text_2 }}</router-link>
                   </div>
-                </div>
-                <div class="hidden lg:block">
-                  <img v-if="slide.image_url" :src="slide.image_url" :alt="slide.title" class="w-full max-h-[400px] object-contain rounded-xl" />
                 </div>
               </div>
             </div>
-          </SwiperSlide>
-        </Swiper>
-
-        <!-- Fallback if no sliders -->
-        <div v-if="!sliders.length && !loading" class="container mx-auto px-6 py-12 md:py-16">
-          <div class="max-w-lg">
-            <p class="text-primary font-semibold text-xs tracking-widest uppercase mb-3">Welcome to Smartech Research Labs</p>
-            <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight text-foreground mb-4">Innovative Technology Solutions for Africa</h1>
-            <p class="text-muted-foreground text-sm leading-relaxed mb-8">We build software, automate workflows, and drive digital transformation for businesses across the continent.</p>
-            <router-link to="/services" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
-              Read More
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-            </router-link>
           </div>
-        </div>
-      </div>
+        </SwiperSlide>
+      </Swiper>
     </section>
 
     <!-- ═══════════════ COUNTER BAR ═══════════════ -->
-    <section class="bg-gradient-to-r from-primary via-primary/80 to-accent py-6 md:py-8 shadow-lg">
+    <section class="py-6 md:py-8 shadow-lg" style="background-color: #262626;">
       <div class="container mx-auto px-6 max-w-5xl">
         <div class="flex flex-wrap justify-between items-center gap-8">
           <div v-for="counter in countersFinal" :key="counter.id" class="flex-1 min-w-[140px] text-center">
             <div class="text-2xl md:text-3xl font-bold text-white mb-2">
               <span ref="counterRefs" :data-target="counter.number || counter.value" :data-suffix="counter.suffix || '+'">0</span>
             </div>
-            <div class="text-white/90 text-xs font-semibold tracking-wide">{{ counter.label || counter.title }}</div>
+            <div class="text-white/80 text-xs font-semibold tracking-wide">{{ counter.label || counter.title }}</div>
           </div>
         </div>
       </div>
@@ -109,7 +93,7 @@
           <div>
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">About Us</p>
             <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight mb-4">Your Trusted Technology Partner</h2>
-            <p class="text-muted-foreground text-sm leading-relaxed mb-4">Smartech Research Labs is a leading technology company dedicated to empowering businesses with innovative digital solutions. We combine deep technical expertise with a passion for solving real-world challenges.</p>
+            <p class="text-muted-foreground text-sm leading-relaxed mb-4">OmniviaTech is a leading technology company dedicated to empowering businesses with innovative digital solutions. We combine deep technical expertise with a passion for solving real-world challenges.</p>
             <p class="text-muted-foreground text-sm leading-relaxed mb-8">From startups to enterprises, we help organizations harness the power of technology to improve efficiency, scale operations, and drive growth across Africa and beyond.</p>
 
             <div class="grid grid-cols-2 gap-4 mb-8">
@@ -187,25 +171,25 @@
 
   
     <!-- ═══════════════ WE SPECIALIZE IN ═══════════════ -->
-    <section class="py-12 md:py-16">
+    <section class="py-12 md:py-16" style="background-color: #262626;">
       <div class="container mx-auto px-6 max-w-5xl">
         <div class="text-center max-w-2xl mx-auto mb-10">
-          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">What We Do</p>
-          <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">We Specialize In</h2>
-          <p class="text-muted-foreground text-sm leading-relaxed">End-to-end technology and digital solutions designed to help your business thrive in the modern economy.</p>
+          <p class="text-white text-xs font-semibold tracking-widest uppercase mb-3">What We Do</p>
+          <h2 class="text-xl md:text-2xl font-bold text-white leading-tight">We Specialize In</h2>
+          <p class="text-white/80 text-sm leading-relaxed">End-to-end technology and digital solutions designed to help your business thrive in the modern economy.</p>
         </div>
 
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-          <div v-for="(spec, i) in specializations" :key="i" class="relative bg-card border border-border rounded-2xl p-8 text-center hover:border-primary/50 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group overflow-hidden">
-            <div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <router-link v-for="(spec, i) in specializations" :key="i" :to="`/specializations/${spec.title.toLowerCase().replace(/\\s+/g, '-')}`" class="relative bg-white/10 border border-white/20 rounded-2xl p-6 text-center hover:border-white/40 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group overflow-hidden cursor-pointer">
+            <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-white/2 opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div class="relative z-10">
-              <div class="w-16 h-16 mx-auto bg-gradient-to-br from-primary/15 to-accent/10 rounded-2xl flex items-center justify-center mb-5 group-hover:from-primary/25 group-hover:to-accent/20 transition-all duration-300 shadow-sm">
-                <span class="text-3xl">{{ spec.icon }}</span>
+              <div class="w-14 h-14 mx-auto bg-white/15 rounded-xl flex items-center justify-center mb-4 group-hover:bg-white/25 transition-all duration-300 shadow-sm">
+                <span class="text-2xl">{{ spec.icon }}</span>
               </div>
-              <h3 class="text-base font-bold text-foreground mb-3 group-hover:text-primary transition-colors">{{ spec.title }}</h3>
-              <p class="text-muted-foreground text-sm leading-relaxed">{{ spec.desc }}</p>
+              <h3 class="text-sm font-bold text-white mb-2 group-hover:text-white/90 transition-colors">{{ spec.title }}</h3>
+              <p class="text-white/75 text-xs leading-relaxed">{{ spec.desc }}</p>
             </div>
-          </div>
+          </router-link>
         </div>
       </div>
     </section>
@@ -256,11 +240,11 @@
     </section>
 
     <!-- ═══════════════ SERVICES CAROUSEL ═══════════════ -->
-    <section v-if="allServices.length" class="py-12 md:py-16 bg-muted/20">
+    <section v-if="allServices.length" class="py-12 md:py-16" style="background-color: #262626;">
       <div class="container mx-auto px-6 max-w-5xl">
         <div class="text-center max-w-2xl mx-auto mb-10">
-          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Services</p>
-          <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">Services That Drive Growth</h2>
+          <p class="text-white text-xs font-semibold tracking-widest uppercase mb-3">Our Services</p>
+          <h2 class="text-xl md:text-2xl font-bold text-white leading-tight">Services That Drive Growth</h2>
         </div>
 
         <Swiper
@@ -273,10 +257,10 @@
           class="cards-swiper"
         >
           <SwiperSlide v-for="service in allServices" :key="service.id">
-            <router-link :to="`/services/${service.slug}`" class="group block bg-card rounded-2xl overflow-hidden border border-border hover:border-primary/20 hover:shadow-sm transition-all duration-300">
-              <div class="aspect-[4/3] bg-muted overflow-hidden relative">
+            <router-link :to="`/services/${service.slug}`" class="group block bg-white/10 rounded-2xl overflow-hidden border border-white/20 hover:border-white/40 hover:shadow-md transition-all duration-300">
+              <div class="aspect-[4/3] bg-white/5 overflow-hidden relative">
                 <img v-if="service.image_url" :src="service.image_url" :alt="service.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5">
+                <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-white/10 to-white/5">
                   <span class="text-3xl">{{ service.icon || '💡' }}</span>
                 </div>
                 <div class="absolute top-3 right-3 z-10">
@@ -284,10 +268,10 @@
                 </div>
               </div>
               <div class="p-5">
-                <h3 class="text-sm font-semibold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">{{ service.title }}</h3>
-                <p class="text-muted-foreground text-xs leading-relaxed line-clamp-2 mb-3">{{ service.excerpt || service.short_description }}</p>
+                <h3 class="text-sm font-semibold text-white mb-2 group-hover:text-white/95 transition-colors line-clamp-2">{{ service.title }}</h3>
+                <p class="text-white/75 text-xs leading-relaxed line-clamp-2 mb-3">{{ service.excerpt || service.short_description }}</p>
                 <div class="flex items-center justify-end">
-                  <span class="text-primary font-medium text-xs flex items-center gap-1 group-hover:gap-2 transition-all">
+                  <span class="text-white/90 font-medium text-xs flex items-center gap-1 group-hover:gap-2 transition-all">
                     Learn More <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
                   </span>
                 </div>
@@ -298,108 +282,7 @@
       </div>
     </section>
 
-    <!-- ═══════════════ CTA 1 — THEME COLOR ═══════════════ -->
-    <section class="py-12 md:py-16">
-      <div class="container mx-auto px-6">
-        <div class="relative bg-gradient-to-br from-primary via-primary/85 to-accent rounded-3xl overflow-hidden shadow-lg">
-          <div class="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1633356122544-f134324ef6db?w=1200&q=40')] bg-cover bg-center"></div>
-          <div class="relative grid lg:grid-cols-2 items-center">
-            <div class="p-8 md:p-10 lg:p-12">
-              <h2 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4">Ready to Transform Your Business with Technology?</h2>
-              <p class="text-white/90 text-sm leading-relaxed mb-3">Let us build innovative solutions that drive real results. From custom software to AI-powered automation — we deliver digital transformation that matters.</p>
-              <p class="text-white/80 text-sm leading-relaxed mb-6">Expand your reach, build your digital presence, impact customers and grow revenue.</p>
-              <router-link to="/contact" class="inline-flex items-center gap-2 px-8 py-3 bg-white text-primary text-sm font-semibold rounded-full hover:bg-white/90 transition-all shadow-md">
-                Get Started
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-              </router-link>
-            </div>
-            <!-- <div class="hidden lg:flex items-center justify-end h-full min-h-[280px] py-8">
-              <img src="https://images.unsplash.com/photo-1633356122544-f134324ef6db?w=500&h=400&fit=crop&q=80" alt="Technology" class="h-full max-h-[300px] object-cover rounded-2xl mr-6" />
-            </div> -->
-          </div>
-        </div>
-      </div>
-    </section>
-
-     <!-- ═══════════════ WHY CHOOSE US ═══════════════ -->
-    <section class="py-12 md:py-16 bg-gradient-to-b from-background to-muted/30">
-      <div class="container mx-auto px-6 max-w-5xl">
-        <div class="text-center max-w-2xl mx-auto mb-10">
-          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Why Choose Us</p>
-          <h2 class="text-xl md:text-2xl font-bold text-foreground">Why Smartech Research Labs?</h2>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div v-for="(reason, i) in whyUsReasons" :key="i" class="relative group">
-            <!-- Gradient background on hover -->
-            <div class="absolute -inset-0.5 bg-gradient-to-br from-primary/20 to-accent/20 rounded-3xl opacity-0 group-hover:opacity-100 blur-xl transition-all duration-500"></div>
-            
-            <!-- Card -->
-            <div class="relative bg-gradient-to-br from-card to-card/50 border border-primary/10 group-hover:border-primary/30 rounded-3xl p-10 transition-all duration-300 overflow-hidden h-full">
-              <!-- Animated background gradient -->
-              <div class="absolute inset-0 opacity-0 group-hover:opacity-50 bg-gradient-to-br from-primary/5 to-accent/5 transition-opacity duration-500"></div>
-              
-              <!-- Decorative element -->
-              <div class="absolute -top-8 -right-8 w-32 h-32 bg-primary/10 rounded-full group-hover:scale-150 group-hover:bg-primary/20 transition-all duration-500"></div>
-              
-              <!-- Content -->
-              <div class="relative z-10">
-                <div class="w-16 h-16 bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl flex items-center justify-center mb-6 group-hover:from-primary/30 group-hover:to-accent/30 group-hover:scale-110 transition-all duration-300 shadow-lg">
-                  <span class="text-3xl" v-html="reason.icon"></span>
-                </div>
-                <h3 class="text-lg font-bold text-foreground mb-3 group-hover:text-primary transition-colors">{{ reason.title }}</h3>
-                <p class="text-muted-foreground text-sm leading-relaxed group-hover:text-foreground/80 transition-colors">{{ reason.desc }}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══════════════ PRODUCTS CAROUSEL ═══════════════ -->
-    <section v-if="products.length" class="py-12 md:py-16 bg-muted/20">
-      <div class="container mx-auto px-6 max-w-5xl">
-        <div class="text-center max-w-2xl mx-auto mb-10">
-          <p class="text-accent text-xs font-semibold tracking-widest uppercase mb-3">Our Products</p>
-          <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">Featured Products</h2>
-        </div>
-
-        <Swiper
-          :modules="[Autoplay, Navigation]"
-          :slides-per-view="1"
-          :space-between="20"
-          :navigation="true"
-          :autoplay="{ delay: 5000, disableOnInteraction: false }"
-          :breakpoints="{ 480: { slidesPerView: 2 }, 768: { slidesPerView: 3 }, 1024: { slidesPerView: 4 } }"
-          class="cards-swiper"
-        >
-          <SwiperSlide v-for="product in products" :key="product.id">
-            <router-link :to="`/products/${product.slug}`" class="group block bg-card rounded-2xl overflow-hidden border border-border hover:border-accent/20 hover:shadow-sm transition-all duration-300">
-              <div class="aspect-[4/3] bg-muted overflow-hidden relative">
-                <img v-if="product.image_url" :src="product.image_url" :alt="product.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-accent/5 to-primary/5">
-                  <svg class="w-10 h-10 text-muted-foreground/20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
-                </div>
-                <div class="absolute top-3 right-3 z-10">
-                  <WishlistButton type="App\\Models\\Product" :item-id="product.id" />
-                </div>
-              </div>
-              <div class="p-5">
-                <h3 class="text-sm font-semibold text-foreground mb-2 group-hover:text-accent transition-colors line-clamp-2">{{ product.name }}</h3>
-                <p class="text-muted-foreground text-xs leading-relaxed line-clamp-2 mb-3">{{ product.excerpt || product.short_description }}</p>
-                <div class="flex items-center justify-between">
-                  <span v-if="product.price" class="text-accent font-bold text-sm">Ksh {{ Number(product.price).toLocaleString() }}</span>
-                  <span v-else-if="product.price_label" class="text-accent font-bold text-sm">{{ product.price_label }}</span>
-                  <span class="text-primary font-medium text-xs flex items-center gap-1 group-hover:gap-2 transition-all">View <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg></span>
-                </div>
-              </div>
-            </router-link>
-          </SwiperSlide>
-        </Swiper>
-      </div>
-    </section>
-
-      <!-- ═══════════════ POPULATION IMPACTED ═══════════════ -->
+       <!-- ═══════════════ POPULATION IMPACTED ═══════════════ -->
     <section class="py-12 md:py-16">
       <div class="container mx-auto px-6 max-w-5xl">
 
@@ -416,7 +299,7 @@
           <div class="relative rounded-2xl overflow-hidden min-h-[420px]">
             <img
               :src="settings.population_image || populationImage || '/images/population.png'"
-              alt="Global population impacted by Smartech Research Labs"
+              alt="Global population impacted by OmniviaTech"
               class="w-full h-full object-cover"
             />
             <!-- Subtle overlay so the image doesn't feel flat -->
@@ -573,25 +456,152 @@
       </div>
     </section>
 
-      <!-- Process -->
-    <section class="py-12 md:py-16 bg-background">
-      <div class="container mx-auto px-6 max-w-5xl">
-        <div class="text-center max-w-2xl mx-auto mb-10">
-          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Process</p>
-          <h2 class="text-xl md:text-2xl font-bold text-foreground">How we bring your ideas to life</h2>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <div v-for="(step, idx) in processSteps" :key="idx" class="relative text-center">
-            <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 relative">
-              <span class="text-2xl font-bold text-primary">{{ idx + 1 }}</span>
-              <div v-if="idx < processSteps.length - 1" class="hidden lg:block absolute top-1/2 left-full w-full h-px bg-border -translate-y-1/2"></div>
+    <!-- ═══════════════ CTA 1 — THEME COLOR ═══════════════ -->
+    <section class="py-8 md:py-10">
+      <div class="container mx-auto px-6">
+        <div class="relative bg-gradient-to-br from-primary via-primary/85 to-accent rounded-3xl overflow-hidden shadow-lg">
+          <div class="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1633356122544-f134324ef6db?w=1200&q=40')] bg-cover bg-center"></div>
+          <div class="relative grid lg:grid-cols-2 items-center">
+            <div class="p-6 md:p-8 lg:p-10">
+              <h2 class="text-xl md:text-2xl font-bold text-white leading-tight mb-3">Ready to Transform Your Business?</h2>
+              <p class="text-white/90 text-xs leading-relaxed mb-2">Build innovative solutions with OmniviaTech. From custom software to AI-powered automation.</p>
+              <p class="text-white/80 text-xs leading-relaxed mb-4">Expand your reach and grow revenue with us.</p>
+              <router-link to="/contact" class="inline-flex items-center gap-2 px-6 py-2.5 bg-white text-primary text-xs font-semibold rounded-full hover:bg-white/90 transition-all shadow-md">
+                Get Started
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+              </router-link>
             </div>
-            <h3 class="text-lg font-bold text-foreground mb-2">{{ step.title }}</h3>
-            <p class="text-muted-foreground text-sm">{{ step.description }}</p>
+            <!-- <div class="hidden lg:flex items-center justify-end h-full min-h-[280px] py-8">
+              <img src="https://images.unsplash.com/photo-1633356122544-f134324ef6db?w=500&h=400&fit=crop&q=80" alt="Technology" class="h-full max-h-[300px] object-cover rounded-2xl mr-6" />
+            </div> -->
           </div>
         </div>
       </div>
     </section>
+
+    <!-- ═══════════════ PROCESS ═══════════════ -->
+    <section class="py-12 md:py-16" style="background-color: #262626;">
+      <div class="container mx-auto px-6 max-w-5xl">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Process</p>
+          <h2 class="text-xl md:text-2xl font-bold text-white">How we bring your ideas to life</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div v-for="(step, idx) in processSteps" :key="idx" class="relative group">
+            <!-- Arrow Indicator -->
+            <div class="absolute top-8 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-1 z-20">
+              <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+            </div>
+
+            <!-- Card -->
+            <div class="relative rounded-2xl p-8 transition-all duration-300 overflow-hidden h-full shadow-lg hover:shadow-2xl transform group-hover:-translate-y-2" style="background-color: #1a1a1a; border: 1px solid #404040;" @mouseenter="$event.currentTarget.style.borderColor = '#3b82f6'" @mouseleave="$event.currentTarget.style.borderColor = '#404040'">
+              <!-- Animated background gradient -->
+              <div class="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-br from-primary/20 to-primary/10 transition-opacity duration-500"></div>
+              
+              <!-- Decorative element -->
+              <div class="absolute -top-6 -right-6 w-24 h-24 bg-primary/5 rounded-full group-hover:scale-150 group-hover:bg-primary/10 transition-all duration-500"></div>
+
+              <!-- Content -->
+              <div class="relative z-10 text-center">
+                <!-- Number Circle -->
+                <div class="w-16 h-16 bg-gradient-to-br from-primary/30 to-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:from-primary/50 group-hover:to-primary/30 group-hover:scale-110 transition-all duration-300 shadow-md">
+                  <span class="text-3xl font-bold text-primary">{{ idx + 1 }}</span>
+                </div>
+
+                <!-- Title & Description -->
+                <h3 class="text-lg font-bold text-white mb-3 group-hover:text-primary transition-colors">{{ step.title }}</h3>
+                <p class="text-white/80 text-sm leading-relaxed group-hover:text-white/90 transition-colors">{{ step.description }}</p>
+              </div>
+
+              <!-- Connector line (desktop only) -->
+              <div v-if="idx < processSteps.length - 1" class="hidden lg:block absolute top-1/2 -right-3 w-6 h-px bg-gradient-to-r from-primary/60 to-transparent -translate-y-1/2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+     <!-- ═══════════════ WHY CHOOSE US ═══════════════ -->
+    <section class="py-12 md:py-16">
+      <div class="container mx-auto px-6 max-w-5xl">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Why Choose Us</p>
+          <h2 class="text-xl md:text-2xl font-bold text-foreground">Why OmniviaTech?</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div v-for="(reason, i) in whyUsReasons" :key="i" class="relative group">
+            <!-- Card with Arrow -->
+            <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-1 z-20">
+              <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+            </div>
+            <!-- Card -->
+              <div class="relative rounded-2xl p-7 transition-all duration-300 overflow-hidden h-full shadow-lg hover:shadow-2xl transform group-hover:-translate-y-2" style="background-color: #262626; border: 1px solid #404040;" @mouseenter="$event.target.style.borderColor = '#3b82f6'" @mouseleave="$event.target.style.borderColor = '#404040'">              <!-- Animated background gradient -->
+              <div class="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-br from-primary/20 to-primary/10 transition-opacity duration-500"></div>
+              
+              <!-- Decorative element -->
+              <div class="absolute -top-6 -right-6 w-24 h-24 bg-primary/5 rounded-full group-hover:scale-150 group-hover:bg-primary/10 transition-all duration-500"></div>
+              
+              <!-- Content -->
+              <div class="relative z-10">
+                <div class="w-14 h-14 bg-gradient-to-br from-primary/30 to-primary/20 rounded-xl flex items-center justify-center mb-5 group-hover:from-primary/50 group-hover:to-primary/30 group-hover:scale-110 transition-all duration-300 shadow-md">
+                  <span class="text-3xl" v-html="reason.icon"></span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-3 group-hover:text-primary transition-colors">{{ reason.title }}</h3>
+                <p class="text-white/80 text-sm leading-relaxed group-hover:text-white/90 transition-colors">{{ reason.desc }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ PRODUCTS CAROUSEL ═══════════════ -->
+    <section v-if="products.length" class="py-12 md:py-16 bg-muted/20">
+      <div class="container mx-auto px-6 max-w-5xl">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <p class="text-accent text-xs font-semibold tracking-widest uppercase mb-3">Our Products</p>
+          <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">Featured Products</h2>
+        </div>
+
+        <Swiper
+          :modules="[Autoplay, Navigation]"
+          :slides-per-view="1"
+          :space-between="20"
+          :navigation="true"
+          :autoplay="{ delay: 5000, disableOnInteraction: false }"
+          :breakpoints="{ 480: { slidesPerView: 2 }, 768: { slidesPerView: 3 }, 1024: { slidesPerView: 4 } }"
+          class="cards-swiper"
+        >
+          <SwiperSlide v-for="product in products" :key="product.id">
+            <router-link :to="`/products/${product.slug}`" class="group block bg-card rounded-2xl overflow-hidden border border-border hover:border-accent/20 hover:shadow-sm transition-all duration-300">
+              <div class="aspect-[4/3] bg-muted overflow-hidden relative">
+                <img v-if="product.image_url" :src="product.image_url" :alt="product.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-accent/5 to-primary/5">
+                  <svg class="w-10 h-10 text-muted-foreground/20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
+                </div>
+                <div class="absolute top-3 right-3 z-10">
+                  <WishlistButton type="App\\Models\\Product" :item-id="product.id" />
+                </div>
+              </div>
+              <div class="p-5">
+                <h3 class="text-sm font-semibold text-foreground mb-2 group-hover:text-accent transition-colors line-clamp-2">{{ product.name }}</h3>
+                <p class="text-muted-foreground text-xs leading-relaxed line-clamp-2 mb-3">{{ product.excerpt || product.short_description }}</p>
+                <div class="flex items-center justify-between">
+                  <span v-if="product.price" class="text-accent font-bold text-sm">Ksh {{ Number(product.price).toLocaleString() }}</span>
+                  <span v-else-if="product.price_label" class="text-accent font-bold text-sm">{{ product.price_label }}</span>
+                  <span class="text-primary font-medium text-xs flex items-center gap-1 group-hover:gap-2 transition-all">View <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg></span>
+                </div>
+              </div>
+            </router-link>
+          </SwiperSlide>
+        </Swiper>
+      </div>
+    </section>
+
+   
+
+ 
 
     <!-- ═══════════════ TESTIMONIALS CAROUSEL ═══════════════ -->
     <section v-if="topReviews.length" class="py-12 md:py-16 bg-muted/20">
@@ -609,23 +619,23 @@
           :pagination="{ clickable: true }"
           :autoplay="{ delay: 5000, disableOnInteraction: false }"
           :breakpoints="{ 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 }, 1280: { slidesPerView: 4 } }"
-          class="testimonials-swiper pb-10"
+          class="testimonials-swiper pb-16"
         >
           <SwiperSlide v-for="review in topReviews" :key="review.id">
-            <div class="bg-card border border-border rounded-lg p-4 h-full flex flex-col shadow-xs hover:shadow-sm transition-all">
+            <div class="rounded-lg p-5 h-full flex flex-col shadow-md hover:shadow-xl transition-all" style="background-color: #262626; border: 1px solid rgba(255,255,255,0.1);">
               <div class="flex gap-0.5 mb-3">
-                <svg v-for="s in review.rating" :key="s" class="w-3.5 h-3.5 text-amber-400 fill-current" viewBox="0 0 20 20">
+                <svg v-for="s in review.rating" :key="s" class="w-4 h-4 text-amber-400 fill-current" viewBox="0 0 20 20">
                   <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                 </svg>
               </div>
-              <p class="text-muted-foreground text-xs leading-relaxed mb-3 flex-1 line-clamp-3">"{{ review.comment }}"</p>
-              <div class="flex items-center gap-2 pt-3 border-t border-border">
-                <div class="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0">
+              <p class="text-white/80 text-sm leading-relaxed mb-4 flex-1 line-clamp-3">"{{ review.comment }}"</p>
+              <div class="flex items-center gap-3 pt-4" style="border-top: 1px solid rgba(255,255,255,0.1)">
+                <div class="w-9 h-9 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0">
                   {{ review.user_name?.charAt(0).toUpperCase() }}
                 </div>
                 <div class="min-w-0">
-                  <div class="font-semibold text-foreground text-xs truncate">{{ review.user_name }}</div>
-                  <div class="text-muted-foreground text-xs truncate">{{ review.company || 'Verified Client' }}</div>
+                  <div class="font-semibold text-white text-sm truncate">{{ review.user_name }}</div>
+                  <div class="text-white/60 text-xs truncate">{{ review.company || 'Verified Client' }}</div>
                 </div>
               </div>
             </div>
@@ -643,15 +653,15 @@
           <p class="text-muted-foreground text-xs leading-relaxed max-w-2xl mx-auto">These principles guide every decision we make and every solution we deliver.</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           <div v-for="(value, i) in coreValues" :key="i" class="relative group">
-            <div class="absolute -inset-0.5 bg-gradient-to-br from-primary/10 to-accent/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm"></div>
-            <div class="relative bg-card border border-primary/5 group-hover:border-primary/20 rounded-lg p-5 transition-all duration-300 h-full flex flex-col">
-              <div class="w-10 h-10 shrink-0 rounded-lg flex items-center justify-center text-base mb-3" :class="value.bgClass">
+            <div class="absolute -inset-0.5 bg-gradient-to-br from-primary/20 to-primary/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm"></div>
+            <div class="relative rounded-lg p-6 transition-all duration-300 h-full flex flex-col transform group-hover:-translate-y-1 shadow-md hover:shadow-lg" style="background-color: #262626; border: 1px solid rgba(79, 124, 192, 0.2);">
+              <div class="w-12 h-12 shrink-0 rounded-lg flex items-center justify-center text-xl mb-4 bg-gradient-to-br from-primary/30 to-primary/20 group-hover:from-primary/50 group-hover:to-primary/30">
                 {{ value.icon }}
               </div>
-              <h3 class="text-sm font-bold text-foreground mb-2 group-hover:text-primary transition-colors">{{ value.title }}</h3>
-              <p class="text-muted-foreground text-xs leading-relaxed flex-1">{{ value.desc }}</p>
+              <h3 class="text-base font-bold text-white mb-3 group-hover:text-primary transition-colors">{{ value.title }}</h3>
+              <p class="text-white/75 text-sm leading-relaxed flex-1">{{ value.desc }}</p>
             </div>
           </div>
         </div>
@@ -659,18 +669,18 @@
     </section>
 
     <!-- ═══════════════ CTA 2 — THEME COLOR ═══════════════ -->
-    <section class="py-12 md:py-16">
+    <section class="py-8 md:py-10">
       <div class="container mx-auto px-6">
         <div class="relative bg-gradient-to-br from-accent via-accent/85 to-primary rounded-3xl overflow-hidden shadow-lg">
-          <div class="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&q=40')] bg-cover bg-center"></div>
+          <div class="absolute inset-0 opacity-20 bg-[url('')] bg-cover bg-center"></div>
           <div class="relative grid lg:grid-cols-2 items-center">
-            <div class="p-8 md:p-10 lg:p-12">
-              <h2 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4">Partner With Us — Build the Future Together</h2>
-              <p class="text-white/90 text-sm leading-relaxed mb-3">In line with our mission to empower businesses with cutting-edge technology, we are looking for innovators, creators, and problem-solvers to join our ecosystem.</p>
-              <p class="text-white/80 text-sm leading-relaxed mb-6">Expand your professional network, build expertise, impact businesses, and earn.</p>
-              <router-link to="/contact" class="inline-flex items-center gap-2 px-8 py-3 bg-white text-accent text-sm font-semibold rounded-full hover:bg-white/90 transition-all shadow-md">
+            <div class="p-6 md:p-8 lg:p-10">
+              <h2 class="text-xl md:text-2xl font-bold text-white leading-tight mb-3">Partner With Us</h2>
+              <p class="text-white/90 text-xs leading-relaxed mb-2">Looking for innovators and problem-solvers to join our ecosystem. Expand your network and impact businesses.</p>
+              <p class="text-white/80 text-xs leading-relaxed mb-4">Build expertise and earn with OmniviaTech.</p>
+              <router-link to="/contact" class="inline-flex items-center gap-2 px-6 py-2.5 bg-white text-accent text-xs font-semibold rounded-full hover:bg-white/90 transition-all shadow-md">
                 Apply Now
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
               </router-link>
             </div>
             <!-- <div class="hidden lg:flex items-center justify-end h-full min-h-[280px] py-8">
@@ -732,12 +742,12 @@
   
 
     <!-- ═══════════════ REQUEST A QUOTE ═══════════════ -->
-    <section class="py-12 md:py-16">
+    <section class="py-12 md:py-16" style="background-color: #262626;">
       <div class="container mx-auto px-6 max-w-5xl">
         <div class="text-center max-w-2xl mx-auto mb-10">
           <p class="text-accent text-xs font-semibold tracking-widest uppercase mb-3">Get Started</p>
-          <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight mb-3">Request a Quote</h2>
-          <p class="text-muted-foreground text-sm leading-relaxed">Tell us about your project and we'll get back to you within 24 hours.</p>
+          <h2 class="text-xl md:text-2xl font-bold text-white leading-tight mb-3">Request a Quote</h2>
+          <p class="text-white/75 text-sm leading-relaxed">Tell us about your project and we'll get back to you within 24 hours.</p>
         </div>
       </div>
       <div class="container mx-auto px-6 max-w-5xl">
@@ -746,17 +756,17 @@
           <div>
             <form @submit.prevent="submitQuoteRequest" class="space-y-4">
               <div class="grid grid-cols-2 gap-4">
-                <input v-model="quoteForm.name" type="text" required class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all" placeholder="Full Name *" />
-                <input v-model="quoteForm.email" type="email" required class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all" placeholder="Email *" />
+                <input v-model="quoteForm.name" type="text" required class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all placeholder-white" placeholder="Full Name *" />
+                <input v-model="quoteForm.email" type="email" required class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all placeholder-white" placeholder="Email *" />
               </div>
               <div class="grid grid-cols-2 gap-4">
-                <input v-model="quoteForm.phone" type="tel" required class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all" placeholder="Phone *" />
+                <input v-model="quoteForm.phone" type="tel" required class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all placeholder-white" placeholder="Phone *" />
                 <select v-model="quoteForm.service" required class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all">
                   <option value="">Service Needed *</option>
                   <option v-for="service in allServices" :key="service.id" :value="service.title">{{ service.title }}</option>
                 </select>
               </div>
-              <textarea v-model="quoteForm.description" required rows="4" class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm resize-none transition-all" placeholder="Project description..."></textarea>
+              <textarea v-model="quoteForm.description" required rows="4" class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm resize-none transition-all placeholder-white" placeholder="Project description..."></textarea>
               <div class="grid grid-cols-2 gap-4">
                 <select v-model="quoteForm.budget" class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all">
                   <option value="">Budget Range</option>
@@ -821,12 +831,12 @@
     </section>
 
     <!-- ═══════════════ NEWSLETTER ═══════════════ -->
-    <section class="py-12 bg-muted/20 border-y border-border">
+    <section class="py-12" style="background-color: #262626; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1);">
       <div class="container mx-auto px-6 max-w-2xl text-center">
-        <h3 class="text-xl font-bold text-foreground mb-2">Stay Updated</h3>
-        <p class="text-muted-foreground text-sm mb-6">Join our newsletter for the latest industry news and exclusive offers.</p>
+        <h3 class="text-xl font-bold text-white mb-2">Stay Updated</h3>
+        <p class="text-white/75 text-sm mb-6">Join our newsletter for the latest industry news and exclusive offers.</p>
         <form @submit.prevent="submitNewsletter" class="flex gap-4 max-w-lg mx-auto">
-          <input v-model="newsletterEmail" type="email" required class="flex-1 px-5 py-3 bg-card border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all" placeholder="Enter your email" />
+          <input v-model="newsletterEmail" type="email" required class="flex-1 px-5 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-white text-sm transition-all placeholder-white/40" placeholder="Enter your email" />
           <button type="submit" :disabled="newsletterSubmitting" class="px-7 py-3 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary/90 disabled:opacity-50 transition-all shadow-sm whitespace-nowrap">
             {{ newsletterSubmitting ? '...' : 'Subscribe' }}
           </button>
@@ -897,6 +907,75 @@ const specializations = [
   { icon: '\uD83D\uDCCA', title: 'Data Analytics', desc: 'Data-driven business insights' },
   { icon: '\uD83C\uDFAF', title: 'Digital Marketing', desc: 'SEO, PPC & social media' },
   { icon: '\uD83D\uDEE0\uFE0F', title: 'IT Consulting', desc: 'Strategic technology advisory' },
+];
+
+const heroSlides = [
+  {
+    id: 1,
+    subtitle: 'Welcome to OmniviaTech',
+    title: 'Innovative Technology Solutions',
+    description: 'Empowering businesses with cutting-edge technology and digital transformation services across the globe.',
+    cta_text: 'Explore Solutions',
+    cta_link: '/services',
+    cta_text_2: 'Learn More',
+    cta_link_2: '/about',
+    bg_image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&h=1080&fit=crop&q=80',
+  },
+  {
+    id: 2,
+    subtitle: 'AI & Automation',
+    title: 'Transform Your Workflows',
+    description: 'Leverage artificial intelligence and automation to streamline your business processes and increase productivity.',
+    cta_text: 'Discover AI Solutions',
+    cta_link: '/services',
+    cta_text_2: 'Get Demo',
+    cta_link_2: '/contact',
+    bg_image: 'https://images.unsplash.com/photo-1633356122544-f134324ef6db?w=1920&h=1080&fit=crop&q=80',
+  },
+  {
+    id: 3,
+    subtitle: 'Cloud Infrastructure',
+    title: 'Scale Your Business with Cloud',
+    description: 'Enterprise-grade cloud solutions designed for reliability, security, and unlimited scalability.',
+    cta_text: 'Cloud Services',
+    cta_link: '/services',
+    cta_text_2: 'Schedule Call',
+    cta_link_2: '/contact',
+    bg_image: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=1920&h=1080&fit=crop&q=80',
+  },
+  {
+    id: 4,
+    subtitle: 'Cybersecurity',
+    title: 'Protect Your Digital Assets',
+    description: 'Comprehensive security solutions to safeguard your business from evolving cyber threats.',
+    cta_text: 'Security Solutions',
+    cta_link: '/services',
+    cta_text_2: 'Assess Risk',
+    cta_link_2: '/contact',
+    bg_image: 'https://images.unsplash.com/photo-1563206765-d96a38f1e23f?w=1920&h=1080&fit=crop&q=80',
+  },
+  {
+    id: 5,
+    subtitle: 'Mobile Development',
+    title: 'Build Powerful Mobile Apps',
+    description: 'Create engaging iOS and Android applications that delight users and drive business growth.',
+    cta_text: 'Mobile Solutions',
+    cta_link: '/services',
+    cta_text_2: 'See Portfolio',
+    cta_link_2: '/case-studies',
+    bg_image: 'https://images.unsplash.com/photo-1516321318423-f06f70e504cb?w=1920&h=1080&fit=crop&q=80',
+  },
+  {
+    id: 6,
+    subtitle: 'Digital Transformation',
+    title: 'Modernize Your Enterprise',
+    description: 'End-to-end digital transformation services to help your organization thrive in the modern digital economy.',
+    cta_text: 'Start Transformation',
+    cta_link: '/services',
+    cta_text_2: 'Contact Us',
+    cta_link_2: '/contact',
+    bg_image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1920&h=1080&fit=crop&q=80',
+  },
 ];
 
 const impactStatsFallback = [
@@ -1002,7 +1081,7 @@ async function fetchHomeData() {
     topReviews.value = d.top_reviews || [];
     if (!topReviews.value.length) {
       topReviews.value = [
-        { id: 1, rating: 5, comment: 'Outstanding service! Smartech Research Labs built our e-commerce platform in record time with exceptional quality. Our online sales increased by 200% within three months.', user_name: 'David Okonkwo', company: 'CEO, AfricaTrade' },
+        { id: 1, rating: 5, comment: 'Outstanding service! OmniviaTech built our e-commerce platform in record time with exceptional quality. Our online sales increased by 200% within three months.', user_name: 'David Okonkwo', company: 'CEO, AfricaTrade' },
         { id: 2, rating: 5, comment: 'The team is incredibly professional. They delivered our mobile app ahead of schedule and under budget. Runs flawlessly on both iOS and Android.', user_name: 'Sarah van der Merwe', company: 'CTO, FinSync SA' },
         { id: 3, rating: 5, comment: 'Their automation solutions saved us over 200 hours monthly. The CI/CD pipeline they built reduced our deployment time from days to minutes.', user_name: 'Michael Ndlovu', company: 'Operations Manager, LogiTech' },
         { id: 4, rating: 5, comment: 'They transformed our outdated website into a modern, responsive platform that doubled our leads. SEO took us from page 5 to page 1 in under 4 months.', user_name: 'Grace Molefe', company: 'Marketing Director, GreenEnergy' },
