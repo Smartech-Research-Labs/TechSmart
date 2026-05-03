@@ -19,6 +19,110 @@
       </div>
     </section>
 
+    <!-- ═══════════════ SUPPORT CHANNELS ═══════════════ -->
+    <section class="py-14 md:py-20">
+      <div class="container mx-auto px-6">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Support Channels</p>
+          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Multiple Ways to Get Help</h2>
+          <p class="text-muted-foreground text-sm leading-relaxed">We believe in making support accessible. Choose the channel that works best for you, and our team will respond promptly to ensure your questions are answered.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="bg-card border border-border rounded-xl p-6 text-center hover:shadow-lg transition-all">
+            <div class="w-12 h-12 mx-auto bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">📧</span></div>
+            <h3 class="text-sm font-bold text-foreground mb-2">Email Support</h3>
+            <p class="text-muted-foreground text-xs leading-relaxed mb-3">Send us a detailed inquiry and receive a comprehensive response within 24 hours during business days.</p>
+            <a href="mailto:info@omniviatech.com" class="text-primary text-xs font-semibold hover:underline">info@omniviatech.com</a>
+          </div>
+          <div class="bg-card border border-border rounded-xl p-6 text-center hover:shadow-lg transition-all">
+            <div class="w-12 h-12 mx-auto bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">📞</span></div>
+            <h3 class="text-sm font-bold text-foreground mb-2">Phone Support</h3>
+            <p class="text-muted-foreground text-xs leading-relaxed mb-3">Speak directly with our team for urgent inquiries or to schedule a detailed project consultation call.</p>
+            <a href="tel:+254710351517" class="text-primary text-xs font-semibold hover:underline">+254 710 351 517</a>
+          </div>
+          <div class="bg-card border border-border rounded-xl p-6 text-center hover:shadow-lg transition-all">
+            <div class="w-12 h-12 mx-auto bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">💬</span></div>
+            <h3 class="text-sm font-bold text-foreground mb-2">WhatsApp</h3>
+            <p class="text-muted-foreground text-xs leading-relaxed mb-3">Reach us instantly on WhatsApp for quick questions, project updates, or to schedule meetings with our team.</p>
+            <a href="https://wa.me/254710351517" target="_blank" class="text-primary text-xs font-semibold hover:underline">Chat on WhatsApp</a>
+          </div>
+          <div class="bg-card border border-border rounded-xl p-6 text-center hover:shadow-lg transition-all">
+            <div class="w-12 h-12 mx-auto bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">🏢</span></div>
+            <h3 class="text-sm font-bold text-foreground mb-2">In-Person Visit</h3>
+            <p class="text-muted-foreground text-xs leading-relaxed mb-3">Visit our office in Nairobi for face-to-face consultations, project reviews, or partnership discussions.</p>
+            <span class="text-muted-foreground text-xs">Nairobi, Kenya</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ FAQ CATEGORIES ═══════════════ -->
+    <section class="py-14 md:py-20 bg-muted/30">
+      <div class="container mx-auto px-6">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">FAQ Categories</p>
+          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Browse by Topic</h2>
+          <p class="text-muted-foreground text-sm leading-relaxed">Our FAQs cover a wide range of topics. Here are the most common categories clients ask about when working with OmniviaTech.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <div class="bg-card border border-border rounded-xl p-5">
+            <h3 class="text-sm font-bold text-foreground mb-2">🛠️ Services & Solutions</h3>
+            <ul class="text-muted-foreground text-xs space-y-1">
+              <li>What services do you offer?</li>
+              <li>Do you handle both web and mobile?</li>
+              <li>Can you integrate with my existing tools?</li>
+              <li>What technologies do you specialize in?</li>
+            </ul>
+          </div>
+          <div class="bg-card border border-border rounded-xl p-5">
+            <h3 class="text-sm font-bold text-foreground mb-2">💰 Pricing & Payments</h3>
+            <ul class="text-muted-foreground text-xs space-y-1">
+              <li>How much does a project cost?</li>
+              <li>What payment methods do you accept?</li>
+              <li>Do you offer payment plans?</li>
+              <li>Is there a free consultation?</li>
+            </ul>
+          </div>
+          <div class="bg-card border border-border rounded-xl p-5">
+            <h3 class="text-sm font-bold text-foreground mb-2">⏱️ Timeline & Delivery</h3>
+            <ul class="text-muted-foreground text-xs space-y-1">
+              <li>How long does development take?</li>
+              <li>What is your development process?</li>
+              <li>Do you provide progress updates?</li>
+              <li>Can I see the product before launch?</li>
+            </ul>
+          </div>
+          <div class="bg-card border border-border rounded-xl p-5">
+            <h3 class="text-sm font-bold text-foreground mb-2">🔒 Security & Compliance</h3>
+            <ul class="text-muted-foreground text-xs space-y-1">
+              <li>How do you protect my data?</li>
+              <li>Are you GDPR compliant?</li>
+              <li>Do you perform security audits?</li>
+              <li>What about data backups?</li>
+            </ul>
+          </div>
+          <div class="bg-card border border-border rounded-xl p-5">
+            <h3 class="text-sm font-bold text-foreground mb-2">🤝 Partnership & Support</h3>
+            <ul class="text-muted-foreground text-xs space-y-1">
+              <li>Do you offer ongoing maintenance?</li>
+              <li>What is your support response time?</li>
+              <li>Can we schedule regular check-ins?</li>
+              <li>Do you work with international clients?</li>
+            </ul>
+          </div>
+          <div class="bg-card border border-border rounded-xl p-5">
+            <h3 class="text-sm font-bold text-foreground mb-2">🚀 Getting Started</h3>
+            <ul class="text-muted-foreground text-xs space-y-1">
+              <li>How do I start a project with you?</li>
+              <li>What information do you need?</li>
+              <li>Do you sign NDAs?</li>
+              <li>Can I visit your office?</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ═══════════════ IMAGE LEFT + TEXT RIGHT ═══════════════ -->
     <section class="py-14 md:py-20">
       <div class="container mx-auto px-6">

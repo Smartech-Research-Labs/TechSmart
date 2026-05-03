@@ -19,6 +19,49 @@
       </div>
     </section>
 
+    <!-- ═══════════════ HOW WE CAN HELP ═══════════════ -->
+    <section class="py-14 md:py-20">
+      <div class="container mx-auto px-6">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">How We Can Help</p>
+          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Common Reasons Clients Contact Us</h2>
+          <p class="text-muted-foreground text-sm leading-relaxed">Whether you are looking to build a new software product, migrate to the cloud, strengthen your cybersecurity, or explore AI-driven automation, our team is ready to help. Here are some of the most common inquiries we receive.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">💻</span></div>
+            <h3 class="text-sm font-bold text-foreground mb-2">Custom Software Development</h3>
+            <p class="text-muted-foreground text-xs leading-relaxed">Need a tailored web or mobile application? We build scalable, secure software solutions designed specifically for your business requirements and user needs.</p>
+          </div>
+          <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">☁️</span></div>
+            <h3 class="text-sm font-bold text-foreground mb-2">Cloud Migration & Infrastructure</h3>
+            <p class="text-muted-foreground text-xs leading-relaxed">Move your operations to the cloud with confidence. We plan, execute, and manage cloud migrations on AWS, Azure, and Google Cloud with zero downtime.</p>
+          </div>
+          <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">🤖</span></div>
+            <h3 class="text-sm font-bold text-foreground mb-2">AI & Automation Solutions</h3>
+            <p class="text-muted-foreground text-xs leading-relaxed">Automate repetitive tasks, gain predictive insights, and enhance decision-making with our AI and machine learning services tailored to your industry.</p>
+          </div>
+          <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">🔒</span></div>
+            <h3 class="text-sm font-bold text-foreground mb-2">Cybersecurity Assessment</h3>
+            <p class="text-muted-foreground text-xs leading-relaxed">Protect your business from cyber threats with comprehensive security audits, vulnerability assessments, and implementation of robust defense strategies.</p>
+          </div>
+          <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">📱</span></div>
+            <h3 class="text-sm font-bold text-foreground mb-2">Mobile App Development</h3>
+            <p class="text-muted-foreground text-xs leading-relaxed">From concept to launch, we design and develop native and cross-platform mobile applications for iOS and Android that users love.</p>
+          </div>
+          <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">📈</span></div>
+            <h3 class="text-sm font-bold text-foreground mb-2">Digital Marketing & SEO</h3>
+            <p class="text-muted-foreground text-xs leading-relaxed">Boost your online presence with data-driven digital marketing strategies including SEO, content marketing, social media management, and paid advertising.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ═══════════════ IMAGE LEFT + TEXT RIGHT ═══════════════ -->
     <section class="py-14 md:py-20">
       <div class="container mx-auto px-6">

@@ -297,7 +297,7 @@
             <SwiperSlide v-for="rel in relatedServices" :key="rel.id">
               <router-link :to="`/services/${rel.slug}`" class="group block bg-card border border-border rounded-xl overflow-hidden hover:shadow-lg hover:border-primary/20 transition-all">
                 <div class="aspect-[16/10] overflow-hidden">
-                  <img :src="rel.image_url || heroTech7" :alt="rel.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <img :src="getServiceImage(rel) || rel.image_url || heroTech7" :alt="rel.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 </div>
                 <div class="p-4">
                   <span v-if="rel.category" class="text-[10px] font-medium bg-primary/10 text-primary px-2 py-0.5 rounded-full">{{ rel.category }}</span>
@@ -612,6 +612,54 @@ import heroTech6 from '@/../img/tech6.jpg';
 import heroTech7 from '@/../img/tech7.jpg';
 import heroTech8 from '@/../img/tech8.jpg';
 import heroTechGlow from '@/../img/tech-glow.webp';
+import svcCustomWeb from '@/../img/services/Custom Web Development.webp';
+import svcMobileApp from '@/../img/services/Mobile App Development.webp';
+import svcEcommerce from '@/../img/services/E-commerece Development.webp';
+import svcCrmErp from '@/../img/services/CRM & ERP Development.webp';
+import svcApi from '@/../img/services/API Development.webp';
+import svcSeo from '@/../img/services/SEO Optimization.webp';
+import svcPaidAds from '@/../img/services/Paid Ads.webp';
+import svcMobileApp2 from '@/../img/services/Mobile App.webp';
+
+const serviceImageMap: Record<string, string> = {
+  'custom web development': svcCustomWeb,
+  'web development': svcCustomWeb,
+  'custom web app development': svcCustomWeb,
+  'web app development': svcCustomWeb,
+  'mobile app development': svcMobileApp,
+  'mobile app': svcMobileApp2,
+  'mobile development': svcMobileApp,
+  'e-commerce development': svcEcommerce,
+  'ecommerce development': svcEcommerce,
+  'e-commerce': svcEcommerce,
+  'crm & erp development': svcCrmErp,
+  'crm & erp': svcCrmErp,
+  'erp development': svcCrmErp,
+  'crm development': svcCrmErp,
+  'api development': svcApi,
+  'api integration': svcApi,
+  'api': svcApi,
+  'seo optimization': svcSeo,
+  'seo': svcSeo,
+  'search engine optimization': svcSeo,
+  'paid ads': svcPaidAds,
+  'paid advertising': svcPaidAds,
+  'ppc': svcPaidAds,
+  'digital marketing': svcPaidAds,
+};
+
+function getServiceImage(service: any): string | null {
+  const title = (service.title || service.name || '').toLowerCase().trim();
+  const slug = (service.slug || '').toLowerCase().trim();
+  const category = (service.category || '').toLowerCase().trim();
+  if (serviceImageMap[title]) return serviceImageMap[title];
+  if (serviceImageMap[slug]) return serviceImageMap[slug];
+  if (serviceImageMap[category]) return serviceImageMap[category];
+  for (const [key, img] of Object.entries(serviceImageMap)) {
+    if (title.includes(key) || slug.includes(key) || category.includes(key)) return img;
+  }
+  return null;
+}
 import { ref, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { Swiper, SwiperSlide } from 'swiper/vue';

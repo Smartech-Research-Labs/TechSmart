@@ -133,33 +133,68 @@
     </section>
 
       <!-- ═══════════════ OUR SOLUTIONS (IMAGE CARDS) ═══════════════ -->
-    <section class="py-12 md:py-16 bg-muted/30">
+    <section class="py-12 md:py-16 ">
       <div class="container mx-auto px-6 max-w-5xl">
         <div class="text-center max-w-2xl mx-auto mb-10">
-          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Solutions</p>
-          <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">Our Solutions</h2>
+          <p class="text-white text-xs font-semibold tracking-widest uppercase mb-3">Solutions</p>
+          <h2 class="text-xl md:text-2xl font-bold text-white leading-tight">Our Solutions</h2>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
-          <router-link v-for="service in allServices.slice(0, 8)" :key="service.id" :to="`/services/${service.slug}`" class="group block bg-white border border-border rounded-2xl overflow-hidden hover:border-primary/20 hover:shadow-md transition-all duration-300">
-            <div class="aspect-[4/3] bg-gray-100 overflow-hidden relative">
-              <img v-if="service.image_url" :src="service.image_url" :alt="service.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-              <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5">
-                <span class="text-3xl">{{ service.icon || '💡' }}</span>
+        <!-- Loading State -->
+        <div v-if="loading" class="grid grid-cols-2 md:grid-cols-4 gap-5">
+          <div v-for="i in 8" :key="i" class="bg-white/10 border border-white/20 rounded-2xl overflow-hidden animate-pulse">
+            <div class="aspect-[4/3] bg-white/5"></div>
+            <div class="p-5 space-y-2">
+              <div class="h-3 bg-white/10 rounded w-3/4"></div>
+              <div class="h-2 bg-white/10 rounded w-full"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Services from API -->
+        <template v-else-if="allServices.length">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
+            <router-link v-for="service in allServices.slice(0, 8)" :key="service.id" :to="`/services/${service.slug}`" class="group block bg-white/10 border border-white/20 rounded-2xl overflow-hidden hover:border-white/40 hover:shadow-md transition-all duration-300">
+              <div class="aspect-[4/3] bg-white/5 overflow-hidden relative">
+                <img v-if="getServiceImage(service)" :src="getServiceImage(service)" :alt="service.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <div v-else-if="service.image_url" class="w-full h-full overflow-hidden">
+                  <img :src="service.image_url" :alt="service.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                </div>
+                <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-white/10 to-white/5">
+                  <span class="text-3xl">{{ service.icon || '💡' }}</span>
+                </div>
               </div>
-            </div>
-            <div class="p-5">
-              <h3 class="text-sm font-semibold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">{{ service.title }}</h3>
-              <p class="text-muted-foreground text-xs leading-relaxed line-clamp-2 mb-3">{{ service.excerpt || service.short_description }}</p>
-              <span class="text-primary font-medium text-xs flex items-center gap-1 group-hover:gap-2 transition-all">
-                Learn More <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
-              </span>
-            </div>
-          </router-link>
-        </div>
+              <div class="p-5">
+                <h3 class="text-sm font-semibold text-white mb-2 group-hover:text-white/95 transition-colors line-clamp-2">{{ service.title }}</h3>
+                <p class="text-white/75 text-xs leading-relaxed line-clamp-2 mb-3">{{ service.excerpt || service.short_description }}</p>
+                <span class="text-white/90 font-medium text-xs flex items-center gap-1 group-hover:gap-2 transition-all">
+                  Learn More <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
+                </span>
+              </div>
+            </router-link>
+          </div>
+        </template>
 
-        <div class="text-center mt-10 sm:hidden">
-          <router-link to="/services" class="inline-flex items-center gap-2 px-7 py-3 border border-primary text-primary text-sm font-semibold rounded-full hover:bg-primary hover:text-white transition-all">
+        <!-- Fallback: Static Specializations -->
+        <template v-else>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
+            <router-link v-for="(spec, i) in specializations.slice(0, 8)" :key="i" :to="`/services`" class="group block bg-white/10 border border-white/20 rounded-2xl overflow-hidden hover:border-white/40 hover:shadow-md transition-all duration-300">
+              <div class="aspect-[4/3] bg-gradient-to-br from-white/10 to-white/5 flex items-center justify-center">
+                <span class="text-5xl">{{ spec.icon }}</span>
+              </div>
+              <div class="p-5">
+                <h3 class="text-sm font-semibold text-white mb-2 group-hover:text-white/95 transition-colors line-clamp-2">{{ spec.title }}</h3>
+                <p class="text-white/75 text-xs leading-relaxed line-clamp-2 mb-3">{{ spec.desc }}</p>
+                <span class="text-white/90 font-medium text-xs flex items-center gap-1 group-hover:gap-2 transition-all">
+                  Learn More <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
+                </span>
+              </div>
+            </router-link>
+          </div>
+        </template>
+
+        <div class="text-center mt-10">
+          <router-link to="/services" class="inline-flex items-center gap-2 px-7 py-3 border-2 border-white text-white text-sm font-semibold rounded-full hover:bg-white hover:text-gray-900 transition-all">
             View All Services
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
           </router-link>
@@ -167,7 +202,72 @@
       </div>
     </section>
 
-   
+    <!-- ═══════════════ VIDEO CTA — AUTO-PLAY ON SCROLL ═══════════════ -->
+    <!-- <section ref="videoCtaSection" class="py-14 md:py-20"> -->
+      <!-- <div class="container mx-auto px-6"> -->
+        <!-- <div class="relative bg-black rounded-2xl overflow-hidden"> -->
+          <!-- Background video (auto-plays muted on scroll) -->
+          <!-- <video
+            ref="ctaVideoEl"
+            class="absolute inset-0 w-full h-full object-cover opacity-30"
+            muted
+            loop
+            playsinline
+            preload="auto"
+            :title="videoTitle"
+          >
+            <source :src="videoSrc" type="video/mp4" />
+          </video> -->
+          <!-- Dark overlay -->
+          <!-- <div class="absolute inset-0 bg-black/70"></div> -->
+
+          <!-- <div class="relative grid lg:grid-cols-2 items-center">
+            <div class="p-8 md:p-12 lg:p-14">
+              <h2 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4">Ready to Transform Your Business?</h2>
+              <p class="text-white/70 text-sm leading-relaxed mb-3">Build innovative solutions with OmniviaTech. From custom software to AI-powered automation.</p>
+              <p class="text-white/60 text-sm leading-relaxed mb-8">Expand your reach and grow revenue with us.</p>
+              <router-link to="/contact" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg">
+                Get Started
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+              </router-link>
+            </div>
+            <div class="hidden lg:flex items-end justify-end h-full min-h-[300px]">
+              <video
+                class="h-full max-h-[350px] object-cover object-top w-full"
+                muted
+                loop
+                playsinline
+                autoplay
+                preload="auto"
+              >
+                <source :src="videoSrc" type="video/mp4" />
+              </video>
+            </div>
+          </div> -->
+        <!-- </div>
+      </div>
+    </section> -->
+
+    <!-- ═══════════════ VIDEO / IMAGE SECTION ═══════════════ -->
+<section ref="videoCtaSection" class="relative w-full overflow-hidden">
+
+  <!-- Background media -->
+  <video
+    ref="ctaVideoEl"
+    class="w-full h-[60vh] md:h-[70vh] object-cover"
+    muted
+    loop
+    playsinline
+    autoplay
+    preload="auto"
+  >
+    <source :src="videoSrc" type="video/mp4" />
+  </video>
+
+  <!-- Soft dark overlay -->
+  <div class="absolute inset-0 bg-black/40"></div>
+
+</section>
 
   
     <!-- ═══════════════ WE SPECIALIZE IN ═══════════════ -->
@@ -867,94 +967,6 @@
       </div>
     </section>
 
-    <!-- ═══════════════ VIDEO CTA — AUTO-PLAY ON SCROLL ═══════════════ -->
-    <section ref="videoCtaSection" class="relative w-full min-h-[70vh] md:min-h-[80vh] flex items-center justify-center overflow-hidden bg-neutral-900">
-      <!-- Background video (auto-plays muted on scroll) -->
-      <video
-        ref="ctaVideoEl"
-        class="absolute inset-0 w-full h-full object-cover"
-        muted
-        loop
-        playsinline
-        preload="metadata"
-        :title="videoTitle"
-      >
-        <source :src="videoSrc" type="video/mp4" />
-      </video>
-
-      <!-- Dark overlay -->
-      <div class="absolute inset-0 bg-black/50"></div>
-
-      <!-- Content -->
-      <div class="relative z-10 w-full">
-        <div class="container mx-auto px-6 max-w-7xl">
-          <div class="grid lg:grid-cols-2 items-center gap-8 lg:gap-12">
-            <!-- Left: Text content -->
-            <div class="text-center lg:text-left">
-              <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-white leading-tight mb-4">
-                Ready to Transform Your Business?
-              </h2>
-              <p class="text-white/90 text-sm leading-relaxed mb-3">
-                Build innovative solutions with OmniviaTech. From custom software to AI-powered automation.
-              </p>
-              <p class="text-white/70 text-sm leading-relaxed mb-6">
-                Expand your reach and grow revenue with us.
-              </p>
-              <router-link
-                to="/contact"
-                class="inline-flex items-center gap-2 px-8 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg"
-              >
-                Get Started
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                  <path d="M7 17L17 7M17 7H7M17 7v10"/>
-                </svg>
-              </router-link>
-            </div>
-
-            <!-- Right: Clickable video card with controls -->
-            <div class="relative rounded-2xl overflow-hidden bg-black aspect-video group cursor-pointer border border-white/10 shadow-2xl" @click="toggleVideo">
-              <!-- Play overlay when not actively playing with controls -->
-              <transition name="fade">
-                <div v-if="!videoPlaying" class="absolute inset-0 z-10 flex items-center justify-center">
-                  <div class="absolute inset-0 bg-black/30"></div>
-                  <button class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-full bg-primary flex items-center justify-center shadow-2xl shadow-primary/40 transition-transform duration-200 group-hover:scale-110" aria-label="Play video">
-                    <svg class="w-6 h-6 md:w-8 md:h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z"/>
-                    </svg>
-                  </button>
-                  <span class="absolute bottom-4 right-4 z-10 bg-black/70 text-white text-xs font-semibold px-2.5 py-1 rounded-full backdrop-blur-sm">
-                    {{ duration }}
-                  </span>
-                  <span class="absolute bottom-4 left-4 z-10 bg-primary/90 text-white text-xs font-semibold px-2.5 py-1 rounded-full flex items-center gap-1">
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                      <rect x="2" y="7" width="20" height="15" rx="2" ry="2"/>
-                      <path d="M17 2l-5 5-5-5"/>
-                    </svg>
-                    CC
-                  </span>
-                </div>
-              </transition>
-
-              <!-- Active video player with sound + controls -->
-              <video
-                v-if="videoPlaying"
-                ref="videoEl"
-                class="absolute inset-0 w-full h-full object-cover"
-                autoplay
-                controls
-                preload="metadata"
-                :title="videoTitle"
-                @ended="videoPlaying = false"
-              >
-                <source :src="videoSrc" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- ═══════════════ FAQ ═══════════════ -->
     <section v-if="faqs.length" class="py-12 md:py-16 bg-muted/30">
       <div class="container mx-auto px-6 max-w-3xl">
@@ -994,6 +1006,10 @@ import WishlistButton from '@/components/WishlistButton.vue';
 import axios from 'axios';
 import { useToast } from '@/composables';
 import heroTechBg from '@/../img/tech-background.png';
+import videoSolutions from '@/../videos/omniviatech-solutions.mp4';
+import videoIntro from '@/../videos/omniviatech-intro.mp4';
+import videoServices from '@/../videos/omniviatech-services.mp4';
+import videoMain from '@/../videos/omniviatech.mp4';
 
 // Data
 const loading = ref(true);
@@ -1184,21 +1200,10 @@ const counterRefs = ref<HTMLElement[]>([]);
 const openFaqIndex = ref<number | null>(null);
 
 // Video CTA State
-const videoSrc = 'resources/videos/omniviatech-solutions.mp4';
+const videoSrc = videoSolutions;
 const videoTitle = 'OmniviaTech — Product Overview';
-const duration = '2:45';
-const videoPlaying = ref(false);
-const videoEl = ref<HTMLVideoElement | null>(null);
 const ctaVideoEl = ref<HTMLVideoElement | null>(null);
 const videoCtaSection = ref<HTMLElement | null>(null);
-
-function toggleVideo() {
-  videoPlaying.value = !videoPlaying.value;
-}
-
-function shareVideo() {
-  navigator.clipboard?.writeText(window.location.href);
-}
 
 function toggleFaq(idx: number) {
   openFaqIndex.value = openFaqIndex.value === idx ? null : idx;

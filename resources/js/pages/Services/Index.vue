@@ -146,7 +146,7 @@
               <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <router-link v-for="service in groupedServices[group]" :key="service.id" :to="`/services/${service.slug}`" class="group bg-card border border-border rounded-xl overflow-hidden hover:border-primary/30 hover:shadow-lg transition-all">
                   <div class="aspect-[4/3] bg-muted overflow-hidden relative">
-                    <img v-if="service.image_url" :src="service.image_url" :alt="service.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img v-if="getServiceImage(service)" :src="getServiceImage(service)" :alt="service.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     <div v-else class="w-full h-full flex items-center justify-center"><span class="text-3xl">💡</span></div>
                     <span class="absolute top-2 left-2 px-2 py-0.5 bg-primary/90 text-white text-[10px] font-medium rounded">{{ service.category }}</span>
                     <div class="absolute top-2 right-2 z-10" @click.prevent><WishlistButton type="App\\Models\\Service" :item-id="service.id" /></div>
@@ -274,6 +274,54 @@ import heroLaptop from '@/../img/Laptop.webp';
 import heroTech2 from '@/../img/tech2.jpg';
 import heroTech4 from '@/../img/tech4.jpg';
 import heroTechGlow from '@/../img/tech-glow.webp';
+import svcCustomWeb from '@/../img/services/Custom Web Development.webp';
+import svcMobileApp from '@/../img/services/Mobile App Development.webp';
+import svcEcommerce from '@/../img/services/E-commerece Development.webp';
+import svcCrmErp from '@/../img/services/CRM & ERP Development.webp';
+import svcApi from '@/../img/services/API Development.webp';
+import svcSeo from '@/../img/services/SEO Optimization.webp';
+import svcPaidAds from '@/../img/services/Paid Ads.webp';
+import svcMobileApp2 from '@/../img/services/Mobile App.webp';
+
+const serviceImageMap: Record<string, string> = {
+  'custom web development': svcCustomWeb,
+  'web development': svcCustomWeb,
+  'custom web app development': svcCustomWeb,
+  'web app development': svcCustomWeb,
+  'mobile app development': svcMobileApp,
+  'mobile app': svcMobileApp2,
+  'mobile development': svcMobileApp,
+  'e-commerce development': svcEcommerce,
+  'ecommerce development': svcEcommerce,
+  'e-commerce': svcEcommerce,
+  'crm & erp development': svcCrmErp,
+  'crm & erp': svcCrmErp,
+  'erp development': svcCrmErp,
+  'crm development': svcCrmErp,
+  'api development': svcApi,
+  'api integration': svcApi,
+  'api': svcApi,
+  'seo optimization': svcSeo,
+  'seo': svcSeo,
+  'search engine optimization': svcSeo,
+  'paid ads': svcPaidAds,
+  'paid advertising': svcPaidAds,
+  'ppc': svcPaidAds,
+  'digital marketing': svcPaidAds,
+};
+
+function getServiceImage(service: any): string | null {
+  const title = (service.title || '').toLowerCase().trim();
+  const slug = (service.slug || '').toLowerCase().trim();
+  const category = (service.category || '').toLowerCase().trim();
+  if (serviceImageMap[title]) return serviceImageMap[title];
+  if (serviceImageMap[slug]) return serviceImageMap[slug];
+  if (serviceImageMap[category]) return serviceImageMap[category];
+  for (const [key, img] of Object.entries(serviceImageMap)) {
+    if (title.includes(key) || slug.includes(key) || category.includes(key)) return img;
+  }
+  return null;
+}
 
 const cmsStore = useCmsStore();
 const s = computed(() => cmsStore.homeData?.settings || {} as any);
