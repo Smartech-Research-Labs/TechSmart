@@ -15,6 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import heroTechBg from '@/../img/tech-background.png';
 
 const props = defineProps<{
   class?: HTMLAttributes['class'];
@@ -24,7 +25,7 @@ const router = useRouter();
 const authStore = useAuthStore();
 const cmsStore = useCmsStore();
 
-const registerImage = computed(() => cmsStore.homeData?.settings?.register_page_image || '/images/signup-hero.jpg');
+const registerImage = computed(() => cmsStore.homeData?.settings?.register_page_image || heroTechBg);
 const form = ref({
   name: '',
   email: '',

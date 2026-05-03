@@ -10,19 +10,19 @@
       <section class="relative min-h-[50vh] flex items-center overflow-hidden">
         <div class="absolute inset-0 z-0">
           <img
-            :src="industry.banner_image || industry.image || 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1920&h=1080&fit=crop&q=80'"
+            :src="industry.banner_image || industry.image || heroTechBg"
             :alt="industry.title"
             class="w-full h-full object-cover"
           />
-          <div class="absolute inset-0 bg-gradient-to-r from-background/95 via-background/85 to-background/50 dark:from-background/95 dark:via-background/85 dark:to-background/60"></div>
+          <div class="absolute inset-0 bg-black/50"></div>
         </div>
         <div class="relative z-10 container mx-auto px-6 py-16 md:py-24">
           <div class="max-w-2xl">
             <div class="flex items-center gap-2 mb-4">
               <span class="px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full border border-primary/20">{{ industry.title }}</span>
             </div>
-            <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight mb-4">{{ industry.title }}</h1>
-            <p class="text-muted-foreground text-base md:text-lg leading-relaxed mb-8 max-w-xl">{{ industry.short_description }}</p>
+            <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-4">{{ industry.title }}</h1>
+            <p class="text-white/80 text-base md:text-lg leading-relaxed mb-8 max-w-xl">{{ industry.short_description }}</p>
             <div class="flex flex-wrap gap-3">
               <router-link to="/contact" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
                 Get a Quote
@@ -47,7 +47,7 @@
             </div>
             <div class="rounded-xl overflow-hidden">
               <img
-                :src="industry.image || 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&h=600&fit=crop&q=80'"
+                :src="industry.image || heroLaptop"
                 :alt="industry.title"
                 class="w-full h-full object-cover aspect-[4/3]"
               />
@@ -207,6 +207,8 @@ import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import { useApi } from '@/composables/useApi';
+import heroTechBg from '@/../img/tech-background.png';
+import heroLaptop from '@/../img/Laptop.webp';
 
 const route = useRoute();
 const router = useRouter();

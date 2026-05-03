@@ -3,14 +3,14 @@
     <!-- ═══════════════ HERO ═══════════════ -->
     <section class="relative py-16 md:py-24 overflow-hidden">
       <div class="absolute inset-0 z-0">
-        <img :src="s.hero_bg_image || 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&h=1080&fit=crop&q=80'" alt="" class="w-full h-full object-cover" />
-        <div class="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/40 dark:from-background/95 dark:via-background/80 dark:to-background/40"></div>
+        <img :src="s.hero_bg_image || heroLaptopDark" alt="" class="w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-black/50"></div>
       </div>
       <div class="relative z-10 container mx-auto px-6">
         <div class="max-w-xl">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Contact Us</p>
-          <h1 class="text-3xl md:text-4xl font-bold text-foreground leading-tight mb-4">Get In Touch</h1>
-          <p class="text-muted-foreground text-sm leading-relaxed mb-6">Have a project in mind? Let's discuss how we can help your business grow with technology.</p>
+          <h1 class="text-3xl md:text-4xl font-bold text-white leading-tight mb-4">Get In Touch</h1>
+          <p class="text-white/80 text-sm leading-relaxed mb-6">Have a project in mind? Let's discuss how we can help your business grow with technology.</p>
           <a href="tel:+254710351517" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
             Call Us Now
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
@@ -24,7 +24,7 @@
       <div class="container mx-auto px-6">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
           <div class="rounded-xl overflow-hidden">
-            <img :src="s.office_image || 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop&q=80'" alt="Our Office" class="w-full h-full object-cover aspect-[4/3]" />
+            <img :src="s.office_image || heroTech6" alt="Our Office" class="w-full h-full object-cover aspect-[4/3]" />
           </div>
           <div>
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">We're Here to Help</p>
@@ -125,19 +125,20 @@
     <!-- ═══════════════ CTA (MAROON) ═══════════════ -->
     <section class="py-14 md:py-20 bg-muted/30">
       <div class="container mx-auto px-6">
-        <div class="relative bg-gradient-to-br from-red-900 via-red-800 to-red-900 rounded-2xl overflow-hidden">
-          <div class="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&q=40')] bg-cover bg-center"></div>
+        <div class="relative bg-black rounded-2xl overflow-hidden">
+          <div class="absolute inset-0 opacity-30 bg-cover bg-center" :style="{ backgroundImage: 'url(' + heroTechGlow + ')' }"></div>
+          <div class="absolute inset-0 bg-black/70"></div>
           <div class="relative grid lg:grid-cols-2 items-center">
             <div class="p-8 md:p-12 lg:p-14">
               <h2 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4">Ready to Start Your Project?</h2>
-              <p class="text-red-100/80 text-sm leading-relaxed mb-8">Book a free 30-minute consultation with one of our technology experts today.</p>
+              <p class="text-white/70 text-sm leading-relaxed mb-8">Book a free 30-minute consultation with one of our technology experts today.</p>
               <a href="https://wa.me/254710351517" target="_blank" class="inline-flex items-center gap-2 px-7 py-3 bg-green-600 text-white text-sm font-semibold rounded-full hover:bg-green-700 transition-all shadow-lg">
                 WhatsApp Us
                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" /></svg>
               </a>
             </div>
             <div class="hidden lg:flex items-end justify-end h-full min-h-[300px]">
-              <img :src="s.cta_professional_image || 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=500&h=600&fit=crop&q=80'" alt="Professional" class="h-full max-h-[350px] object-cover object-top" />
+              <img :src="s.cta_professional_image || heroTech4" alt="Professional" class="h-full max-h-[350px] object-cover object-top" />
             </div>
           </div>
         </div>
@@ -168,6 +169,10 @@ import PublicLayout from '@/layouts/PublicLayout.vue';
 import axios from 'axios';
 import { useToast } from '@/composables';
 import { useCmsStore } from '@/stores/cms';
+import heroLaptopDark from '@/../img/tech-background.png';
+import heroTech6 from '@/../img/tech6.jpg';
+import heroTech4 from '@/../img/tech4.jpg';
+import heroTechGlow from '@/../img/tech-glow.webp';
 
 const cmsStore = useCmsStore();
 const s = computed(() => cmsStore.homeData?.settings || {} as any);

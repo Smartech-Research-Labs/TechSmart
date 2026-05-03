@@ -21,7 +21,9 @@ const route = useRoute();
 const authStore = useAuthStore();
 const cmsStore = useCmsStore();
 
-const loginImage = computed(() => cmsStore.homeData?.settings?.login_page_image || '/images/login-hero.jpg');
+import heroTechBg from '@/../img/tech-background.png';
+
+const loginImage = computed(() => cmsStore.homeData?.settings?.login_page_image || heroTechBg);
 
 const form = ref({
   email: '',

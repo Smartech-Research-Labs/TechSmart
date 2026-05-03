@@ -3,18 +3,112 @@
     <!-- ═══════════════ HERO ═══════════════ -->
     <section class="relative py-16 md:py-24 overflow-hidden">
       <div class="absolute inset-0 z-0">
-        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&h=1080&fit=crop&q=80" alt="" class="w-full h-full object-cover" />
-        <div class="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/40 dark:from-background/95 dark:via-background/80 dark:to-background/40"></div>
+        <img :src="heroTechBg" alt="" class="w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-black/50"></div>
       </div>
       <div class="relative z-10 container mx-auto px-6">
         <div class="max-w-xl">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">About Us</p>
-          <h1 class="text-3xl md:text-4xl font-bold text-foreground leading-tight mb-4">Building the Future of Technology</h1>
-          <p class="text-muted-foreground text-sm leading-relaxed mb-6">We are a team of passionate technologists dedicated to delivering cutting-edge solutions that empower businesses to thrive in the digital age.</p>
+          <h1 class="text-3xl md:text-4xl font-bold text-white leading-tight mb-4">Building the Future of Technology</h1>
+          <p class="text-white/80 text-sm leading-relaxed mb-6">We are a team of passionate technologists dedicated to delivering cutting-edge solutions that empower businesses to thrive in the digital age.</p>
           <router-link to="/contact" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
             Work With Us
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
           </router-link>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ OUR JOURNEY ═══════════════ -->
+    <section class="py-14 md:py-20">
+      <div class="container mx-auto px-6">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Journey</p>
+          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">A Decade of Innovation & Growth</h2>
+          <p class="text-muted-foreground text-sm leading-relaxed">From a small startup to a leading technology provider, our journey reflects our commitment to delivering exceptional value to clients and communities across Africa and beyond.</p>
+        </div>
+        <div class="max-w-3xl mx-auto">
+          <div class="relative border-l-2 border-primary/30 pl-8 space-y-10">
+            <div>
+              <div class="absolute -left-2.5 w-5 h-5 bg-primary rounded-full border-4 border-background"></div>
+              <h3 class="text-sm font-bold text-foreground mb-1">2014 — The Beginning</h3>
+              <p class="text-muted-foreground text-xs leading-relaxed">OmniviaTech was founded with a small but passionate team of developers determined to bridge the technology gap in emerging markets.</p>
+            </div>
+            <div>
+              <div class="absolute -left-2.5 w-5 h-5 bg-primary rounded-full border-4 border-background"></div>
+              <h3 class="text-sm font-bold text-foreground mb-1">2016 — First Major Milestone</h3>
+              <p class="text-muted-foreground text-xs leading-relaxed">Delivered our 50th project, expanding into cloud infrastructure and enterprise software solutions for mid-size businesses across East Africa.</p>
+            </div>
+            <div>
+              <div class="absolute -left-2.5 w-5 h-5 bg-primary rounded-full border-4 border-background"></div>
+              <h3 class="text-sm font-bold text-foreground mb-1">2018 — Regional Expansion</h3>
+              <p class="text-muted-foreground text-xs leading-relaxed">Opened offices in multiple African countries, bringing our team to 30+ professionals and serving clients across West, East, and Southern Africa.</p>
+            </div>
+            <div>
+              <div class="absolute -left-2.5 w-5 h-5 bg-primary rounded-full border-4 border-background"></div>
+              <h3 class="text-sm font-bold text-foreground mb-1">2020 — Digital Acceleration</h3>
+              <p class="text-muted-foreground text-xs leading-relaxed">Launched our suite of AI and automation products, helping businesses adapt to the rapidly changing digital landscape during the global shift to remote operations.</p>
+            </div>
+            <div>
+              <div class="absolute -left-2.5 w-5 h-5 bg-primary rounded-full border-4 border-background"></div>
+              <h3 class="text-sm font-bold text-foreground mb-1">2023 — Global Reach</h3>
+              <p class="text-muted-foreground text-xs leading-relaxed">Surpassed 500 projects delivered with a team of 50+ experts, serving clients in 15+ countries and expanding our product portfolio to meet global demand.</p>
+            </div>
+            <div>
+              <div class="absolute -left-2.5 w-5 h-5 bg-primary rounded-full border-4 border-background"></div>
+              <h3 class="text-sm font-bold text-foreground mb-1">Today & Beyond</h3>
+              <p class="text-muted-foreground text-xs leading-relaxed">Continuing to innovate in AI, cloud computing, and cybersecurity, with a growing focus on sustainability and inclusive technology access for underserved communities.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ WHAT SETS US APART ═══════════════ -->
+    <section class="py-14 md:py-20 bg-muted/30">
+      <div class="container mx-auto px-6">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">What Sets Us Apart</p>
+          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">The OmniviaTech Advantage</h2>
+          <p class="text-muted-foreground text-sm leading-relaxed">In a crowded technology landscape, our clients choose us for the unique combination of expertise, local understanding, and global standards that we bring to every engagement.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <div class="bg-card border border-border rounded-xl p-6">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0"><span class="text-2xl">🌍</span></div>
+              <div>
+                <h3 class="text-sm font-bold text-foreground mb-2">Deep Local Expertise, Global Standards</h3>
+                <p class="text-muted-foreground text-xs leading-relaxed">We understand the unique challenges of operating in African markets while delivering solutions that meet international quality and security benchmarks.</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-card border border-border rounded-xl p-6">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0"><span class="text-2xl">🎓</span></div>
+              <div>
+                <h3 class="text-sm font-bold text-foreground mb-2">Continuous Learning Culture</h3>
+                <p class="text-muted-foreground text-xs leading-relaxed">Our team invests hundreds of hours annually in certifications, conferences, and research to stay at the forefront of technology innovation.</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-card border border-border rounded-xl p-6">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0"><span class="text-2xl">💼</span></div>
+              <div>
+                <h3 class="text-sm font-bold text-foreground mb-2">Business-First Approach</h3>
+                <p class="text-muted-foreground text-xs leading-relaxed">We do not just build technology; we solve business problems. Every solution is designed with measurable ROI and strategic business outcomes in mind.</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-card border border-border rounded-xl p-6">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0"><span class="text-2xl">🤝</span></div>
+              <div>
+                <h3 class="text-sm font-bold text-foreground mb-2">Long-Term Partnerships</h3>
+                <p class="text-muted-foreground text-xs leading-relaxed">Over 80% of our clients return for additional projects, reflecting the trust and value we build through transparent communication and consistent delivery.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -24,7 +118,7 @@
       <div class="container mx-auto px-6">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
           <div class="rounded-xl overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop&q=80" alt="OmniviaTech Team" class="w-full h-full object-cover aspect-[4/3]" />
+            <img :src="heroLaptop" alt="OmniviaTech Team" class="w-full h-full object-cover aspect-[4/3]" />
           </div>
           <div>
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Story</p>
@@ -109,7 +203,7 @@
             </form>
           </div>
           <div class="hidden lg:block">
-            <div class="rounded-xl overflow-hidden"><img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&h=600&fit=crop&q=80" alt="Start a Project" class="w-full h-full object-cover aspect-[4/3]" /></div>
+            <div class="rounded-xl overflow-hidden"><img :src="heroTech2" alt="Start a Project" class="w-full h-full object-cover aspect-[4/3]" /></div>
           </div>
         </div>
       </div>
@@ -118,19 +212,20 @@
     <!-- ═══════════════ CTA (MAROON) ═══════════════ -->
     <section class="py-14 md:py-20">
       <div class="container mx-auto px-6">
-        <div class="relative bg-gradient-to-br from-red-900 via-red-800 to-red-900 rounded-2xl overflow-hidden">
-          <div class="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&q=40')] bg-cover bg-center"></div>
+        <div class="relative bg-black rounded-2xl overflow-hidden">
+          <div class="absolute inset-0 opacity-30 bg-cover bg-center" :style="{ backgroundImage: 'url(' + heroTechGlow + ')' }"></div>
+          <div class="absolute inset-0 bg-black/70"></div>
           <div class="relative grid lg:grid-cols-2 items-center">
             <div class="p-8 md:p-12 lg:p-14">
               <h2 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4">Join Our Growing Team</h2>
-              <p class="text-red-100/80 text-sm leading-relaxed mb-8">We're always looking for talented people who are passionate about technology and innovation.</p>
+              <p class="text-white/70 text-sm leading-relaxed mb-8">We're always looking for talented people who are passionate about technology and innovation.</p>
               <router-link to="/contact" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg">
                 Get In Touch
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
               </router-link>
             </div>
             <div class="hidden lg:flex items-end justify-end h-full min-h-[300px]">
-              <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&h=600&fit=crop&q=80" alt="Professional" class="h-full max-h-[350px] object-cover object-top" />
+              <img :src="heroTech4" alt="Professional" class="h-full max-h-[350px] object-cover object-top" />
             </div>
           </div>
         </div>
@@ -160,6 +255,11 @@ import { ref } from 'vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import axios from 'axios';
 import { useToast } from '@/composables';
+import heroTechBg from '@/../img/tech-background.png';
+import heroLaptop from '@/../img/Laptop.webp';
+import heroTech2 from '@/../img/tech2.jpg';
+import heroTech4 from '@/../img/tech4.jpg';
+import heroTechGlow from '@/../img/tech-glow.webp';
 
 const toast = useToast();
 

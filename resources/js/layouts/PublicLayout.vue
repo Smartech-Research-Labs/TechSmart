@@ -7,7 +7,7 @@
     <nav class="navbar sticky top-0 z-30 backdrop-blur-xl border-b border-border" style="background-color: #262626;">
       <div class="container mx-auto px-4 py-3">
         <div class="flex items-center justify-between">
-          <!-- Logo -->
+           <!-- Logo -->
           <router-link to="/" class="flex items-center gap-3 group">
             <img
               v-if="settings?.logo_path"
@@ -16,9 +16,13 @@
               class="w-auto object-contain"
               :style="headerLogoStyle"
             />
-            <div v-else class="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
-              <span class="text-white font-bold text-xl">TS</span>
-            </div>
+            <img
+              v-else
+              :src="defaultLogo"
+              alt="OmniviaTech Logo"
+              class="w-auto object-contain"
+              style="height: 40px;"
+            />
             <span class="text-xl font-display font-bold text-white group-hover:text-primary transition">
               {{ settings?.site_name || 'OmniviaTech' }}
             </span>
@@ -252,9 +256,12 @@
                 alt="Logo"
                 class="h-10 w-auto brightness-0 invert"
               />
-              <div v-else class="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
-                <span class="text-white font-bold text-xl">TS</span>
-              </div>
+              <img
+                v-else
+                :src="defaultLogo"
+                alt="OmniviaTech Logo"
+                class="h-10 w-auto brightness-0 invert"
+              />
               <span class="text-lg font-bold text-white">
                 {{ settings?.site_name || 'OmniviaTech' }}
               </span>
@@ -410,6 +417,7 @@ import WhatsAppButton from '@/components/WhatsAppButton.vue';
 import ScrollToTopButton from '@/components/ScrollToTopButton.vue';
 import FloatingChatButton from '@/components/FloatingChatButton.vue';
 import axios from 'axios';
+import defaultLogo from '@/../img/Omnivatech-logo.png';
 
 const router = useRouter();
 const route = useRoute();

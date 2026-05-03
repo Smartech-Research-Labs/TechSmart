@@ -4,13 +4,13 @@
     <section class="relative py-16 md:py-24 overflow-hidden">
       <div class="absolute inset-0 z-0">
         <img :src="heroImage" alt="" class="w-full h-full object-cover" />
-        <div class="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/40 dark:from-background/95 dark:via-background/80 dark:to-background/40"></div>
+        <div class="absolute inset-0 bg-black/50"></div>
       </div>
       <div class="relative z-10 container mx-auto px-6">
         <div class="max-w-xl">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Industries We Serve</p>
-          <h1 class="text-3xl md:text-4xl font-bold text-foreground leading-tight mb-4">Technology Solutions Across Industries</h1>
-          <p class="text-muted-foreground text-sm leading-relaxed mb-6">We deliver specialized technology solutions tailored to the unique challenges of diverse industries — from healthcare and finance to manufacturing and agriculture.</p>
+          <h1 class="text-3xl md:text-4xl font-bold text-white leading-tight mb-4">Technology Solutions Across Industries</h1>
+          <p class="text-white/80 text-sm leading-relaxed mb-6">We deliver specialized technology solutions tailored to the unique challenges of diverse industries — from healthcare and finance to manufacturing and agriculture.</p>
           <router-link to="/contact" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
             Discuss Your Industry
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
@@ -24,7 +24,7 @@
       <div class="container mx-auto px-6">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
           <div class="rounded-xl overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&h=600&fit=crop&q=80" alt="Industry Solutions" class="w-full h-full object-cover aspect-[4/3]" />
+            <img :src="heroLaptop" alt="Industry Solutions" class="w-full h-full object-cover aspect-[4/3]" />
           </div>
           <div>
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Deep Domain Expertise</p>
@@ -114,11 +114,13 @@ import { ref, computed, onMounted } from 'vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import { useApi } from '@/composables/useApi';
 import { useCmsStore } from '@/stores/cms';
+import heroLaptop from '@/../img/Laptop.webp';
+import heroTechBg from '@/../img/tech-background.png';
 
 const { get } = useApi();
 const cmsStore = useCmsStore();
 const settings = computed(() => cmsStore.homeData?.settings ?? {});
-const heroImage = computed(() => (settings.value as any)?.industries_page_image || 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1920&h=1080&fit=crop&q=80');
+const heroImage = computed(() => (settings.value as any)?.industries_page_image || heroTechBg);
 
 interface Industry {
   id: number;

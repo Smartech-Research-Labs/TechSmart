@@ -133,7 +133,7 @@
     </section>
 
       <!-- ═══════════════ OUR SOLUTIONS (IMAGE CARDS) ═══════════════ -->
-    <section class="py-12 md:py-16">
+    <section class="py-12 md:py-16 bg-muted/30">
       <div class="container mx-auto px-6 max-w-5xl">
         <div class="text-center max-w-2xl mx-auto mb-10">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Solutions</p>
@@ -141,8 +141,8 @@
         </div>
 
         <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
-          <router-link v-for="service in allServices.slice(0, 8)" :key="service.id" :to="`/services/${service.slug}`" class="group block bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/20 hover:shadow-sm transition-all duration-300">
-            <div class="aspect-[4/3] bg-muted overflow-hidden relative">
+          <router-link v-for="service in allServices.slice(0, 8)" :key="service.id" :to="`/services/${service.slug}`" class="group block bg-white border border-border rounded-2xl overflow-hidden hover:border-primary/20 hover:shadow-md transition-all duration-300">
+            <div class="aspect-[4/3] bg-gray-100 overflow-hidden relative">
               <img v-if="service.image_url" :src="service.image_url" :alt="service.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
               <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5">
                 <span class="text-3xl">{{ service.icon || '💡' }}</span>
@@ -215,8 +215,8 @@
           class="industries-carousel"
         >
           <SwiperSlide v-for="(industry, i) in industries" :key="i">
-            <router-link :to="`/industries#${industry.title.toLowerCase()}`" class="group block bg-card border border-border rounded-xl overflow-hidden hover:border-accent/40 hover:shadow-md transition-all duration-300 h-full">
-              <div class="aspect-video bg-muted overflow-hidden">
+            <router-link :to="`/industries#${industry.title.toLowerCase()}`" class="group block bg-white border border-border rounded-xl overflow-hidden hover:border-accent/40 hover:shadow-md transition-all duration-300 h-full">
+              <div class="aspect-video bg-gray-100 overflow-hidden">
                 <img :src="industry.image" :alt="industry.title" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
               </div>
               <div class="p-4 text-center">
@@ -435,7 +435,7 @@
           <div
             v-for="(stat, i) in impactStats.slice(0, 4)"
             :key="i"
-            class="bg-card border border-border rounded-xl p-5 text-center hover:shadow-sm hover:border-primary/20 transition-all"
+            class="bg-white border border-border rounded-xl p-5 text-center hover:shadow-md hover:border-primary/20 transition-all"
           >
             <div class="text-2xl md:text-3xl font-bold text-primary mb-1">{{ stat.value }}</div>
             <div class="text-muted-foreground text-xs font-medium">{{ stat.label }}</div>
@@ -574,8 +574,8 @@
           class="cards-swiper"
         >
           <SwiperSlide v-for="product in products" :key="product.id">
-            <router-link :to="`/products/${product.slug}`" class="group block bg-card rounded-2xl overflow-hidden border border-border hover:border-accent/20 hover:shadow-sm transition-all duration-300">
-              <div class="aspect-[4/3] bg-muted overflow-hidden relative">
+            <router-link :to="`/products/${product.slug}`" class="group block bg-white rounded-2xl overflow-hidden border border-border hover:border-accent/20 hover:shadow-md transition-all duration-300">
+              <div class="aspect-[4/3] bg-gray-100 overflow-hidden relative">
                 <img v-if="product.image_url" :src="product.image_url" :alt="product.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-accent/5 to-primary/5">
                   <svg class="w-10 h-10 text-muted-foreground/20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
@@ -739,6 +739,29 @@
       </div>
     </section>
 
+      <!-- ═══════════════ CTA (MAROON) ═══════════════ -->
+    <section class="py-14 md:py-20">
+      <div class="container mx-auto px-6">
+        <div class="relative bg-black rounded-2xl overflow-hidden">
+          <div class="absolute inset-0 opacity-30 bg-cover bg-center" :style="{ backgroundImage: 'url(' + heroTechGlow + ')' }"></div>
+          <div class="absolute inset-0 bg-black/70"></div>
+          <div class="relative grid lg:grid-cols-2 items-center">
+            <div class="p-8 md:p-12 lg:p-14">
+              <h2 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4">Join Our Growing Team</h2>
+              <p class="text-white/70 text-sm leading-relaxed mb-8">We're always looking for talented people who are passionate about technology and innovation.</p>
+              <router-link to="/contact" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg">
+                Get In Touch
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+              </router-link>
+            </div>
+            <div class="hidden lg:flex items-end justify-end h-full min-h-[300px]">
+              <img :src="heroTech4" alt="Professional" class="h-full max-h-[350px] object-cover object-top" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
   
 
     <!-- ═══════════════ REQUEST A QUOTE ═══════════════ -->
@@ -802,7 +825,7 @@
    
 
     <!-- ═══════════════ BLOG ═══════════════ -->
-    <section v-if="recentBlogs.length" class="py-12 md:py-16">
+    <section v-if="recentBlogs.length" class="py-12 md:py-16 bg-muted/30">
       <div class="container mx-auto px-6 max-w-5xl">
         <div class="text-center max-w-2xl mx-auto mb-10">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Latest Insights</p>
@@ -810,8 +833,8 @@
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          <router-link v-for="post in recentBlogs.slice(0, 4)" :key="post.id" :to="`/blog/${post.slug}`" class="group bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/20 hover:shadow-sm transition-all duration-300">
-            <div class="aspect-[4/3] bg-muted overflow-hidden">
+          <router-link v-for="post in recentBlogs.slice(0, 4)" :key="post.id" :to="`/blog/${post.slug}`" class="group bg-white border border-border rounded-2xl overflow-hidden hover:border-primary/20 hover:shadow-md transition-all duration-300">
+            <div class="aspect-[4/3] bg-gray-100 overflow-hidden">
               <img v-if="post.featured_image" :src="post.featured_image" :alt="post.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
               <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5">
                 <svg class="w-10 h-10 text-muted-foreground/20" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"><path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>
@@ -844,8 +867,96 @@
       </div>
     </section>
 
+    <!-- ═══════════════ VIDEO CTA — AUTO-PLAY ON SCROLL ═══════════════ -->
+    <section ref="videoCtaSection" class="relative w-full min-h-[70vh] md:min-h-[80vh] flex items-center justify-center overflow-hidden bg-neutral-900">
+      <!-- Background video (auto-plays muted on scroll) -->
+      <video
+        ref="ctaVideoEl"
+        class="absolute inset-0 w-full h-full object-cover"
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        :title="videoTitle"
+      >
+        <source :src="videoSrc" type="video/mp4" />
+      </video>
+
+      <!-- Dark overlay -->
+      <div class="absolute inset-0 bg-black/50"></div>
+
+      <!-- Content -->
+      <div class="relative z-10 w-full">
+        <div class="container mx-auto px-6 max-w-7xl">
+          <div class="grid lg:grid-cols-2 items-center gap-8 lg:gap-12">
+            <!-- Left: Text content -->
+            <div class="text-center lg:text-left">
+              <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-white leading-tight mb-4">
+                Ready to Transform Your Business?
+              </h2>
+              <p class="text-white/90 text-sm leading-relaxed mb-3">
+                Build innovative solutions with OmniviaTech. From custom software to AI-powered automation.
+              </p>
+              <p class="text-white/70 text-sm leading-relaxed mb-6">
+                Expand your reach and grow revenue with us.
+              </p>
+              <router-link
+                to="/contact"
+                class="inline-flex items-center gap-2 px-8 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg"
+              >
+                Get Started
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                  <path d="M7 17L17 7M17 7H7M17 7v10"/>
+                </svg>
+              </router-link>
+            </div>
+
+            <!-- Right: Clickable video card with controls -->
+            <div class="relative rounded-2xl overflow-hidden bg-black aspect-video group cursor-pointer border border-white/10 shadow-2xl" @click="toggleVideo">
+              <!-- Play overlay when not actively playing with controls -->
+              <transition name="fade">
+                <div v-if="!videoPlaying" class="absolute inset-0 z-10 flex items-center justify-center">
+                  <div class="absolute inset-0 bg-black/30"></div>
+                  <button class="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-full bg-primary flex items-center justify-center shadow-2xl shadow-primary/40 transition-transform duration-200 group-hover:scale-110" aria-label="Play video">
+                    <svg class="w-6 h-6 md:w-8 md:h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+                  </button>
+                  <span class="absolute bottom-4 right-4 z-10 bg-black/70 text-white text-xs font-semibold px-2.5 py-1 rounded-full backdrop-blur-sm">
+                    {{ duration }}
+                  </span>
+                  <span class="absolute bottom-4 left-4 z-10 bg-primary/90 text-white text-xs font-semibold px-2.5 py-1 rounded-full flex items-center gap-1">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <rect x="2" y="7" width="20" height="15" rx="2" ry="2"/>
+                      <path d="M17 2l-5 5-5-5"/>
+                    </svg>
+                    CC
+                  </span>
+                </div>
+              </transition>
+
+              <!-- Active video player with sound + controls -->
+              <video
+                v-if="videoPlaying"
+                ref="videoEl"
+                class="absolute inset-0 w-full h-full object-cover"
+                autoplay
+                controls
+                preload="metadata"
+                :title="videoTitle"
+                @ended="videoPlaying = false"
+              >
+                <source :src="videoSrc" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ═══════════════ FAQ ═══════════════ -->
-    <section v-if="faqs.length" class="py-12 md:py-16">
+    <section v-if="faqs.length" class="py-12 md:py-16 bg-muted/30">
       <div class="container mx-auto px-6 max-w-3xl">
         <div class="text-center mb-10">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">FAQ</p>
@@ -853,8 +964,8 @@
         </div>
 
         <div class="space-y-3">
-          <div v-for="(faq, idx) in faqs" :key="faq.id" class="bg-card border border-border rounded-xl overflow-hidden shadow-sm">
-            <button @click="toggleFaq(idx)" class="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-muted/30 transition-colors">
+          <div v-for="(faq, idx) in faqs" :key="faq.id" class="bg-white border border-border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <button @click="toggleFaq(idx)" class="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
               <span class="font-medium text-foreground text-sm pr-6">{{ faq.question }}</span>
               <svg class="w-5 h-5 text-muted-foreground shrink-0 transition-transform duration-200" :class="{ 'rotate-180': openFaqIndex === idx }" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" /></svg>
             </button>
@@ -869,7 +980,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 // @ts-ignore
@@ -882,6 +993,7 @@ import PublicLayout from '@/layouts/PublicLayout.vue';
 import WishlistButton from '@/components/WishlistButton.vue';
 import axios from 'axios';
 import { useToast } from '@/composables';
+import heroTechBg from '@/../img/tech-background.png';
 
 // Data
 const loading = ref(true);
@@ -976,6 +1088,17 @@ const heroSlides = [
     cta_link_2: '/contact',
     bg_image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1920&h=1080&fit=crop&q=80',
   },
+  {
+    id: 7,
+    subtitle: 'Innovation & Excellence',
+    title: 'Your Technology Partner',
+    description: 'From concept to deployment, we deliver world-class technology solutions tailored to your unique business needs.',
+    cta_text: 'Get Started',
+    cta_link: '/contact',
+    cta_text_2: 'Our Services',
+    cta_link_2: '/services',
+    bg_image: heroTechBg,
+  },
 ];
 
 const impactStatsFallback = [
@@ -1059,6 +1182,30 @@ const coreValues = [
 // UI State
 const counterRefs = ref<HTMLElement[]>([]);
 const openFaqIndex = ref<number | null>(null);
+
+// Video CTA State
+const videoSrc = 'resources/videos/omniviatech-solutions.mp4';
+const videoTitle = 'OmniviaTech — Product Overview';
+const duration = '2:45';
+const videoPlaying = ref(false);
+const videoEl = ref<HTMLVideoElement | null>(null);
+const ctaVideoEl = ref<HTMLVideoElement | null>(null);
+const videoCtaSection = ref<HTMLElement | null>(null);
+
+function toggleVideo() {
+  videoPlaying.value = !videoPlaying.value;
+}
+
+function shareVideo() {
+  navigator.clipboard?.writeText(window.location.href);
+}
+
+function toggleFaq(idx: number) {
+  openFaqIndex.value = openFaqIndex.value === idx ? null : idx;
+}
+
+// Auto-play background video on scroll into view
+let ctaObserver: IntersectionObserver | null = null;
 
 // Form State
 const quoteForm = ref({ name: '', email: '', phone: '', service: '', description: '', budget: '', timeline: '' });
@@ -1174,8 +1321,6 @@ async function submitContactForm() {
   finally { contactFormSubmitting.value = false; }
 }
 
-function toggleFaq(index: number) { openFaqIndex.value = openFaqIndex.value === index ? null : index; }
-
 function formatDate(dateStr: string) {
   if (!dateStr) return '';
   return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
@@ -1204,6 +1349,24 @@ onMounted(async () => {
     });
     counterRefs.value.forEach((el) => { if (el) observer.observe(el); });
   }, 500);
+
+  // Auto-play video CTA when scrolled into view
+  if (videoCtaSection.value && ctaVideoEl.value) {
+    ctaObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          ctaVideoEl.value?.play().catch(() => {});
+        } else {
+          ctaVideoEl.value?.pause();
+        }
+      });
+    }, { threshold: 0.3 });
+    ctaObserver.observe(videoCtaSection.value);
+  }
+});
+
+onUnmounted(() => {
+  if (ctaObserver) ctaObserver.disconnect();
 });
 </script>
 

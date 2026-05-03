@@ -10,21 +10,21 @@
       <section class="relative min-h-[50vh] flex items-center overflow-hidden">
         <div class="absolute inset-0 z-0">
           <img
-            :src="service.image_url || 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&h=1080&fit=crop&q=80'"
+            :src="service.image_url || heroLaptopDark"
             :alt="service.name"
             class="w-full h-full object-cover"
           />
-          <div class="absolute inset-0 bg-gradient-to-r from-background/95 via-background/85 to-background/50 dark:from-background/95 dark:via-background/85 dark:to-background/60"></div>
+          <div class="absolute inset-0 bg-black/50"></div>
         </div>
 
         <div class="relative z-10 container mx-auto px-6 py-16 md:py-24">
           <!-- Breadcrumbs -->
-          <nav class="flex items-center gap-2 text-xs text-muted-foreground mb-6">
+          <nav class="flex items-center gap-2 text-xs text-white/60 mb-6">
             <router-link to="/" class="hover:text-primary transition">Home</router-link>
             <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
             <router-link to="/services" class="hover:text-primary transition">Services</router-link>
             <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
-            <span class="text-foreground font-medium">{{ service.name }}</span>
+            <span class="text-white font-medium">{{ service.name }}</span>
           </nav>
 
           <div class="max-w-2xl">
@@ -38,8 +38,8 @@
               </span>
             </div>
 
-            <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight mb-4">{{ service.name }}</h1>
-            <p class="text-muted-foreground text-base md:text-lg leading-relaxed mb-8 max-w-xl">{{ service.short_description }}</p>
+            <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-4">{{ service.name }}</h1>
+            <p class="text-white/80 text-base md:text-lg leading-relaxed mb-8 max-w-xl">{{ service.short_description }}</p>
 
             <!-- CTA Buttons -->
             <div class="flex flex-wrap gap-3">
@@ -63,7 +63,7 @@
             <!-- Left: Image with Price Badge -->
             <div class="relative rounded-2xl overflow-hidden">
               <img
-                :src="service.image_url || 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&h=600&fit=crop&q=80'"
+                :src="service.image_url || heroLaptop"
                 :alt="service.name"
                 class="w-full aspect-[4/3] object-cover"
               />
@@ -153,7 +153,10 @@
 
           <div class="grid lg:grid-cols-2 gap-8 items-stretch">
             <!-- Left: Globe Map -->
-            <div class="bg-gradient-to-br from-red-800 via-red-700 to-red-900 rounded-2xl p-8 flex flex-col items-center justify-center min-h-[380px]">
+            <div class="bg-black rounded-2xl p-8 flex flex-col items-center justify-center min-h-[380px] relative overflow-hidden">
+              <div class="absolute inset-0 opacity-20 bg-cover bg-center" :style="{ backgroundImage: 'url(' + heroTechGlow + ')' }"></div>
+              <div class="absolute inset-0 bg-black/60"></div>
+              <div class="relative flex flex-col items-center justify-center min-h-[380px]">
               <p class="text-center mb-6">
                 <span class="bg-primary text-white px-3 py-1.5 rounded text-sm font-semibold">Delivered</span>
                 <span class="text-white/90 ml-2 text-sm italic">impactful projects across the globe.</span>
@@ -186,6 +189,7 @@
                   </g>
                 </svg>
               </div>
+              </div>
             </div>
 
             <!-- Right: Stats Grid -->
@@ -211,7 +215,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <router-link v-for="cs in caseStudies" :key="cs.id" :to="`/case-studies/${cs.slug}`" class="group bg-card border border-border rounded-xl overflow-hidden hover:shadow-lg hover:border-primary/20 transition-all">
               <div class="aspect-[16/10] overflow-hidden">
-                <img :src="cs.image_url || 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop&q=80'" :alt="cs.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img :src="cs.image_url || heroTech7" :alt="cs.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
               </div>
               <div class="p-5">
                 <span v-if="cs.client_name" class="text-xs font-medium text-primary mb-2 block">{{ cs.client_name }}</span>
@@ -246,7 +250,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <router-link v-for="post in relatedBlogs.slice(0, 3)" :key="post.id" :to="`/blog/${post.slug}`" class="group bg-card border border-border rounded-xl overflow-hidden hover:shadow-lg hover:border-primary/20 transition-all">
               <div class="aspect-[16/10] overflow-hidden">
-                <img :src="post.featured_image ? (post.featured_image.startsWith('http') ? post.featured_image : `/storage/${post.featured_image}`) : 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&h=400&fit=crop&q=80'" :alt="post.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img :src="post.featured_image ? (post.featured_image.startsWith('http') ? post.featured_image : `/storage/${post.featured_image}`) : heroTech7" :alt="post.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
               </div>
               <div class="p-5">
                 <div class="flex items-center gap-2 mb-2">
@@ -293,7 +297,7 @@
             <SwiperSlide v-for="rel in relatedServices" :key="rel.id">
               <router-link :to="`/services/${rel.slug}`" class="group block bg-card border border-border rounded-xl overflow-hidden hover:shadow-lg hover:border-primary/20 transition-all">
                 <div class="aspect-[16/10] overflow-hidden">
-                  <img :src="rel.image_url || 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&h=400&fit=crop&q=80'" :alt="rel.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <img :src="rel.image_url || heroTech7" :alt="rel.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 </div>
                 <div class="p-4">
                   <span v-if="rel.category" class="text-[10px] font-medium bg-primary/10 text-primary px-2 py-0.5 rounded-full">{{ rel.category }}</span>
@@ -476,12 +480,14 @@
       </section>
 
       <!-- ═══════════════ 9. CTA BANNER ═══════════════ -->
-      <section class="py-16 md:py-20 bg-gradient-to-r from-red-800 via-red-700 to-red-900 text-white">
-        <div class="container mx-auto px-6 text-center">
+      <section class="py-16 md:py-20 bg-black text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-30 bg-cover bg-center" :style="{ backgroundImage: 'url(' + heroTechGlow + ')' }"></div>
+        <div class="absolute inset-0 bg-black/70"></div>
+        <div class="relative container mx-auto px-6 text-center">
           <h2 class="text-2xl md:text-3xl font-bold mb-4">Ready to Get Started?</h2>
-          <p class="text-white/80 text-sm max-w-lg mx-auto mb-8">Let our experts help you leverage {{ service.name }} to transform your business. Contact us today for a free consultation.</p>
+          <p class="text-white/70 text-sm max-w-lg mx-auto mb-8">Let our experts help you leverage {{ service.name }} to transform your business. Contact us today for a free consultation.</p>
           <div class="flex flex-wrap justify-center gap-3">
-            <a href="#quote-form" class="inline-flex items-center gap-2 px-7 py-3 bg-white text-red-800 text-sm font-semibold rounded-full hover:bg-white/90 transition-all shadow-lg">
+            <a href="#quote-form" class="inline-flex items-center gap-2 px-7 py-3 bg-white text-foreground text-sm font-semibold rounded-full hover:bg-white/90 transition-all shadow-lg">
               Request a Quote
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
             </a>
@@ -592,6 +598,20 @@
 </template>
 
 <script setup lang="ts">
+import heroLaptopDark from '@/../img/tech-background.png';
+import heroTechBg from '@/../img/tech-background.png';
+import heroTech from '@/../img/tech.webp';
+import heroOrbit from '@/../img/Orbit.webp';
+import heroLaptop from '@/../img/Laptop.webp';
+import heroTech1 from '@/../img/tech1.jpg';
+import heroTech2 from '@/../img/tech2.jpg';
+import heroTech3 from '@/../img/tech3.jpg';
+import heroTech4 from '@/../img/tech4.jpg';
+import heroTech5 from '@/../img/tech5.jpg';
+import heroTech6 from '@/../img/tech6.jpg';
+import heroTech7 from '@/../img/tech7.jpg';
+import heroTech8 from '@/../img/tech8.jpg';
+import heroTechGlow from '@/../img/tech-glow.webp';
 import { ref, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { Swiper, SwiperSlide } from 'swiper/vue';

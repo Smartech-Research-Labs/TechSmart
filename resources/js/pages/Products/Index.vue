@@ -3,18 +3,61 @@
     <!-- ═══════════════ HERO ═══════════════ -->
     <section class="relative py-16 md:py-24 overflow-hidden">
       <div class="absolute inset-0 z-0">
-        <img :src="s.hero_bg_image || 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&h=1080&fit=crop&q=80'" alt="" class="w-full h-full object-cover" />
-        <div class="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/40 dark:from-background/95 dark:via-background/80 dark:to-background/40"></div>
+        <img :src="s.hero_bg_image || heroLaptopDark" alt="" class="w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-black/50"></div>
       </div>
       <div class="relative z-10 container mx-auto px-6">
         <div class="max-w-xl">
           <p class="text-accent text-xs font-semibold tracking-widest uppercase mb-3">Our Products</p>
-          <h1 class="text-3xl md:text-4xl font-bold text-foreground leading-tight mb-4">Cutting-Edge Solutions</h1>
-          <p class="text-muted-foreground text-sm leading-relaxed mb-6">Ready-to-deploy products designed to power your business from day one.</p>
+          <h1 class="text-3xl md:text-4xl font-bold text-white leading-tight mb-4">Cutting-Edge Solutions</h1>
+          <p class="text-white/80 text-sm leading-relaxed mb-6">Ready-to-deploy products designed to power your business from day one.</p>
           <router-link to="/contact" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
             Request a Demo
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
           </router-link>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ KEY FEATURES ═══════════════ -->
+    <section class="py-14 md:py-20">
+      <div class="container mx-auto px-6">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Key Features</p>
+          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">What Makes Our Products Stand Out</h2>
+          <p class="text-muted-foreground text-sm leading-relaxed">Every product in our catalog is built with modern technology stacks, following industry best practices for performance, security, and scalability. Here is what you can expect from any OmniviaTech product.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">⚡</span></div>
+            <h3 class="text-sm font-bold text-foreground mb-2">Lightning-Fast Performance</h3>
+            <p class="text-muted-foreground text-xs leading-relaxed">Optimized for speed with efficient code, CDN delivery, and caching strategies that ensure sub-second load times across all devices and network conditions.</p>
+          </div>
+          <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">🔐</span></div>
+            <h3 class="text-sm font-bold text-foreground mb-2">Enterprise-Grade Security</h3>
+            <p class="text-muted-foreground text-xs leading-relaxed">Multi-layered security with encryption at rest and in transit, role-based access control, two-factor authentication, and regular security audits and penetration testing.</p>
+          </div>
+          <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">📱</span></div>
+            <h3 class="text-sm font-bold text-foreground mb-2">Responsive & Mobile-First</h3>
+            <p class="text-muted-foreground text-xs leading-relaxed">Every product is designed mobile-first, ensuring seamless experiences across desktop, tablet, and mobile devices with adaptive layouts and touch-friendly interfaces.</p>
+          </div>
+          <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">🔄</span></div>
+            <h3 class="text-sm font-bold text-foreground mb-2">Seamless Integrations</h3>
+            <p class="text-muted-foreground text-xs leading-relaxed">RESTful APIs, webhooks, and pre-built connectors for popular platforms like Salesforce, Stripe, Slack, and more, enabling effortless integration with your existing tools.</p>
+          </div>
+          <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">📊</span></div>
+            <h3 class="text-sm font-bold text-foreground mb-2">Advanced Analytics</h3>
+            <p class="text-muted-foreground text-xs leading-relaxed">Built-in dashboards, real-time reporting, and customizable metrics give you deep insights into user behavior, system performance, and business outcomes.</p>
+          </div>
+          <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">🌍</span></div>
+            <h3 class="text-sm font-bold text-foreground mb-2">Multi-Region Deployment</h3>
+            <p class="text-muted-foreground text-xs leading-relaxed">Deploy across multiple regions for low-latency access worldwide. Our products support multi-language, multi-currency, and localized content out of the box.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -24,7 +67,7 @@
       <div class="container mx-auto px-6">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
           <div class="rounded-xl overflow-hidden">
-            <img :src="s.products_page_image || 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop&q=80'" alt="Our Products" class="w-full h-full object-cover aspect-[4/3]" />
+            <img :src="s.products_page_image || heroOrbit" alt="Our Products" class="w-full h-full object-cover aspect-[4/3]" />
           </div>
           <div>
             <p class="text-accent text-xs font-semibold tracking-widest uppercase mb-3">Why Our Products</p>
@@ -120,7 +163,7 @@
             </form>
           </div>
           <div class="hidden lg:block">
-            <div class="rounded-xl overflow-hidden"><img :src="s.quote_section_image || 'https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&h=600&fit=crop&q=80'" alt="Get a Quote" class="w-full h-full object-cover aspect-[4/3]" /></div>
+            <div class="rounded-xl overflow-hidden"><img :src="s.quote_section_image || heroTech2" alt="Get a Quote" class="w-full h-full object-cover aspect-[4/3]" /></div>
           </div>
         </div>
       </div>
@@ -129,19 +172,20 @@
     <!-- ═══════════════ CTA (MAROON) ═══════════════ -->
     <section class="py-14 md:py-20">
       <div class="container mx-auto px-6">
-        <div class="relative bg-gradient-to-br from-red-900 via-red-800 to-red-900 rounded-2xl overflow-hidden">
-          <div class="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&q=40')] bg-cover bg-center"></div>
+        <div class="relative bg-black rounded-2xl overflow-hidden">
+          <div class="absolute inset-0 opacity-30 bg-cover bg-center" :style="{ backgroundImage: 'url(' + heroTechGlow + ')' }"></div>
+          <div class="absolute inset-0 bg-black/70"></div>
           <div class="relative grid lg:grid-cols-2 items-center">
             <div class="p-8 md:p-12 lg:p-14">
               <h2 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4">Need Something Custom?</h2>
-              <p class="text-red-100/80 text-sm leading-relaxed mb-8">We build tailored products to match your exact business requirements.</p>
+              <p class="text-white/70 text-sm leading-relaxed mb-8">We build tailored products to match your exact business requirements.</p>
               <router-link to="/contact" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg">
                 Contact Us
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
               </router-link>
             </div>
             <div class="hidden lg:flex items-end justify-end h-full min-h-[300px]">
-              <img :src="s.cta_professional_image || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&h=600&fit=crop&q=80'" alt="Professional" class="h-full max-h-[350px] object-cover object-top" />
+              <img :src="s.cta_professional_image || heroTech4" alt="Professional" class="h-full max-h-[350px] object-cover object-top" />
             </div>
           </div>
         </div>
@@ -174,6 +218,11 @@ import PaginationControls from '@/components/ui/pagination/PaginationControls.vu
 import axios from 'axios';
 import { useToast } from '@/composables';
 import { useCmsStore } from '@/stores/cms';
+import heroLaptopDark from '@/../img/tech-background.png';
+import heroOrbit from '@/../img/Orbit.webp';
+import heroTech2 from '@/../img/tech2.jpg';
+import heroTech4 from '@/../img/tech4.jpg';
+import heroTechGlow from '@/../img/tech-glow.webp';
 
 const cmsStore = useCmsStore();
 const s = computed(() => cmsStore.homeData?.settings || {} as any);

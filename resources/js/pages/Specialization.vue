@@ -33,7 +33,7 @@
           <!-- Left - Image -->
           <div class="relative">
             <div class="rounded-2xl overflow-hidden shadow-lg">
-              <img :src="specialization.description_image || 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop&q=80'" :alt="specialization.title" class="w-full aspect-[4/3] object-cover" />
+              <img :src="specialization.description_image || heroLaptop" :alt="specialization.title" class="w-full aspect-[4/3] object-cover" />
             </div>
           </div>
 
@@ -223,7 +223,7 @@
           <!-- Right - Image -->
           <div class="hidden lg:block">
             <div class="rounded-2xl overflow-hidden shadow-sm">
-              <img :src="specialization?.quote_image || 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop&q=80'" :alt="specialization?.title" class="w-full h-full object-cover aspect-[4/3]" />
+              <img :src="specialization?.quote_image || heroTech" :alt="specialization?.title" class="w-full h-full object-cover aspect-[4/3]" />
             </div>
           </div>
         </div>
@@ -237,6 +237,9 @@ import { ref, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
 import PublicLayout from '@/layouts/PublicLayout.vue';
+import heroLaptopDark from '@/../img/tech-background.png';
+import heroTech from '@/../img/tech.webp';
+import heroLaptop from '@/../img/Laptop.webp';
 
 const route = useRoute();
 const specialization = ref<any>(null);
@@ -281,9 +284,9 @@ const testimonials = computed(() => {
 
 const getDefaultHeroImage = () => {
   const images = [
-    'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&h=1080&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1633356122544-f134324ef6db?w=1920&h=1080&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1552664730-d307ca884978?w=1920&h=1080&fit=crop&q=80',
+    heroLaptopDark,
+    heroTech,
+    heroLaptop,
   ];
   return images[Math.floor(Math.random() * images.length)];
 };

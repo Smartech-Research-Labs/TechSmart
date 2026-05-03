@@ -3,18 +3,94 @@
     <!-- ═══════════════ HERO ═══════════════ -->
     <section class="relative py-16 md:py-24 overflow-hidden">
       <div class="absolute inset-0 z-0">
-        <img :src="s.hero_bg_image || 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&h=1080&fit=crop&q=80'" alt="" class="w-full h-full object-cover" />
-        <div class="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/40 dark:from-background/95 dark:via-background/80 dark:to-background/40"></div>
+        <img :src="s.hero_bg_image || heroLaptopDark" alt="" class="w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-black/50"></div>
       </div>
       <div class="relative z-10 container mx-auto px-6">
         <div class="max-w-xl">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Services</p>
-          <h1 class="text-3xl md:text-4xl font-bold text-foreground leading-tight mb-4">Technology Solutions for Every Need</h1>
-          <p class="text-muted-foreground text-sm leading-relaxed mb-6">Comprehensive technology services designed to help your business innovate, scale, and succeed in the digital world.</p>
+          <h1 class="text-3xl md:text-4xl font-bold text-white leading-tight mb-4">Technology Solutions for Every Need</h1>
+          <p class="text-white/80 text-sm leading-relaxed mb-6">Comprehensive technology services designed to help your business innovate, scale, and succeed in the digital world.</p>
           <router-link to="/contact" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
             Get a Free Quote
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
           </router-link>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ WHY CHOOSE US ═══════════════ -->
+    <section class="py-14 md:py-20">
+      <div class="container mx-auto px-6">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Why Choose Us</p>
+          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Why Businesses Trust Our Technology Services</h2>
+          <p class="text-muted-foreground text-sm leading-relaxed">With over a decade of experience delivering innovative technology solutions, we have built a reputation for excellence that spans across industries and continents. Our commitment to quality, innovation, and client success sets us apart.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">🏆</span></div>
+            <h3 class="text-sm font-bold text-foreground mb-2">Proven Track Record</h3>
+            <p class="text-muted-foreground text-xs leading-relaxed">Over 500 projects delivered successfully across 15+ countries, serving clients ranging from startups to Fortune 500 enterprises.</p>
+          </div>
+          <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">👥</span></div>
+            <h3 class="text-sm font-bold text-foreground mb-2">Expert Team</h3>
+            <p class="text-muted-foreground text-xs leading-relaxed">Our team of 50+ certified engineers, architects, and consultants bring deep expertise in cutting-edge technologies and industry best practices.</p>
+          </div>
+          <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">⚡</span></div>
+            <h3 class="text-sm font-bold text-foreground mb-2">Agile Delivery</h3>
+            <p class="text-muted-foreground text-xs leading-relaxed">We use agile methodologies to deliver solutions faster, with iterative development cycles that ensure your project stays on time and on budget.</p>
+          </div>
+          <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">🔒</span></div>
+            <h3 class="text-sm font-bold text-foreground mb-2">Security First</h3>
+            <p class="text-muted-foreground text-xs leading-relaxed">Every solution we build follows industry-standard security practices, including OWASP guidelines, regular audits, and compliance with data protection regulations.</p>
+          </div>
+          <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">📈</span></div>
+            <h3 class="text-sm font-bold text-foreground mb-2">Scalable Solutions</h3>
+            <p class="text-muted-foreground text-xs leading-relaxed">Our solutions are designed to grow with your business, from initial MVP to enterprise-scale deployments handling millions of users.</p>
+          </div>
+          <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">🤝</span></div>
+            <h3 class="text-sm font-bold text-foreground mb-2">Dedicated Support</h3>
+            <p class="text-muted-foreground text-xs leading-relaxed">24/7 support with dedicated account managers, ensuring you have expert assistance whenever you need it throughout your project lifecycle.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ OUR PROCESS ═══════════════ -->
+    <section class="py-14 md:py-20 bg-muted/30">
+      <div class="container mx-auto px-6">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Process</p>
+          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">How We Deliver Results</h2>
+          <p class="text-muted-foreground text-sm leading-relaxed">Our proven four-step process ensures every project is delivered with precision, transparency, and measurable business impact.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="text-center">
+            <div class="w-16 h-16 mx-auto bg-primary rounded-full flex items-center justify-center mb-4"><span class="text-2xl font-bold text-white">1</span></div>
+            <h3 class="text-sm font-bold text-foreground mb-2">Discovery & Planning</h3>
+            <p class="text-muted-foreground text-xs leading-relaxed">We begin by understanding your business goals, challenges, and requirements through in-depth consultations and stakeholder interviews.</p>
+          </div>
+          <div class="text-center">
+            <div class="w-16 h-16 mx-auto bg-primary rounded-full flex items-center justify-center mb-4"><span class="text-2xl font-bold text-white">2</span></div>
+            <h3 class="text-sm font-bold text-foreground mb-2">Design & Architecture</h3>
+            <p class="text-muted-foreground text-xs leading-relaxed">Our architects design scalable, secure solutions with detailed wireframes, system diagrams, and technology stack recommendations.</p>
+          </div>
+          <div class="text-center">
+            <div class="w-16 h-16 mx-auto bg-primary rounded-full flex items-center justify-center mb-4"><span class="text-2xl font-bold text-white">3</span></div>
+            <h3 class="text-sm font-bold text-foreground mb-2">Development & Testing</h3>
+            <p class="text-muted-foreground text-xs leading-relaxed">Agile sprints with continuous integration, automated testing, and regular demos ensure quality and alignment with your vision.</p>
+          </div>
+          <div class="text-center">
+            <div class="w-16 h-16 mx-auto bg-primary rounded-full flex items-center justify-center mb-4"><span class="text-2xl font-bold text-white">4</span></div>
+            <h3 class="text-sm font-bold text-foreground mb-2">Deployment & Support</h3>
+            <p class="text-muted-foreground text-xs leading-relaxed">Seamless deployment with monitoring, training, and ongoing support to ensure your solution performs optimally from day one.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -24,7 +100,7 @@
       <div class="container mx-auto px-6">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
           <div class="rounded-xl overflow-hidden">
-            <img :src="s.services_page_image || 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&h=600&fit=crop&q=80'" alt="Our Services" class="w-full h-full object-cover aspect-[4/3]" />
+            <img :src="s.services_page_image || heroLaptop" alt="Our Services" class="w-full h-full object-cover aspect-[4/3]" />
           </div>
           <div>
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">What We Offer</p>
@@ -136,7 +212,7 @@
           </div>
           <div class="hidden lg:block">
             <div class="rounded-xl overflow-hidden">
-              <img :src="s.quote_section_image || 'https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&h=600&fit=crop&q=80'" alt="Get a Quote" class="w-full h-full object-cover aspect-[4/3]" />
+              <img :src="s.quote_section_image || heroTech2" alt="Get a Quote" class="w-full h-full object-cover aspect-[4/3]" />
             </div>
           </div>
         </div>
@@ -146,19 +222,20 @@
     <!-- ═══════════════ CTA (MAROON) ═══════════════ -->
     <section class="py-14 md:py-20 bg-muted/30">
       <div class="container mx-auto px-6">
-        <div class="relative bg-gradient-to-br from-red-900 via-red-800 to-red-900 rounded-2xl overflow-hidden">
-          <div class="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&q=40')] bg-cover bg-center"></div>
+        <div class="relative bg-black rounded-2xl overflow-hidden">
+          <div class="absolute inset-0 opacity-30 bg-cover bg-center" :style="{ backgroundImage: 'url(' + heroTechGlow + ')' }"></div>
+          <div class="absolute inset-0 bg-black/70"></div>
           <div class="relative grid lg:grid-cols-2 items-center">
             <div class="p-8 md:p-12 lg:p-14">
               <h2 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4">Need a Custom Solution?</h2>
-              <p class="text-red-100/80 text-sm leading-relaxed mb-8">Tell us about your project and we will provide a free consultation and estimate tailored to your needs.</p>
+              <p class="text-white/70 text-sm leading-relaxed mb-8">Tell us about your project and we will provide a free consultation and estimate tailored to your needs.</p>
               <router-link to="/contact" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg">
                 Get Free Consultation
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
               </router-link>
             </div>
             <div class="hidden lg:flex items-end justify-end h-full min-h-[300px]">
-              <img :src="s.cta_professional_image || 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=500&h=600&fit=crop&q=80'" alt="Professional" class="h-full max-h-[350px] object-cover object-top" />
+              <img :src="s.cta_professional_image || heroTech4" alt="Professional" class="h-full max-h-[350px] object-cover object-top" />
             </div>
           </div>
         </div>
@@ -192,6 +269,11 @@ import WishlistButton from '@/components/WishlistButton.vue';
 import axios from 'axios';
 import { useToast } from '@/composables';
 import { useCmsStore } from '@/stores/cms';
+import heroLaptopDark from '@/../img/tech-background.png';
+import heroLaptop from '@/../img/Laptop.webp';
+import heroTech2 from '@/../img/tech2.jpg';
+import heroTech4 from '@/../img/tech4.jpg';
+import heroTechGlow from '@/../img/tech-glow.webp';
 
 const cmsStore = useCmsStore();
 const s = computed(() => cmsStore.homeData?.settings || {} as any);

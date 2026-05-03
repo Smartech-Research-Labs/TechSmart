@@ -15,6 +15,10 @@
           />
           <div class="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent"></div>
         </div>
+        <div v-else class="h-[400px] overflow-hidden">
+          <img :src="heroTechBg" :alt="blog.title" class="w-full h-full object-cover" />
+          <div class="absolute inset-0 bg-black/50"></div>
+        </div>
       </div>
 
       <div class="container mx-auto px-4 max-w-4xl -mt-20 relative z-10">
@@ -134,6 +138,7 @@ import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import PublicLayout from '@/layouts/PublicLayout.vue';
+import heroTechBg from '@/../img/tech-background.png';
 
 const route = useRoute();
 const router = useRouter();
