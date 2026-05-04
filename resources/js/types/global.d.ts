@@ -38,3 +38,20 @@ interface Window {
         stopLoading: () => void;
     };
 }
+
+declare module '*.png';
+declare module '*.jpg';
+declare module '*.jpeg';
+declare module '*.webp';
+declare module '*.svg';
+declare module '*.mp4';
+declare module '*.webm';
+declare module '*.gif';
+
+declare global {
+    namespace JSX {
+        interface IntrinsicElements {
+            [elem: string]: any;
+        }
+    }
+}

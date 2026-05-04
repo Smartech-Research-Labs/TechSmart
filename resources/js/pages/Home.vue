@@ -5,8 +5,8 @@
       <Swiper
         :modules="[Autoplay, Pagination]"
         :slides-per-view="1"
-        :autoplay="{ delay: 6000, disableOnInteraction: false }"
-        :pagination="{ clickable: true }"
+        :autoplay="heroAutoplay"
+        :pagination="heroPagination"
         :loop="true"
         class="hero-swiper w-full h-full"
       >
@@ -41,7 +41,7 @@
     </section>
 
     <!-- ═══════════════ COUNTER BAR ═══════════════ -->
-    <section class="py-6 md:py-8 shadow-lg" style="background-color: #262626;">
+    <section class="py-6 md:py-8 shadow-lg" style="background-color: #d311f5;">
       <div class="container mx-auto px-6 max-w-5xl">
         <div class="flex flex-wrap justify-between items-center gap-8">
           <div v-for="counter in countersFinal" :key="counter.id" class="flex-1 min-w-[140px] text-center">
@@ -132,8 +132,9 @@
       </div>
     </section>
 
+   
       <!-- ═══════════════ OUR SOLUTIONS (IMAGE CARDS) ═══════════════ -->
-    <section class="py-12 md:py-16 ">
+    <section class="py-12 md:py-16" style="background-color: #262626;">
       <div class="container mx-auto px-6 max-w-5xl">
         <div class="text-center max-w-2xl mx-auto mb-10">
           <p class="text-white text-xs font-semibold tracking-widest uppercase mb-3">Solutions</p>
@@ -202,72 +203,62 @@
       </div>
     </section>
 
-    <!-- ═══════════════ VIDEO CTA — AUTO-PLAY ON SCROLL ═══════════════ -->
-    <!-- <section ref="videoCtaSection" class="py-14 md:py-20"> -->
-      <!-- <div class="container mx-auto px-6"> -->
-        <!-- <div class="relative bg-black rounded-2xl overflow-hidden"> -->
-          <!-- Background video (auto-plays muted on scroll) -->
-          <!-- <video
-            ref="ctaVideoEl"
-            class="absolute inset-0 w-full h-full object-cover opacity-30"
-            muted
-            loop
-            playsinline
-            preload="auto"
-            :title="videoTitle"
+
+    <!-- ═══════════════ CTA (WHITE BACKGROUND, FULL WIDTH) ═══════════════ -->
+<section class="py-14 md:py-20 w-full bg-white">
+  <div class="w-full px-0">
+    
+    <div class="relative w-full overflow-hidden bg-white">
+      
+      <!-- Soft background accent (optional visual depth) -->
+      <div class="absolute inset-0 opacity-10 bg-cover bg-white"></div>
+
+      <div class="relative grid lg:grid-cols-2 items-center">
+
+        <!-- TEXT SIDE -->
+        <div class="p-8 md:p-12 lg:p-16">
+          
+          <h2 class="text-2xl md:text-3xl font-bold text-gray-900 leading-tight mb-4">
+            Join Our Growing Team
+          </h2>
+
+          <p class="text-gray-600 text-sm leading-relaxed mb-8 max-w-md">
+            We're always looking for talented people who are passionate about technology and innovation.
+          </p>
+
+          <router-link 
+            to="/contact" 
+            class="inline-flex items-center gap-2 px-7 py-3 bg-black text-white text-sm font-semibold rounded-full hover:bg-gray-900 transition-all shadow-md"
           >
-            <source :src="videoSrc" type="video/mp4" />
-          </video> -->
-          <!-- Dark overlay -->
-          <!-- <div class="absolute inset-0 bg-black/70"></div> -->
+            Get In Touch
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path d="M7 17L17 7M17 7H7M17 7v10"/>
+            </svg>
+          </router-link>
 
-          <!-- <div class="relative grid lg:grid-cols-2 items-center">
-            <div class="p-8 md:p-12 lg:p-14">
-              <h2 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4">Ready to Transform Your Business?</h2>
-              <p class="text-white/70 text-sm leading-relaxed mb-3">Build innovative solutions with OmniviaTech. From custom software to AI-powered automation.</p>
-              <p class="text-white/60 text-sm leading-relaxed mb-8">Expand your reach and grow revenue with us.</p>
-              <router-link to="/contact" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg">
-                Get Started
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-              </router-link>
-            </div>
-            <div class="hidden lg:flex items-end justify-end h-full min-h-[300px]">
-              <video
-                class="h-full max-h-[350px] object-cover object-top w-full"
-                muted
-                loop
-                playsinline
-                autoplay
-                preload="auto"
-              >
-                <source :src="videoSrc" type="video/mp4" />
-              </video>
-            </div>
-          </div> -->
-        <!-- </div>
+        </div>
+
+        <!-- IMAGE SIDE -->
+        <div class="hidden lg:flex items-end rounded-xl justify-end h-full min-h-[200px] bg-gray-50">
+          <img 
+            :src="heroTech4" 
+            alt="Professional" 
+            class="h-full max-h-[380px] object-cover object-top w-full"
+          />
+        </div>
+
       </div>
-    </section> -->
+    </div>
 
-    <!-- ═══════════════ VIDEO / IMAGE SECTION ═══════════════ -->
-<section ref="videoCtaSection" class="relative w-full overflow-hidden">
-
-  <!-- Background media -->
-  <video
-    ref="ctaVideoEl"
-    class="w-full h-[60vh] md:h-[70vh] object-cover"
-    muted
-    loop
-    playsinline
-    autoplay
-    preload="auto"
-  >
-    <source :src="videoSrc" type="video/mp4" />
-  </video>
-
-  <!-- Soft dark overlay -->
-  <div class="absolute inset-0 bg-black/40"></div>
-
+  </div>
 </section>
+
+
+ 
+
+
+  
+
 
   
     <!-- ═══════════════ WE SPECIALIZE IN ═══════════════ -->
@@ -306,9 +297,9 @@
           :modules="[Autoplay]"
           :slides-per-view="1"
           :space-between="16"
-          :autoplay="{ delay: 3000, disableOnInteraction: false }"
+          :autoplay="industriesAutoplay"
           :loop="true"
-          :breakpoints="{ 480: { slidesPerView: 2 }, 768: { slidesPerView: 3 }, 1024: { slidesPerView: 4 } }"
+          :breakpoints="industriesBreakpoints"
           @mouseenter="($refs.industriesSwiper as any)?.$el.__swiper.autoplay.stop()"
           @mouseleave="($refs.industriesSwiper as any)?.$el.__swiper.autoplay.start()"
           ref="industriesSwiper"
@@ -351,9 +342,9 @@
           :modules="[Autoplay, Navigation]"
           :slides-per-view="1"
           :space-between="20"
-          :navigation="true"
-          :autoplay="{ delay: 4000, disableOnInteraction: false }"
-          :breakpoints="{ 480: { slidesPerView: 2 }, 768: { slidesPerView: 3 }, 1024: { slidesPerView: 4 } }"
+          :navigation="servicesNavigation"
+          :autoplay="servicesAutoplay"
+          :breakpoints="servicesBreakpoints"
           class="cards-swiper"
         >
           <SwiperSlide v-for="service in allServices" :key="service.id">
@@ -380,7 +371,7 @@
           </SwiperSlide>
         </Swiper>
       </div>
-    </section>
+  </section>
 
        <!-- ═══════════════ POPULATION IMPACTED ═══════════════ -->
     <section class="py-12 md:py-16">
@@ -431,11 +422,8 @@
                 :modules="[Autoplay, Navigation]"
                 :slides-per-view="1"
                 :space-between="0"
-                :navigation="{
-                  prevEl: '.pop-prev',
-                  nextEl: '.pop-next',
-                }"
-                :autoplay="{ delay: 5000, disableOnInteraction: false }"
+                :navigation="impactSliderNavigation"
+                :autoplay="impactSliderAutoplay"
                 :loop="true"
                 @slide-change="onSlideChange"
                 class="h-full"
@@ -556,28 +544,142 @@
       </div>
     </section>
 
-    <!-- ═══════════════ CTA 1 — THEME COLOR ═══════════════ -->
-    <section class="py-8 md:py-10">
-      <div class="container mx-auto px-6">
-        <div class="relative bg-gradient-to-br from-primary via-primary/85 to-accent rounded-3xl overflow-hidden shadow-lg">
-          <div class="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1633356122544-f134324ef6db?w=1200&q=40')] bg-cover bg-center"></div>
-          <div class="relative grid lg:grid-cols-2 items-center">
-            <div class="p-6 md:p-8 lg:p-10">
-              <h2 class="text-xl md:text-2xl font-bold text-white leading-tight mb-3">Ready to Transform Your Business?</h2>
-              <p class="text-white/90 text-xs leading-relaxed mb-2">Build innovative solutions with OmniviaTech. From custom software to AI-powered automation.</p>
-              <p class="text-white/80 text-xs leading-relaxed mb-4">Expand your reach and grow revenue with us.</p>
-              <router-link to="/contact" class="inline-flex items-center gap-2 px-6 py-2.5 bg-white text-primary text-xs font-semibold rounded-full hover:bg-white/90 transition-all shadow-md">
-                Get Started
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-              </router-link>
-            </div>
-            <!-- <div class="hidden lg:flex items-center justify-end h-full min-h-[280px] py-8">
-              <img src="https://images.unsplash.com/photo-1633356122544-f134324ef6db?w=500&h=400&fit=crop&q=80" alt="Technology" class="h-full max-h-[300px] object-cover rounded-2xl mr-6" />
-            </div> -->
-          </div>
+    <!-- ═══════════════ CTA SECTION (VIDEO BACKGROUND) ═══════════════ --> 
+    <!-- <section class="w-full min-h-[600px] relative"> -->
+
+      <!-- VIDEO BACKGROUND -->
+      <!-- <video 
+        autoplay 
+        muted 
+        loop 
+        playsinline 
+        class="absolute inset-0 w-full h-[400px] object-contain"
+      >
+        <source :src="videoCTA" type="video/mp4" />
+      </video> -->
+      
+      <!-- OVERLAY -->
+      <!-- <div class="absolute inset-0 bg-black/60"></div> -->
+
+      <!-- STATIC CENTERED CONTENT -->
+      <!--
+      <div class="absolute inset-0 z-10 flex flex-col justify-center items-center text-center px-6 md:px-0">
+        
+        <h1 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4 max-w-3xl">
+          View What We Have to Offer Your Business
+        </h1>
+
+        <p class="text-white/70 text-sm md:text-base leading-relaxed mb-8 max-w-2xl">
+          Explore digital solutions tailored to help your business grow, improve efficiency, and strengthen your online presence.
+        </p>
+
+        <a 
+          href="#" 
+          class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold hover:bg-primary/90 transition-all shadow-lg"
+        >
+          Explore Services
+        </a>
+
+      </div>
+      -->
+
+    <!-- </section> -->
+
+       <!-- ═══════════════ CTA SECTION (FIXED IMAGE BACKGROUND) ═══════════════ --> 
+    <section class="w-full min-h-[600px] relative">
+      <div 
+        class="relative min-h-[540px] text-white overflow-hidden bg-fixed bg-cover bg-center"
+        :style="{ backgroundImage: 'url(' + heroCTAbg + ')' }"
+      >
+        
+        <div class="absolute inset-0 bg-black/60"></div>
+        
+        <!-- STATIC CENTERED CONTENT -->
+        <div class="absolute inset-0 z-10 flex flex-col justify-center items-center text-center px-6 md:px-0">
+          
+          <h1 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4 max-w-3xl">
+            View What We Have to Offer Your Business
+          </h1>
+
+          <p class="text-white/70 text-sm md:text-base leading-relaxed mb-8 max-w-2xl">
+            Explore digital solutions tailored to help your business grow, improve efficiency, and strengthen your online presence.
+          </p>
+
+          <a 
+            href="#" 
+            class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold hover:bg-primary/90 transition-all shadow-lg"
+          >
+            Explore Services
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path d="M7 17L17 7M17 7H7M17 7v10"/>
+            </svg>
+          </a>
+
         </div>
+
       </div>
     </section>
+
+    <!-- ═══════════════ TECH STACK ═══════════════ -->
+    <section class="py-12 md:py-16 bg-muted/20">
+      <div class="container mx-auto px-6 max-w-5xl">
+
+        <!-- Header -->
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Toolkit</p>
+          <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight mb-3">
+            Technologies We Work With
+          </h2>
+          <p class="text-muted-foreground text-sm leading-relaxed">
+            We use battle-tested, modern tools to build solutions that are fast, scalable, and maintainable.
+          </p>
+        </div>
+
+        <!-- Stack tabs -->
+        <div class="flex flex-wrap justify-center gap-2 mb-8">
+          <button
+            v-for="cat in stackCategories"
+            :key="cat.label"
+            @click="activeStack = cat.label"
+            class="px-4 py-1.5 rounded-full text-xs font-semibold border transition-all duration-200"
+            :class="activeStack === cat.label
+              ? 'bg-primary text-white border-primary shadow-sm shadow-primary/20'
+              : 'border-border text-muted-foreground hover:border-primary/40 hover:text-primary'"
+          >
+            {{ cat.label }}
+          </button>
+        </div>
+
+        <!-- Tech grid -->
+        <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
+          <div
+            v-for="tech in activeStackTechs"
+            :key="tech.name"
+            class="group flex flex-col items-center gap-2 p-4 rounded-xl border border-border bg-card hover:border-primary/30 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default"
+          >
+            <!-- Icon / Logo -->
+            <div class="w-10 h-10 flex items-center justify-center text-2xl shrink-0">
+              <span v-html="tech.icon"></span>
+            </div>
+            <span class="text-[11px] font-semibold text-foreground text-center leading-tight group-hover:text-primary transition-colors">
+              {{ tech.name }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Bottom note -->
+        <p class="text-center text-muted-foreground text-xs mt-8">
+          Don't see your stack?
+          <router-link to="/contact" class="text-primary font-semibold hover:underline underline-offset-2">
+            Talk to us — we adapt.
+          </router-link>
+        </p>
+
+      </div>
+    </section>
+
+
+ 
 
     <!-- ═══════════════ PROCESS ═══════════════ -->
     <section class="py-12 md:py-16" style="background-color: #262626;">
@@ -594,7 +696,7 @@
             </div>
 
             <!-- Card -->
-            <div class="relative rounded-2xl p-8 transition-all duration-300 overflow-hidden h-full shadow-lg hover:shadow-2xl transform group-hover:-translate-y-2" style="background-color: #1a1a1a; border: 1px solid #404040;" @mouseenter="$event.currentTarget.style.borderColor = '#3b82f6'" @mouseleave="$event.currentTarget.style.borderColor = '#404040'">
+            <div class="relative rounded-2xl p-8 transition-all duration-300 overflow-hidden h-full shadow-lg hover:shadow-2xl transform group-hover:-translate-y-2" style="background-color: #ffffff; border: 1px solid #404040;" @mouseenter="setCardBorderColor($event, '#3b82f6')" @mouseleave="setCardBorderColor($event, '#404040')">
               <!-- Animated background gradient -->
               <div class="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-br from-primary/20 to-primary/10 transition-opacity duration-500"></div>
               
@@ -609,17 +711,174 @@
                 </div>
 
                 <!-- Title & Description -->
-                <h3 class="text-lg font-bold text-white mb-3 group-hover:text-primary transition-colors">{{ step.title }}</h3>
-                <p class="text-white/80 text-sm leading-relaxed group-hover:text-white/90 transition-colors">{{ step.description }}</p>
+                <h3 class="text-lg font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors">{{ step.title }}</h3>
+                <p class="text-gray-600 text-sm leading-relaxed group-hover:text-gray-900 transition-colors">{{ step.description }}</p>
               </div>
 
               <!-- Connector line (desktop only) -->
-              <div v-if="idx < processSteps.length - 1" class="hidden lg:block absolute top-1/2 -right-3 w-6 h-px bg-gradient-to-r from-primary/60 to-transparent -translate-y-1/2"></div>
+              <div v-if="idx < processSteps.length - 1" class="hidden lg:block absolute top-1/2 -right-3 w-6 h-px bg-[#d311f5] to-transparent -translate-y-1/2"></div>
             </div>
           </div>
         </div>
       </div>
     </section>
+
+   <!-- ═══════════════ MISSION & VISION ═══════════════ -->
+  <section class="py-12 md:py-16" style="background-color: #ffffff;">
+    <div class="container mx-auto px-6 max-w-5xl">
+ 
+      <!-- Header -->
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Purpose</p>
+        <h2 class="text-xl md:text-2xl font-bold text-gray-900 leading-tight">Mission & Vision</h2>
+        <p class="text-gray-600 text-sm leading-relaxed mt-3">
+          The principles that shape every decision we make, and the future we are building toward.
+        </p>
+      </div>
+ 
+      <!-- Two cards side by side -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+ 
+        <!-- Mission Card -->
+        <div class="relative group rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+             style="background-color: #d311f5; border: 1px solid #d311f5;"
+             @mouseenter="setCardBorderColor($event, '#3b82f6')"
+             @mouseleave="setCardBorderColor($event, '#404040')">
+ 
+          <!-- Animated background gradient on hover -->
+          <div class="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-br from-primary/20 to-primary/10 transition-opacity duration-500 pointer-events-none"></div>
+ 
+          <!-- Decorative circle -->
+          <div class="absolute -top-8 -right-8 w-32 h-32 bg-primary/5 rounded-full group-hover:scale-150 group-hover:bg-primary/10 transition-all duration-500 pointer-events-none"></div>
+ 
+          <!-- Top accent bar -->
+          <div class="h-1 w-full bg-gradient-to-r from-primary to-primary/40"></div>
+ 
+          <div class="relative z-10 p-8">
+            <!-- Icon -->
+            <div class="w-14 h-14 bg-[#ffffff] rounded-xl flex items-center justify-center mb-6 group-hover:from-primary/50 group-hover:to-primary/30 group-hover:scale-110 transition-all duration-300 shadow-md">
+              <svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </div>
+ 
+            <h3 class="text-lg font-bold text-white mb-3 group-hover:text-[#ffffff] transition-colors">Our Mission</h3>
+ 
+            <p class="text-white/80 text-sm leading-relaxed mb-6">
+              To empower businesses across Africa and beyond with innovative, scalable, and reliable technology solutions that drive measurable growth, improve operational efficiency, and create lasting impact in the communities we serve.
+            </p>
+ 
+            <!-- Mission pillars -->
+            <ul class="space-y-3">
+              <li v-for="pillar in missionPillars" :key="pillar" class="flex items-start gap-3">
+                <div class="w-5 h-5 bg-[#ffffff] rounded-full flex items-center justify-center shrink-0 mt-0.5">
+                  <svg class="w-3 h-3 text-primary" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                    <path d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <span class="text-white/75 text-xs leading-relaxed">{{ pillar }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+ 
+        <!-- Vision Card -->
+        <div class="relative group rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+             style="background-color: #3b82f6; border: 1px solid #3b82f6;"
+             @mouseenter="setCardBorderColor($event, '#3b82f6')"
+             @mouseleave="setCardBorderColor($event, '#404040')">
+ 
+          <div class="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-br from-accent/20 to-accent/10 transition-opacity duration-500 pointer-events-none"></div>
+          <div class="absolute -top-8 -right-8 w-32 h-32 bg-accent/5 rounded-full group-hover:scale-150 group-hover:bg-accent/10 transition-all duration-500 pointer-events-none"></div>
+ 
+          <!-- Top accent bar (accent color) -->
+          <div class="h-1 w-full bg-gradient-to-r from-accent to-accent/40"></div>
+ 
+          <div class="relative z-10 p-8">
+            <!-- Icon -->
+            <div class="w-14 h-14 bg-[#ffffff] rounded-xl flex items-center justify-center mb-6 group-hover:from-accent/50 group-hover:to-accent/30 group-hover:scale-110 transition-all duration-300 shadow-md">
+              <svg class="w-7 h-7 text-accent" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+            </div>
+ 
+            <h3 class="text-lg font-bold text-white mb-3 group-hover:text-[#ffffff] transition-colors">Our Vision</h3>
+ 
+            <p class="text-white/80 text-sm leading-relaxed mb-6">
+              To be Africa's most trusted technology partner — a company recognised globally for building transformative digital infrastructure that bridges the gap between ambition and achievement for businesses of every size.
+            </p>
+ 
+            <!-- Vision horizons -->
+            <div class="space-y-4">
+              <div v-for="horizon in visionHorizons" :key="horizon.label" class="flex items-start gap-3">
+                <div class="shrink-0 mt-0.5">
+                  <span class="inline-block text-xs font-bold text-accent bg-[#ffffff] px-2 py-0.5 rounded-full">{{ horizon.label }}</span>
+                </div>
+                <span class="text-white/75 text-xs leading-relaxed">{{ horizon.text }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+ 
+      </div>
+ 
+      <!-- Bottom values strip -->
+      <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div v-for="val in missionValues" :key="val.label"
+             class="text-center px-4 py-5 rounded-xl transition-all duration-200 hover:-translate-y-0.5"
+             style="background-color: #1a1a1a; border: 1px solid #404040;">
+          <div class="text-2xl mb-2">{{ val.icon }}</div>
+          <div class="text-white font-semibold text-xs mb-1">{{ val.label }}</div>
+          <div class="text-white/55 text-xs leading-snug">{{ val.desc }}</div>
+        </div>
+      </div>
+ 
+    </div>
+  </section>
+
+      <!-- ═══════════════ CTA (FULL WIDTH, NO RADIUS) ═══════════════ -->
+  <section class="py-14 md:py-20 w-full">
+    <div class="w-full px-0">
+      <div class="relative bg-black w-full overflow-hidden">
+        
+        <div class="absolute inset-0 opacity-30 bg-cover bg-center" :style="{ backgroundImage: 'url(' + heroTechGlow + ')' }"></div>
+        <div class="absolute inset-0 bg-black/70"></div>
+
+        <div class="relative grid lg:grid-cols-2 items-center">
+          
+          <div class="p-8 md:p-12 lg:p-14">
+            <h2 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4">
+              Join Our Growing Team
+            </h2>
+
+            <p class="text-white/70 text-sm leading-relaxed mb-8">
+              We're always looking for talented people who are passionate about technology and innovation.
+            </p>
+
+            <router-link 
+              to="/contact" 
+              class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold hover:bg-primary/90 transition-all shadow-lg"
+            >
+              Get In Touch
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path d="M7 17L17 7M17 7H7M17 7v10"/>
+              </svg>
+            </router-link>
+          </div>
+
+          <div class="hidden lg:flex items-end justify-end h-full min-h-[300px]">
+            <img :src="heroTech4" alt="Professional" class="h-full max-h-[350px] object-cover object-top w-full" />
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+   
+   
+
+    
 
      <!-- ═══════════════ WHY CHOOSE US ═══════════════ -->
     <section class="py-12 md:py-16">
@@ -636,7 +895,7 @@
               <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
             </div>
             <!-- Card -->
-              <div class="relative rounded-2xl p-7 transition-all duration-300 overflow-hidden h-full shadow-lg hover:shadow-2xl transform group-hover:-translate-y-2" style="background-color: #262626; border: 1px solid #404040;" @mouseenter="$event.target.style.borderColor = '#3b82f6'" @mouseleave="$event.target.style.borderColor = '#404040'">              <!-- Animated background gradient -->
+              <div class="relative rounded-2xl p-7 transition-all duration-300 overflow-hidden h-full shadow-lg hover:shadow-2xl transform group-hover:-translate-y-2" style="background-color: #262626; border: 1px solid #404040;" @mouseenter="setCardBorderColor($event, '#3b82f6')" @mouseleave="setCardBorderColor($event, '#404040')">              <!-- Animated background gradient -->
               <div class="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-br from-primary/20 to-primary/10 transition-opacity duration-500"></div>
               
               <!-- Decorative element -->
@@ -656,6 +915,41 @@
       </div>
     </section>
 
+       <!-- ═══════════════ CTA SECTION (FIXED IMAGE BACKGROUND) ═══════════════ --> 
+    <section class="w-full min-h-[600px] relative">
+      <div 
+        class="relative min-h-[540px] text-white overflow-hidden bg-fixed bg-cover bg-center"
+        :style="{ backgroundImage: 'url(' + heroCTAbg + ')' }"
+      >
+        
+        <div class="absolute inset-0 bg-black/60"></div>
+        
+        <!-- STATIC CENTERED CONTENT -->
+        <div class="absolute inset-0 z-10 flex flex-col justify-center items-center text-center px-6 md:px-0">
+          
+          <h1 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4 max-w-3xl">
+            View What We Have to Offer Your Business
+          </h1>
+
+          <p class="text-white/70 text-sm md:text-base leading-relaxed mb-8 max-w-2xl">
+            Explore digital solutions tailored to help your business grow, improve efficiency, and strengthen your online presence.
+          </p>
+
+          <a 
+            href="#" 
+            class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold hover:bg-primary/90 transition-all shadow-lg"
+          >
+            Explore Services
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path d="M7 17L17 7M17 7H7M17 7v10"/>
+            </svg>
+          </a>
+
+        </div>
+
+      </div>
+    </section>
+
     <!-- ═══════════════ PRODUCTS CAROUSEL ═══════════════ -->
     <section v-if="products.length" class="py-12 md:py-16 bg-muted/20">
       <div class="container mx-auto px-6 max-w-5xl">
@@ -668,9 +962,9 @@
           :modules="[Autoplay, Navigation]"
           :slides-per-view="1"
           :space-between="20"
-          :navigation="true"
-          :autoplay="{ delay: 5000, disableOnInteraction: false }"
-          :breakpoints="{ 480: { slidesPerView: 2 }, 768: { slidesPerView: 3 }, 1024: { slidesPerView: 4 } }"
+          :navigation="servicesNavigation"
+          :autoplay="productsAutoplay"
+          :breakpoints="productsBreakpoints"
           class="cards-swiper"
         >
           <SwiperSlide v-for="product in products" :key="product.id">
@@ -699,6 +993,45 @@
       </div>
     </section>
 
+         <!-- ═══════════════ CTA (FULL WIDTH, NO RADIUS) ═══════════════ -->
+  <section class="py-14 md:py-20 w-full">
+    <div class="w-full px-0">
+      <div class="relative bg-black w-full overflow-hidden">
+        
+        <div class="absolute inset-0 opacity-30 bg-cover bg-center" :style="{ backgroundImage: 'url(' + heroTechGlow + ')' }"></div>
+        <div class="absolute inset-0 bg-black/70"></div>
+
+        <div class="relative grid lg:grid-cols-2 items-center">
+          
+          <div class="p-8 md:p-12 lg:p-14">
+            <h2 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4">
+              Join Our Growing Team
+            </h2>
+
+            <p class="text-white/70 text-sm leading-relaxed mb-8">
+              We're always looking for talented people who are passionate about technology and innovation.
+            </p>
+
+            <router-link 
+              to="/contact" 
+              class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold hover:bg-primary/90 transition-all shadow-lg"
+            >
+              Get In Touch
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path d="M7 17L17 7M17 7H7M17 7v10"/>
+              </svg>
+            </router-link>
+          </div>
+
+          <div class="hidden lg:flex items-end justify-end h-full min-h-[300px]">
+            <img :src="heroTech4" alt="Professional" class="h-full max-h-[350px] object-cover object-top w-full" />
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
    
 
  
@@ -716,8 +1049,8 @@
           :modules="[Autoplay, Pagination]"
           :slides-per-view="1"
           :space-between="16"
-          :pagination="{ clickable: true }"
-          :autoplay="{ delay: 5000, disableOnInteraction: false }"
+          :pagination="testimonialsPagination"
+          :autoplay="testimonialsAutoplay"
           :breakpoints="{ 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 }, 1280: { slidesPerView: 4 } }"
           class="testimonials-swiper pb-16"
         >
@@ -744,6 +1077,220 @@
       </div>
     </section>
 
+    <!-- ═══════════════ CTA SECTION (FIXED IMAGE BACKGROUND) ═══════════════ --> 
+    <section class="w-full min-h-[600px] relative">
+      <div 
+        class="relative min-h-[540px] text-white overflow-hidden bg-fixed bg-cover bg-center"
+        :style="{ backgroundImage: 'url(' + heroTechBg + ')' }"
+      >
+        
+        <div class="absolute inset-0 bg-black/60"></div>
+        
+        <!-- STATIC CENTERED CONTENT -->
+        <div class="absolute inset-0 z-10 flex flex-col justify-center items-center text-center px-6 md:px-0">
+          
+          <h1 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4 max-w-3xl">
+            View What We Have to Offer Your Business
+          </h1>
+
+          <p class="text-white/70 text-sm md:text-base leading-relaxed mb-8 max-w-2xl">
+            Explore digital solutions tailored to help your business grow, improve efficiency, and strengthen your online presence.
+          </p>
+
+          <a 
+            href="#" 
+            class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold hover:bg-primary/90 transition-all shadow-lg"
+          >
+            Explore Services
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path d="M7 17L17 7M17 7H7M17 7v10"/>
+            </svg>
+          </a>
+
+        </div>
+
+      </div>
+    </section>
+
+       <!-- ═══════════════ SECURITY & COMPLIANCE ═══════════════ -->
+  <section class="py-12 md:py-16 bg-muted/20">
+    <div class="container mx-auto px-6 max-w-5xl">
+ 
+      <!-- Header -->
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Enterprise Ready</p>
+        <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">Security & Compliance</h2>
+        <p class="text-muted-foreground text-sm leading-relaxed mt-3">
+          Built with enterprise-grade security at every layer. Your data stays protected, your operations stay compliant.
+        </p>
+      </div>
+ 
+      <!-- Top row: Uptime SLA hero + certifications grid -->
+      <div class="grid lg:grid-cols-3 gap-6 mb-6">
+ 
+        <!-- SLA / Uptime Hero Card -->
+        <div class="lg:col-span-1 relative rounded-2xl overflow-hidden flex flex-col justify-between min-h-[240px]"
+             style="background-color: #0f172a; border: 1px solid #1e3a5f;">
+          <!-- subtle grid background -->
+          <div class="absolute inset-0 opacity-10"
+               style="background-image: linear-gradient(rgba(59,130,246,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.4) 1px, transparent 1px); background-size: 28px 28px;"></div>
+ 
+          <div class="relative z-10 p-7 flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-2 mb-4">
+                <div class="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse"></div>
+                <span class="text-green-400 text-xs font-semibold tracking-wide uppercase">All Systems Operational</span>
+              </div>
+              <div class="text-5xl font-bold text-white mb-1">99.9<span class="text-primary text-3xl">%</span></div>
+              <div class="text-white/60 text-xs mb-5">Guaranteed Uptime SLA</div>
+            </div>
+            <div class="space-y-2">
+              <div v-for="sla in upTimeMetrics" :key="sla.label" class="flex items-center justify-between">
+                <span class="text-white/60 text-xs">{{ sla.label }}</span>
+                <span class="text-white text-xs font-semibold">{{ sla.value }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+ 
+        <!-- Certifications grid -->
+        <div class="lg:col-span-2 grid grid-cols-2 sm:grid-cols-3 gap-4">
+          <div v-for="cert in certifications" :key="cert.name"
+               class="group relative rounded-xl p-5 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md bg-white border border-border"
+               :class="cert.highlight ? 'border-primary/30' : ''">
+            <!-- Badge glow on hover -->
+            <div class="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                 style="box-shadow: inset 0 0 0 1px rgba(59,130,246,0.3);"></div>
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-3 transition-transform duration-300 group-hover:scale-110"
+                 :style="{ backgroundColor: cert.bgColor }">
+              <svg class="w-6 h-6" :class="cert.iconColor" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path :d="cert.iconPath" />
+              </svg>
+            </div>
+            <div class="text-foreground font-bold text-sm mb-0.5">{{ cert.name }}</div>
+            <div class="text-muted-foreground text-xs leading-snug">{{ cert.desc }}</div>
+            <div v-if="cert.badge" class="mt-2 text-xs font-semibold px-2 py-0.5 rounded-full"
+                 style="background-color: rgba(34,197,94,0.1); color: #16a34a;">{{ cert.badge }}</div>
+          </div>
+        </div>
+      </div>
+ 
+      <!-- Security practices row -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
+        <div v-for="(practice, idx) in securityPractices" :key="idx"
+             class="group relative rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl overflow-hidden"
+             style="background-color: #262626; border: 1px solid #404040;"
+             @mouseenter="setCardBorderColor($event, '#3b82f6')"
+             @mouseleave="setCardBorderColor($event, '#404040')">
+ 
+          <div class="absolute inset-0 opacity-0 group-hover:opacity-15 bg-gradient-to-br from-primary/20 to-primary/10 transition-opacity duration-500 pointer-events-none"></div>
+          <div class="absolute -top-4 -right-4 w-16 h-16 bg-primary/5 rounded-full group-hover:scale-150 transition-all duration-500 pointer-events-none"></div>
+ 
+          <div class="relative z-10">
+            <div class="w-11 h-11 bg-gradient-to-br from-primary/30 to-primary/20 rounded-xl flex items-center justify-center mb-4 group-hover:from-primary/50 group-hover:to-primary/30 group-hover:scale-110 transition-all duration-300">
+              <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path :d="practice.icon" />
+              </svg>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-2 group-hover:text-primary transition-colors">{{ practice.title }}</h3>
+            <p class="text-white/70 text-xs leading-relaxed">{{ practice.desc }}</p>
+          </div>
+        </div>
+      </div>
+ 
+      <!-- GDPR / Privacy / Data strip -->
+      <div class="rounded-2xl overflow-hidden" style="background-color: #1a1a1a; border: 1px solid #2d2d2d;">
+        <div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x" style="border-color: #2d2d2d;">
+          <div v-for="(policy, idx) in privacyPolicies" :key="idx" class="group flex items-start gap-4 p-6 hover:bg-white/5 transition-colors duration-200">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 mt-0.5 transition-all duration-300 group-hover:scale-110"
+                 :style="{ backgroundColor: policy.bgColor }">
+              <svg class="w-5 h-5" :class="policy.iconColor" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path :d="policy.icon" />
+              </svg>
+            </div>
+            <div>
+              <div class="text-white text-sm font-semibold mb-1 group-hover:text-primary transition-colors">{{ policy.title }}</div>
+              <div class="text-white/60 text-xs leading-relaxed">{{ policy.desc }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+ 
+      <!-- Bottom CTA -->
+      <div class="text-center mt-10">
+        <p class="text-muted-foreground text-xs mb-4">Need a detailed security briefing or compliance documentation?</p>
+        <router-link to="/contact"
+          class="inline-flex items-center gap-2 px-7 py-3 border border-primary text-primary text-sm font-semibold rounded-full hover:bg-primary hover:text-white transition-all">
+          Request Security Briefing
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+        </router-link>
+      </div>
+ 
+    </div>
+  </section>
+
+    <!-- ═══════════════ CTA — VIDEO + COPY ═══════════════ -->
+<section class="py-12 md:py-16" style="background-color: #ffffff;">
+  <div class="container mx-auto px-6 max-w-8xl">
+
+    <h2 class="sr-only">Call to action section with auto-playing video on the left and a description on the right</h2>
+
+    <div class="cta-wrap">
+
+      <div class="video-side">
+        <video autoplay muted loop playsinline>
+          <source :src="videoCTA" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <div class="video-overlay"></div>
+        <!-- <div class="live-badge">
+          <div class="live-dot"></div>
+          <span class="live-text">Live demo</span>
+        </div> -->
+      </div>
+
+      <div class="copy-side">
+        <p class="eyebrow">What we offer</p>
+        <h2 class="headline">Built to power<br/>your <span>next big</span><br/>idea</h2>
+        <div class="divider"></div>
+        <p class="body-text">From custom software to end-to-end digital transformation — our solutions are engineered to scale with your ambitions and deliver measurable results from day one.</p>
+
+        <div class="cta-row">
+          <router-link to="/services" class="btn-primary">
+            Explore services
+            <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </router-link>
+          <router-link to="/about" class="btn-ghost">Watch our story</router-link>
+        </div>
+
+        <div class="trust-row">
+          <div class="trust-stat">
+            <div class="num">200+</div>
+            <div class="lbl">Projects delivered</div>
+          </div>
+          <div class="trust-sep"></div>
+          <div class="trust-stat">
+            <div class="num">30+</div>
+            <div class="lbl">Countries reached</div>
+          </div>
+          <div class="trust-sep"></div>
+          <div class="trust-stat">
+            <div class="num">10 yrs</div>
+            <div class="lbl">Of excellence</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+     
+
+
+
      <!-- ═══════════════ CORE VALUES ═══════════════ -->
     <section class="py-12 md:py-16">
       <div class="container mx-auto px-6 max-w-5xl">
@@ -768,30 +1315,50 @@
       </div>
     </section>
 
-    <!-- ═══════════════ CTA 2 — THEME COLOR ═══════════════ -->
-    <section class="py-8 md:py-10">
-      <div class="container mx-auto px-6">
-        <div class="relative bg-gradient-to-br from-accent via-accent/85 to-primary rounded-3xl overflow-hidden shadow-lg">
-          <div class="absolute inset-0 opacity-20 bg-[url('')] bg-cover bg-center"></div>
-          <div class="relative grid lg:grid-cols-2 items-center">
-            <div class="p-6 md:p-8 lg:p-10">
-              <h2 class="text-xl md:text-2xl font-bold text-white leading-tight mb-3">Partner With Us</h2>
-              <p class="text-white/90 text-xs leading-relaxed mb-2">Looking for innovators and problem-solvers to join our ecosystem. Expand your network and impact businesses.</p>
-              <p class="text-white/80 text-xs leading-relaxed mb-4">Build expertise and earn with OmniviaTech.</p>
-              <router-link to="/contact" class="inline-flex items-center gap-2 px-6 py-2.5 bg-white text-accent text-xs font-semibold rounded-full hover:bg-white/90 transition-all shadow-md">
-                Apply Now
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-              </router-link>
-            </div>
-            <!-- <div class="hidden lg:flex items-center justify-end h-full min-h-[280px] py-8">
-              <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=400&fit=crop&q=80" alt="Technology Partnership" class="h-full max-h-[300px] object-cover rounded-2xl mr-6" />
-            </div> -->
+ 
+
+
+
+    <!-- ═══════════════ CTA (FULL WIDTH, NO RADIUS) ═══════════════ -->
+  <section class="py-14 md:py-20 w-full">
+    <div class="w-full px-0">
+      <div class="relative bg-black w-full overflow-hidden">
+        
+        <div class="absolute inset-0 opacity-30 bg-cover bg-center" :style="{ backgroundImage: 'url(' + heroTechGlow + ')' }"></div>
+        <div class="absolute inset-0 bg-black/70"></div>
+
+        <div class="relative grid lg:grid-cols-2 items-center">
+          
+          <div class="p-8 md:p-12 lg:p-14">
+            <h2 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4">
+              Join Our Growing Team
+            </h2>
+
+            <p class="text-white/70 text-sm leading-relaxed mb-8">
+              We're always looking for talented people who are passionate about technology and innovation.
+            </p>
+
+            <router-link 
+              to="/contact" 
+              class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold hover:bg-primary/90 transition-all shadow-lg"
+            >
+              Get In Touch
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path d="M7 17L17 7M17 7H7M17 7v10"/>
+              </svg>
+            </router-link>
           </div>
+
+          <div class="hidden lg:flex items-end justify-end h-full min-h-[300px]">
+            <img :src="heroTech4" alt="Professional" class="h-full max-h-[350px] object-cover object-top w-full" />
+          </div>
+
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- ═══════════════ TRUSTED BY (SPLIT LAYOUT) ═══════════════ -->
+      <!-- ═══════════════ TRUSTED BY (SPLIT LAYOUT) ═══════════════ -->
     <section class="py-12 md:py-16 bg-muted/20">
       <div class="container mx-auto px-6 max-w-6xl">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
@@ -833,29 +1400,6 @@
               >
                 <span class="text-muted-foreground font-semibold text-[11px] text-center leading-tight group-hover:text-primary transition-colors">{{ name }}</span>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-      <!-- ═══════════════ CTA (MAROON) ═══════════════ -->
-    <section class="py-14 md:py-20">
-      <div class="container mx-auto px-6">
-        <div class="relative bg-black rounded-2xl overflow-hidden">
-          <div class="absolute inset-0 opacity-30 bg-cover bg-center" :style="{ backgroundImage: 'url(' + heroTechGlow + ')' }"></div>
-          <div class="absolute inset-0 bg-black/70"></div>
-          <div class="relative grid lg:grid-cols-2 items-center">
-            <div class="p-8 md:p-12 lg:p-14">
-              <h2 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4">Join Our Growing Team</h2>
-              <p class="text-white/70 text-sm leading-relaxed mb-8">We're always looking for talented people who are passionate about technology and innovation.</p>
-              <router-link to="/contact" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg">
-                Get In Touch
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-              </router-link>
-            </div>
-            <div class="hidden lg:flex items-end justify-end h-full min-h-[300px]">
-              <img :src="heroTech4" alt="Professional" class="h-full max-h-[350px] object-cover object-top" />
             </div>
           </div>
         </div>
@@ -988,6 +1532,54 @@
         </div>
       </div>
     </section>
+
+       <!-- ═══════════════ CTA — VIDEO MAIN ═══════════════ -->
+    <section ref="videoCtaSectionMain"class="py-12 md:py-16">
+      <div class="container mx-auto px-6 max-w-5xl">
+ 
+        <!-- Video card -->
+        <div class="relative rounded-xl w-full overflow-hidden bg-black aspect-video">
+          <video
+            ref="videoElMain"
+            class="absolute inset-0 w-full h-full object-cover"
+            muted
+            autoplay
+            controls
+            loop
+            playsinline
+            preload="auto"
+            :title="videoTitleMain"
+          >
+            <source :src="videoSrcMain" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+ 
+        <!-- Caption bar -->
+        <div class="mt-3 flex items-center gap-3 px-1">
+          <div class="flex items-center gap-1.5">
+            <div class="w-2 h-2 rounded-full bg-primary animate-pulse" />
+            <span class="text-white/50 text-xs">{{ captionMain }}</span>
+          </div>
+          <div class="ml-auto">
+            <button
+              class="text-white/40 hover:text-white/80 transition-colors text-xs flex items-center gap-1.5"
+              @click="shareVideo(videoTitleMain)"
+            >
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <circle cx="18" cy="5" r="3"/>
+                <circle cx="6" cy="12" r="3"/>
+                <circle cx="18" cy="19" r="3"/>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+              </svg>
+              Share
+            </button>
+          </div>
+        </div>
+ 
+      </div>
+    </section>
   </PublicLayout>
 </template>
 
@@ -1001,15 +1593,30 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 // @ts-ignore
 import 'swiper/css/navigation';
-import PublicLayout from '@/layouts/PublicLayout.vue';
-import WishlistButton from '@/components/WishlistButton.vue';
+import PublicLayout from '../layouts/PublicLayout.vue';
+import WishlistButton from '../components/WishlistButton.vue';
 import axios from 'axios';
-import { useToast } from '@/composables';
-import heroTechBg from '@/../img/tech-background.png';
-import videoSolutions from '@/../videos/omniviatech-solutions.mp4';
-import videoIntro from '@/../videos/omniviatech-intro.mp4';
-import videoServices from '@/../videos/omniviatech-services.mp4';
-import videoMain from '@/../videos/omniviatech.mp4';
+import { useToast } from '../composables';
+import heroTechBg from '../../img/tech-background.png';
+import heroCTAbg from '../../img/tech4.jpg';
+import videoCTA from '../../videos/omniviatech.mp4';
+import heroTechGlow from '../../img/tech-glow.webp';
+import heroTech4 from '../../img/tech4.jpg';
+import heroTech3 from '../../img/Laptop.webp';
+import heroTech2 from '../../img/tech-closeup.jpg';
+import heroTech1 from '../../img/tech2.jpg';
+import heroTech from '../../img/tech1.jpg';
+import heroTech5 from '../../img/tech3.jpg';
+import heroTech6 from '../../img/tech7.jpg';
+import videoSolutions from '../../videos/omniviatech-solutions.mp4';
+import apiDevelopmentImage from '../../img/services/API Development.webp';
+import crmErpDevelopmentImage from '../../img/services/CRM & ERP Development.webp';
+import customWebDevelopmentImage from '../../img/services/Custom Web Development.webp';
+import eCommerceDevelopmentImage from '../../img/services/E-commerece Development.webp';
+import mobileAppDevelopmentImage from '../../img/services/Mobile App Development.webp';
+import mobileAppImage from '../../img/services/Mobile App.webp';
+import paidAdsImage from '../../img/services/Paid Ads.webp';
+import seoOptimizationImage from '../../img/services/SEO Optimization.webp';
 
 // Data
 const loading = ref(true);
@@ -1025,6 +1632,74 @@ const settings = ref<any>({});
 const impactProjectsApi = ref<any[]>([]);
 const toast = useToast();
 
+const activeStack = ref('All')
+
+const stackCategories = [
+  { label: 'All' },
+  { label: 'Frontend' },
+  { label: 'Backend' },
+  { label: 'Mobile' },
+  { label: 'Cloud & DevOps' },
+  { label: 'Databases' },
+  // { label: 'AI & Data' },
+]
+
+const techStack = [
+  // Frontend
+  { name: 'Vue.js',       icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#42b883" d="M78.8 10L64 35.4 49.2 10H0l64 110 64-110z"/><path fill="#35495e" d="M78.8 10L64 35.4 49.2 10H25.6L64 76l38.4-66z"/></svg>',     category: 'Frontend' },
+  { name: 'React',        icon: '<svg viewBox="0 0 128 128" width="28" height="28"><circle cx="64" cy="64" r="11.4" fill="#61dafb"/><path fill="none" stroke="#61dafb" stroke-width="5" d="M64 30c19.9 0 36.6 5.4 36.6 12 0 6.6-16.7 12-36.6 12S27.4 48.6 27.4 42c0-6.6 16.7-12 36.6-12z"/><path fill="none" stroke="#61dafb" stroke-width="5" d="M47.1 47c9.95-17.2 23.1-29.7 29.6-26 6.5 3.7 4 20.6-5.95 37.8S47.7 88.7 41.2 85c-6.5-3.7-4-20.6 5.9-38z"/><path fill="none" stroke="#61dafb" stroke-width="5" d="M47.1 81C37.15 63.8 34.65 46.9 41.2 43.2c6.5-3.7 19.65 8.8 29.6 26S81.1 102.7 74.65 106.4C68.1 110.1 57.05 98.2 47.1 81z"/></svg>', category: 'Frontend' },
+  { name: 'TypeScript',   icon: '<svg viewBox="0 0 128 128" width="28" height="28"><rect width="128" height="128" rx="6" fill="#3178c6"/><path fill="#fff" d="M22 72h20v-8H22v8zm0 12h20v-8H22v8zm0 12h10v-8H22v8zM72 48H32V32h40v16zm16 48c-6.6 0-12-5.4-12-12s5.4-12 12-12 12 5.4 12 12-5.4 12-12 12z"/><path fill="#fff" d="M56 96V56h16v8h8V56h16v40H80V72h-8v24H56z"/></svg>', category: 'Frontend' },
+  { name: 'Next.js',      icon: '<svg viewBox="0 0 128 128" width="28" height="28"><circle cx="64" cy="64" r="64" fill="#000"/><path fill="#fff" d="M48 100V28l60 76H92L48 44v56H48z"/></svg>', category: 'Frontend' },
+  { name: 'Tailwind',     icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#38bdf8" d="M64 16C45.1 16 33.6 25.5 29 44.5c6.5-8.7 14-12 22.8-9.7 4.9 1.2 8.5 4.9 12.4 8.9C70.5 50.4 78.3 58.5 96 58.5c18.9 0 30.4-9.5 35-28.5-6.5 8.7-14 12-22.8 9.7-4.9-1.2-8.5-4.9-12.4-8.9C89.5 24.1 81.7 16 64 16zM29 58.5C10.1 58.5-1.4 68 -6 87c6.5-8.7 14-12 22.8-9.7 4.9 1.2 8.5 4.9 12.4 8.9C35.5 92.9 43.3 101 61 101c18.9 0 30.4-9.5 35-28.5-6.5 8.7-14 12-22.8 9.7-4.9-1.2-8.5-4.9-12.4-8.9C54.5 66.6 46.7 58.5 29 58.5z"/></svg>', category: 'Frontend' },
+  { name: 'Nuxt.js',      icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#00DC82" d="M72 28L40 84H8L64 0 120 84H88L56 28z" opacity=".6"/><path fill="#00DC82" d="M104 84L72 28 40 84h64z" opacity=".3"/></svg>', category: 'Frontend' },
+  { name: 'Angular', icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#DD0031" d="M64 10L16 28l8 64 40 22 40-22 8-64z"/><path fill="#C3002F" d="M64 10v104l40-22 8-64z"/><path fill="#fff" d="M64 26l24 72h-8l-6-16H54l-6 16h-8l24-72zm0 18l-10 28h20l-10-28z"/></svg>', category: 'Frontend' },
+  { name: 'Svelte', icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#FF3E00" d="M64 8c-22 0-40 18-40 40 0 13 6 25 16 32l-6 20 22-10c2 0 4 0 6 0 22 0 40-18 40-40S86 8 64 8z"/></svg>', category: 'Frontend' },
+  // Backend
+  { name: 'Laravel',      icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#FF2D20" d="M124.3 23.5L102.5 5.3A7.2 7.2 0 0097.1 3H30.9a7.2 7.2 0 00-5.4 2.3L3.7 23.5A7.2 7.2 0 002 28.1v71.8a7.2 7.2 0 007.2 7.2h109.6a7.2 7.2 0 007.2-7.2V28.1a7.2 7.2 0 00-1.7-4.6zM64 92L26 54l10-10 28 28 28-28 10 10L64 92z"/></svg>', category: 'Backend' },
+  { name: 'Node.js',      icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#83cd29" d="M112.8 85.3L67.4 111a7.2 7.2 0 01-6.8 0L15.2 85.3A7.2 7.2 0 0112 79V29a7.2 7.2 0 013.2-6.2L60.6 6.7a7.2 7.2 0 016.8 0l45.4 16.1A7.2 7.2 0 01116 29v50a7.2 7.2 0 01-3.2 6.3z"/><path fill="#fff" d="M64 29v70L28 79V49L64 29z" opacity=".5"/></svg>', category: 'Backend' },
+  { name: 'Python',       icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#3572A5" d="M63.5 3C37.3 3 39 14 39 14v12h25v4H25S3 27.6 3 54.3C3 81 18.8 80 18.8 80H29V67.5S28.3 52 44 52h39.7S99 52.8 99 38V17C99 3.3 87 3 63.5 3zM51 19.5a5.5 5.5 0 110 11 5.5 5.5 0 010-11z"/><path fill="#FFD43B" d="M64.5 125C90.7 125 89 114 89 114v-12H64v-4h39S125 100.4 125 73.7C125 47 109.2 48 109.2 48H99V60.5S99.7 76 84 76H44.3S29 75.2 29 89V110C29 123.7 41 125 64.5 125zM77 108.5a5.5 5.5 0 110-11 5.5 5.5 0 010 11z"/></svg>', category: 'Backend' },
+  { name: 'FastAPI',      icon: '<svg viewBox="0 0 128 128" width="28" height="28"><circle cx="64" cy="64" r="60" fill="#009688"/><path fill="#fff" d="M72 28L44 68h24l-12 32 40-48H72z"/></svg>', category: 'Backend' },
+  { name: 'GraphQL',      icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#E10098" d="M64 8L12 38v60l52 30 52-30V38L64 8zm0 8l44 25.4v50.8L64 117 20 92.2V41.4L64 16zm-4 20v16H44l16-16zm8 0l16 16H68V36zm-28 24h8v20H40V60zm40 0h8v20h-8V60zm-20 0h8v20h-8V60zm-20 24h16l-16 16v-16zm24 0h16v16l-16-16zm-4 8l16 16H44l16-16z"/></svg>', category: 'Backend' },
+  { name: 'REST APIs',    icon: '<svg viewBox="0 0 128 128" width="28" height="28"><rect x="8" y="32" width="112" height="64" rx="8" fill="#6366f1"/><path fill="#fff" d="M24 56h12v16H24V56zm16 0h12v16H40V56zm16 0h12v16H56V56zm16 0h12v16H72V56zm16 0h12v16H88V56z" opacity=".6"/><text x="64" y="70" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold" font-family="monospace">API</text></svg>', category: 'Backend' },
+  { name: 'NestJS', icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#E0234E" d="M64 8l48 28v56L64 120 16 92V36z"/><path fill="#fff" d="M64 20l34 20v44L64 104 30 84V40z"/></svg>', category: 'Backend' },
+  { name: 'Go', icon: '<svg viewBox="0 0 128 128" width="28" height="28"><circle cx="64" cy="64" r="56" fill="#00ADD8"/><path fill="#fff" d="M40 60h24v8H40zm0 16h40v8H40zm8-32h40v8H48z"/></svg>', category: 'Backend' },
+
+  // Mobile
+  { name: 'Flutter',      icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#54C5F8" d="M14 64L62 16h52L66 64 114 112H62L14 64z"/><path fill="#01579B" d="M62 112l26-26-14-14L38 112z"/><path fill="#29B6F6" d="M88 86L62 112l-12-12 26-26z"/></svg>', category: 'Mobile' },
+  { name: 'React Native', icon: '<svg viewBox="0 0 128 128" width="28" height="28"><circle cx="64" cy="64" r="11.4" fill="#61dafb"/><path fill="none" stroke="#61dafb" stroke-width="5" d="M64 30c19.9 0 36.6 5.4 36.6 12 0 6.6-16.7 12-36.6 12S27.4 48.6 27.4 42c0-6.6 16.7-12 36.6-12zM47.1 47c9.95-17.2 23.1-29.7 29.6-26 6.5 3.7 4 20.6-5.95 37.8S47.7 88.7 41.2 85c-6.5-3.7-4-20.6 5.9-38zM47.1 81C37.15 63.8 34.65 46.9 41.2 43.2c6.5-3.7 19.65 8.8 29.6 26S81.1 102.7 74.65 106.4C68.1 110.1 57.05 98.2 47.1 81z"/></svg>', category: 'Mobile' },
+  { name: 'Kotlin',       icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#7F52FF" d="M8 8h56l-56 56V8zm0 112l56-56 56 56H8zm64-56L128 8v112L72 64z"/></svg>', category: 'Mobile' },
+  { name: 'Swift',        icon: '<svg viewBox="0 0 128 128" width="28" height="28"><rect width="128" height="128" rx="24" fill="#F05138"/><path fill="#fff" d="M96 72c0 17.7-14.3 32-32 32a32 32 0 01-20.7-7.6s13.7 4.1 26.7-8.4C56.5 83.9 37.4 69 28 48c14 15 36 24 50 24-9-9-17.5-22.8-17.5-37.5A32 32 0 0196 72z"/></svg>', category: 'Mobile' },
+
+  // Cloud & DevOps
+  { name: 'AWS',          icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#FF9900" d="M40 72c-9 4-15 12.5-15 22.5C25 108.3 35.7 119 49.5 119c5.3 0 10.3-1.7 14.3-4.7M88 72c9 4 15 12.5 15 22.5C103 108.3 92.3 119 78.5 119c-5.3 0-10.3-1.7-14.3-4.7"/><path fill="#232F3E" d="M64 9L20 33v30l44 24 44-24V33L64 9zm0 8l36 20v24L64 81 28 61V37L64 17z"/></svg>', category: 'Cloud & DevOps' },
+  { name: 'Docker',       icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#2496ED" d="M124.8 52.1c-2-1.4-6.6-2-10.1-1.3-.4-3.4-2.4-6.4-5.9-9.1l-2-1.4-1.4 2c-1.8 2.7-2.4 7.2-2.2 10.7-.6-.3-1.6-.7-2.3-1.1-1.4-.8-3.9-1.8-6.8-1.7H8.2l-.3 1.7c-.6 3.7-.4 12.1 4.8 19.2 3.8 5.2 9.5 7.8 16.8 7.8 16 0 27.8-7.4 33.3-20.8 2.2.1 6.9.2 9.3-4.6l.5-1-1-.6zM56 52H46v10h10V52zm-13 0H33v10h10V52zm-13 0H20v10h10V52zm26-13H56v10h10V39zm-13 0H43v10h10V39zm-13 0H30v10h10V39zm13-13H56v10h10V26zm-13 0H43v10h10V26z"/></svg>', category: 'Cloud & DevOps' },
+  { name: 'GitHub CI',    icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#181717" d="M64 4C30.2 4 3 31.2 3 65c0 27 17.5 49.9 41.8 58 3 .6 4.1-1.3 4.1-2.9v-10.2c-16.9 3.7-20.4-8.1-20.4-8.1-2.7-6.9-6.7-8.7-6.7-8.7-5.5-3.7.4-3.7.4-3.7 6 .4 9.2 6.2 9.2 6.2 5.4 9.2 14.1 6.5 17.5 5 .5-3.9 2.1-6.5 3.8-8-13.4-1.5-27.5-6.7-27.5-29.9 0-6.6 2.4-12 6.2-16.2-.6-1.5-2.7-7.7.6-16 0 0 5.1-1.6 16.6 6.2 4.8-1.3 10-2 15.1-2s10.3.7 15.1 2c11.5-7.8 16.6-6.2 16.6-6.2 3.3 8.3 1.2 14.5.6 16 3.9 4.2 6.2 9.6 6.2 16.2 0 23.2-14.1 28.3-27.6 29.8 2.2 1.9 4.1 5.5 4.1 11.1v16.5c0 1.6 1.1 3.5 4.2 2.9C109.5 114.9 127 92 127 65 127 31.2 99.8 4 64 4z"/></svg>', category: 'Cloud & DevOps' },
+  // { name: 'Kubernetes',   icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#326CE5" d="M64 6L8 36v56l56 30 56-30V36L64 6zm0 8l48 26v48L64 114 16 88V40L64 14z"/><path fill="#326CE5" d="M52 52h24v24H52z" opacity=".5"/></svg>', category: 'Cloud & DevOps' },
+  { name: 'Firebase',     icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#FFC400" d="M18 100L36 30l22 22L18 100z"/><path fill="#F57F17" d="M58 52L80 8l28 92L58 52z"/><path fill="#FF6F00" d="M18 100l62-8 28 8H18z" opacity=".8"/><path fill="#FFC400" d="M36 30l22 22 22-44L36 30z" opacity=".7"/></svg>', category: 'Cloud & DevOps' },
+  { name: 'Linux',        icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#dd4814" d="M64 8C34 8 10 32 10 62c0 18 8.7 33.9 22 43.8V104h4v8h56v-8h4V105.8C109.3 95.9 118 80 118 62 118 32 94 8 64 8z"/><path fill="#fff" d="M47 54a9 9 0 100 18 9 9 0 000-18zm34 0a9 9 0 100 18 9 9 0 000-18z"/></svg>', category: 'Cloud & DevOps' },
+  { name: 'DigitalOcean', icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#0080FF" d="M64 112v-16c22 0 40-18 40-40S86 16 64 16 24 34 24 56h16c0-13 11-24 24-24s24 11 24 24-11 24-24 24v32z"/></svg>', category: 'Cloud & DevOps' },
+  // Databases
+  { name: 'MySQL',        icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#00618A" d="M2 73.9c5.3.7 8.9 3 9.9 7.6 1.1 4.9-1.8 9.7-7.4 12.7L2 95v10.5l3.3-1.5c7.4-3.3 12.5-9 13.5-15.8.8-5.2-.8-10.3-4.4-14.3h91.2c-3.6 4-5.2 9.1-4.4 14.3 1 6.8 6.1 12.5 13.5 15.8l3.3 1.5V95l-2.5-1.3c-5.6-3-8.5-7.8-7.4-12.7 1-4.6 4.6-6.9 9.9-7.6V62.6H2v11.3z"/><path fill="#00618A" d="M2 23v9.3c5.3.7 8.9 3 9.9 7.6 1.1 4.9-1.8 9.7-7.4 12.7L2 53.5V64h124v-10.5l-2.5-1.5c-5.6-3-8.5-7.8-7.4-12.7 1-4.6 4.6-6.9 9.9-7.6V23H2z"/></svg>', category: 'Databases' },
+  { name: 'PostgreSQL',   icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#336791" d="M93.8 24.2C87.4 17.7 78.7 14 69.5 14c-7.7 0-15 2.6-20.9 7.2-5.9-4.6-13.2-7.2-20.9-7.2C18.5 14 9.8 17.7 3.4 24.2A34.5 34.5 0 000 45c0 7.2 2.5 14.2 7.1 19.8 2.8 3.4 6.2 6.2 10 8.2v35h104V73c3.8-2 7.2-4.8 10-8.2C135.5 59.2 138 52.2 138 45c0-7.9-3-15.4-8.3-20.8z"/></svg>', category: 'Databases' },
+  { name: 'MongoDB',      icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#4DB33D" d="M64 8C40.5 8 21.5 27 21.5 50.5c0 16.5 9.3 31 23 38.6V116h7v-25.1c.8.1 1.7.1 2.5.1s1.7 0 2.5-.1V116h7V89.1c13.7-7.6 23-22.1 23-38.6C86.5 27 67.5 8 64 8z"/></svg>', category: 'Databases' },
+  { name: 'Redis',        icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#D82C20" d="M64 8L8 40v48l56 32 56-32V40L64 8zm0 10l44 25.4v38.8L64 107 20 82.2V43.4L64 18z"/></svg>', category: 'Databases' },
+  { name: 'Supabase',     icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#3ECF8E" d="M72 12L24 76h48V12z"/><path fill="#1C1C1C" d="M56 116l48-64H56v64z" opacity=".7"/></svg>', category: 'Databases' },
+
+  // AI & Data
+  // { name: 'TensorFlow',   icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#FF6F00" d="M64 8L8 40v48l56 32 56-32V40L64 8zm0 10l44 25.4v38.8L64 107 20 82.2V43.4L64 18z"/><path fill="#FF6F00" d="M50 50v28l14 8 14-8V50l-14-8z" opacity=".5"/></svg>', category: 'AI & Data' },
+  // { name: 'OpenAI',       icon: '<svg viewBox="0 0 128 128" width="28" height="28"><circle cx="64" cy="64" r="56" fill="#10a37f"/><path fill="#fff" d="M64 28c-9.9 0-18.8 4.9-24.2 12.4A28.1 28.1 0 0028 64c0 15.5 12.5 28 28 28 9.9 0 18.8-4.9 24.2-12.4A28.1 28.1 0 00100 64c0-15.5-12.5-28-28-28-2.7 0-5.4.4-7.9 1.1" opacity=".8"/></svg>', category: 'AI & Data' },
+  // { name: 'Pandas',       icon: '<svg viewBox="0 0 128 128" width="28" height="28"><rect x="20" y="10" width="20" height="108" rx="6" fill="#150458"/><rect x="88" y="10" width="20" height="108" rx="6" fill="#E70488"/><rect x="40" y="42" width="48" height="20" rx="4" fill="#150458"/><rect x="40" y="66" width="48" height="20" rx="4" fill="#E70488"/></svg>', category: 'AI & Data' },
+  // { name: 'LangChain',    icon: '<svg viewBox="0 0 128 128" width="28" height="28"><rect width="128" height="128" rx="20" fill="#1C3D5A"/><path fill="#38bdf8" d="M24 64l20-20 20 20-20 20L24 64zm40 0l20-20 20 20-20 20L64 64z"/></svg>', category: 'AI & Data' },
+  // { name: 'n8n',          icon: '<svg viewBox="0 0 128 128" width="28" height="28"><rect width="128" height="128" rx="20" fill="#EA4B71"/><circle cx="40" cy="64" r="16" fill="#fff"/><circle cx="88" cy="64" r="16" fill="#fff"/><rect x="56" y="60" width="16" height="8" fill="#fff"/></svg>', category: 'AI & Data' },
+  // { name: 'Jupyter',      icon: '<svg viewBox="0 0 128 128" width="28" height="28"><circle cx="64" cy="64" r="56" fill="#F37626"/><path fill="#fff" d="M64 24c-11 0-20 9-20 20v40c0 11 9 20 20 20s20-9 20-20V44c0-11-9-20-20-20zm0 8a12 12 0 110 24 12 12 0 010-24z" opacity=".9"/></svg>', category: 'AI & Data' },
+]
+
+const activeStackTechs = computed(() =>
+  activeStack.value === 'All'
+    ? techStack
+    : techStack.filter(t => t.category === activeStack.value)
+)
+
 // Static Data
 const specializations = [
   { icon: '\uD83D\uDCBB', title: 'Software Development', desc: 'Custom web & mobile applications' },
@@ -1037,6 +1712,51 @@ const specializations = [
   { icon: '\uD83D\uDEE0\uFE0F', title: 'IT Consulting', desc: 'Strategic technology advisory' },
 ];
 
+const serviceImagePaths: Record<string, string> = {
+  'api development': apiDevelopmentImage,
+  'crm & erp development': crmErpDevelopmentImage,
+  'custom web development': customWebDevelopmentImage,
+  'e-commerece development': eCommerceDevelopmentImage,
+  'e-commerce development': eCommerceDevelopmentImage,
+  'mobile app development': mobileAppDevelopmentImage,
+  'mobile app': mobileAppImage,
+  'paid ads': paidAdsImage,
+  'seo optimization': seoOptimizationImage,
+};
+
+function getServiceImage(service: any) {
+  const key = (service.title || service.name || service.slug || '').toString().trim().toLowerCase();
+  if (!key) {
+    return '';
+  }
+
+  if (service.image_url) {
+    return service.image_url;
+  }
+
+  if (serviceImagePaths[key]) {
+    return serviceImagePaths[key];
+  }
+
+  if (key.includes('api')) {
+    return serviceImagePaths['api development'];
+  }
+
+  if (key.includes('crm')) {
+    return serviceImagePaths['crm & erp development'];
+  }
+
+  if (key.includes('seo')) {
+    return serviceImagePaths['seo optimization'];
+  }
+
+  if (key.includes('ads')) {
+    return serviceImagePaths['paid ads'];
+  }
+
+  return '';
+}
+
 const heroSlides = [
   {
     id: 1,
@@ -1047,7 +1767,7 @@ const heroSlides = [
     cta_link: '/services',
     cta_text_2: 'Learn More',
     cta_link_2: '/about',
-    bg_image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&h=1080&fit=crop&q=80',
+    bg_image: 'heroTechBg',
   },
   {
     id: 2,
@@ -1058,7 +1778,7 @@ const heroSlides = [
     cta_link: '/services',
     cta_text_2: 'Get Demo',
     cta_link_2: '/contact',
-    bg_image: 'https://images.unsplash.com/photo-1633356122544-f134324ef6db?w=1920&h=1080&fit=crop&q=80',
+    bg_image: 'heroCTAbg ',
   },
   {
     id: 3,
@@ -1069,7 +1789,7 @@ const heroSlides = [
     cta_link: '/services',
     cta_text_2: 'Schedule Call',
     cta_link_2: '/contact',
-    bg_image: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=1920&h=1080&fit=crop&q=80',
+    bg_image: 'heroTech1',
   },
   {
     id: 4,
@@ -1080,7 +1800,7 @@ const heroSlides = [
     cta_link: '/services',
     cta_text_2: 'Assess Risk',
     cta_link_2: '/contact',
-    bg_image: 'https://images.unsplash.com/photo-1563206765-d96a38f1e23f?w=1920&h=1080&fit=crop&q=80',
+    bg_image: 'heroTech2',
   },
   {
     id: 5,
@@ -1091,7 +1811,7 @@ const heroSlides = [
     cta_link: '/services',
     cta_text_2: 'See Portfolio',
     cta_link_2: '/case-studies',
-    bg_image: 'https://images.unsplash.com/photo-1516321318423-f06f70e504cb?w=1920&h=1080&fit=crop&q=80',
+    bg_image: 'heroTech3',
   },
   {
     id: 6,
@@ -1102,7 +1822,7 @@ const heroSlides = [
     cta_link: '/services',
     cta_text_2: 'Contact Us',
     cta_link_2: '/contact',
-    bg_image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1920&h=1080&fit=crop&q=80',
+    bg_image: 'heroTech5',
   },
   {
     id: 7,
@@ -1113,7 +1833,7 @@ const heroSlides = [
     cta_link: '/contact',
     cta_text_2: 'Our Services',
     cta_link_2: '/services',
-    bg_image: heroTechBg,
+    bg_image: 'heroTech6',
   },
 ];
 
@@ -1195,18 +1915,65 @@ const coreValues = [
   { icon: '⭐', title: 'Excellence', desc: 'We deliver high-quality solutions that exceed expectations.', bgClass: 'bg-amber-500/10' },
 ];
 
+const heroAutoplay = { delay: 6000, disableOnInteraction: false } as any;
+const heroPagination = { clickable: true } as any;
+const industriesAutoplay = { delay: 3000, disableOnInteraction: false } as any;
+const industriesBreakpoints = { 480: { slidesPerView: 2 }, 768: { slidesPerView: 3 }, 1024: { slidesPerView: 4 } } as any;
+const servicesAutoplay = { delay: 4000, disableOnInteraction: false } as any;
+const servicesBreakpoints = industriesBreakpoints;
+const servicesNavigation = true as any;
+const impactSliderNavigation = { prevEl: '.pop-prev', nextEl: '.pop-next' } as any;
+const impactSliderAutoplay = { delay: 5000, disableOnInteraction: false } as any;
+const productsAutoplay = { delay: 5000, disableOnInteraction: false } as any;
+const productsBreakpoints = industriesBreakpoints;
+const testimonialsPagination = { clickable: true } as any;
+const testimonialsAutoplay = { delay: 5000, disableOnInteraction: false } as any;
+
 // UI State
 const counterRefs = ref<HTMLElement[]>([]);
 const openFaqIndex = ref<number | null>(null);
 
-// Video CTA State
-const videoSrc = videoSolutions;
-const videoTitle = 'OmniviaTech — Product Overview';
-const ctaVideoEl = ref<HTMLVideoElement | null>(null);
-const videoCtaSection = ref<HTMLElement | null>(null);
+// Video CTA State — Three unique video sections
+const videoSrcMain = videoSolutions;  // Main CTA video
+const videoTitleMain = 'OmniviaTech — Product Overview';
+const captionMain = 'Watch our short overview to see how OmniviaTech can help your organization.';
+const videoElMain = ref<HTMLVideoElement | null>(null);
+const videoCtaSectionMain = ref<HTMLElement | null>(null);
+
+// Solutions Background Video
+const videoSrcSolutions = videoSolutions;
+const videoElSolutions = ref<HTMLVideoElement | null>(null);
+const videoSectionSolutions = ref<HTMLElement | null>(null);
+
+// Secondary CTA Video
+const videoSrcSecondary = videoSolutions;
+const videoTitleSecondary = 'See How We Work';
+const captionSecondary = 'Discover our proven process and methodology.';
+const videoElSecondary = ref<HTMLVideoElement | null>(null);
+const videoCtaSectionSecondary = ref<HTMLElement | null>(null);
+
+function shareVideo(title: string) {
+  const shareText = `${title} — Watch now at ${window.location.href}`;
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(shareText).then(() => {
+      toast.success('Video link copied to clipboard.');
+    }).catch(() => {
+      toast.error('Unable to copy link.');
+    });
+  } else {
+    toast.info('Copy this link: ' + window.location.href);
+  }
+}
 
 function toggleFaq(idx: number) {
   openFaqIndex.value = openFaqIndex.value === idx ? null : idx;
+}
+
+function setCardBorderColor(event: MouseEvent, color: string) {
+  const target = event.currentTarget;
+  if (target instanceof HTMLElement) {
+    target.style.borderColor = color;
+  }
 }
 
 // Auto-play background video on scroll into view
@@ -1219,6 +1986,140 @@ const newsletterEmail = ref('');
 const newsletterSubmitting = ref(false);
 const contactForm = ref({ name: '', email: '', phone: '', message: '' });
 const contactFormSubmitting = ref(false);
+
+
+// ─── Mission & Vision Data ───────────────────────────────────────────────────
+ 
+const missionPillars = [
+  'Deliver technology that solves real, measurable business problems.',
+  'Make enterprise-grade digital tools accessible to businesses of every size.',
+  'Build long-term partnerships, not just one-off projects.',
+]
+ 
+const visionHorizons = [
+  { label: 'Near-term',  text: 'Be the preferred digital transformation partner for SMEs and enterprises across East Africa.' },
+  { label: 'Mid-term',   text: 'Expand our footprint to 30+ African markets with localised, compliant solutions.' },
+  { label: 'Long-term',  text: 'Set the benchmark globally for African-built enterprise technology.' },
+]
+ 
+const missionValues = [
+  { icon: '🎯', label: 'Impact-Driven',  desc: 'Every line of code serves a purpose.' },
+  { icon: '🤝', label: 'Partnership',    desc: 'We grow when our clients grow.' },
+  { icon: '🔬', label: 'Innovation',     desc: 'Constantly pushing what is possible.' },
+  { icon: '🌍', label: 'Pan-African',    desc: 'Built for Africa, ready for the world.' },
+]
+ 
+// ─── Security & Compliance Data ──────────────────────────────────────────────
+ 
+const upTimeMetrics = [
+  { label: 'Average Response Time', value: '< 200 ms' },
+  { label: 'Incident Response',     value: '< 30 min' },
+  { label: 'Data Backup Frequency', value: 'Every 6 hrs' },
+  { label: 'Recovery Time Obj.',    value: '< 4 hrs' },
+]
+ 
+const certifications = [
+  {
+    name: 'ISO 27001',
+    desc: 'Information security management',
+    bgColor: 'rgba(59,130,246,0.12)',
+    iconColor: 'text-blue-500',
+    iconPath: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+    badge: 'Certified',
+    highlight: true,
+  },
+  {
+    name: 'GDPR',
+    desc: 'EU data protection & privacy',
+    bgColor: 'rgba(16,185,129,0.12)',
+    iconColor: 'text-emerald-500',
+    iconPath: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z',
+    badge: 'Compliant',
+  },
+  {
+    name: 'SOC 2 Type II',
+    desc: 'Security, availability & confidentiality',
+    bgColor: 'rgba(139,92,246,0.12)',
+    iconColor: 'text-violet-500',
+    iconPath: 'M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
+    badge: 'Audited',
+  },
+  {
+    name: 'PCI DSS',
+    desc: 'Payment card data security',
+    bgColor: 'rgba(245,158,11,0.12)',
+    iconColor: 'text-amber-500',
+    iconPath: 'M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z',
+    badge: 'Level 1',
+  },
+  {
+    name: 'HIPAA',
+    desc: 'Health data privacy standards',
+    bgColor: 'rgba(239,68,68,0.12)',
+    iconColor: 'text-red-500',
+    iconPath: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z',
+  },
+  {
+    name: 'NIST CSF',
+    desc: 'Cybersecurity framework alignment',
+    bgColor: 'rgba(6,182,212,0.12)',
+    iconColor: 'text-cyan-500',
+    iconPath: 'M20.618 5.984A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016zM12 9v2m0 4h.01',
+  },
+]
+ 
+const securityPractices = [
+  {
+    title: 'End-to-End Encryption',
+    desc: 'All data in transit and at rest is encrypted with AES-256 and TLS 1.3 protocols.',
+    icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z',
+  },
+  {
+    title: 'Penetration Testing',
+    desc: 'Bi-annual third-party penetration tests with public disclosure of remediation outcomes.',
+    icon: 'M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18',
+  },
+  {
+    title: 'Role-Based Access',
+    desc: 'Granular RBAC ensures staff and clients only access what they need, nothing more.',
+    icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z',
+  },
+  {
+    title: '24 / 7 Monitoring',
+    desc: 'Automated threat detection with a dedicated security operations centre for real-time response.',
+    icon: 'M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z',
+  },
+]
+ 
+const privacyPolicies = [
+  {
+    title: 'GDPR & Data Privacy',
+    desc: 'We never sell your data. Full data subject access, erasure, and portability rights honoured within 72 hours.',
+    bgColor: 'rgba(16,185,129,0.15)',
+    iconColor: 'text-emerald-500',
+    icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
+  },
+  {
+    title: 'Data Residency',
+    desc: 'Choose where your data lives. We offer in-region storage across Kenya, South Africa, EU, and US zones.',
+    bgColor: 'rgba(59,130,246,0.15)',
+    iconColor: 'text-blue-500',
+    icon: 'M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+  },
+  {
+    title: 'Vendor Risk Management',
+    desc: 'All third-party vendors are vetted against our security policy. Sub-processors are listed in our DPA.',
+    bgColor: 'rgba(139,92,246,0.15)',
+    iconColor: 'text-violet-500',
+    icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4',
+  },
+]
+ 
+// ─── Shared utility (already exists in your codebase) ────────────────────────
+// function setCardBorderColor(event: MouseEvent, color: string) {
+//   const el = event.currentTarget as HTMLElement
+//   if (el) el.style.borderColor = color
+// }
 
 // Fetch Data
 async function fetchHomeData() {
@@ -1355,18 +2256,32 @@ onMounted(async () => {
     counterRefs.value.forEach((el) => { if (el) observer.observe(el); });
   }, 500);
 
-  // Auto-play video CTA when scrolled into view
-  if (videoCtaSection.value && ctaVideoEl.value) {
+  // Auto-play main video CTA when scrolled into view
+  if (videoCtaSectionMain.value && videoElMain.value) {
     ctaObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          ctaVideoEl.value?.play().catch(() => {});
+          videoElMain.value?.play().catch(() => {});
         } else {
-          ctaVideoEl.value?.pause();
+          videoElMain.value?.pause();
         }
       });
     }, { threshold: 0.3 });
-    ctaObserver.observe(videoCtaSection.value);
+    ctaObserver.observe(videoCtaSectionMain.value);
+  }
+
+  // Auto-play solutions background video
+  if (videoSectionSolutions.value && videoElSolutions.value) {
+    const solutionsObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          videoElSolutions.value?.play().catch(() => {});
+        } else {
+          videoElSolutions.value?.pause();
+        }
+      });
+    }, { threshold: 0.2 });
+    solutionsObserver.observe(videoSectionSolutions.value);
   }
 });
 
@@ -1388,4 +2303,181 @@ onUnmounted(() => {
 .testimonials-swiper :deep(.swiper-pagination-bullet-active) { opacity: 1; }
 
 .trusted-swiper :deep(.swiper-wrapper) { transition-timing-function: linear !important; }
+
+   .video-docker video {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .video-docker::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 20%;
+        top: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 1;
+    }
+</style>
+
+
+<style>
+.cta-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 420px;
+  border-radius: var(--border-radius-xl);
+  overflow: hidden;
+  border: 0.5px solid rgba(255,255,255,0.08);
+  background: #0f0f0f;
+}
+.video-side {
+  position: relative;
+  background: #000;
+  overflow: hidden;
+  min-height: 360px;
+}
+.video-side video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.video-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, transparent 60%, #0f0f0f 100%);
+  pointer-events: none;
+}
+.live-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0,0,0,0.55);
+  border: 0.5px solid rgba(255,255,255,0.15);
+  border-radius: 999px;
+  padding: 5px 12px;
+}
+.live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #d311f5;
+  animation: livePulse 1.6s ease-in-out infinite;
+}
+@keyframes livePulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+.live-text {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.8);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.copy-side {
+  padding: 48px 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #0f0f0f;
+}
+.eyebrow {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #d311f5;
+  margin: 0 0 14px;
+}
+.headline {
+  font-size: 26px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.28;
+  margin: 0 0 16px;
+}
+.headline span {
+  color: #d311f5;
+}
+.body-text {
+  font-size: 14px;
+  color: rgba(255,255,255,0.58);
+  line-height: 1.75;
+  margin: 0 0 32px;
+  max-width: 340px;
+}
+.cta-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: #d311f5;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: opacity 0.18s;
+}
+.btn-primary:hover { opacity: 0.88; }
+.btn-primary svg { width: 14px; height: 14px; }
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 24px;
+  background: transparent;
+  color: rgba(255,255,255,0.65);
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 999px;
+  border: 0.5px solid rgba(255,255,255,0.18);
+  text-decoration: none;
+  transition: border-color 0.18s, color 0.18s;
+}
+.btn-ghost:hover { border-color: rgba(255,255,255,0.45); color: #fff; }
+.divider {
+  width: 36px;
+  height: 2px;
+  background: #d311f5;
+  margin: 0 0 28px;
+  border-radius: 2px;
+}
+.trust-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 36px;
+  padding-top: 28px;
+  border-top: 0.5px solid rgba(255,255,255,0.08);
+}
+.trust-stat { text-align: left; }
+.trust-stat .num {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1;
+}
+.trust-stat .lbl {
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  margin-top: 3px;
+}
+.trust-sep {
+  width: 0.5px;
+  height: 32px;
+  background: rgba(255,255,255,0.12);
+}
 </style>
