@@ -47,6 +47,9 @@ declare module '*.svg';
 declare module '*.mp4';
 declare module '*.webm';
 declare module '*.gif';
+declare module 'swiper/css';
+declare module 'swiper/css/pagination';
+declare module 'swiper/css/navigation';
 
 declare global {
     namespace JSX {

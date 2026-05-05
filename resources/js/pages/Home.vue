@@ -1,58 +1,69 @@
 ﻿<template>
   <PublicLayout>
-    <!-- ═══════════════ HERO SECTION ═══════════════ -->
-    <section class="relative min-h-[60vh] md:min-h-[70vh] flex items-center overflow-hidden">
-      <Swiper
-        :modules="[Autoplay, Pagination]"
-        :slides-per-view="1"
-        :autoplay="heroAutoplay"
-        :pagination="heroPagination"
-        :loop="true"
-        class="hero-swiper w-full h-full"
-      >
-        <SwiperSlide v-for="slide in heroSlides" :key="slide.id">
-          <div class="relative w-full min-h-[60vh] md:min-h-[70vh] flex items-center">
-            <!-- Background Image -->
-            <div class="absolute inset-0 z-0">
-              <img :src="slide.bg_image" :alt="slide.title" class="w-full h-full object-cover" />
-              <div class="absolute inset-0 bg-black/60"></div>
-            </div>
+ <!-- ═══════════════ HERO + COUNTER WRAPPER ═══════════════ -->
+<div class="relative overflow-hidden">
 
-            <!-- Content -->
-            <div class="relative z-10 w-full">
-              <div class="container mx-auto px-6 py-12 md:py-16">
-                <div class="max-w-2xl">
-                  <p class="text-primary font-semibold text-xs tracking-widest uppercase mb-3">{{ slide.subtitle }}</p>
-                  <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-white mb-6">{{ slide.title }}</h1>
-                  <p class="text-white/90 text-base leading-relaxed mb-8 max-w-lg">{{ slide.description }}</p>
-                  <div class="flex flex-wrap gap-4">
-                    <router-link :to="slide.cta_link" class="inline-flex items-center gap-2 px-8 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
-                      {{ slide.cta_text }}
-                      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-                    </router-link>
-                    <router-link v-if="slide.cta_text_2" :to="slide.cta_link_2" class="px-8 py-3 border-2 border-white text-white text-sm font-semibold rounded-full hover:bg-white/10 transition-all">{{ slide.cta_text_2 }}</router-link>
-                  </div>
+  <!-- Shared background layer — stretches behind both hero AND counter -->
+  <div class="absolute inset-0 z-0">
+    <img
+      v-if="heroSlides.length"
+      :src="heroSlides[currentHeroSlide]?.bg_image"
+      :alt="heroSlides[currentHeroSlide]?.title"
+      class="w-full h-full object-cover"
+    />
+    <div class="absolute inset-0 bg-black/60"></div>
+  </div>
+
+  <!-- ═══════════════ HERO SECTION ═══════════════ -->
+  <section class="relative min-h-[60vh] md:min-h-[70vh] flex items-center">
+    <Swiper
+      :modules="[Autoplay, Pagination]"
+      :slides-per-view="1"
+      :autoplay="heroAutoplay"
+      :pagination="heroPagination"
+      :loop="true"
+      class="hero-swiper w-full h-full"
+      @slide-change="(swiper) => currentHeroSlide = swiper.realIndex"
+    >
+      <SwiperSlide v-for="slide in heroSlides" :key="slide.id">
+        <div class="relative w-full min-h-[60vh] md:min-h-[70vh] flex items-center">
+          <!-- Content -->
+          <div class="relative z-10 w-full">
+            <div class="container mx-auto px-6 py-12 md:py-16">
+              <div class="max-w-2xl">
+                <p class="text-primary font-semibold text-xs tracking-widest uppercase mb-3">{{ slide.subtitle }}</p>
+                <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-white mb-6">{{ slide.title }}</h1>
+                <p class="text-white/90 text-base leading-relaxed mb-8 max-w-lg">{{ slide.description }}</p>
+                <div class="flex flex-wrap gap-4">
+                  <router-link :to="slide.cta_link" class="inline-flex items-center gap-2 px-8 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
+                    {{ slide.cta_text }}
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+                  </router-link>
+                  <router-link v-if="slide.cta_text_2" :to="slide.cta_link_2" class="px-8 py-3 border-2 border-white text-sm font-semibold rounded-full hover:bg-white/10 transition-all" style="color: #fff;">{{ slide.cta_text_2 }}</router-link>
                 </div>
               </div>
             </div>
           </div>
-        </SwiperSlide>
-      </Swiper>
-    </section>
+        </div>
+      </SwiperSlide>
+    </Swiper>
+  </section>
 
-    <!-- ═══════════════ COUNTER BAR ═══════════════ -->
-    <section class="py-6 md:py-8 shadow-lg" style="background-color: #d311f5;">
-      <div class="container mx-auto px-6 max-w-5xl">
-        <div class="flex flex-wrap justify-between items-center gap-8">
-          <div v-for="counter in countersFinal" :key="counter.id" class="flex-1 min-w-[140px] text-center">
-            <div class="text-2xl md:text-3xl font-bold text-white mb-2">
-              <span ref="counterRefs" :data-target="counter.number || counter.value" :data-suffix="counter.suffix || '+'">0</span>
-            </div>
-            <div class="text-white/80 text-xs font-semibold tracking-wide">{{ counter.label || counter.title }}</div>
+  <!-- ═══════════════ COUNTER BAR ═══════════════ -->
+  <section class="relative z-10 py-6 md:py-8" style="border-top: 1px solid rgba(255,255,255,0.12);">
+    <div class="container mx-auto px-6 max-w-5xl">
+      <div class="flex flex-wrap justify-between items-center gap-8">
+        <div v-for="counter in countersFinal" :key="counter.id" class="flex-1 min-w-[140px] text-center">
+          <div class="text-2xl md:text-3xl font-bold text-white mb-2">
+            <span ref="counterRefs" :data-target="counter.number || counter.value" :data-suffix="counter.suffix || '+'">0</span>
           </div>
+          <div class="text-white/80 text-xs font-semibold tracking-wide">{{ counter.label || counter.title }}</div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
+
+</div>
 
     <!-- Trusted By -->
     <section class="py-12 border-y border-border bg-muted/30">
@@ -176,16 +187,16 @@
           </div>
         </template>
 
-        <!-- Fallback: Static Specializations -->
+        <!-- Fallback: Static Featured Services -->
         <template v-else>
           <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
-            <router-link v-for="(spec, i) in specializations.slice(0, 8)" :key="i" :to="`/services`" class="group block bg-white/10 border border-white/20 rounded-2xl overflow-hidden hover:border-white/40 hover:shadow-md transition-all duration-300">
-              <div class="aspect-[4/3] bg-gradient-to-br from-white/10 to-white/5 flex items-center justify-center">
-                <span class="text-5xl">{{ spec.icon }}</span>
+            <router-link v-for="service in featuredServices" :key="service.id" :to="`/services/${service.slug}`" class="group block bg-white/10 border border-white/20 rounded-2xl overflow-hidden hover:border-white/40 hover:shadow-md transition-all duration-300">
+              <div class="aspect-[4/3] bg-white/5 overflow-hidden relative">
+                <img :src="service.image" :alt="service.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
               </div>
               <div class="p-5">
-                <h3 class="text-sm font-semibold text-white mb-2 group-hover:text-white/95 transition-colors line-clamp-2">{{ spec.title }}</h3>
-                <p class="text-white/75 text-xs leading-relaxed line-clamp-2 mb-3">{{ spec.desc }}</p>
+                <h3 class="text-sm font-semibold text-white mb-2 group-hover:text-white/95 transition-colors line-clamp-2">{{ service.title }}</h3>
+                <p class="text-white/75 text-xs leading-relaxed line-clamp-2 mb-3">{{ service.excerpt }}</p>
                 <span class="text-white/90 font-medium text-xs flex items-center gap-1 group-hover:gap-2 transition-all">
                   Learn More <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
                 </span>
@@ -205,60 +216,53 @@
 
 
     <!-- ═══════════════ CTA (WHITE BACKGROUND, FULL WIDTH) ═══════════════ -->
-<section class="py-14 md:py-20 w-full bg-white">
-  <div class="w-full px-0">
-    
-    <div class="relative w-full overflow-hidden bg-white">
+  <section class="py-14 md:py-20 w-full bg-white">
+    <div class="w-full px-0">
       
-      <!-- Soft background accent (optional visual depth) -->
-      <div class="absolute inset-0 opacity-10 bg-cover bg-white"></div>
+      <div class="relative w-full overflow-hidden bg-white">
+        
+        <!-- Soft background accent (optional visual depth) -->
+        <div class="absolute inset-0 opacity-10 bg-cover bg-white"></div>
 
-      <div class="relative grid lg:grid-cols-2 items-center">
+        <div class="relative grid lg:grid-cols-2 items-center">
 
-        <!-- TEXT SIDE -->
-        <div class="p-8 md:p-12 lg:p-16">
-          
-          <h2 class="text-2xl md:text-3xl font-bold text-gray-900 leading-tight mb-4">
-            Join Our Growing Team
-          </h2>
+          <!-- TEXT SIDE -->
+          <div class="p-8 md:p-12 lg:p-16">
+            
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-900 leading-tight mb-4">
+              Join Our Growing Team
+            </h2>
 
-          <p class="text-gray-600 text-sm leading-relaxed mb-8 max-w-md">
-            We're always looking for talented people who are passionate about technology and innovation.
-          </p>
+            <p class="text-gray-600 text-sm leading-relaxed mb-8 max-w-md">
+              We're always looking for talented people who are passionate about technology and innovation.
+            </p>
 
-          <router-link 
-            to="/contact" 
-            class="inline-flex items-center gap-2 px-7 py-3 bg-black text-white text-sm font-semibold rounded-full hover:bg-gray-900 transition-all shadow-md"
-          >
-            Get In Touch
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-              <path d="M7 17L17 7M17 7H7M17 7v10"/>
-            </svg>
-          </router-link>
+            <router-link 
+              to="/contact" 
+              class="inline-flex items-center gap-2 px-7 py-3 bg-black text-white text-sm font-semibold rounded-full hover:bg-gray-900 transition-all shadow-md"
+            >
+              Get In Touch
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path d="M7 17L17 7M17 7H7M17 7v10"/>
+              </svg>
+            </router-link>
+
+          </div>
+
+          <!-- IMAGE SIDE -->
+          <div class="hidden lg:flex items-end rounded-xl justify-end h-full min-h-[200px] bg-gray-50">
+            <img 
+              :src="heroTech4" 
+              alt="Professional" 
+              class="h-full max-h-[380px] object-cover object-top w-full"
+            />
+          </div>
 
         </div>
-
-        <!-- IMAGE SIDE -->
-        <div class="hidden lg:flex items-end rounded-xl justify-end h-full min-h-[200px] bg-gray-50">
-          <img 
-            :src="heroTech4" 
-            alt="Professional" 
-            class="h-full max-h-[380px] object-cover object-top w-full"
-          />
-        </div>
-
       </div>
+
     </div>
-
-  </div>
-</section>
-
-
- 
-
-
-  
-
+  </section>
 
   
     <!-- ═══════════════ WE SPECIALIZE IN ═══════════════ -->
@@ -331,7 +335,7 @@
     </section>
 
     <!-- ═══════════════ SERVICES CAROUSEL ═══════════════ -->
-    <section v-if="allServices.length" class="py-12 md:py-16" style="background-color: #262626;">
+    <section v-if="allServices.length || featuredServices.length" class="py-12 md:py-16" style="background-color: #262626;">
       <div class="container mx-auto px-6 max-w-5xl">
         <div class="text-center max-w-2xl mx-auto mb-10">
           <p class="text-white text-xs font-semibold tracking-widest uppercase mb-3">Our Services</p>
@@ -347,10 +351,10 @@
           :breakpoints="servicesBreakpoints"
           class="cards-swiper"
         >
-          <SwiperSlide v-for="service in allServices" :key="service.id">
+          <SwiperSlide v-for="service in (allServices.length ? allServices.slice(0, 8) : featuredServices)" :key="service.id">
             <router-link :to="`/services/${service.slug}`" class="group block bg-white/10 rounded-2xl overflow-hidden border border-white/20 hover:border-white/40 hover:shadow-md transition-all duration-300">
               <div class="aspect-[4/3] bg-white/5 overflow-hidden relative">
-                <img v-if="service.image_url" :src="service.image_url" :alt="service.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img v-if="service.image_url || service.image" :src="service.image_url || service.image" :alt="service.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-white/10 to-white/5">
                   <span class="text-3xl">{{ service.icon || '💡' }}</span>
                 </div>
@@ -389,7 +393,7 @@
           <!-- ── LEFT: population.png image ── -->
           <div class="relative rounded-2xl overflow-hidden min-h-[420px]">
             <img
-              :src="settings.population_image || populationImage || '/images/population.png'"
+              :src="settings.population_image || '/images/population.png'"
               alt="Global population impacted by OmniviaTech"
               class="w-full h-full object-cover"
             />
@@ -1534,7 +1538,7 @@
     </section>
 
        <!-- ═══════════════ CTA — VIDEO MAIN ═══════════════ -->
-    <section ref="videoCtaSectionMain"class="py-12 md:py-16">
+    <section ref="videoCtaSectionMain" class="py-12 md:py-16">
       <div class="container mx-auto px-6 max-w-5xl">
  
         <!-- Video card -->
@@ -1584,31 +1588,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue';
-import { Swiper, SwiperSlide } from 'swiper/vue';
-import { Autoplay, Pagination, Navigation } from 'swiper/modules';
-// @ts-ignore
-import 'swiper/css';
-// @ts-ignore
-import 'swiper/css/pagination';
-// @ts-ignore
-import 'swiper/css/navigation';
-import PublicLayout from '../layouts/PublicLayout.vue';
-import WishlistButton from '../components/WishlistButton.vue';
 import axios from 'axios';
-import { useToast } from '../composables';
-import heroTechBg from '../../img/tech-background.png';
-import heroCTAbg from '../../img/tech4.jpg';
-import videoCTA from '../../videos/omniviatech.mp4';
-import heroTechGlow from '../../img/tech-glow.webp';
-import heroTech4 from '../../img/tech4.jpg';
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 import heroTech3 from '../../img/Laptop.webp';
-import heroTech2 from '../../img/tech-closeup.jpg';
-import heroTech1 from '../../img/tech2.jpg';
-import heroTech from '../../img/tech1.jpg';
-import heroTech5 from '../../img/tech3.jpg';
-import heroTech6 from '../../img/tech7.jpg';
-import videoSolutions from '../../videos/omniviatech-solutions.mp4';
 import apiDevelopmentImage from '../../img/services/API Development.webp';
 import crmErpDevelopmentImage from '../../img/services/CRM & ERP Development.webp';
 import customWebDevelopmentImage from '../../img/services/Custom Web Development.webp';
@@ -1617,6 +1604,19 @@ import mobileAppDevelopmentImage from '../../img/services/Mobile App Development
 import mobileAppImage from '../../img/services/Mobile App.webp';
 import paidAdsImage from '../../img/services/Paid Ads.webp';
 import seoOptimizationImage from '../../img/services/SEO Optimization.webp';
+import heroTechBg from '../../img/tech-background.png';
+import heroTech2 from '../../img/tech-closeup.jpg';
+import heroTechGlow from '../../img/tech-glow.webp';
+import heroTech1 from '../../img/tech2.jpg';
+import heroTech5 from '../../img/tech3.jpg';
+import heroTech4 from '../../img/tech4.jpg';
+import heroCTAbg from '../../img/tech4.jpg';
+import heroTech6 from '../../img/tech7.jpg';
+import videoSolutions from '../../videos/omniviatech-solutions.mp4';
+import videoCTA from '../../videos/omniviatech.mp4';
+import WishlistButton from '../components/WishlistButton.vue';
+import { useToast } from '../composables';
+import PublicLayout from '../layouts/PublicLayout.vue';
 
 // Data
 const loading = ref(true);
@@ -1712,22 +1712,95 @@ const specializations = [
   { icon: '\uD83D\uDEE0\uFE0F', title: 'IT Consulting', desc: 'Strategic technology advisory' },
 ];
 
+const featuredServices = [
+  {
+    id: 'custom-web-development',
+    title: 'Custom Website Development',
+    slug: 'custom-web-development',
+    excerpt: 'Tailored websites and web applications built to match your brand and business goals.',
+    image: customWebDevelopmentImage,
+  },
+  {
+    id: 'api-development',
+    title: 'API Development',
+    slug: 'api-development',
+    excerpt: 'Scalable APIs for integrations, automation, and secure data exchange.',
+    image: apiDevelopmentImage,
+  },
+  {
+    id: 'crm-erp-development',
+    title: 'CRM & ERP Development',
+    slug: 'crm-erp-development',
+    excerpt: 'Custom CRM and ERP systems to streamline operations and improve productivity.',
+    image: crmErpDevelopmentImage,
+  },
+  {
+    id: 'ecommerce-development',
+    title: 'E-commerce Development',
+    slug: 'ecommerce-development',
+    excerpt: 'High-converting online stores built for seamless shopping experiences.',
+    image: eCommerceDevelopmentImage,
+  },
+  {
+    id: 'mobile-app-development',
+    title: 'Mobile App Development',
+    slug: 'mobile-app-development',
+    excerpt: 'Native and cross-platform apps for iOS and Android that drive engagement.',
+    image: mobileAppDevelopmentImage,
+  },
+  {
+    id: 'paid-ads-management',
+    title: 'Paid Ads Management',
+    slug: 'paid-ads-management',
+    excerpt: 'Performance campaigns that increase traffic and conversions.',
+    image: paidAdsImage,
+  },
+  {
+    id: 'seo-optimization',
+    title: 'SEO Optimization',
+    slug: 'seo-optimization',
+    excerpt: 'Search engine optimization to improve your online visibility.',
+    image: seoOptimizationImage,
+  },
+  {
+    id: 'mobile-app-strategy',
+    title: 'Mobile App Strategy',
+    slug: 'mobile-app-strategy',
+    excerpt: 'Strategic mobile planning and development for business growth.',
+    image: mobileAppImage,
+  },
+];
+
 const serviceImagePaths: Record<string, string> = {
   'api development': apiDevelopmentImage,
+  'api developer': apiDevelopmentImage,
+  'api design': apiDevelopmentImage,
   'crm & erp development': crmErpDevelopmentImage,
+  'crm erp development': crmErpDevelopmentImage,
   'custom web development': customWebDevelopmentImage,
+  'custom website development': customWebDevelopmentImage,
+  'website development': customWebDevelopmentImage,
+  'web development': customWebDevelopmentImage,
   'e-commerece development': eCommerceDevelopmentImage,
+  'ecommerce development': eCommerceDevelopmentImage,
   'e-commerce development': eCommerceDevelopmentImage,
   'mobile app development': mobileAppDevelopmentImage,
+  'mobile application development': mobileAppDevelopmentImage,
   'mobile app': mobileAppImage,
   'paid ads': paidAdsImage,
+  'paid ads management': paidAdsImage,
   'seo optimization': seoOptimizationImage,
+  'search engine optimization': seoOptimizationImage,
 };
 
 function getServiceImage(service: any) {
   const key = (service.title || service.name || service.slug || '').toString().trim().toLowerCase();
   if (!key) {
     return '';
+  }
+
+  if (service.image) {
+    return service.image;
   }
 
   if (service.image_url) {
@@ -1738,24 +1811,39 @@ function getServiceImage(service: any) {
     return serviceImagePaths[key];
   }
 
+  if (key.includes('custom website') || key.includes('custom web') || key.includes('website development') || key.includes('web development')) {
+    return customWebDevelopmentImage;
+  }
+
+  if (key.includes('ecommerce') || key.includes('e-commerce') || key.includes('online store') || key.includes('shop')) {
+    return eCommerceDevelopmentImage;
+  }
+
   if (key.includes('api')) {
-    return serviceImagePaths['api development'];
+    return apiDevelopmentImage;
   }
 
   if (key.includes('crm')) {
-    return serviceImagePaths['crm & erp development'];
+    return crmErpDevelopmentImage;
   }
 
   if (key.includes('seo')) {
-    return serviceImagePaths['seo optimization'];
+    return seoOptimizationImage;
   }
 
   if (key.includes('ads')) {
-    return serviceImagePaths['paid ads'];
+    return paidAdsImage;
+  }
+
+  if (key.includes('mobile app') || key.includes('mobile application') || key.includes('app development')) {
+    return mobileAppDevelopmentImage;
   }
 
   return '';
 }
+
+const currentHeroSlide = ref(0)
+
 
 const heroSlides = [
   {
@@ -1767,7 +1855,7 @@ const heroSlides = [
     cta_link: '/services',
     cta_text_2: 'Learn More',
     cta_link_2: '/about',
-    bg_image: 'heroTechBg',
+    bg_image: heroTechBg,
   },
   {
     id: 2,
@@ -1778,7 +1866,7 @@ const heroSlides = [
     cta_link: '/services',
     cta_text_2: 'Get Demo',
     cta_link_2: '/contact',
-    bg_image: 'heroCTAbg ',
+    bg_image: heroCTAbg,
   },
   {
     id: 3,
@@ -1789,7 +1877,7 @@ const heroSlides = [
     cta_link: '/services',
     cta_text_2: 'Schedule Call',
     cta_link_2: '/contact',
-    bg_image: 'heroTech1',
+    bg_image: heroTech1,
   },
   {
     id: 4,
@@ -1800,7 +1888,7 @@ const heroSlides = [
     cta_link: '/services',
     cta_text_2: 'Assess Risk',
     cta_link_2: '/contact',
-    bg_image: 'heroTech2',
+    bg_image: heroTech2,
   },
   {
     id: 5,
@@ -1811,7 +1899,7 @@ const heroSlides = [
     cta_link: '/services',
     cta_text_2: 'See Portfolio',
     cta_link_2: '/case-studies',
-    bg_image: 'heroTech3',
+    bg_image: heroTech3,
   },
   {
     id: 6,
@@ -1822,7 +1910,7 @@ const heroSlides = [
     cta_link: '/services',
     cta_text_2: 'Contact Us',
     cta_link_2: '/contact',
-    bg_image: 'heroTech5',
+    bg_image: heroTech5,
   },
   {
     id: 7,
@@ -1833,7 +1921,7 @@ const heroSlides = [
     cta_link: '/contact',
     cta_text_2: 'Our Services',
     cta_link_2: '/services',
-    bg_image: 'heroTech6',
+    bg_image: heroTech6,
   },
 ];
 
@@ -1892,12 +1980,7 @@ const processSteps = [
   { title: 'Launch', description: 'We deploy and support your solution for success' },
 ];
 
-const whyFeatures = [
-  { title: 'Expert Team', description: 'Experienced developers and consultants' },
-  { title: 'Proven Track Record', description: '500+ successful projects delivered' },
-  { title: 'Agile Methodology', description: 'Fast iterations and continuous improvement' },
-  { title: '24/7 Support', description: 'Always here when you need us' },
-];
+// Removed unused `whyFeatures` block to satisfy lint rules
 
 const whyUsReasons = [
   { icon: '⚡', title: 'Lightning Fast Delivery', desc: 'We deliver solutions quickly without compromising quality. Your time-to-market matters.' },
@@ -1941,16 +2024,8 @@ const videoElMain = ref<HTMLVideoElement | null>(null);
 const videoCtaSectionMain = ref<HTMLElement | null>(null);
 
 // Solutions Background Video
-const videoSrcSolutions = videoSolutions;
 const videoElSolutions = ref<HTMLVideoElement | null>(null);
 const videoSectionSolutions = ref<HTMLElement | null>(null);
-
-// Secondary CTA Video
-const videoSrcSecondary = videoSolutions;
-const videoTitleSecondary = 'See How We Work';
-const captionSecondary = 'Discover our proven process and methodology.';
-const videoElSecondary = ref<HTMLVideoElement | null>(null);
-const videoCtaSectionSecondary = ref<HTMLElement | null>(null);
 
 function shareVideo(title: string) {
   const shareText = `${title} — Watch now at ${window.location.href}`;
@@ -1984,8 +2059,7 @@ const quoteForm = ref({ name: '', email: '', phone: '', service: '', description
 const quoteFormSubmitting = ref(false);
 const newsletterEmail = ref('');
 const newsletterSubmitting = ref(false);
-const contactForm = ref({ name: '', email: '', phone: '', message: '' });
-const contactFormSubmitting = ref(false);
+// contact form state removed (not used on this page)
 
 
 // ─── Mission & Vision Data ───────────────────────────────────────────────────
@@ -2174,21 +2248,6 @@ function onSlideChange(swiper: { realIndex: number }) {
 
 // populationImage comes from the CMS (see note below).
 // Fall back to the local asset if not set.
-const props = defineProps<{
-  populationImage?: string   // CMS-managed URL for population.png
-  impactProjects: {
-    title: string
-    description: string
-    image: string
-    location: string
-    sector?: string
-    case_study_slug: string  // used to build /case-studies/:slug
-  }[]
-  impactStats: {
-    value: string
-    label: string
-  }[]
-}>()
 
 async function submitQuoteRequest() {
   quoteFormSubmitting.value = true;
@@ -2214,18 +2273,7 @@ async function submitNewsletter() {
   finally { newsletterSubmitting.value = false; }
 }
 
-async function submitContactForm() {
-  contactFormSubmitting.value = true;
-  try {
-    await axios.post('/api/v1/enquiries', {
-      type: 'contact', name: contactForm.value.name, email: contactForm.value.email,
-      phone: contactForm.value.phone, message: contactForm.value.message,
-    });
-    toast.success('Message sent successfully!');
-    contactForm.value = { name: '', email: '', phone: '', message: '' };
-  } catch { toast.error('Failed to send message.'); }
-  finally { contactFormSubmitting.value = false; }
-}
+// contact form handler removed (not used in this page)
 
 function formatDate(dateStr: string) {
   if (!dateStr) return '';

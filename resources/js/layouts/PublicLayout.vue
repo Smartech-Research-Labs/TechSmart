@@ -3,201 +3,9 @@
     <!-- Top Bar -->
     <TopBar />
 
-    <!-- Navigation -->
-    <nav class="navbar sticky top-0 z-30 backdrop-blur-xl border-b border-border" style="background-color: #262626;">
-      <div class="container mx-auto px-4 py-3">
-        <div class="flex items-center justify-between">
-           <!-- Logo -->
-          <router-link to="/" class="flex items-center gap-3 group">
-            <img
-              v-if="settings?.logo_path"
-              :src="`/storage/${settings.logo_path}`"
-              alt="Logo"
-              class="w-auto object-contain"
-              :style="headerLogoStyle"
-            />
-            <img
-              v-else
-              :src="defaultLogo"
-              alt="OmniviaTech Logo"
-              class="w-auto object-contain"
-              style="height: 40px;"
-            />
-            <span class="text-xl font-display font-bold text-white group-hover:text-primary transition">
-              {{ settings?.site_name || 'OmniviaTech' }}
-            </span>
-          </router-link>
+    <GlobalMegaMenu />
 
-          <!-- Desktop Mega Menu -->
-          <div class="hidden lg:flex items-center gap-1">
-            <!-- Home -->
-            <router-link to="/" class="nav-link px-3 py-2 text-white/75 hover:text-primary transition font-medium text-sm rounded-lg hover:bg-white/10" active-class="text-primary">Home</router-link>
-
-            <!-- Solutions Dropdown -->
-            <div class="relative group" @mouseenter="openDropdown = 'solutions'" @mouseleave="openDropdown = null">
-              <button class="nav-link px-3 py-2 text-white/75 hover:text-primary transition font-medium text-sm rounded-lg hover:bg-white/10 flex items-center gap-1" :class="{ 'text-primary': isSolutionsActive }">
-                Solutions
-                <svg class="w-3.5 h-3.5 transition-transform duration-200" :class="{ 'rotate-180': openDropdown === 'solutions' }" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
-              </button>
-              <transition enter-active-class="transition duration-150 ease-out" enter-from-class="opacity-0 translate-y-1" enter-to-class="opacity-100 translate-y-0" leave-active-class="transition duration-100 ease-in" leave-from-class="opacity-100 translate-y-0" leave-to-class="opacity-0 translate-y-1">
-                <div v-show="openDropdown === 'solutions'" class="absolute top-full left-0 mt-1 w-[540px] bg-card border border-border rounded-xl shadow-xl p-5 z-50">
-                  <div class="grid grid-cols-2 gap-1">
-                    <router-link v-for="item in solutionsMenu" :key="item.to" :to="item.to" class="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition group/item">
-                      <div class="w-10 h-10 shrink-0 rounded-lg flex items-center justify-center text-lg" :class="item.bgClass">{{ item.icon }}</div>
-                      <div>
-                        <div class="text-sm font-semibold text-foreground group-hover/item:text-primary transition">{{ item.label }}</div>
-                        <div class="text-xs text-muted-foreground mt-0.5">{{ item.desc }}</div>
-                      </div>
-                    </router-link>
-                  </div>
-                </div>
-              </transition>
-            </div>
-
-            <!-- Company Dropdown -->
-            <div class="relative group" @mouseenter="openDropdown = 'company'" @mouseleave="openDropdown = null">
-              <button class="nav-link px-3 py-2 text-white/75 hover:text-primary transition font-medium text-sm rounded-lg hover:bg-white/10 flex items-center gap-1" :class="{ 'text-primary': isCompanyActive }">
-                Company
-                <svg class="w-3.5 h-3.5 transition-transform duration-200" :class="{ 'rotate-180': openDropdown === 'company' }" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
-              </button>
-              <transition enter-active-class="transition duration-150 ease-out" enter-from-class="opacity-0 translate-y-1" enter-to-class="opacity-100 translate-y-0" leave-active-class="transition duration-100 ease-in" leave-from-class="opacity-100 translate-y-0" leave-to-class="opacity-0 translate-y-1">
-                <div v-show="openDropdown === 'company'" class="absolute top-full left-0 mt-1 w-[320px] bg-card border border-border rounded-xl shadow-xl p-4 z-50">
-                  <div class="space-y-1">
-                    <router-link v-for="item in companyMenu" :key="item.to" :to="item.to" class="flex items-center gap-3 p-3 rounded-lg hover:bg-muted/50 transition group/item">
-                      <div class="w-9 h-9 shrink-0 rounded-lg flex items-center justify-center text-base" :class="item.bgClass">{{ item.icon }}</div>
-                      <div>
-                        <div class="text-sm font-semibold text-foreground group-hover/item:text-primary transition">{{ item.label }}</div>
-                        <div class="text-xs text-muted-foreground mt-0.5">{{ item.desc }}</div>
-                      </div>
-                    </router-link>
-                  </div>
-                </div>
-              </transition>
-            </div>
-
-            <!-- Blog -->
-            <router-link to="/blog" class="nav-link px-3 py-2 text-white/75 hover:text-primary transition font-medium text-sm rounded-lg hover:bg-white/10" active-class="text-primary">Blog</router-link>
-
-            <!-- Contact -->
-            <router-link to="/contact" class="nav-link px-3 py-2 text-white/75 hover:text-primary transition font-medium text-sm rounded-lg hover:bg-white/10" active-class="text-primary">Contact</router-link>
-          </div>
-
-          <!-- Right Side: Theme Toggle + Auth -->
-          <div class="hidden lg:flex items-center gap-3">
-            <ThemeToggle />
-
-            <template v-if="authStore.isAuthenticated">
-              <router-link
-                to="/dashboard"
-                class="text-sm text-muted-foreground hover:text-primary transition"
-              >
-                Dashboard
-              </router-link>
-              <button
-                @click="handleLogout"
-                class="px-4 py-2 text-sm bg-card border border-border hover:border-primary text-foreground rounded-lg transition"
-              >
-                Logout
-              </button>
-            </template>
-            <template v-else>
-              <router-link
-                to="/login"
-                class="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition"
-              >
-                Login
-              </router-link>
-              <router-link
-                to="/register"
-                class="px-5 py-2 text-sm bg-gradient-to-r from-primary to-accent text-white rounded-lg hover:shadow-lg hover:shadow-primary/25 transform hover:scale-105 transition font-semibold"
-              >
-                Get Started
-              </router-link>
-            </template>
-          </div>
-
-          <!-- Mobile Menu Button -->
-          <div class="flex lg:hidden items-center gap-2">
-            <ThemeToggle />
-            <button
-              @click="mobileMenuOpen = !mobileMenuOpen"
-              class="text-foreground p-2"
-            >
-              <svg v-if="!mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-              <svg v-else class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- Mobile Menu -->
-        <transition
-          enter-active-class="transition duration-200 ease-out"
-          enter-from-class="opacity-0 -translate-y-2"
-          enter-to-class="opacity-100 translate-y-0"
-          leave-active-class="transition duration-150 ease-in"
-          leave-from-class="opacity-100 translate-y-0"
-          leave-to-class="opacity-0 -translate-y-2"
-        >
-          <div v-if="mobileMenuOpen" class="lg:hidden mt-4 pb-4 space-y-1">
-            <router-link to="/" class="block py-2.5 px-3 rounded-lg text-muted-foreground hover:text-primary hover:bg-muted transition" @click="mobileMenuOpen = false">Home</router-link>
-            
-            <!-- Solutions Group -->
-            <div>
-              <button @click="mobileExpanded = mobileExpanded === 'solutions' ? null : 'solutions'" class="w-full flex items-center justify-between py-2.5 px-3 rounded-lg text-muted-foreground hover:text-primary hover:bg-muted transition">
-                <span>Solutions</span>
-                <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': mobileExpanded === 'solutions' }" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
-              </button>
-              <div v-show="mobileExpanded === 'solutions'" class="ml-3 pl-3 border-l border-border space-y-1">
-                <router-link v-for="item in solutionsMenu" :key="item.to" :to="item.to" class="flex items-center gap-2 py-2 px-3 rounded-lg text-sm text-muted-foreground hover:text-primary hover:bg-muted transition" @click="mobileMenuOpen = false">
-                  <span>{{ item.icon }}</span> {{ item.label }}
-                </router-link>
-              </div>
-            </div>
-            
-            <!-- Company Group -->
-            <div>
-              <button @click="mobileExpanded = mobileExpanded === 'company' ? null : 'company'" class="w-full flex items-center justify-between py-2.5 px-3 rounded-lg text-muted-foreground hover:text-primary hover:bg-muted transition">
-                <span>Company</span>
-                <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': mobileExpanded === 'company' }" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
-              </button>
-              <div v-show="mobileExpanded === 'company'" class="ml-3 pl-3 border-l border-border space-y-1">
-                <router-link v-for="item in companyMenu" :key="item.to" :to="item.to" class="flex items-center gap-2 py-2 px-3 rounded-lg text-sm text-muted-foreground hover:text-primary hover:bg-muted transition" @click="mobileMenuOpen = false">
-                  <span>{{ item.icon }}</span> {{ item.label }}
-                </router-link>
-              </div>
-            </div>
-            
-            <router-link to="/blog" class="block py-2.5 px-3 rounded-lg text-muted-foreground hover:text-primary hover:bg-muted transition" @click="mobileMenuOpen = false">Blog</router-link>
-            <router-link to="/contact" class="block py-2.5 px-3 rounded-lg text-muted-foreground hover:text-primary hover:bg-muted transition" @click="mobileMenuOpen = false">Contact</router-link>
-
-            <div class="pt-3 border-t border-border space-y-2">
-              <template v-if="authStore.isAuthenticated">
-                <router-link to="/dashboard" class="block py-2.5 px-3 text-muted-foreground hover:text-primary transition" @click="mobileMenuOpen = false">
-                  Dashboard
-                </router-link>
-                <button @click="handleLogout" class="w-full text-left py-2.5 px-3 text-muted-foreground hover:text-primary transition">
-                  Logout
-                </button>
-              </template>
-              <template v-else>
-                <router-link to="/login" class="block py-2.5 px-3 text-muted-foreground hover:text-primary transition" @click="mobileMenuOpen = false">
-                  Login
-                </router-link>
-                <router-link to="/register" class="block py-2.5 px-3 text-primary font-semibold" @click="mobileMenuOpen = false">
-                  Get Started
-                </router-link>
-              </template>
-            </div>
-          </div>
-        </transition>
-      </div>
-    </nav>
-
-    <!-- Breadcrumbs (visible on non-home pages) -->
+    <!-- Breadcrumbs (visible on non-home pages) -->    <!-- Breadcrumbs (visible on non-home pages) -->
     <nav v-if="route.path !== '/'" aria-label="Breadcrumb" class="bg-muted/30 border-b border-border">
       <div class="container mx-auto px-4 py-2 flex items-center gap-1.5 text-xs text-muted-foreground">
         <router-link to="/" class="hover:text-primary transition">Home</router-link>
@@ -406,59 +214,29 @@
 </template>
 
 <script setup lang="ts">
+import axios from 'axios';
 import { ref, onMounted, computed, watchEffect, onUnmounted } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import { useRoute } from 'vue-router';
+import defaultLogo from '@/../img/Omnivatech-logo.png';
+import FloatingChatButton from '@/components/FloatingChatButton.vue';
+import GlobalMegaMenu from '@/components/GlobalMegaMenu.vue';
+import ScrollToTopButton from '@/components/ScrollToTopButton.vue';
+import TopBar from '@/components/shared/TopBar.vue';
+import WhatsAppButton from '@/components/WhatsAppButton.vue';
+import { useToast } from '@/composables';
 import { useAuthStore } from '@/stores/auth';
 import { useCmsStore } from '@/stores/cms';
-import { useToast } from '@/composables';
-import TopBar from '@/components/shared/TopBar.vue';
-import ThemeToggle from '@/components/shared/ThemeToggle.vue';
-import WhatsAppButton from '@/components/WhatsAppButton.vue';
-import ScrollToTopButton from '@/components/ScrollToTopButton.vue';
-import FloatingChatButton from '@/components/FloatingChatButton.vue';
-import axios from 'axios';
-import defaultLogo from '@/../img/Omnivatech-logo.png';
 
-const router = useRouter();
 const route = useRoute();
 const authStore = useAuthStore();
 const cmsStore = useCmsStore();
 const { success } = useToast();
 
-const mobileMenuOpen = ref(false);
 const newsletterEmail = ref('');
-const openDropdown = ref<string | null>(null);
-const mobileExpanded = ref<string | null>(null);
 
 const settings = computed(() => cmsStore.homeData?.settings);
 
 // Dynamic header logo styling from CMS settings
-const headerLogoStyle = computed(() => {
-  const height = (settings.value as any)?.logo_height || '40';
-  const borderRadius = (settings.value as any)?.logo_border_radius || '0';
-  return {
-    height: `${height}px`,
-    borderRadius: `${borderRadius}px`,
-  };
-});
-
-// Mega menu data
-const solutionsMenu = [
-  { to: '/services', label: 'Services', desc: 'Technology & digital solutions', icon: '💡', bgClass: 'bg-primary/10' },
-  { to: '/products', label: 'Products', desc: 'Ready-made software products', icon: '📦', bgClass: 'bg-accent/10' },
-  { to: '/bundles', label: 'Bundles', desc: 'Discounted solution packages', icon: '🎁', bgClass: 'bg-green-500/10' },
-  { to: '/industries', label: 'Industries', desc: 'Sector-specific solutions', icon: '🏭', bgClass: 'bg-amber-500/10' },
-];
-
-const companyMenu = [
-  { to: '/about', label: 'About Us', desc: 'Our story & mission', icon: '🏢', bgClass: 'bg-primary/10' },
-  { to: '/case-studies', label: 'Case Studies', desc: 'Success stories & projects', icon: '📊', bgClass: 'bg-accent/10' },
-  { to: '/faqs', label: 'FAQs', desc: 'Common questions', icon: '❓', bgClass: 'bg-green-500/10' },
-];
-
-const isSolutionsActive = computed(() => ['/services', '/products', '/bundles', '/industries'].some(p => route.path.startsWith(p)));
-const isCompanyActive = computed(() => ['/about', '/case-studies', '/faqs'].some(p => route.path.startsWith(p)));
-
 // ── SEO: JSON-LD Schema Markup ──
 const seoScriptEl = ref<HTMLScriptElement | null>(null);
 const breadcrumbScriptEl = ref<HTMLScriptElement | null>(null);
@@ -517,7 +295,6 @@ watchEffect(() => {
 
   // Breadcrumb schema
   const path = route.path;
-  const pageName = pageNameMap[path] || path.split('/').pop()?.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) || 'Page';
   const breadcrumbItems: any[] = [
     { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
   ];
@@ -602,18 +379,6 @@ const breadcrumbs = computed(() => {
   });
 });
 
-const navLinks = [
-  { to: '/', label: 'Home' },
-  { to: '/about', label: 'About' },
-  { to: '/services', label: 'Services' },
-  { to: '/products', label: 'Products' },
-  { to: '/bundles', label: 'Bundles' },
-  { to: '/industries', label: 'Industries' },
-  { to: '/case-studies', label: 'Case Studies' },
-  { to: '/blog', label: 'Blog' },
-  { to: '/contact', label: 'Contact' },
-];
-
 const footerServicesLinks = [
   { to: '/services', label: 'All Services' },
   { to: '/products', label: 'Products' },
@@ -638,12 +403,6 @@ onMounted(async () => {
     });
   }
 });
-
-async function handleLogout() {
-  await authStore.logout();
-  success('Logged out successfully');
-  router.push('/login');
-}
 
 async function handleNewsletter() {
   if (!newsletterEmail.value) return;

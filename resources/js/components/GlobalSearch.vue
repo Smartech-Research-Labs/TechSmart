@@ -148,9 +148,9 @@
 </template>
 
 <script setup lang="ts">
+import { IconSearch, IconSearchOff } from '@tabler/icons-vue';
 import { ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { IconSearch, IconSearchOff } from '@tabler/icons-vue';
 import { useApi } from '@/composables/useApi';
 
 const props = defineProps<{ modelValue: boolean }>();

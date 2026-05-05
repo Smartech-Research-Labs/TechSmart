@@ -211,18 +211,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
-import PublicLayout from '@/layouts/PublicLayout.vue';
-import WishlistButton from '@/components/WishlistButton.vue';
-import PaginationControls from '@/components/ui/pagination/PaginationControls.vue';
 import axios from 'axios';
-import { useToast } from '@/composables';
-import { useCmsStore } from '@/stores/cms';
-import heroLaptopDark from '@/../img/tech-background.png';
+import { ref, computed, onMounted } from 'vue';
 import heroOrbit from '@/../img/Orbit.webp';
+import heroLaptopDark from '@/../img/tech-background.png';
+import heroTechGlow from '@/../img/tech-glow.webp';
 import heroTech2 from '@/../img/tech2.jpg';
 import heroTech4 from '@/../img/tech4.jpg';
-import heroTechGlow from '@/../img/tech-glow.webp';
+import PaginationControls from '@/components/ui/pagination/PaginationControls.vue';
+import WishlistButton from '@/components/WishlistButton.vue';
+import { useToast } from '@/composables';
+import PublicLayout from '@/layouts/PublicLayout.vue';
+import { useCmsStore } from '@/stores/cms';
 
 const cmsStore = useCmsStore();
 const s = computed(() => cmsStore.homeData?.settings || {} as any);

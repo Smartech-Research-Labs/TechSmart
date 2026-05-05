@@ -254,15 +254,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import PublicLayout from '@/layouts/PublicLayout.vue';
 import axios from 'axios';
-import { useToast } from '@/composables';
+import { ref, computed } from 'vue';
 import heroLaptopDark from '@/../img/tech-background.png';
-import heroTech6 from '@/../img/tech6.jpg';
+import heroTechGlow from '@/../img/tech-glow.webp';
 import heroTech2 from '@/../img/tech2.jpg';
 import heroTech4 from '@/../img/tech4.jpg';
-import heroTechGlow from '@/../img/tech-glow.webp';
+import heroTech6 from '@/../img/tech6.jpg';
+import { useToast } from '@/composables';
+import PublicLayout from '@/layouts/PublicLayout.vue';
 
 const toast = useToast();
 const openFaq = ref<number | null>(0);

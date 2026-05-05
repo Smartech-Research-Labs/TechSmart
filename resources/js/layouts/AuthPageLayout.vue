@@ -32,6 +32,8 @@
       </div>
     </header>
 
+    <GlobalMegaMenu />
+
     <!-- Content -->
     <main class="flex flex-1 flex-col items-center justify-center p-6 md:p-10">
       <slot />
@@ -52,9 +54,10 @@
 </template>
 
 <script setup lang="ts">
+import { IconSun, IconMoon, IconDeviceDesktop } from '@tabler/icons-vue'
 import { computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { IconSun, IconMoon, IconDeviceDesktop } from '@tabler/icons-vue'
+import GlobalMegaMenu from '@/components/GlobalMegaMenu.vue'
 import { Button } from '@/components/ui/button'
 import { useAppearance } from '@/composables/useAppearance'
 import { useCmsStore } from '@/stores/cms'

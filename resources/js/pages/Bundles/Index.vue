@@ -161,15 +161,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import PublicLayout from '@/layouts/PublicLayout.vue';
 import axios from 'axios';
-import { useToast } from '@/composables';
+import { ref, onMounted } from 'vue';
 import heroLaptopDark from '@/../img/tech-background.png';
+import heroTechGlow from '@/../img/tech-glow.webp';
 import heroTech from '@/../img/tech.webp';
 import heroTech2 from '@/../img/tech2.jpg';
 import heroTech4 from '@/../img/tech4.jpg';
-import heroTechGlow from '@/../img/tech-glow.webp';
+import { useToast } from '@/composables';
+import PublicLayout from '@/layouts/PublicLayout.vue';
 
 const toast = useToast();
 const bundles = ref<any[]>([]);

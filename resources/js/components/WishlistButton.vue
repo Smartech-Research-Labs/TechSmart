@@ -26,10 +26,10 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { useWishlistStore } from '@/stores/wishlist';
-import { useAuthStore } from '@/stores/auth';
-import { useToast } from '@/composables';
 import { useRouter } from 'vue-router';
+import { useToast } from '@/composables';
+import { useAuthStore } from '@/stores/auth';
+import { useWishlistStore } from '@/stores/wishlist';
 
 const props = withDefaults(defineProps<{
   type: string; // 'App\\Models\\Service' or 'App\\Models\\Product'

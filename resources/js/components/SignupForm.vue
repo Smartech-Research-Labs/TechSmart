@@ -2,12 +2,8 @@
 import { ref, computed } from 'vue';
 import type { HTMLAttributes } from 'vue';
 import { useRouter } from 'vue-router';
-import { useAuthStore } from '@/stores/auth';
-import { useCmsStore } from '@/stores/cms';
-import { cn } from '@/lib/utils';
+import heroTechBg from '@/../img/tech-background.png';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import {
   Card,
   CardContent,
@@ -15,7 +11,11 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import heroTechBg from '@/../img/tech-background.png';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { cn } from '@/lib/utils';
+import { useAuthStore } from '@/stores/auth';
+import { useCmsStore } from '@/stores/cms';
 
 const props = defineProps<{
   class?: HTMLAttributes['class'];

@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
+import type { Socket } from 'socket.io-client';
+import { io } from 'socket.io-client';
 import { ref, computed } from 'vue';
-import { io, Socket } from 'socket.io-client';
 import { useNotificationSound } from '@/composables/useNotificationSound';
 
 interface AppNotification {

@@ -598,11 +598,19 @@
 </template>
 
 <script setup lang="ts">
+import heroLaptop from '@/../img/Laptop.webp';
+import heroOrbit from '@/../img/Orbit.webp';
+import svcApi from '@/../img/services/API Development.webp';
+import svcCrmErp from '@/../img/services/CRM & ERP Development.webp';
+import svcCustomWeb from '@/../img/services/Custom Web Development.webp';
+import svcEcommerce from '@/../img/services/E-commerece Development.webp';
+import svcMobileApp from '@/../img/services/Mobile App Development.webp';
+import svcMobileApp2 from '@/../img/services/Mobile App.webp';
+import svcPaidAds from '@/../img/services/Paid Ads.webp';
+import svcSeo from '@/../img/services/SEO Optimization.webp';
 import heroLaptopDark from '@/../img/tech-background.png';
 import heroTechBg from '@/../img/tech-background.png';
 import heroTech from '@/../img/tech.webp';
-import heroOrbit from '@/../img/Orbit.webp';
-import heroLaptop from '@/../img/Laptop.webp';
 import heroTech1 from '@/../img/tech1.jpg';
 import heroTech2 from '@/../img/tech2.jpg';
 import heroTech3 from '@/../img/tech3.jpg';
@@ -612,14 +620,6 @@ import heroTech6 from '@/../img/tech6.jpg';
 import heroTech7 from '@/../img/tech7.jpg';
 import heroTech8 from '@/../img/tech8.jpg';
 import heroTechGlow from '@/../img/tech-glow.webp';
-import svcCustomWeb from '@/../img/services/Custom Web Development.webp';
-import svcMobileApp from '@/../img/services/Mobile App Development.webp';
-import svcEcommerce from '@/../img/services/E-commerece Development.webp';
-import svcCrmErp from '@/../img/services/CRM & ERP Development.webp';
-import svcApi from '@/../img/services/API Development.webp';
-import svcSeo from '@/../img/services/SEO Optimization.webp';
-import svcPaidAds from '@/../img/services/Paid Ads.webp';
-import svcMobileApp2 from '@/../img/services/Mobile App.webp';
 
 const serviceImageMap: Record<string, string> = {
   'custom web development': svcCustomWeb,
@@ -665,8 +665,8 @@ import { useRoute } from 'vue-router';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay, Navigation } from 'swiper/modules';
 import PublicLayout from '@/layouts/PublicLayout.vue';
-import { useCmsStore } from '@/stores/cms';
 import api from '@/services/api';
+import { useCmsStore } from '@/stores/cms';
 // Swiper styles are imported globally in the main layout
 // import 'swiper/css';
 // import 'swiper/css/navigation';

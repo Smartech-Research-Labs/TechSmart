@@ -111,8 +111,8 @@
 
 <script setup lang="ts">
 import { ref, computed, watch, nextTick, onMounted } from 'vue';
-import { useChatStore } from '@/stores/chat';
 import { useAuthStore } from '@/stores/auth';
+import { useChatStore } from '@/stores/chat';
 
 const chatStore = useChatStore();
 const authStore = useAuthStore();

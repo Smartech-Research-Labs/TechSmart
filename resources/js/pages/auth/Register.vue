@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import AuthPageLayout from '@/layouts/AuthPageLayout.vue';
 import SignupForm from '@/components/SignupForm.vue';
+import AuthPageLayout from '@/layouts/AuthPageLayout.vue';
 </script>
 
 <template>

@@ -1,5 +1,5 @@
-import { ref, onUnmounted } from 'vue';
 import { io, type Socket } from 'socket.io-client';
+import { ref, onUnmounted } from 'vue';
 
 const socket = ref<Socket | null>(null);
 const isConnected = ref(false);

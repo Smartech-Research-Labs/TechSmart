@@ -114,11 +114,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
 import { IconAlertTriangle } from '@tabler/icons-vue';
+import { ref, onMounted, computed } from 'vue';
+import { useToast } from '@/composables/useToast';
 import DashboardLayout from '@/layouts/DashboardLayout.vue';
 import { useWishlistStore } from '@/stores/wishlist';
-import { useToast } from '@/composables/useToast';
 
 const wishlistStore = useWishlistStore();
 const toast = useToast();

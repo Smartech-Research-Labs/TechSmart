@@ -16,13 +16,13 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { RouterView } from 'vue-router';
-import { useAuthStore } from '@/stores/auth';
-import { useChatStore } from '@/stores/chat';
-import { initializeTheme } from '@/composables/useAppearance';
-import { initializeThemeColors, useThemeColors } from '@/composables/useThemeColors';
-import ToastContainer from '@/components/shared/ToastContainer.vue';
 import ChatWidget from '@/components/shared/ChatWidget.vue';
 import LoadingIndicator from '@/components/shared/LoadingIndicator.vue';
+import ToastContainer from '@/components/shared/ToastContainer.vue';
+import { initializeTheme } from '@/composables/useAppearance';
+import { initializeThemeColors, useThemeColors } from '@/composables/useThemeColors';
+import { useAuthStore } from '@/stores/auth';
+import { useChatStore } from '@/stores/chat';
 
 // Initialize theme before mount (SSR-safe)
 initializeTheme();

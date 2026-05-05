@@ -134,11 +134,11 @@
 </template>
 
 <script setup lang="ts">
+import axios from 'axios';
 import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import axios from 'axios';
-import PublicLayout from '@/layouts/PublicLayout.vue';
 import heroTechBg from '@/../img/tech-background.png';
+import PublicLayout from '@/layouts/PublicLayout.vue';
 
 const route = useRoute();
 const router = useRouter();

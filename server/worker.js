@@ -1,7 +1,7 @@
 require('dotenv').config();
+const axios = require('axios');
 const { Worker, Queue } = require('bullmq');
 const Redis = require('ioredis');
-const axios = require('axios');
 
 // Redis connection configuration
 const connection = new Redis({

@@ -89,8 +89,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import PublicLayout from '@/layouts/PublicLayout.vue';
 import heroTechBg from '@/../img/tech-background.png';
+import PublicLayout from '@/layouts/PublicLayout.vue';
 
 const route = useRoute();
 const slug = route.params.slug as string;

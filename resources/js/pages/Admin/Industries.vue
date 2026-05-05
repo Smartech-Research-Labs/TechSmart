@@ -243,16 +243,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue';
-import AdminLayout from '@/layouts/AdminLayout.vue';
-import ImageUploader from '@/components/ImageUploader.vue';
-import { useApi } from '@/composables/useApi';
-import { useToast } from '@/composables/useToast';
 import { Loader2 } from 'lucide-vue-next';
+import { ref, reactive, onMounted } from 'vue';
+import ImageUploader from '@/components/ImageUploader.vue';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent } from '@/components/ui/card';
+import { useApi } from '@/composables/useApi';
+import { useToast } from '@/composables/useToast';
+import AdminLayout from '@/layouts/AdminLayout.vue';
 
 const { get, post, put, delete: destroy } = useApi();
 const toast = useToast();

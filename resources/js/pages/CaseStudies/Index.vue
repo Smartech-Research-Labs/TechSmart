@@ -105,11 +105,11 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
+import heroLaptopDark from '@/../img/tech-background.png';
+import heroTech7 from '@/../img/tech7.jpg';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import api from '@/services/api';
 import { useCmsStore } from '@/stores/cms';
-import heroLaptopDark from '@/../img/tech-background.png';
-import heroTech7 from '@/../img/tech7.jpg';
 
 const cmsStore = useCmsStore();
 const s = computed(() => cmsStore.homeData?.settings || {} as any);

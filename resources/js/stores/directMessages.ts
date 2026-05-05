@@ -1,7 +1,8 @@
-import { defineStore } from 'pinia';
-import { ref, computed } from 'vue';
 import axios from 'axios';
-import { io, Socket } from 'socket.io-client';
+import { defineStore } from 'pinia';
+import type { Socket } from 'socket.io-client';
+import { io } from 'socket.io-client';
+import { ref, computed } from 'vue';
 
 export interface DMUser {
   id: number;
@@ -173,7 +174,7 @@ export const useDirectMessageStore = defineStore('directMessages', () => {
 
       // Update conversation
       const convId = data.conversation_id;
-      let conv = conversations.value.find(c => c.id === convId);
+      const conv = conversations.value.find(c => c.id === convId);
       if (conv) {
         conv.last_message = { body: msg.body, sender_id: msg.sender_id, status: msg.status, created_at: msg.created_at };
         conv.last_message_at = msg.created_at;

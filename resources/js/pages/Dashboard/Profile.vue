@@ -451,7 +451,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watch, onMounted } from 'vue';
 import {
   IconCamera,
   IconUser,
@@ -462,11 +461,12 @@ import {
   IconActivity,
   IconHistory,
 } from '@tabler/icons-vue';
-import { useAuthStore } from '@/stores/auth';
-import { useToast } from '@/composables/useToast';
-import { useApi } from '@/composables/useApi';
-import DashboardLayout from '@/layouts/DashboardLayout.vue';
+import { ref, reactive, watch, onMounted } from 'vue';
 import AvatarPicker from '@/components/AvatarPicker.vue';
+import { useApi } from '@/composables/useApi';
+import { useToast } from '@/composables/useToast';
+import DashboardLayout from '@/layouts/DashboardLayout.vue';
+import { useAuthStore } from '@/stores/auth';
 
 const authStore = useAuthStore();
 const toast = useToast();

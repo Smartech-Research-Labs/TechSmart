@@ -188,6 +188,101 @@
 
     <!-- ═══════════════ REQUEST A QUOTE ═══════════════ -->
     <section class="py-14 md:py-20">
+      <!-- ═══════════════ TESTIMONIALS CAROUSEL ═══════════════ -->
+      <section v-if="topReviews.length" class="py-12 md:py-16 bg-muted/20">
+        <div class="container mx-auto px-6 max-w-6xl">
+          <div class="text-center max-w-xl mx-auto mb-10">
+            <p class="text-amber-600 dark:text-amber-400 text-xs font-semibold tracking-widest uppercase mb-2">Testimonials</p>
+            <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight mb-3">What Our Clients Say About Our Services</h2>
+            <p class="text-muted-foreground text-xs leading-relaxed">Trusted by hundreds of businesses for delivering quality technology solutions on time and on budget.</p>
+          </div>
+
+          <Swiper
+            :modules="[Autoplay, Pagination]"
+            :slides-per-view="1"
+            :space-between="16"
+            :pagination="testimonialsPagination"
+            :autoplay="testimonialsAutoplay"
+            :breakpoints="{ 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 }, 1280: { slidesPerView: 4 } }"
+            class="testimonials-swiper pb-16"
+          >
+            <SwiperSlide v-for="review in topReviews" :key="review.id">
+              <div class="rounded-lg p-5 h-full flex flex-col shadow-md hover:shadow-xl transition-all" style="background-color: #262626; border: 1px solid rgba(255,255,255,0.1);">
+                <div class="flex gap-0.5 mb-3">
+                  <svg v-for="s in review.rating" :key="s" class="w-4 h-4 text-amber-400 fill-current" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                </div>
+                <p class="text-white/80 text-sm leading-relaxed mb-4 flex-1 line-clamp-3">"{{ review.comment }}"</p>
+                <div class="flex items-center gap-3 pt-4" style="border-top: 1px solid rgba(255,255,255,0.1)">
+                  <div class="w-9 h-9 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0">
+                    {{ review.user_name?.charAt(0).toUpperCase() }}
+                  </div>
+                  <div class="min-w-0">
+                    <div class="font-semibold text-white text-sm truncate">{{ review.user_name }}</div>
+                    <div class="text-white/60 text-xs truncate">{{ review.company || 'Verified Client' }}</div>
+                  </div>
+                </div>
+              </div>
+            </SwiperSlide>
+          </Swiper>
+        </div>
+      </section>
+
+      <!-- ═══════════════ BLOG ═══════════════ -->
+      <section v-if="recentBlogs.length" class="py-12 md:py-16 bg-muted/30">
+        <div class="container mx-auto px-6 max-w-5xl">
+          <div class="text-center max-w-2xl mx-auto mb-10">
+            <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Latest Insights</p>
+            <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">From Our Blog</h2>
+            <p class="text-muted-foreground text-xs leading-relaxed mt-2">Learn more about technology trends, best practices, and case studies from our latest projects.</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <router-link v-for="post in recentBlogs.slice(0, 4)" :key="post.id" :to="`/blog/${post.slug}`" class="group bg-white border border-border rounded-2xl overflow-hidden hover:border-primary/20 hover:shadow-md transition-all duration-300">
+              <div class="aspect-[4/3] bg-gray-100 overflow-hidden">
+                <img v-if="post.featured_image" :src="post.featured_image" :alt="post.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5">
+                  <svg class="w-10 h-10 text-muted-foreground/20" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"><path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>
+                </div>
+              </div>
+              <div class="p-5">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-xs font-medium text-primary bg-primary/10 px-2.5 py-1 rounded-full">{{ post.category }}</span>
+                  <span class="text-muted-foreground text-xs">{{ formatDate(post.published_at) }}</span>
+                </div>
+                <h3 class="text-sm font-semibold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">{{ post.title }}</h3>
+                <p class="text-muted-foreground text-xs leading-relaxed line-clamp-2">{{ post.excerpt }}</p>
+              </div>
+            </router-link>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════ FAQ ═══════════════ -->
+      <section v-if="servicesFaqs.length" class="py-12 md:py-16 bg-muted/30">
+        <div class="container mx-auto px-6 max-w-3xl">
+          <div class="text-center mb-10">
+            <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">FAQ</p>
+            <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">Frequently Asked Questions About Our Services</h2>
+          </div>
+
+          <div class="space-y-3">
+            <div v-for="(faq, idx) in servicesFaqs" :key="idx" class="bg-white border border-border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+              <button @click="toggleFaq(idx)" class="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
+                <span class="font-medium text-foreground text-sm pr-6">{{ faq.question }}</span>
+                <svg class="w-5 h-5 text-muted-foreground shrink-0 transition-transform duration-200" :class="{ 'rotate-180': openFaqIndex === idx }" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" /></svg>
+              </button>
+              <div v-show="openFaqIndex === idx" class="px-6 pb-5">
+                <p class="text-muted-foreground text-sm leading-relaxed">{{ faq.answer }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════ REQUEST A QUOTE ═══════════════ -->
+      <section class="py-14 md:py-20">
       <div class="container mx-auto px-6">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
           <div>
@@ -263,25 +358,29 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
-import PublicLayout from '@/layouts/PublicLayout.vue';
-import WishlistButton from '@/components/WishlistButton.vue';
 import axios from 'axios';
-import { useToast } from '@/composables';
-import { useCmsStore } from '@/stores/cms';
-import heroLaptopDark from '@/../img/tech-background.png';
+import { Autoplay, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { ref, computed, onMounted } from 'vue';
 import heroLaptop from '@/../img/Laptop.webp';
+import svcApi from '@/../img/services/API Development.webp';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import svcCrmErp from '@/../img/services/CRM & ERP Development.webp';
+import svcCustomWeb from '@/../img/services/Custom Web Development.webp';
+import svcEcommerce from '@/../img/services/E-commerece Development.webp';
+import svcMobileApp from '@/../img/services/Mobile App Development.webp';
+import svcMobileApp2 from '@/../img/services/Mobile App.webp';
+import svcPaidAds from '@/../img/services/Paid Ads.webp';
+import svcSeo from '@/../img/services/SEO Optimization.webp';
+import heroLaptopDark from '@/../img/tech-background.png';
+import heroTechGlow from '@/../img/tech-glow.webp';
 import heroTech2 from '@/../img/tech2.jpg';
 import heroTech4 from '@/../img/tech4.jpg';
-import heroTechGlow from '@/../img/tech-glow.webp';
-import svcCustomWeb from '@/../img/services/Custom Web Development.webp';
-import svcMobileApp from '@/../img/services/Mobile App Development.webp';
-import svcEcommerce from '@/../img/services/E-commerece Development.webp';
-import svcCrmErp from '@/../img/services/CRM & ERP Development.webp';
-import svcApi from '@/../img/services/API Development.webp';
-import svcSeo from '@/../img/services/SEO Optimization.webp';
-import svcPaidAds from '@/../img/services/Paid Ads.webp';
-import svcMobileApp2 from '@/../img/services/Mobile App.webp';
+import WishlistButton from '@/components/WishlistButton.vue';
+import { useToast } from '@/composables';
+import PublicLayout from '@/layouts/PublicLayout.vue';
+import { useCmsStore } from '@/stores/cms';
 
 const serviceImageMap: Record<string, string> = {
   'custom web development': svcCustomWeb,
@@ -310,7 +409,7 @@ const serviceImageMap: Record<string, string> = {
   'digital marketing': svcPaidAds,
 };
 
-function getServiceImage(service: any): string | null {
+function getServiceImage(service: any): string | undefined {
   const title = (service.title || '').toLowerCase().trim();
   const slug = (service.slug || '').toLowerCase().trim();
   const category = (service.category || '').toLowerCase().trim();
@@ -320,7 +419,7 @@ function getServiceImage(service: any): string | null {
   for (const [key, img] of Object.entries(serviceImageMap)) {
     if (title.includes(key) || slug.includes(key) || category.includes(key)) return img;
   }
-  return null;
+  return undefined;
 }
 
 const cmsStore = useCmsStore();
@@ -373,5 +472,55 @@ async function fetchServices() {
   }
 }
 
+// Testimonials & Blog
+const topReviews = ref<any[]>([]);
+const recentBlogs = ref<any[]>([]);
+const openFaqIndex = ref<number | null>(null);
+
+const testimonialsPagination = {
+  clickable: true,
+  dynamicBullets: true,
+};
+
+const testimonialsAutoplay = {
+  delay: 5000,
+  disableOnInteraction: false,
+};
+
+const servicesFaqs = [
+  { question: 'What services does OmniviaTech offer?', answer: 'We offer a comprehensive range of technology services including custom software development, mobile app development, web development, cloud infrastructure, AI/ML solutions, cybersecurity, API integration, and digital marketing services. Each service is tailored to meet your specific business needs.' },
+  { question: 'How long does a typical project take?', answer: 'Project timelines vary based on scope and complexity. A simple website might take 4-8 weeks, while a complex enterprise application could take 3-6 months or longer. We use agile methodologies to provide regular updates and can break projects into phases for faster time-to-value.' },
+  { question: 'What technologies does your team work with?', answer: 'Our team is proficient in modern web technologies (Vue.js, React, Angular), backend frameworks (Laravel, Node.js, Django), mobile platforms (iOS, Android, React Native), cloud platforms (AWS, Azure, GCP), and emerging technologies like AI/ML, blockchain, and IoT.' },
+  { question: 'Do you provide ongoing support after project launch?', answer: 'Yes, we provide comprehensive post-launch support including bug fixes, performance optimization, security updates, and feature enhancements. We offer flexible support packages tailored to your business requirements.' },
+  { question: 'How do you ensure quality in your projects?', answer: 'Quality is built into every phase of our development process. We follow industry best practices including code reviews, automated testing, continuous integration, security audits, and rigorous QA testing before deployment.' },
+  { question: 'Can you work with existing legacy systems?', answer: 'Absolutely. We specialize in modernizing legacy systems, integrating them with new technologies, and migrating data safely. We assess your existing infrastructure and create a roadmap for seamless integration or migration.' },
+];
+
+async function loadReviews() {
+  try {
+    const { data } = await axios.get('/api/v1/reviews', { params: { limit: 8 } });
+    topReviews.value = data.data || [];
+  } catch { console.log('Error loading reviews'); }
+}
+
+async function loadBlogs() {
+  try {
+    const { data } = await axios.get('/api/v1/blogs', { params: { limit: 4 } });
+    recentBlogs.value = data.data || [];
+  } catch { console.log('Error loading blogs'); }
+}
+
+function toggleFaq(index: number) {
+  openFaqIndex.value = openFaqIndex.value === index ? null : index;
+}
+
+function formatDate(date: string) {
+  return new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
 onMounted(fetchServices);
+onMounted(() => {
+  loadReviews();
+  loadBlogs();
+});
 </script>

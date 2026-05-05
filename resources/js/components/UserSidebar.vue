@@ -13,6 +13,7 @@ import {
   IconUserCircle,
 } from "@tabler/icons-vue"
 
+import { computed } from "vue"
 import NavMain from "@/components/NavMain.vue"
 import NavSecondary from "@/components/NavSecondary.vue"
 import NavUser from "@/components/NavUser.vue"
@@ -26,7 +27,6 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { useAuthStore } from "@/stores/auth"
-import { computed } from "vue"
 
 const authStore = useAuthStore()
 

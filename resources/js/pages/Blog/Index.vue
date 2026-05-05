@@ -141,15 +141,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue';
 import axios from 'axios';
-import PublicLayout from '@/layouts/PublicLayout.vue';
-import { useToast } from '@/composables';
-import { useCmsStore } from '@/stores/cms';
+import { ref, computed, onMounted, watch } from 'vue';
 import heroLaptopDark from '@/../img/tech-background.png';
+import heroTechGlow from '@/../img/tech-glow.webp';
 import heroTech2 from '@/../img/tech2.jpg';
 import heroTech4 from '@/../img/tech4.jpg';
-import heroTechGlow from '@/../img/tech-glow.webp';
+import { useToast } from '@/composables';
+import PublicLayout from '@/layouts/PublicLayout.vue';
+import { useCmsStore } from '@/stores/cms';
 
 const cmsStore = useCmsStore();
 const s = computed(() => cmsStore.homeData?.settings || {} as any);

@@ -1,5 +1,4 @@
 ﻿<script setup lang="ts">
-import { ref } from 'vue'
 import {
   IconArrowLeft,
   IconChartBar,
@@ -20,12 +19,14 @@ import {
   IconUsers,
   IconWriting,
 } from "@tabler/icons-vue"
+import { ref } from 'vue'
 
+import { computed } from "vue"
+import GlobalSearch from "@/components/GlobalSearch.vue"
 import NavDocuments from "@/components/NavDocuments.vue"
 import NavMain from "@/components/NavMain.vue"
 import NavSecondary from "@/components/NavSecondary.vue"
 import NavUser from "@/components/NavUser.vue"
-import GlobalSearch from "@/components/GlobalSearch.vue"
 import {
   Sidebar,
   SidebarContent,
@@ -36,7 +37,6 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { useAuthStore } from "@/stores/auth"
-import { computed } from "vue"
 
 const authStore = useAuthStore()
 
