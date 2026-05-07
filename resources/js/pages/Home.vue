@@ -1,10 +1,10 @@
 ﻿<template>
   <PublicLayout>
  <!-- ═══════════════ HERO + COUNTER WRAPPER ═══════════════ -->
-<div class="relative overflow-hidden">
+<div class="relative overflow-hidden min-h-[60vh] md:min-h-[70vh]">
 
   <!-- Shared background layer — stretches behind both hero AND counter -->
-  <div class="absolute inset-0 z-0">
+  <div class="absolute inset-0 z-0 w-full h-full">
     <img
       v-if="heroSlides.length"
       :src="heroSlides[currentHeroSlide]?.bg_image"
@@ -15,7 +15,7 @@
   </div>
 
   <!-- ═══════════════ HERO SECTION ═══════════════ -->
-  <section class="relative min-h-[60vh] md:min-h-[70vh] flex items-center">
+  <section class="relative min-h-[60vh] md:min-h-[70vh] flex items-center z-10">
     <Swiper
       :modules="[Autoplay, Pagination]"
       :slides-per-view="1"
@@ -1713,84 +1713,214 @@ const specializations = [
 ];
 
 const featuredServices = [
+  // ════════════════════════════════════════════
+  // 🔹 DEVELOPMENT SOLUTIONS
+  // ════════════════════════════════════════════
   {
-    id: 'custom-web-development',
-    title: 'Custom Website Development',
+    id: 1,
+    name: 'Custom Web Development',
+    title: 'Custom Web Development',
     slug: 'custom-web-development',
-    excerpt: 'Tailored websites and web applications built to match your brand and business goals.',
+    excerpt: 'Stunning, high-performance websites and web applications built with Laravel, Vue.js, React, and Next.js — tailored to your brand and business goals.',
     image: customWebDevelopmentImage,
+    icon: 'code',
   },
   {
-    id: 'api-development',
-    title: 'API Development',
-    slug: 'api-development',
-    excerpt: 'Scalable APIs for integrations, automation, and secure data exchange.',
-    image: apiDevelopmentImage,
-  },
-  {
-    id: 'crm-erp-development',
-    title: 'CRM & ERP Development',
-    slug: 'crm-erp-development',
-    excerpt: 'Custom CRM and ERP systems to streamline operations and improve productivity.',
-    image: crmErpDevelopmentImage,
-  },
-  {
-    id: 'ecommerce-development',
-    title: 'E-commerce Development',
-    slug: 'ecommerce-development',
-    excerpt: 'High-converting online stores built for seamless shopping experiences.',
-    image: eCommerceDevelopmentImage,
-  },
-  {
-    id: 'mobile-app-development',
+    id: 2,
+    name: 'Mobile App Development',
     title: 'Mobile App Development',
     slug: 'mobile-app-development',
-    excerpt: 'Native and cross-platform apps for iOS and Android that drive engagement.',
+    excerpt: 'Native and cross-platform mobile apps for iOS and Android that users love — built with React Native, Flutter, and native Swift/Kotlin.',
     image: mobileAppDevelopmentImage,
+    icon: 'smartphone',
   },
   {
-    id: 'paid-ads-management',
+    id: 3,
+    name: 'E-Commerce Development',
+    title: 'E-Commerce Development',
+    slug: 'e-commerce-development',
+    excerpt: 'Custom online stores, marketplace platforms, and payment integrations that drive revenue 24/7 with local and international payment gateways.',
+    image: eCommerceDevelopmentImage,
+    icon: 'shopping-cart',
+  },
+  {
+    id: 4,
+    name: 'API Development & Integration',
+    title: 'API Development & Integration',
+    slug: 'api-development-integration',
+    excerpt: 'RESTful and GraphQL API development, third-party integrations, and headless architecture for seamless data flow between systems.',
+    image: apiDevelopmentImage,
+    icon: 'plug',
+  },
+  {
+    id: 5,
+    name: 'CRM & ERP System Development',
+    title: 'CRM & ERP System Development',
+    slug: 'crm-erp-development',
+    excerpt: 'Custom CRM and ERP systems that streamline your operations, automate workflows, and provide 360-degree visibility into your business.',
+    image: crmErpDevelopmentImage,
+    icon: 'building',
+  },
+
+  // ════════════════════════════════════════════
+  // 🔹 GROWTH & MARKETING SOLUTIONS
+  // ════════════════════════════════════════════
+  {
+    id: 6,
+    name: 'SEO Optimization & Google Analytics',
+    title: 'SEO Optimization & Google Analytics',
+    slug: 'seo-optimization-analytics',
+    excerpt: 'Data-driven SEO strategies that boost organic traffic, improve search rankings, and integrate with Google Analytics for measurable results.',
+    image: seoOptimizationImage,
+    icon: 'search',
+  },
+  {
+    id: 7,
+    name: 'Paid Ads Management',
     title: 'Paid Ads Management',
     slug: 'paid-ads-management',
-    excerpt: 'Performance campaigns that increase traffic and conversions.',
+    excerpt: 'Strategic paid advertising across Facebook, Google, and LinkedIn — maximizing ROI with data-driven targeting and creative optimization.',
     image: paidAdsImage,
+    icon: 'megaphone',
   },
   {
-    id: 'seo-optimization',
-    title: 'SEO Optimization',
-    slug: 'seo-optimization',
-    excerpt: 'Search engine optimization to improve your online visibility.',
-    image: seoOptimizationImage,
+    id: 8,
+    name: 'Conversion Rate Optimization',
+    title: 'Conversion Rate Optimization',
+    slug: 'conversion-rate-optimization',
+    excerpt: 'Turn more visitors into customers with data-driven CRO — A/B testing, UX analysis, funnel optimization, and behavioural analytics.',
+    image: customWebDevelopmentImage,
+    icon: 'trending-up',
   },
   {
-    id: 'mobile-app-strategy',
-    title: 'Mobile App Strategy',
-    slug: 'mobile-app-strategy',
-    excerpt: 'Strategic mobile planning and development for business growth.',
-    image: mobileAppImage,
+    id: 9,
+    name: 'Social Media Marketing Strategy',
+    title: 'Social Media Marketing Strategy',
+    slug: 'social-media-marketing',
+    excerpt: 'Strategic social media management and content creation across all platforms to build your brand, engage your audience, and drive growth.',
+    image: customWebDevelopmentImage,
+    icon: 'share-2',
+  },
+  {
+    id: 10,
+    name: 'Business Intelligence & Analytics',
+    title: 'Business Intelligence & Analytics',
+    slug: 'business-intelligence-analytics',
+    excerpt: 'Transform raw data into actionable insights with custom BI dashboards, data pipelines, and predictive analytics powered by AI.',
+    image: customWebDevelopmentImage,
+    icon: 'bar-chart-2',
+  },
+
+  // ════════════════════════════════════════════
+  // 🔹 ENTERPRISE & TECHNICAL SOLUTIONS
+  // ════════════════════════════════════════════
+  {
+    id: 11,
+    name: 'Automation & Testing',
+    title: 'Automation & Testing',
+    slug: 'automation-testing',
+    excerpt: 'End-to-end test automation, CI/CD pipelines, workflow automation, and quality assurance to ship reliable software faster.',
+    image: customWebDevelopmentImage,
+    icon: 'check-circle',
+  },
+  {
+    id: 12,
+    name: 'Audit Trail Development',
+    title: 'Audit Trail Development',
+    slug: 'audit-trail-development',
+    excerpt: 'Comprehensive audit trail and compliance logging systems for regulatory requirements including POPIA, GDPR, and ISO 27001.',
+    image: customWebDevelopmentImage,
+    icon: 'file-text',
+  },
+  {
+    id: 13,
+    name: 'UI/UX Design & Prototyping',
+    title: 'UI/UX Design & Prototyping',
+    slug: 'ui-ux-design-prototyping',
+    excerpt: 'User-centered design that delights — wireframes, prototypes, design systems, and usability testing that create intuitive digital experiences.',
+    image: customWebDevelopmentImage,
+    icon: 'layout',
+  },
+  {
+    id: 14,
+    name: 'Cloud Deployment & DevOps',
+    title: 'Cloud Deployment & DevOps',
+    slug: 'cloud-deployment-devops',
+    excerpt: 'Scalable cloud infrastructure on AWS, Azure, and Google Cloud with CI/CD pipelines, containerization, and 24/7 monitoring.',
+    image: customWebDevelopmentImage,
+    icon: 'cloud',
+  },
+  {
+    id: 15,
+    name: 'Performance Optimization',
+    title: 'Performance Optimization',
+    slug: 'performance-optimization',
+    excerpt: 'Speed up your websites and applications — Core Web Vitals optimization, database tuning, caching strategies, and CDN configuration.',
+    image: customWebDevelopmentImage,
+    icon: 'zap',
+  },
+  {
+    id: 16,
+    name: 'Website Maintenance & Support',
+    title: 'Website Maintenance & Support',
+    slug: 'website-maintenance-support',
+    excerpt: 'Ongoing website maintenance, security updates, backups, uptime monitoring, and dedicated support to keep your digital assets running flawlessly.',
+    image: customWebDevelopmentImage,
+    icon: 'tool',
+  },
+  {
+    id: 17,
+    name: 'Cybersecurity & Data Protection',
+    title: 'Cybersecurity & Data Protection',
+    slug: 'cybersecurity-data-protection',
+    excerpt: 'Protect your digital assets with penetration testing, SOC-as-a-Service, POPIA/GDPR compliance, and comprehensive security solutions.',
+    image: customWebDevelopmentImage,
+    icon: 'shield',
   },
 ];
 
 const serviceImagePaths: Record<string, string> = {
   'api development': apiDevelopmentImage,
+  'api development & integration': apiDevelopmentImage,
   'api developer': apiDevelopmentImage,
   'api design': apiDevelopmentImage,
   'crm & erp development': crmErpDevelopmentImage,
+  'crm & erp system development': crmErpDevelopmentImage,
   'crm erp development': crmErpDevelopmentImage,
   'custom web development': customWebDevelopmentImage,
   'custom website development': customWebDevelopmentImage,
   'website development': customWebDevelopmentImage,
   'web development': customWebDevelopmentImage,
   'e-commerece development': eCommerceDevelopmentImage,
-  'ecommerce development': eCommerceDevelopmentImage,
   'e-commerce development': eCommerceDevelopmentImage,
+  'ecommerce development': eCommerceDevelopmentImage,
   'mobile app development': mobileAppDevelopmentImage,
   'mobile application development': mobileAppDevelopmentImage,
   'mobile app': mobileAppImage,
   'paid ads': paidAdsImage,
   'paid ads management': paidAdsImage,
   'seo optimization': seoOptimizationImage,
+  'seo optimization & google analytics': seoOptimizationImage,
   'search engine optimization': seoOptimizationImage,
+  'conversion rate optimization': customWebDevelopmentImage,
+  'social media marketing strategy': customWebDevelopmentImage,
+  'social media marketing': customWebDevelopmentImage,
+  'business intelligence & analytics': customWebDevelopmentImage,
+  'business intelligence': customWebDevelopmentImage,
+  'automation & testing': customWebDevelopmentImage,
+  'audit trail development': customWebDevelopmentImage,
+  'ui/ux design & prototyping': customWebDevelopmentImage,
+  'ui/ux design': customWebDevelopmentImage,
+  'ux design': customWebDevelopmentImage,
+  'cloud deployment & devops': customWebDevelopmentImage,
+  'cloud deployment': customWebDevelopmentImage,
+  'devops': customWebDevelopmentImage,
+  'performance optimization': customWebDevelopmentImage,
+  'website maintenance & support': customWebDevelopmentImage,
+  'website maintenance': customWebDevelopmentImage,
+  'cybersecurity & data protection': customWebDevelopmentImage,
+  'cybersecurity': customWebDevelopmentImage,
+  'data protection': customWebDevelopmentImage,
 };
 
 function getServiceImage(service: any) {
@@ -1811,6 +1941,7 @@ function getServiceImage(service: any) {
     return serviceImagePaths[key];
   }
 
+  // Fallback matching for various service types
   if (key.includes('custom website') || key.includes('custom web') || key.includes('website development') || key.includes('web development')) {
     return customWebDevelopmentImage;
   }
@@ -1823,15 +1954,15 @@ function getServiceImage(service: any) {
     return apiDevelopmentImage;
   }
 
-  if (key.includes('crm')) {
+  if (key.includes('crm') || key.includes('erp')) {
     return crmErpDevelopmentImage;
   }
 
-  if (key.includes('seo')) {
+  if (key.includes('seo') || key.includes('optimization') || key.includes('analytics')) {
     return seoOptimizationImage;
   }
 
-  if (key.includes('ads')) {
+  if (key.includes('ads') || key.includes('paid') || key.includes('marketing')) {
     return paidAdsImage;
   }
 
@@ -1839,7 +1970,8 @@ function getServiceImage(service: any) {
     return mobileAppDevelopmentImage;
   }
 
-  return '';
+  // Default to a generic image if nothing matches
+  return customWebDevelopmentImage;
 }
 
 const currentHeroSlide = ref(0)
