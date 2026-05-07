@@ -34,7 +34,7 @@
 
       <!-- Empty State -->
       <div v-else-if="services.length === 0" class="bg-card border border-border rounded-lg p-12 text-center">
-        <p class="text-4xl mb-4">ðŸ› ï¸</p>
+        <p class="text-4xl mb-4">🛠️</p>
         <p class="text-foreground font-semibold text-lg mb-1">No services yet</p>
         <p class="text-muted-foreground text-sm mb-6">Create your first service to get started.</p>
         <button @click="openCreateModal" class="bg-primary hover:bg-primary/90 text-white font-medium px-4 py-2 text-sm rounded-lg transition">

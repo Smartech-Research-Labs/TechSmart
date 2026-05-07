@@ -1613,7 +1613,7 @@ import heroTech4 from '../../img/tech4.jpg';
 import heroCTAbg from '../../img/tech4.jpg';
 import heroTech6 from '../../img/tech7.jpg';
 import videoSolutions from '../../videos/omniviatech-solutions.mp4';
-import videoCTA from '../../videos/omniviatech.mp4';
+import videoCTA from '../../videos/omniviatech1.mp4';
 import WishlistButton from '../components/WishlistButton.vue';
 import { useToast } from '../composables';
 import PublicLayout from '../layouts/PublicLayout.vue';

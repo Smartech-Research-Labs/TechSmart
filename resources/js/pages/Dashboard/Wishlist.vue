@@ -146,10 +146,10 @@ function getTypeLabel(type: string): string {
 }
 
 function getTypeEmoji(type: string): string {
-  if (type.includes('Product')) return 'ðŸ“¦';
-  if (type.includes('Service')) return 'ðŸš€';
-  if (type.includes('Bundle')) return 'ðŸ“';
-  return 'ðŸ’Ž';
+  if (type.includes('Product')) return '📦';
+  if (type.includes('Service')) return '🚀';
+  if (type.includes('Bundle')) return '📋';
+  return '💎';
 }
 
 function getDetailLink(item: any): string {

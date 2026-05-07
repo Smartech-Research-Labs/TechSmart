@@ -215,7 +215,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <router-link v-for="cs in caseStudies" :key="cs.id" :to="`/case-studies/${cs.slug}`" class="group bg-card border border-border rounded-xl overflow-hidden hover:shadow-lg hover:border-primary/20 transition-all">
               <div class="aspect-[16/10] overflow-hidden">
-                <img :src="cs.image_url || heroTech7" :alt="cs.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img :src="cs.image_url || heroLaptop" :alt="cs.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
               </div>
               <div class="p-5">
                 <span v-if="cs.client_name" class="text-xs font-medium text-primary mb-2 block">{{ cs.client_name }}</span>
@@ -250,7 +250,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <router-link v-for="post in relatedBlogs.slice(0, 3)" :key="post.id" :to="`/blog/${post.slug}`" class="group bg-card border border-border rounded-xl overflow-hidden hover:shadow-lg hover:border-primary/20 transition-all">
               <div class="aspect-[16/10] overflow-hidden">
-                <img :src="post.featured_image ? (post.featured_image.startsWith('http') ? post.featured_image : `/storage/${post.featured_image}`) : heroTech7" :alt="post.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img :src="post.featured_image ? (post.featured_image.startsWith('http') ? post.featured_image : `/storage/${post.featured_image}`) : heroLaptop" :alt="post.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
               </div>
               <div class="p-5">
                 <div class="flex items-center gap-2 mb-2">
@@ -297,7 +297,7 @@
             <SwiperSlide v-for="rel in relatedServices" :key="rel.id">
               <router-link :to="`/services/${rel.slug}`" class="group block bg-card border border-border rounded-xl overflow-hidden hover:shadow-lg hover:border-primary/20 transition-all">
                 <div class="aspect-[16/10] overflow-hidden">
-                  <img :src="getServiceImage(rel) || rel.image_url || heroTech7" :alt="rel.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <img :src="getServiceImage(rel) || rel.image_url || heroLaptop" :alt="rel.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 </div>
                 <div class="p-4">
                   <span v-if="rel.category" class="text-[10px] font-medium bg-primary/10 text-primary px-2 py-0.5 rounded-full">{{ rel.category }}</span>
@@ -598,8 +598,11 @@
 </template>
 
 <script setup lang="ts">
+import { Autoplay, Navigation } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { ref, onMounted, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import heroLaptop from '@/../img/Laptop.webp';
-import heroOrbit from '@/../img/Orbit.webp';
 import svcApi from '@/../img/services/API Development.webp';
 import svcCrmErp from '@/../img/services/CRM & ERP Development.webp';
 import svcCustomWeb from '@/../img/services/Custom Web Development.webp';
@@ -609,17 +612,13 @@ import svcMobileApp2 from '@/../img/services/Mobile App.webp';
 import svcPaidAds from '@/../img/services/Paid Ads.webp';
 import svcSeo from '@/../img/services/SEO Optimization.webp';
 import heroLaptopDark from '@/../img/tech-background.png';
-import heroTechBg from '@/../img/tech-background.png';
-import heroTech from '@/../img/tech.webp';
-import heroTech1 from '@/../img/tech1.jpg';
-import heroTech2 from '@/../img/tech2.jpg';
-import heroTech3 from '@/../img/tech3.jpg';
-import heroTech4 from '@/../img/tech4.jpg';
-import heroTech5 from '@/../img/tech5.jpg';
-import heroTech6 from '@/../img/tech6.jpg';
-import heroTech7 from '@/../img/tech7.jpg';
-import heroTech8 from '@/../img/tech8.jpg';
 import heroTechGlow from '@/../img/tech-glow.webp';
+import PublicLayout from '@/layouts/PublicLayout.vue';
+import api from '@/services/api';
+import { useCmsStore } from '@/stores/cms';
+// Swiper styles are imported globally in the main layout
+// import 'swiper/css';
+// import 'swiper/css/navigation';
 
 const serviceImageMap: Record<string, string> = {
   'custom web development': svcCustomWeb,
@@ -660,16 +659,6 @@ function getServiceImage(service: any): string | null {
   }
   return null;
 }
-import { ref, onMounted, watch } from 'vue';
-import { useRoute } from 'vue-router';
-import { Swiper, SwiperSlide } from 'swiper/vue';
-import { Autoplay, Navigation } from 'swiper/modules';
-import PublicLayout from '@/layouts/PublicLayout.vue';
-import api from '@/services/api';
-import { useCmsStore } from '@/stores/cms';
-// Swiper styles are imported globally in the main layout
-// import 'swiper/css';
-// import 'swiper/css/navigation';
 
 const route = useRoute();
 const cmsStore = useCmsStore();

@@ -313,6 +313,7 @@
         </div>
       </div>
     </section>
+    </section>
 
     <!-- ═══════════════ CTA (MAROON) ═══════════════ -->
     <section class="py-14 md:py-20 bg-muted/30">

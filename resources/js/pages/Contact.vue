@@ -259,10 +259,11 @@
           </div>
         </div>
       </section>
+    </section>
 
-      <!-- ═══════════════ CTA (MAROON) ═══════════════ -->
-      <section class="py-14 md:py-20 bg-muted/30">
-      <div class="container mx-auto px-6">
+    <!-- ═══════════════ CTA (MAROON) ═══════════════ -->
+    <section class="py-14 md:py-20 bg-muted/30">
+    <div class="container mx-auto px-6">
         <div class="relative bg-black rounded-2xl overflow-hidden">
           <div class="absolute inset-0 opacity-30 bg-cover bg-center" :style="{ backgroundImage: 'url(' + heroTechGlow + ')' }"></div>
           <div class="absolute inset-0 bg-black/70"></div>

@@ -353,9 +353,10 @@
           </div>
         </div>
       </section>
+    </section>
 
-      <!-- ═══════════════ OTHER AREAS ═══════════════ -->
-      <section class="py-14 md:py-20 bg-muted/30">
+    <!-- ═══════════════ OTHER AREAS ═══════════════ -->
+    <section class="py-14 md:py-20 bg-muted/30">
         <div class="container mx-auto px-6">
         <div class="text-center max-w-xl mx-auto mb-8">
           <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-3">Other Areas You Might Be Interested In</h2>
