@@ -13,6 +13,7 @@ import {
   IconUserCircle,
 } from "@tabler/icons-vue"
 
+import { computed } from "vue"
 import NavMain from "@/components/NavMain.vue"
 import NavSecondary from "@/components/NavSecondary.vue"
 import NavUser from "@/components/NavUser.vue"
@@ -26,7 +27,6 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { useAuthStore } from "@/stores/auth"
-import { computed } from "vue"
 
 const authStore = useAuthStore()
 
@@ -104,7 +104,7 @@ const navSecondary = computed(() => {
           >
             <router-link to="/">
               <IconInnerShadowTop class="!size-5" />
-              <span class="text-base font-semibold">Smartech Research Labs</span>
+              <span class="text-base font-semibold">OmniviaTech</span>
             </router-link>
           </SidebarMenuButton>
         </SidebarMenuItem>

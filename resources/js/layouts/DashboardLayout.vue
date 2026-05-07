@@ -1,4 +1,5 @@
 <template>
+  <GlobalMegaMenu />
   <SidebarProvider>
     <UserSidebar />
     <SidebarInset>
@@ -14,10 +15,11 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
-import UserSidebar from '@/components/UserSidebar.vue';
-import SiteHeader from '@/components/SiteHeader.vue';
 import DashboardFooter from '@/components/DashboardFooter.vue';
+import GlobalMegaMenu from '@/components/GlobalMegaMenu.vue';
+import SiteHeader from '@/components/SiteHeader.vue';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
+import UserSidebar from '@/components/UserSidebar.vue';
 
 const route = useRoute();
 

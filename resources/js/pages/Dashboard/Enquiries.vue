@@ -137,10 +137,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, computed } from 'vue';
 import { IconAlertTriangle } from '@tabler/icons-vue';
-import DashboardLayout from '@/layouts/DashboardLayout.vue';
+import { ref, reactive, onMounted, computed } from 'vue';
 import { useApi } from '@/composables/useApi';
+import DashboardLayout from '@/layouts/DashboardLayout.vue';
 
 const { get } = useApi();
 

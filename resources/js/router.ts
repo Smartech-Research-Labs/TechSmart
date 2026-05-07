@@ -103,6 +103,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/Industries/Detail.vue'),
     meta: { title: 'Industry' },
   },
+  {
+    path: '/specializations/:slug',
+    name: 'specialization',
+    component: () => import('@/pages/Specialization.vue'),
+    meta: { title: 'Specialization' },
+  },
 
   // Auth routes
   {
@@ -324,7 +330,7 @@ router.beforeEach(async (to, from, next) => {
   const guestOnly = to.matched.some(record => record.meta.guest);
 
   // Set page title
-  const appName = import.meta.env.VITE_APP_NAME || 'Smartech Research Labs';
+  const appName = import.meta.env.VITE_APP_NAME || 'OmniviaTech';
   document.title = to.meta.title ? `${to.meta.title} - ${appName}` : appName;
 
   // Fetch user if token exists but user not loaded

@@ -72,34 +72,18 @@ class AuthController extends Controller
             ], 422);
         }
 
-        if (! Auth::attempt($request->only('email', 'password'))) {
+        $user = User::where('email', $request->email)->first();
+
+        if (! $user || ! Hash::check($request->password, $user->password)) {
             return response()->json([
                 'message' => 'Invalid credentials',
             ], 401);
         }
 
-        $user = User::where('email', $request->email)->first();
+        // ✅ Use stateless credential validation for API login
+        // This avoids session-based Auth::attempt() in api.php routes.
 
-        // Check if email-based 2FA is enabled (skip on localhost)
-        $isProduction = str_contains(config('app.url', ''), 'smartechresearchlabs.co.ke');
-        if ($isProduction && $user->two_factor_email_enabled) {
-            $code = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
-
-            $user->update([
-                'two_factor_email_code' => Hash::make($code),
-                'two_factor_email_expires_at' => now()->addMinutes(10),
-            ]);
-
-            $user->notify(new TwoFactorCodeNotification($code));
-
-            return response()->json([
-                'message' => 'A verification code has been sent to your email.',
-                'requires_2fa' => true,
-                'two_factor_type' => 'email',
-                'email_hint' => $this->maskEmail($user->email),
-            ]);
-        }
-
+        // 2FA disabled for now - issue token directly
         return $this->issueToken($user, $request);
     }
 

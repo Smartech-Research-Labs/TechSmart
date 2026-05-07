@@ -565,7 +565,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue';
 import {
   IconBriefcase,
   IconPackage,
@@ -588,10 +587,10 @@ import {
   IconChartBar,
   IconFileDescription,
 } from '@tabler/icons-vue';
-import AdminLayout from '@/layouts/AdminLayout.vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import {
   Card,
   CardContent,
@@ -601,6 +600,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { useApi } from '@/composables/useApi';
+import AdminLayout from '@/layouts/AdminLayout.vue';
 
 const { get } = useApi();
 

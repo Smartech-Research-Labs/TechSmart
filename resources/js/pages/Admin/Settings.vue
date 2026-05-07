@@ -218,7 +218,7 @@
                   </div>
                   <div class="space-y-2">
                     <Label for="schema_org_name">Schema Organization Name</Label>
-                    <Input id="schema_org_name" v-model="form.schema_org_name" placeholder="Smartech Research Labs" />
+                    <Input id="schema_org_name" v-model="form.schema_org_name" placeholder="OmniviaTech" />
                   </div>
                   <div class="space-y-2">
                     <Label for="schema_org_logo">Schema Logo URL</Label>
@@ -238,7 +238,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div class="space-y-2">
                     <Label for="canonical_url">Canonical Base URL</Label>
-                    <Input id="canonical_url" v-model="form.canonical_url" placeholder="https://smartechresearchlabs.co.ke" />
+                    <Input id="canonical_url" v-model="form.canonical_url" placeholder="https://omniviatech.com" />
                     <p class="text-xs text-muted-foreground">Used to generate canonical URLs and breadcrumb markup</p>
                   </div>
                   <div class="space-y-2">
@@ -255,7 +255,7 @@
                   </div>
                   <div class="space-y-2">
                     <Label for="twitter_handle">Twitter Handle</Label>
-                    <Input id="twitter_handle" v-model="form.twitter_handle" placeholder="@smartechresearch" />
+                    <Input id="twitter_handle" v-model="form.twitter_handle" placeholder="@omniviatech" />
                   </div>
                 </div>
               </div>
@@ -270,7 +270,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div class="space-y-1">
                         <Label class="text-xs">Title</Label>
-                        <Input v-model="(form as any)[pg.key + '_meta_title']" :placeholder="pg.label + ' — Smartech Research Labs'" />
+                        <Input v-model="(form as any)[pg.key + '_meta_title']" :placeholder="pg.label + ' — OmniviaTech'" />
                       </div>
                       <div class="space-y-1">
                         <Label class="text-xs">Description</Label>
@@ -608,11 +608,11 @@
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
                   <Label for="mail_from_address">From Address</Label>
-                  <Input id="mail_from_address" v-model="form.mail_from_address" type="email" placeholder="noreply@smartechresearchlabs.co.ke" />
+                  <Input id="mail_from_address" v-model="form.mail_from_address" type="email" placeholder="noreply@omniviatech.com" />
                 </div>
                 <div class="space-y-2">
                   <Label for="mail_from_name">From Name</Label>
-                  <Input id="mail_from_name" v-model="form.mail_from_name" placeholder="Smartech Research Labs" />
+                  <Input id="mail_from_name" v-model="form.mail_from_name" placeholder="OmniviaTech" />
                 </div>
               </div>
 
@@ -622,12 +622,12 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div class="space-y-2">
                     <Label for="notification_email">Enquiry Notification Email</Label>
-                    <Input id="notification_email" v-model="form.notification_email" type="email" placeholder="admin@smartechresearchlabs.co.ke" />
+                    <Input id="notification_email" v-model="form.notification_email" type="email" placeholder="admin@omniviatech.com" />
                     <p class="text-xs text-muted-foreground">Receives notifications for new enquiries and quote requests</p>
                   </div>
                   <div class="space-y-2">
                     <Label for="newsletter_from_email">Newsletter From Email</Label>
-                    <Input id="newsletter_from_email" v-model="form.newsletter_from_email" type="email" placeholder="newsletter@smartechresearchlabs.co.ke" />
+                    <Input id="newsletter_from_email" v-model="form.newsletter_from_email" type="email" placeholder="newsletter@omniviatech.com" />
                   </div>
                 </div>
               </div>
@@ -871,18 +871,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue';
-import AdminLayout from '@/layouts/AdminLayout.vue';
-import { useApi } from '@/composables/useApi';
-import { useToast } from '@/composables/useToast';
 import { Loader2 } from 'lucide-vue-next';
-
+import { ref, reactive, onMounted } from 'vue';
+import ImageUploader from '@/components/ImageUploader.vue';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import ImageUploader from '@/components/ImageUploader.vue';
+import { useApi } from '@/composables/useApi';
+import { useToast } from '@/composables/useToast';
+import AdminLayout from '@/layouts/AdminLayout.vue';
+
 
 // ── API & Toast ──
 const { get, put, post } = useApi();
@@ -1034,7 +1034,7 @@ function populateForm(grouped: Record<string, Record<string, string>>) {
     for (const [key, value] of Object.entries(group)) {
       if (key in form) {
         if (key === 'maintenance_mode') {
-          (form as any)[key] = value === '1' || value === 'true' || value === true;
+          (form as any)[key] = value === '1' || value === 'true';
         } else {
           (form as any)[key] = value ?? '';
         }

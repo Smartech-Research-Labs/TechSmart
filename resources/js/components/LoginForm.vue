@@ -1,12 +1,9 @@
 ﻿<script setup lang="ts">
+import axios from 'axios';
 import { ref, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { useAuthStore } from '@/stores/auth';
-import { useCmsStore } from '@/stores/cms';
-import { cn } from '@/lib/utils';
+import heroTechBg from '@/../img/tech-background.png';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import {
   Card,
   CardContent,
@@ -14,14 +11,19 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import axios from 'axios';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { cn } from '@/lib/utils';
+import { useAuthStore } from '@/stores/auth';
+import { useCmsStore } from '@/stores/cms';
 
 const router = useRouter();
 const route = useRoute();
 const authStore = useAuthStore();
 const cmsStore = useCmsStore();
 
-const loginImage = computed(() => cmsStore.homeData?.settings?.login_page_image || '/images/login-hero.jpg');
+
+const loginImage = computed(() => cmsStore.homeData?.settings?.login_page_image || heroTechBg);
 
 const form = ref({
   email: '',
@@ -393,7 +395,7 @@ async function handleGoogleSignIn() {
         <div class="relative hidden bg-muted md:block">
           <img
             :src="loginImage"
-            alt="Smartech Research Labs Login"
+            alt="OmniviaTech Login"
             class="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
           />
           <!-- Fallback gradient overlay when no image -->
@@ -405,7 +407,7 @@ async function handleGoogleSignIn() {
                 <svg class="w-8 h-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
                 </svg>
-                <span class="text-xl font-bold text-foreground">Smartech Research Labs</span>
+                <span class="text-xl font-bold text-foreground">OmniviaTech</span>
               </div>
               <p class="text-sm text-muted-foreground">
                 Innovative Technology Solutions

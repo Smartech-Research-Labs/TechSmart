@@ -1,6 +1,25 @@
 <template>
   <PublicLayout>
-    <div class="container mx-auto px-4 py-20">
+    <!-- ═══════════════ HERO ═══════════════ -->
+    <section class="relative py-16 md:py-24 overflow-hidden">
+      <div class="absolute inset-0 z-0">
+        <img :src="heroTechBg" alt="" class="w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-black/50"></div>
+      </div>
+      <div class="relative z-10 container mx-auto px-6">
+        <div class="max-w-xl">
+          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Product</p>
+          <h1 class="text-3xl md:text-4xl font-bold text-white leading-tight mb-4">{{ product.name }}</h1>
+          <p class="text-white/80 text-sm leading-relaxed mb-6">{{ product.tagline }}</p>
+          <router-link to="/contact" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
+            Request a Demo
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </router-link>
+        </div>
+      </div>
+    </section>
+
+    <div class="container mx-auto px-4 py-12">
       <div class="mb-12">
         <h1 class="text-5xl font-display font-bold text-foreground mb-4">{{ product.name }}</h1>
         <p class="text-xl text-muted-foreground">{{ product.tagline }}</p>
@@ -54,6 +73,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
+import heroTechBg from '@/../img/tech-background.png';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 
 const route = useRoute();

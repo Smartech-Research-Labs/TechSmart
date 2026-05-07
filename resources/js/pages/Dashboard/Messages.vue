@@ -299,11 +299,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue';
-import DashboardLayout from '@/layouts/DashboardLayout.vue';
-import { Button } from '@/components/ui/button';
-import { useAuthStore } from '@/stores/auth';
-import { useDirectMessageStore, type DMConversation, type DMUser } from '@/stores/directMessages';
 import {
   IconMessages,
   IconPlus,
@@ -312,6 +307,11 @@ import {
   IconX,
 } from '@tabler/icons-vue';
 import axios from 'axios';
+import { ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue';
+import { Button } from '@/components/ui/button';
+import DashboardLayout from '@/layouts/DashboardLayout.vue';
+import { useAuthStore } from '@/stores/auth';
+import { useDirectMessageStore, type DMConversation, type DMUser } from '@/stores/directMessages';
 
 const authStore = useAuthStore();
 const dmStore = useDirectMessageStore();

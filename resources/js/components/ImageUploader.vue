@@ -125,10 +125,10 @@
 </template>
 
 <script setup lang="ts">
+import axios from 'axios';
 import { ref, watch } from 'vue';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import axios from 'axios';
 
 interface GalleryImage {
   path: string;

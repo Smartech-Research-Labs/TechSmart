@@ -203,7 +203,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
 import {
   IconHeart,
   IconMail,
@@ -215,10 +214,7 @@ import {
   IconAlertTriangle,
   IconRefresh,
 } from '@tabler/icons-vue';
-import DashboardLayout from '@/layouts/DashboardLayout.vue';
-import { useAuthStore } from '@/stores/auth';
-import { useWishlistStore } from '@/stores/wishlist';
-import { useApi } from '@/composables/useApi';
+import { ref, computed, onMounted } from 'vue';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -236,6 +232,10 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/components/ui/tabs';
+import { useApi } from '@/composables/useApi';
+import DashboardLayout from '@/layouts/DashboardLayout.vue';
+import { useAuthStore } from '@/stores/auth';
+import { useWishlistStore } from '@/stores/wishlist';
 
 const authStore = useAuthStore();
 const wishlistStore = useWishlistStore();

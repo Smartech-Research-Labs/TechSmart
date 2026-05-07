@@ -3,7 +3,7 @@ import axios, { type AxiosInstance, type AxiosRequestConfig } from 'axios';
 // Global in-flight request counter for progress bar
 let activeRequests = 0;
 function getLoadingIndicator() {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   return (window as any).__loadingIndicator as { startLoading: (msg?: string, overlay?: boolean) => void; stopLoading: () => void } | undefined;
 }
 

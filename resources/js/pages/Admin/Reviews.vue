@@ -273,9 +273,9 @@
 
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted } from 'vue';
-import AdminLayout from '@/layouts/AdminLayout.vue';
 import { useApi } from '@/composables/useApi';
 import { useToast } from '@/composables/useToast';
+import AdminLayout from '@/layouts/AdminLayout.vue';
 
 const { get, post, put, delete: apiDelete } = useApi();
 const toast = useToast();

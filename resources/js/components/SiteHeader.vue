@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import { IconLogout, IconUserCircle, IconMoon, IconSun, IconDeviceDesktop, IconBell, IconTrash, IconCheck, IconChecks, IconSearch, IconVolume, IconVolumeOff } from '@tabler/icons-vue'
 import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { IconLogout, IconUserCircle, IconMoon, IconSun, IconDeviceDesktop, IconBell, IconTrash, IconCheck, IconChecks, IconSearch, IconVolume, IconVolumeOff } from '@tabler/icons-vue'
-import { Separator } from '@/components/ui/separator'
-import { SidebarTrigger } from '@/components/ui/sidebar'
+import GlobalSearch from '@/components/GlobalSearch.vue'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -14,11 +14,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Separator } from '@/components/ui/separator'
+import { SidebarTrigger } from '@/components/ui/sidebar'
+import { useAppearance } from '@/composables/useAppearance'
 import { useAuthStore } from '@/stores/auth'
 import { useNotificationStore } from '@/stores/notifications'
-import { useAppearance } from '@/composables/useAppearance'
-import GlobalSearch from '@/components/GlobalSearch.vue'
 
 defineProps<{
   title?: string

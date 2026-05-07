@@ -178,12 +178,12 @@ class OpenAIService
     public function chatbotResponse(string $userMessage, array $context = [], array $companyInfo = []): string
     {
         try {
-            $companyName = $companyInfo['name'] ?? 'Smartech Research Labs';
+            $companyName = $companyInfo['name'] ?? 'OmniviaTech';
 
             // Build rich knowledge base from actual website data
             $knowledgeBase = $this->buildKnowledgeBase($companyInfo);
 
-        $contactEmail = $companyInfo['email'] ?? 'info@smartechresearchlabs.co.ke';
+        $contactEmail = $companyInfo['email'] ?? 'info@omniviatech.com';
         $contactPhone = $companyInfo['phone'] ?? '+254 710 351 517';
 
         $systemPrompt = "You are a helpful, friendly customer support assistant for {$companyName}. You have deep knowledge about the company, its services, products, and pricing.
@@ -237,7 +237,7 @@ GUIDELINES:
                 'error' => $e->getMessage(),
             ]);
 
-            return "I apologize, but I'm temporarily unable to assist. Please wait for one of our human agents to join the chat, or email us at support@smartechresearchlabs.co.ke.";
+            return "I apologize, but I'm temporarily unable to assist. Please wait for one of our human agents to join the chat, or email us at support@omniviatech.com.";
         }
     }
 
@@ -336,11 +336,11 @@ Return as JSON array: [{\"step\": 1, \"title\": \"Discovery\", \"description\": 
         // Company info from settings
         $settings = \App\Models\Setting::all()->pluck('value', 'key');
         $sections[] = "COMPANY INFORMATION:";
-        $sections[] = "- Name: " . ($settings['site_name'] ?? 'Smartech Research Labs');
+        $sections[] = "- Name: " . ($settings['site_name'] ?? 'OmniviaTech');
         $sections[] = "- Tagline: " . ($settings['tagline'] ?? '');
         $sections[] = "- Description: " . ($settings['site_description'] ?? '');
         $sections[] = "- Location: " . ($settings['address'] ?? '') . ', ' . ($settings['city'] ?? 'Nairobi') . ', ' . ($settings['country'] ?? 'Kenya');
-        $sections[] = "- Email: " . ($settings['contact_email'] ?? 'info@smartechresearchlabs.co.ke');
+        $sections[] = "- Email: " . ($settings['contact_email'] ?? 'info@omniviatech.com');
         $sections[] = "- Phone: " . ($settings['contact_phone'] ?? '+254 710 351 517');
         $sections[] = "- WhatsApp: " . ($settings['whatsapp_number'] ?? '+254 710 351 517');
 

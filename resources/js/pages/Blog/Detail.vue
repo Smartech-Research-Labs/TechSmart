@@ -15,6 +15,10 @@
           />
           <div class="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent"></div>
         </div>
+        <div v-else class="h-[400px] overflow-hidden">
+          <img :src="heroTechBg" :alt="blog.title" class="w-full h-full object-cover" />
+          <div class="absolute inset-0 bg-black/50"></div>
+        </div>
       </div>
 
       <div class="container mx-auto px-4 max-w-4xl -mt-20 relative z-10">
@@ -130,9 +134,10 @@
 </template>
 
 <script setup lang="ts">
+import axios from 'axios';
 import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import axios from 'axios';
+import heroTechBg from '@/../img/tech-background.png';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 
 const route = useRoute();
@@ -154,7 +159,7 @@ async function fetchBlog(slug: string) {
 
     // Update page title for SEO
     if (blog.value?.seo_title || blog.value?.title) {
-      document.title = `${blog.value.seo_title || blog.value.title} - Smartech Research Labs`;
+      document.title = `${blog.value.seo_title || blog.value.title} - OmniviaTech`;
     }
 
     // Add meta description

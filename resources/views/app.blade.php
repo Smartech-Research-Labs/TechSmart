@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Smartech Research Labs') }}</title>
+        <title>{{ config('app.name', 'OmniviaTech') }}</title>
 
         @php
             $faviconPath = \App\Models\Setting::get('favicon_path');

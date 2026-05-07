@@ -3,14 +3,14 @@
     <!-- ═══════════════ HERO ═══════════════ -->
     <section class="relative py-16 md:py-24 overflow-hidden">
       <div class="absolute inset-0 z-0">
-        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&h=1080&fit=crop&q=80" alt="" class="w-full h-full object-cover" />
-        <div class="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/40 dark:from-background/95 dark:via-background/80 dark:to-background/40"></div>
+        <img :src="heroLaptopDark" alt="" class="w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-black/50"></div>
       </div>
       <div class="relative z-10 container mx-auto px-6">
         <div class="max-w-xl">
           <p class="text-accent text-xs font-semibold tracking-widest uppercase mb-3">Value Bundles</p>
-          <h1 class="text-3xl md:text-4xl font-bold text-foreground leading-tight mb-4">Save More with Curated Packages</h1>
-          <p class="text-muted-foreground text-sm leading-relaxed mb-6">Pre-configured service bundles designed to deliver maximum value for your business.</p>
+          <h1 class="text-3xl md:text-4xl font-bold text-white leading-tight mb-4">Save More with Curated Packages</h1>
+          <p class="text-white/80 text-sm leading-relaxed mb-6">Pre-configured service bundles designed to deliver maximum value for your business.</p>
           <router-link to="/contact" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
             Get a Custom Bundle
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
@@ -24,7 +24,7 @@
       <div class="container mx-auto px-6">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
           <div class="rounded-xl overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop&q=80" alt="Bundles" class="w-full h-full object-cover aspect-[4/3]" />
+            <img :src="heroTech" alt="Bundles" class="w-full h-full object-cover aspect-[4/3]" />
           </div>
           <div>
             <p class="text-accent text-xs font-semibold tracking-widest uppercase mb-3">Bundled Solutions</p>
@@ -113,7 +113,7 @@
             </form>
           </div>
           <div class="hidden lg:block">
-            <div class="rounded-xl overflow-hidden"><img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&h=600&fit=crop&q=80" alt="Custom Bundle" class="w-full h-full object-cover aspect-[4/3]" /></div>
+            <div class="rounded-xl overflow-hidden"><img :src="heroTech2" alt="Custom Bundle" class="w-full h-full object-cover aspect-[4/3]" /></div>
           </div>
         </div>
       </div>
@@ -122,19 +122,20 @@
     <!-- ═══════════════ CTA (MAROON) ═══════════════ -->
     <section class="py-14 md:py-20">
       <div class="container mx-auto px-6">
-        <div class="relative bg-gradient-to-br from-red-900 via-red-800 to-red-900 rounded-2xl overflow-hidden">
-          <div class="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&q=40')] bg-cover bg-center"></div>
+        <div class="relative bg-black rounded-2xl overflow-hidden">
+          <div class="absolute inset-0 opacity-30 bg-cover bg-center" :style="{ backgroundImage: 'url(' + heroTechGlow + ')' }"></div>
+          <div class="absolute inset-0 bg-black/70"></div>
           <div class="relative grid lg:grid-cols-2 items-center">
             <div class="p-8 md:p-12 lg:p-14">
               <h2 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4">Let's Build Your Perfect Package</h2>
-              <p class="text-red-100/80 text-sm leading-relaxed mb-8">Every business is unique. Let us design a custom bundle that addresses your specific needs and maximizes your ROI.</p>
+              <p class="text-white/70 text-sm leading-relaxed mb-8">Every business is unique. Let us design a custom bundle that addresses your specific needs and maximizes your ROI.</p>
               <router-link to="/contact" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg">
                 Talk to Us
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
               </router-link>
             </div>
             <div class="hidden lg:flex items-end justify-end h-full min-h-[300px]">
-              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=500&h=600&fit=crop&q=80" alt="Professional" class="h-full max-h-[350px] object-cover object-top" />
+              <img :src="heroTech4" alt="Professional" class="h-full max-h-[350px] object-cover object-top" />
             </div>
           </div>
         </div>
@@ -146,7 +147,7 @@
       <div class="container mx-auto px-6">
         <div class="text-center max-w-xl mx-auto mb-8">
           <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-3">Other Areas You Might Be Interested In</h2>
-          <p class="text-muted-foreground text-sm">Explore more of what Smartech Research Labs has to offer.</p>
+          <p class="text-muted-foreground text-sm">Explore more of what OmniviaTech has to offer.</p>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
           <router-link v-for="area in otherAreas" :key="area.label" :to="area.to" class="group bg-card border border-border rounded-xl p-5 text-center hover:border-primary/40 hover:shadow-md transition-all">
@@ -160,10 +161,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import PublicLayout from '@/layouts/PublicLayout.vue';
 import axios from 'axios';
+import { ref, onMounted } from 'vue';
+import heroLaptopDark from '@/../img/tech-background.png';
+import heroTechGlow from '@/../img/tech-glow.webp';
+import heroTech from '@/../img/tech.webp';
+import heroTech2 from '@/../img/tech2.jpg';
+import heroTech4 from '@/../img/tech4.jpg';
 import { useToast } from '@/composables';
+import PublicLayout from '@/layouts/PublicLayout.vue';
 
 const toast = useToast();
 const bundles = ref<any[]>([]);

@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { useAuthStore } from '@/stores/auth';
-import axios from 'axios';
 import AuthPageLayout from '@/layouts/AuthPageLayout.vue';
+import { useAuthStore } from '@/stores/auth';
 
 const router = useRouter();
 const route = useRoute();

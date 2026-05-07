@@ -1,7 +1,7 @@
 ﻿<template>
-  <div class="min-h-screen flex flex-col bg-background text-foreground">
+  <div class="min-h-screen flex flex-col text-foreground" style="background-color: #262626;">
     <!-- Auth Header -->
-    <header class="sticky top-0 z-30 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header class="sticky top-0 z-30 border-b backdrop-blur supports-[backdrop-filter]:bg-black/40" style="background-color: rgba(38, 38, 38, 0.95);">
       <div class="container mx-auto flex h-14 items-center justify-between px-4">
         <router-link to="/" class="flex items-center gap-2 group">
           <img
@@ -13,7 +13,7 @@
           <div v-else class="w-8 h-8 bg-gradient-to-br from-primary to-primary/70 rounded-lg flex items-center justify-center">
             <span class="text-primary-foreground font-bold text-sm">TS</span>
           </div>
-          <span class="text-lg font-bold group-hover:text-primary transition-colors">{{ settings?.site_name || 'Smartech Research Labs' }}</span>
+          <span class="text-lg font-bold text-white group-hover:text-primary transition-colors">{{ settings?.site_name || 'OmniviaTech' }}</span>
         </router-link>
 
         <div class="flex items-center gap-2">
@@ -32,19 +32,21 @@
       </div>
     </header>
 
+    <GlobalMegaMenu />
+
     <!-- Content -->
     <main class="flex flex-1 flex-col items-center justify-center p-6 md:p-10">
       <slot />
     </main>
 
     <!-- Auth Footer -->
-    <footer class="border-t py-4">
-      <div class="container mx-auto flex flex-col items-center justify-between gap-2 px-4 text-xs text-muted-foreground sm:flex-row">
-        <p>&copy; {{ new Date().getFullYear() }} {{ settings?.site_name || 'Smartech Research Labs' }}. All rights reserved.</p>
+    <footer class="border-t py-4" style="background-color: rgba(38, 38, 38, 0.95); border-color: rgba(255,255,255,0.1);">
+      <div class="container mx-auto flex flex-col items-center justify-between gap-2 px-4 text-xs text-white/60 sm:flex-row">
+        <p>&copy; {{ new Date().getFullYear() }} {{ settings?.site_name || 'OmniviaTech' }}. All rights reserved.</p>
         <div class="flex items-center gap-4">
-          <router-link to="/" class="hover:text-foreground transition-colors">Home</router-link>
-          <router-link to="/contact" class="hover:text-foreground transition-colors">Contact</router-link>
-          <router-link to="/faqs" class="hover:text-foreground transition-colors">FAQs</router-link>
+          <router-link to="/" class="hover:text-white transition-colors">Home</router-link>
+          <router-link to="/contact" class="hover:text-white transition-colors">Contact</router-link>
+          <router-link to="/faqs" class="hover:text-white transition-colors">FAQs</router-link>
         </div>
       </div>
     </footer>
@@ -52,9 +54,10 @@
 </template>
 
 <script setup lang="ts">
+import { IconSun, IconMoon, IconDeviceDesktop } from '@tabler/icons-vue'
 import { computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { IconSun, IconMoon, IconDeviceDesktop } from '@tabler/icons-vue'
+import GlobalMegaMenu from '@/components/GlobalMegaMenu.vue'
 import { Button } from '@/components/ui/button'
 import { useAppearance } from '@/composables/useAppearance'
 import { useCmsStore } from '@/stores/cms'

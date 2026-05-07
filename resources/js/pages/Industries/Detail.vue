@@ -10,19 +10,19 @@
       <section class="relative min-h-[50vh] flex items-center overflow-hidden">
         <div class="absolute inset-0 z-0">
           <img
-            :src="industry.banner_image || industry.image || 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1920&h=1080&fit=crop&q=80'"
+            :src="industry.banner_image || industry.image || heroTechBg"
             :alt="industry.title"
             class="w-full h-full object-cover"
           />
-          <div class="absolute inset-0 bg-gradient-to-r from-background/95 via-background/85 to-background/50 dark:from-background/95 dark:via-background/85 dark:to-background/60"></div>
+          <div class="absolute inset-0 bg-black/50"></div>
         </div>
         <div class="relative z-10 container mx-auto px-6 py-16 md:py-24">
           <div class="max-w-2xl">
             <div class="flex items-center gap-2 mb-4">
               <span class="px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full border border-primary/20">{{ industry.title }}</span>
             </div>
-            <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight mb-4">{{ industry.title }}</h1>
-            <p class="text-muted-foreground text-base md:text-lg leading-relaxed mb-8 max-w-xl">{{ industry.short_description }}</p>
+            <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-4">{{ industry.title }}</h1>
+            <p class="text-white/80 text-base md:text-lg leading-relaxed mb-8 max-w-xl">{{ industry.short_description }}</p>
             <div class="flex flex-wrap gap-3">
               <router-link to="/contact" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
                 Get a Quote
@@ -47,7 +47,7 @@
             </div>
             <div class="rounded-xl overflow-hidden">
               <img
-                :src="industry.image || 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&h=600&fit=crop&q=80'"
+                :src="industry.image || heroLaptop"
                 :alt="industry.title"
                 class="w-full h-full object-cover aspect-[4/3]"
               />
@@ -162,6 +162,70 @@
       </section>
 
       <!-- ═══════════════ 8. RELATED INDUSTRIES ═══════════════ -->
+            <!-- ═══════════════ 8. TESTIMONIALS CAROUSEL ═══════════════ -->
+            <section v-if="topReviews.length" class="py-12 md:py-16 bg-muted/20">
+              <div class="container mx-auto px-6 max-w-6xl">
+                <div class="text-center max-w-xl mx-auto mb-10">
+                  <p class="text-amber-600 dark:text-amber-400 text-xs font-semibold tracking-widest uppercase mb-2">Testimonials</p>
+                  <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight mb-3">Success Stories from {{ industry.title }} Leaders</h2>
+                  <p class="text-muted-foreground text-xs leading-relaxed">See how our solutions have transformed {{ industry.title }} businesses.</p>
+                </div>
+
+                <Swiper
+                  :modules="[Autoplay, Pagination]"
+                  :slides-per-view="1"
+                  :space-between="16"
+                  :pagination="testimonialsPagination"
+                  :autoplay="testimonialsAutoplay"
+                  :breakpoints="{ 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 }, 1280: { slidesPerView: 4 } }"
+                  class="testimonials-swiper pb-16"
+                >
+                  <SwiperSlide v-for="review in topReviews" :key="review.id">
+                    <div class="rounded-lg p-5 h-full flex flex-col shadow-md hover:shadow-xl transition-all" style="background-color: #262626; border: 1px solid rgba(255,255,255,0.1);">
+                      <div class="flex gap-0.5 mb-3">
+                        <svg v-for="s in review.rating" :key="s" class="w-4 h-4 text-amber-400 fill-current" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      </div>
+                      <p class="text-white/80 text-sm leading-relaxed mb-4 flex-1 line-clamp-3">"{{ review.comment }}"</p>
+                      <div class="flex items-center gap-3 pt-4" style="border-top: 1px solid rgba(255,255,255,0.1)">
+                        <div class="w-9 h-9 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0">
+                          {{ review.user_name?.charAt(0).toUpperCase() }}
+                        </div>
+                        <div class="min-w-0">
+                          <div class="font-semibold text-white text-sm truncate">{{ review.user_name }}</div>
+                          <div class="text-white/60 text-xs truncate">{{ review.company || 'Verified Client' }}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </SwiperSlide>
+                </Swiper>
+              </div>
+            </section>
+
+            <!-- ═══════════════ 9. FAQ ═══════════════ -->
+            <section v-if="industryFaqs.length" class="py-12 md:py-16 bg-muted/30">
+              <div class="container mx-auto px-6 max-w-3xl">
+                <div class="text-center mb-10">
+                  <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">FAQ</p>
+                  <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">Common Questions About {{ industry.title }} Solutions</h2>
+                </div>
+
+                <div class="space-y-3">
+                  <div v-for="(faq, idx) in industryFaqs" :key="idx" class="bg-white border border-border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                    <button @click="toggleFaq(idx)" class="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
+                      <span class="font-medium text-foreground text-sm pr-6">{{ faq.question }}</span>
+                      <svg class="w-5 h-5 text-muted-foreground shrink-0 transition-transform duration-200" :class="{ 'rotate-180': openFaqIndex === idx }" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" /></svg>
+                    </button>
+                    <div v-show="openFaqIndex === idx" class="px-6 pb-5">
+                      <p class="text-muted-foreground text-sm leading-relaxed">{{ faq.answer }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- ═══════════════ 10. RELATED INDUSTRIES ═══════════════ -->
       <section v-if="relatedIndustries.length" class="py-14 md:py-20 bg-muted/30">
         <div class="container mx-auto px-6">
           <div class="text-center max-w-2xl mx-auto mb-10">
@@ -203,13 +267,19 @@
 </template>
 
 <script setup lang="ts">
+import axios from 'axios';
+import { Autoplay, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/vue';
 import { ref, computed, onMounted, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import PublicLayout from '@/layouts/PublicLayout.vue';
+import { useRoute } from 'vue-router';
+import heroLaptop from '@/../img/Laptop.webp';
+import heroTechBg from '@/../img/tech-background.png';
 import { useApi } from '@/composables/useApi';
+import PublicLayout from '@/layouts/PublicLayout.vue';
+import 'swiper/css';
+import 'swiper/css/pagination';
 
 const route = useRoute();
-const router = useRouter();
 const { get } = useApi();
 
 interface Industry {
@@ -251,6 +321,43 @@ const relatedIndustries = computed(() => {
     .slice(0, 4);
 });
 
+// Testimonials & FAQ
+const topReviews = ref<any[]>([]);
+const openFaqIndex = ref<number | null>(null);
+
+const testimonialsPagination = {
+  clickable: true,
+  dynamicBullets: true,
+};
+
+const testimonialsAutoplay = {
+  delay: 5000,
+  disableOnInteraction: false,
+};
+
+const industryFaqs = computed(() => {
+  if (!industry.value) return [];
+  return [
+    { question: `What are the key challenges in the ${industry.value.title} industry?`, answer: `The ${industry.value.title} industry faces unique challenges including regulatory compliance, operational efficiency, data management, security, and the need for digital transformation. We understand these challenges deeply and design solutions that address them specifically.` },
+    { question: `How can technology improve our ${industry.value.title} business?`, answer: `Technology can streamline operations, reduce costs, improve customer experience, enable data-driven decision-making, enhance security, and open new revenue streams. Our solutions are built specifically for ${industry.value.title} use cases.` },
+    { question: `Is your solution compliant with industry standards?`, answer: `Yes, our solutions are designed with industry compliance in mind, meeting all relevant regulatory requirements specific to the ${industry.value.title} sector including data protection, security, and operational standards.` },
+    { question: `How long does implementation take in this industry?`, answer: `Implementation timelines depend on complexity and current infrastructure. Typical timelines range from 8 weeks for moderate implementations to 6+ months for complex enterprise transformations. We can break projects into phases for faster value delivery.` },
+    { question: `Can you integrate with our existing systems?`, answer: `Absolutely. We specialize in integrating new solutions with legacy systems specific to the ${industry.value.title} industry. We ensure minimal disruption and data integrity during the transition.` },
+    { question: `What kind of support do you provide post-launch?`, answer: `We provide comprehensive post-launch support including 24/7 monitoring, regular updates, security patches, performance optimization, and feature enhancements. Our team stays with you to ensure continuous improvement.` },
+  ];
+});
+
+async function loadReviews() {
+  try {
+    const { data } = await axios.get('/api/v1/reviews', { params: { limit: 8 } });
+    topReviews.value = data.data || [];
+  } catch { console.log('Error loading reviews'); }
+}
+
+function toggleFaq(index: number) {
+  openFaqIndex.value = openFaqIndex.value === index ? null : index;
+}
+
 async function fetchIndustry(slug: string) {
   loading.value = true;
   try {
@@ -275,6 +382,7 @@ async function fetchIndustry(slug: string) {
 }
 
 onMounted(() => fetchIndustry(route.params.slug as string));
+onMounted(() => loadReviews());
 
 watch(() => route.params.slug, (newSlug) => {
   if (newSlug && route.path.startsWith('/industries/')) {

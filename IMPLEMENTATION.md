@@ -1,4 +1,4 @@
-﻿# Smartech Research Labs Implementation Summary
+﻿# OmniviaTech Implementation Summary
 
 ## ✅ Project Completion Status: 100%
 
@@ -97,7 +97,7 @@ All requested features have been successfully implemented.
 ## 📁 File Structure Summary
 
 ```
-Smartech Research Labs/
+OmniviaTech/
 ├── app/
 │   ├── Http/Controllers/Api/
 │   │   ├── AIController.php ⭐ NEW
@@ -576,7 +576,7 @@ User Submits Enquiry
 ### For Admins
 - See [QUICKSTART.md](QUICKSTART.md) for setup
 - See [README.md](README.md) for API documentation
-- Default credentials: admin@smartechresearchlabs.co.ke / password
+- Default credentials: admin@omniviatech.com / password
 
 ---
 
@@ -614,7 +614,7 @@ User Submits Enquiry
 ## 📞 Support
 
 For issues or questions:
-- **Email:** support@smartechresearchlabs.co.ke
+- **Email:** support@omniviatech.com
 - **Documentation:** See [README.md](README.md)
 - **Quick Start:** See [QUICKSTART.md](QUICKSTART.md)
 - **GitHub Issues:** Create an issue with detailed description
@@ -640,4 +640,4 @@ For issues or questions:
 
 ---
 
-*Built with ❤️ for Smartech Research Labs*
+*Built with ❤️ for OmniviaTech*

@@ -1,8 +1,8 @@
 ﻿{
   "$schema": "https://www.schemastore.org/package.json",
-  "name": "smartech-server",
+  "name": "omniviatech-server",
   "version": "1.0.0",
-  "description": "Socket.IO and BullMQ server for Smartech Research Labs",
+  "description": "Socket.IO and BullMQ server for OmniviaTech",
   "main": "socket.js",
   "scripts": {
     "start": "node socket.js",
@@ -16,7 +16,7 @@
     "chat",
     "queue"
   ],
-  "author": "Smartech Research Labs",
+  "author": "OmniviaTech",
   "license": "MIT",
   "dependencies": {
     "express": "^4.18.2",

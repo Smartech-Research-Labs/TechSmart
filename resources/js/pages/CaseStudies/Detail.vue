@@ -10,20 +10,20 @@
       <section class="relative min-h-[45vh] flex items-end overflow-hidden">
         <div class="absolute inset-0">
           <img
-            :src="caseStudy.image_url || caseStudy.featured_image || 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1920&h=1080&fit=crop&q=80'"
+            :src="caseStudy.image_url || caseStudy.featured_image || heroLaptopDark"
             :alt="caseStudy.title"
             class="w-full h-full object-cover"
           />
-          <div class="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent"></div>
+          <div class="absolute inset-0 bg-black/50"></div>
         </div>
         <div class="relative z-10 container mx-auto px-6 pb-10">
           <!-- Breadcrumbs -->
-          <nav class="flex items-center gap-2 text-xs text-muted-foreground mb-4">
+          <nav class="flex items-center gap-2 text-xs text-white/60 mb-4">
             <router-link to="/" class="hover:text-primary transition">Home</router-link>
             <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
             <router-link to="/case-studies" class="hover:text-primary transition">Case Studies</router-link>
             <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
-            <span class="text-foreground font-medium">{{ caseStudy.title }}</span>
+            <span class="text-white font-medium">{{ caseStudy.title }}</span>
           </nav>
 
           <div class="flex flex-wrap items-center gap-2 mb-3">
@@ -134,7 +134,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <router-link v-for="cs in related" :key="cs.id" :to="`/case-studies/${cs.slug}`" class="group bg-card border border-border rounded-xl overflow-hidden hover:shadow-lg hover:border-primary/20 transition-all">
               <div class="aspect-[16/10] overflow-hidden">
-                <img :src="cs.image_url || cs.featured_image || 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop&q=80'" :alt="cs.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img :src="cs.image_url || cs.featured_image || heroTech7" :alt="cs.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
               </div>
               <div class="p-5">
                 <span v-if="cs.client_name" class="text-xs font-medium text-primary mb-2 block">{{ cs.client_name }}</span>
@@ -147,12 +147,14 @@
       </section>
 
       <!-- ═══════════════ CTA ═══════════════ -->
-      <section class="py-16 md:py-20 bg-gradient-to-r from-red-800 via-red-700 to-red-900 text-white">
-        <div class="container mx-auto px-6 text-center">
+      <section class="py-16 md:py-20 bg-black text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-30 bg-cover bg-center" :style="{ backgroundImage: 'url(' + heroTechGlow + ')' }"></div>
+        <div class="absolute inset-0 bg-black/70"></div>
+        <div class="relative container mx-auto px-6 text-center">
           <h2 class="text-2xl md:text-3xl font-bold mb-4">Want Similar Results?</h2>
-          <p class="text-white/80 text-sm max-w-lg mx-auto mb-8">Let our experts help you achieve the same level of success. Contact us for a free consultation.</p>
+          <p class="text-white/70 text-sm max-w-lg mx-auto mb-8">Let our experts help you achieve the same level of success. Contact us for a free consultation.</p>
           <div class="flex flex-wrap justify-center gap-3">
-            <router-link to="/contact" class="inline-flex items-center gap-2 px-7 py-3 bg-white text-red-800 text-sm font-semibold rounded-full hover:bg-white/90 transition-all shadow-lg">
+            <router-link to="/contact" class="inline-flex items-center gap-2 px-7 py-3 bg-white text-foreground text-sm font-semibold rounded-full hover:bg-white/90 transition-all shadow-lg">
               Start Your Project
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
             </router-link>
@@ -174,6 +176,8 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
+import heroLaptopDark from '@/../img/tech-background.png';
+import heroTech7 from '@/../img/tech7.jpg';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import api from '@/services/api';
 

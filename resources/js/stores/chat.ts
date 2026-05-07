@@ -1,7 +1,8 @@
-import { defineStore } from 'pinia';
-import { ref, computed } from 'vue';
 import axios from 'axios';
-import { io, Socket } from 'socket.io-client';
+import { defineStore } from 'pinia';
+import type { Socket } from 'socket.io-client';
+import { io } from 'socket.io-client';
+import { ref, computed } from 'vue';
 
 interface ChatMessage {
   id: number;

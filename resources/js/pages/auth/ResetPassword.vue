@@ -1,12 +1,12 @@
 <script setup lang="ts">
+import axios from 'axios'
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import axios from 'axios'
-import AuthPageLayout from '@/layouts/AuthPageLayout.vue'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Spinner } from '@/components/ui/spinner'
+import AuthPageLayout from '@/layouts/AuthPageLayout.vue'
 
 const route = useRoute()
 const router = useRouter()

@@ -140,7 +140,7 @@
             <span class="flex items-center gap-1"><kbd class="px-1 py-0.5 bg-muted rounded border border-border font-mono">↵</kbd> Select</span>
             <span class="flex items-center gap-1"><kbd class="px-1 py-0.5 bg-muted rounded border border-border font-mono">esc</kbd> Close</span>
           </div>
-          <span>Smartech Search</span>
+          <span>OmniviaTech Search</span>
         </div>
       </div>
     </Transition>
@@ -148,9 +148,9 @@
 </template>
 
 <script setup lang="ts">
+import { IconSearch, IconSearchOff } from '@tabler/icons-vue';
 import { ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { IconSearch, IconSearchOff } from '@tabler/icons-vue';
 import { useApi } from '@/composables/useApi';
 
 const props = defineProps<{ modelValue: boolean }>();
