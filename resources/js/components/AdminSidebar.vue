@@ -10,6 +10,7 @@ import {
   IconMail,
   IconMessage,
   IconPackage,
+  IconPhoto,
   IconReport,
   IconSearch,
   IconServer,
@@ -112,6 +113,11 @@ const navDocuments = [
     name: "Chat",
     url: "/admin/chat",
     icon: IconMessage,
+  },
+  {
+    name: "Media",
+    url: "/admin/media",
+    icon: IconPhoto,
   },
 ]
 

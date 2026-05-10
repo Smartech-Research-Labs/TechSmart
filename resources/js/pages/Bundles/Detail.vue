@@ -89,7 +89,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import heroTechBg from '@/../img/tech-background.png';
+import heroTechBg from '@/../img/tech-background.webp';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 
 const route = useRoute();

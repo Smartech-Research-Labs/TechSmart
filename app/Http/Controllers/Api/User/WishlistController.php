@@ -52,7 +52,7 @@ class WishlistController extends Controller implements HasMiddleware
         $itemName = $item->name ?? $item->title ?? 'Unknown';
         $userName = auth()->user()->name ?? auth()->user()->email;
 
-        $admins = User::role(['admin', 'super-admin'])->get();
+        $admins = User::role(['admin', 'superadmin'])->get();
         foreach ($admins as $admin) {
             $admin->notify(new WishlistNotification(
                 userName: $userName,

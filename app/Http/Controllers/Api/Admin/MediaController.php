@@ -125,4 +125,102 @@ class MediaController extends Controller
 
         return response()->json(['message' => 'File not found'], 404);
     }
+
+    /**
+     * Bulk upload multiple images.
+     */
+    public function uploadMultiple(Request $request)
+    {
+        $request->validate([
+            'images' => 'required|array',
+            'images.*' => 'required|image|mimes:png,jpg,jpeg,gif,svg,webp,avif|max:10240',
+            'folder' => 'nullable|string|max:50',
+            'convert_webp' => 'nullable|boolean',
+        ]);
+
+        $folder = $request->get('folder', 'media');
+        $convertWebp = $request->boolean('convert_webp', true);
+        $uploaded = [];
+
+        foreach ($request->file('images') as $file) {
+            $extension = strtolower($file->getClientOriginalExtension());
+            $baseName = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
+            $baseName = $baseName ?: Str::random(12);
+
+            if ($convertWebp && !in_array($extension, ['webp', 'svg'])) {
+                try {
+                    $imageData = file_get_contents($file->getRealPath());
+                    $gdImage = @imagecreatefromstring($imageData);
+
+                    if ($gdImage !== false) {
+                        $webpName = $baseName . '-' . time() . '-' . uniqid() . '.webp';
+                        $tempPath = sys_get_temp_dir() . '/' . $webpName;
+
+                        imagepalettetotruecolor($gdImage);
+                        imagealphablending($gdImage, true);
+                        imagesavealpha($gdImage, true);
+
+                        imagewebp($gdImage, $tempPath, 85);
+                        imagedestroy($gdImage);
+
+                        $storedPath = $folder . '/' . $webpName;
+                        Storage::disk('public')->put($storedPath, file_get_contents($tempPath));
+                        @unlink($tempPath);
+
+                        $uploaded[] = [
+                            'path' => $storedPath,
+                            'url' => Storage::url($storedPath),
+                            'format' => 'webp',
+                        ];
+                        continue;
+                    }
+                } catch (\Throwable $e) {
+                    // Fall through to regular upload
+                }
+            }
+
+            $fileName = $baseName . '-' . time() . '-' . uniqid() . '.' . $extension;
+            $storedPath = $file->storeAs($folder, $fileName, 'public');
+
+            $uploaded[] = [
+                'path' => $storedPath,
+                'url' => Storage::url($storedPath),
+                'format' => $extension,
+            ];
+        }
+
+        return response()->json([
+            'message' => count($uploaded) . ' image(s) uploaded successfully',
+            'images' => $uploaded,
+        ]);
+    }
+
+    /**
+     * Bulk delete multiple media files.
+     */
+    public function destroyMultiple(Request $request)
+    {
+        $request->validate([
+            'paths' => 'required|array',
+            'paths.*' => 'required|string',
+        ]);
+
+        $deleted = [];
+        $notFound = [];
+
+        foreach ($request->paths as $path) {
+            if (Storage::disk('public')->exists($path)) {
+                Storage::disk('public')->delete($path);
+                $deleted[] = $path;
+            } else {
+                $notFound[] = $path;
+            }
+        }
+
+        return response()->json([
+            'message' => count($deleted) . ' file(s) deleted' . (count($notFound) ? ', ' . count($notFound) . ' not found' : ''),
+            'deleted' => $deleted,
+            'not_found' => $notFound,
+        ]);
+    }
 }

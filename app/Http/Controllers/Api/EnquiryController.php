@@ -53,6 +53,12 @@ class EnquiryController extends Controller
         if ($request->has('service') && $type === 'quote') {
             $formData['requested_service'] = $request->service;
         }
+        if ($request->has('budget')) {
+            $formData['budget'] = $request->budget;
+        }
+        if ($request->has('timeline')) {
+            $formData['timeline'] = $request->timeline;
+        }
         if ($request->has('subject')) {
             $formData['subject'] = $request->subject;
         }
@@ -72,7 +78,7 @@ class EnquiryController extends Controller
         ]);
 
         // Notify all admins
-        $admins = User::role(['admin', 'superadmin', 'super-admin'])->get();
+        $admins = User::role(['admin', 'superadmin'])->get();
         if ($admins->isNotEmpty()) {
             Notification::send($admins, new EnquiryNotification(
                 $request->name,

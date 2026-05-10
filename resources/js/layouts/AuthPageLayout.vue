@@ -1,9 +1,9 @@
 ﻿<template>
-  <div class="min-h-screen flex flex-col text-foreground" style="background-color: #262626;">
+  <div class="min-h-screen flex flex-col text-foreground" style="background-color: #ffffff;">
     <!-- Auth Header -->
-    <header class="sticky top-0 z-30 border-b backdrop-blur supports-[backdrop-filter]:bg-black/40" style="background-color: rgba(38, 38, 38, 0.95);">
+    <header class="sticky top-0 z-30 border-b" style="background-color: #ffffff;">
       <div class="container mx-auto flex h-14 items-center justify-between px-4">
-        <router-link to="/" class="flex items-center gap-2 group">
+        <router-link to="/contact" class="flex items-center gap-2 group">
           <img
             v-if="settings?.logo_path"
             :src="`/storage/${settings.logo_path}`"
@@ -11,9 +11,9 @@
             class="h-8 w-auto"
           />
           <div v-else class="w-8 h-8 bg-gradient-to-br from-primary to-primary/70 rounded-lg flex items-center justify-center">
-            <span class="text-primary-foreground font-bold text-sm">TS</span>
+            <span class="text-primary-foreground font-bold text-sm">OT</span>
           </div>
-          <span class="text-lg font-bold text-white group-hover:text-primary transition-colors">{{ settings?.site_name || 'OmniviaTech' }}</span>
+          <span class="text-lg font-bold text-gray-500 group-hover:text-primary transition-colors">{{ settings?.site_name || 'OmniviaTech' }}</span>
         </router-link>
 
         <div class="flex items-center gap-2">
@@ -40,8 +40,8 @@
     </main>
 
     <!-- Auth Footer -->
-    <footer class="border-t py-4" style="background-color: rgba(38, 38, 38, 0.95); border-color: rgba(255,255,255,0.1);">
-      <div class="container mx-auto flex flex-col items-center justify-between gap-2 px-4 text-xs text-white/60 sm:flex-row">
+    <footer class="border-t py-4" style="background-color: #ffffff; border-color: rgba(255,255,255,0.1);">
+      <div class="container mx-auto flex flex-col items-center justify-between gap-2 px-4 text-xs text-gray-500 sm:flex-row">
         <p>&copy; {{ new Date().getFullYear() }} {{ settings?.site_name || 'OmniviaTech' }}. All rights reserved.</p>
         <div class="flex items-center gap-4">
           <router-link to="/" class="hover:text-white transition-colors">Home</router-link>

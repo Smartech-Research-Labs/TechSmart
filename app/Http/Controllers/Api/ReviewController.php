@@ -74,7 +74,7 @@ class ReviewController extends Controller implements HasMiddleware
         if ($reviewable) {
             $reviewableName = $reviewable->name ?? $reviewable->title ?? 'Item';
         }
-        $admins = User::role(['admin', 'superadmin', 'super-admin'])->get();
+        $admins = User::role(['admin', 'superadmin'])->get();
         Notification::send($admins, new ReviewNotification(
             auth()->user()->name,
             class_basename($request->reviewable_type),

@@ -27,7 +27,7 @@ class NewsletterController extends Controller
         ]);
 
         // Notify admins about new subscriber
-        $admins = User::role(['admin', 'superadmin', 'super-admin'])->get();
+        $admins = User::role(['admin', 'superadmin'])->get();
         Notification::send($admins, new NewsletterNotification($request->email));
 
         // TODO: Dispatch job to send welcome email

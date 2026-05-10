@@ -66,6 +66,17 @@ class Blog extends Model
         return $query->where('category', $category);
     }
 
+    public function getImageUrlAttribute(): ?string
+    {
+        if (!$this->featured_image) {
+            return null;
+        }
+        if (str_starts_with($this->featured_image, 'http')) {
+            return $this->featured_image;
+        }
+        return '/storage/' . ltrim($this->featured_image, '/');
+    }
+
     public function getReadingTimeAttribute(): int
     {
         $wordCount = str_word_count(strip_tags($this->content ?? ''));
