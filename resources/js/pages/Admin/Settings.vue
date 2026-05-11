@@ -426,6 +426,32 @@
                 </div>
               </CardContent>
             </Card>
+
+            <!-- Browser Tab / SEO -->
+            <Card>
+              <CardHeader>
+                <CardTitle>Browser Tab / SEO</CardTitle>
+                <CardDescription>The title and description that appear in the browser tab and search engine results. Also used for Open Graph and Twitter Card previews.</CardDescription>
+              </CardHeader>
+              <CardContent class="space-y-4">
+                <div class="space-y-2">
+                  <Label for="branding_meta_title">Browser Tab Title</Label>
+                  <Input id="branding_meta_title" v-model="form.meta_title" placeholder="My Awesome Site — Tagline" />
+                  <p class="text-xs text-muted-foreground">Shown in the browser tab next to the favicon. Also used as the default SEO title.</p>
+                </div>
+                <div class="space-y-2">
+                  <Label for="branding_meta_description">Meta Description</Label>
+                  <textarea
+                    id="branding_meta_description"
+                    v-model="form.meta_description"
+                    rows="2"
+                    class="w-full bg-background border border-border rounded-lg px-4 py-2.5 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition resize-none"
+                    placeholder="A brief description of your website for search engines"
+                  />
+                  <p class="text-xs text-muted-foreground">Default description shown in search engine results and social media previews.</p>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </TabsContent>
         <!-- ═══════ Images ═══════ -->
@@ -657,6 +683,15 @@
                 <Input id="facebook_pixel_id" v-model="form.facebook_pixel_id" placeholder="123456789012345" />
               </div>
               <div class="space-y-2">
+                <Label for="google_search_console">Google Search Console Verification</Label>
+                <Input id="google_search_console" v-model="form.google_search_console" placeholder="xxxxxxxxxxxxxxxxxxxxx" />
+                <p class="text-xs text-muted-foreground">Paste the content value from the verification meta tag</p>
+              </div>
+              <div class="space-y-2">
+                <Label for="clarity_id">Microsoft Clarity ID</Label>
+                <Input id="clarity_id" v-model="form.clarity_id" placeholder="xxxxxxxxxx" />
+              </div>
+              <div class="space-y-2">
                 <Label for="hotjar_id">Hotjar Site ID</Label>
                 <Input id="hotjar_id" v-model="form.hotjar_id" placeholder="1234567" />
               </div>
@@ -882,11 +917,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useApi } from '@/composables/useApi';
 import { useToast } from '@/composables/useToast';
 import AdminLayout from '@/layouts/AdminLayout.vue';
+import { useCmsStore } from '@/stores/cms';
 
 
 // ── API & Toast ──
 const { get, put, post } = useApi();
 const toast = useToast();
+const cmsStore = useCmsStore();
 
 // ── Loading / saving state ──
 const loading = ref(true);
@@ -989,7 +1026,9 @@ const form = reactive({
   // Analytics & 3rd Party
   google_analytics_id: '',
   google_tag_manager_id: '',
+  google_search_console: '',
   facebook_pixel_id: '',
+  clarity_id: '',
   hotjar_id: '',
   google_maps_api_key: '',
   recaptcha_site_key: '',
@@ -1127,7 +1166,9 @@ function buildPayload() {
     // Analytics
     google_analytics_id: 'analytics',
     google_tag_manager_id: 'analytics',
+    google_search_console: 'analytics',
     facebook_pixel_id: 'analytics',
+    clarity_id: 'analytics',
     hotjar_id: 'analytics',
     google_maps_api_key: 'analytics',
     recaptcha_site_key: 'analytics',
@@ -1176,8 +1217,14 @@ async function saveSettings() {
     toast.success('Settings saved', 'Your changes have been saved successfully.');
   } catch (e: any) {
     toast.error('Save failed', e?.response?.data?.message ?? 'Please try again.');
+    return;
   } finally {
     saving.value = false;
+  }
+  try {
+    await cmsStore.fetchHomeData();
+  } catch {
+    // Silent - save already succeeded, store refresh is secondary
   }
 }
 
@@ -1201,6 +1248,7 @@ async function uploadLogo() {
     form.logo_path = data.logo_path ?? '';
     logoFile.value = null;
     if (logoPreview.value) { URL.revokeObjectURL(logoPreview.value); logoPreview.value = null; }
+    await cmsStore.fetchHomeData();
     toast.success('Logo uploaded', 'The site logo has been updated.');
   } catch (e: any) {
     toast.error('Upload failed', e?.response?.data?.message ?? 'Could not upload logo.');
@@ -1229,6 +1277,7 @@ async function uploadFavicon() {
     form.favicon_path = data.favicon_path ?? '';
     faviconFile.value = null;
     if (faviconPreview.value) { URL.revokeObjectURL(faviconPreview.value); faviconPreview.value = null; }
+    await cmsStore.fetchHomeData();
     toast.success('Favicon uploaded', 'The site favicon has been updated.');
   } catch (e: any) {
     toast.error('Upload failed', e?.response?.data?.message ?? 'Could not upload favicon.');
@@ -1257,6 +1306,7 @@ async function uploadFooterLogo() {
     form.footer_logo_path = data.footer_logo_path ?? '';
     footerLogoFile.value = null;
     if (footerLogoPreview.value) { URL.revokeObjectURL(footerLogoPreview.value); footerLogoPreview.value = null; }
+    await cmsStore.fetchHomeData();
     toast.success('Footer logo uploaded', 'The footer logo has been updated.');
   } catch (e: any) {
     toast.error('Upload failed', e?.response?.data?.message ?? 'Could not upload footer logo.');

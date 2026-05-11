@@ -174,7 +174,7 @@
           <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-3">Our Core Values</h2>
           <p class="text-muted-foreground text-sm">The principles that guide everything we do.</p>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           <div v-for="(val, i) in values" :key="i" class="bg-card border border-border rounded-xl p-5 text-center hover:border-primary/40 hover:shadow-md transition-all">
             <div class="w-12 h-12 mx-auto bg-primary/10 rounded-xl flex items-center justify-center mb-3"><span class="text-xl">{{ val.emoji }}</span></div>
             <h3 class="text-xs font-semibold text-foreground mb-1">{{ val.title }}</h3>
@@ -356,13 +356,17 @@
     </section>
 
     <!-- ═══════════════ OTHER AREAS ═══════════════ -->
+<<<<<<< HEAD
     <section class="py-14 md:py-20 bg-muted/30">
+=======
+    <section class="py-14 md:py-20">
+>>>>>>> 1d35d88c6706dd9b697d392f06392c3d55bff2cd
         <div class="container mx-auto px-6">
         <div class="text-center max-w-xl mx-auto mb-8">
           <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-3">Other Areas You Might Be Interested In</h2>
           <p class="text-muted-foreground text-sm">Explore more of what OmniviaTech has to offer.</p>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           <router-link v-for="area in otherAreas" :key="area.label" :to="area.to" class="group bg-card border border-border rounded-xl p-5 text-center hover:border-primary/40 hover:shadow-md transition-all">
             <div class="w-12 h-12 mx-auto bg-primary/10 rounded-xl flex items-center justify-center mb-3 group-hover:bg-primary/20 transition"><span class="text-xl">{{ area.icon }}</span></div>
             <h3 class="text-xs font-semibold text-foreground group-hover:text-primary transition-colors">{{ area.label }}</h3>
@@ -379,10 +383,10 @@ import { Autoplay, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { ref } from 'vue';
 import heroLaptop from '@/../img/Laptop.webp';
-import heroTechBg from '@/../img/tech-background.png';
+import heroTechBg from '@/../img/tech-background.webp';
 import heroTechGlow from '@/../img/tech-glow.webp';
-import heroTech2 from '@/../img/tech2.jpg';
-import heroTech4 from '@/../img/tech4.jpg';
+import heroTech2 from '@/../img/tech2.webp';
+import heroTech4 from '@/../img/tech4.webp';
 import { useToast } from '@/composables';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import 'swiper/css';

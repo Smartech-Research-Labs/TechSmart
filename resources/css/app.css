@@ -176,6 +176,10 @@
     --sidebar-ring: #d311f5;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 @layer base {
     * {
         @apply border-border outline-ring/50;

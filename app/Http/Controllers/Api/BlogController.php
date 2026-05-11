@@ -51,9 +51,30 @@ class BlogController extends Controller
             ->take(3)
             ->get();
 
+        // Sidebar data
+        $categories = Blog::published()
+            ->select('category')
+            ->distinct()
+            ->whereNotNull('category')
+            ->pluck('category');
+
+        $recentBlogs = Blog::published()
+            ->where('id', '!=', $blog->id)
+            ->take(5)
+            ->get(['id', 'title', 'slug', 'featured_image', 'published_at']);
+
+        $mostViewed = Blog::published()
+            ->where('id', '!=', $blog->id)
+            ->orderByDesc('views')
+            ->take(5)
+            ->get(['id', 'title', 'slug', 'featured_image', 'published_at', 'views']);
+
         return response()->json([
             'blog' => $blog,
             'related' => $related,
+            'categories' => $categories,
+            'recent' => $recentBlogs,
+            'most_viewed' => $mostViewed,
         ]);
     }
 

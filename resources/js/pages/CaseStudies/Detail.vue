@@ -176,8 +176,8 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import heroLaptopDark from '@/../img/tech-background.png';
-import heroTech7 from '@/../img/tech7.jpg';
+import heroLaptopDark from '@/../img/tech-background.webp';
+import heroTech7 from '@/../img/tech7.webp';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import api from '@/services/api';
 

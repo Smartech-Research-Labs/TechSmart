@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { ref, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import heroTechBg from '@/../img/tech-background.png';
+import heroTechBg from '@/../img/tech-background.webp';
 import { Button } from '@/components/ui/button';
 import {
   Card,

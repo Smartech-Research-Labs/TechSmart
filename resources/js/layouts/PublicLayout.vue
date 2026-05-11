@@ -53,14 +53,14 @@
           <div class="lg:col-span-2">
             <router-link to="/" class="flex items-center gap-2 mb-5">
               <img
-                v-if="(settings as any)?.footer_logo_path"
-                :src="`/storage/${(settings as any)?.footer_logo_path}`"
+                v-if="(settings as any)?.footer_logo_url || (settings as any)?.footer_logo_path"
+                :src="(settings as any)?.footer_logo_url || `/storage/${(settings as any)?.footer_logo_path}`"
                 alt="Logo"
                 class="h-10 w-auto"
               />
               <img
-                v-else-if="settings?.logo_path"
-                :src="`/storage/${settings.logo_path}`"
+                v-else-if="settings?.logo_url || settings?.logo_path"
+                :src="settings?.logo_url || `/storage/${settings?.logo_path}`"
                 alt="Logo"
                 class="h-10 w-auto brightness-0 invert"
               />
@@ -215,9 +215,9 @@
 
 <script setup lang="ts">
 import axios from 'axios';
-import { ref, onMounted, computed, watchEffect, onUnmounted } from 'vue';
+import { ref, onMounted, computed, watch, watchEffect, onUnmounted } from 'vue';
 import { useRoute } from 'vue-router';
-import defaultLogo from '@/../img/Omnivatech-logo.png';
+import defaultLogo from '@/../img/Omnivatech-logo.webp';
 import FloatingChatButton from '@/components/FloatingChatButton.vue';
 import GlobalMegaMenu from '@/components/GlobalMegaMenu.vue';
 import ScrollToTopButton from '@/components/ScrollToTopButton.vue';
@@ -258,18 +258,24 @@ watchEffect(() => {
   const s = settings.value;
   if (!s) return;
   const baseUrl = (s as any)?.canonical_url || window.location.origin;
+  const path = route.path;
+  const pageKey = path === '/' ? 'home' : path.split('/')[1]?.replace(/-/g, '_');
+  const metaTitle = (s as any)[`${pageKey}_meta_title`] || (s as any)?.meta_title || s.site_name || 'OmniviaTech';
+  const metaDesc = (s as any)[`${pageKey}_meta_description`] || (s as any)?.meta_description || (s as any)?.site_description || '';
 
-  // Organization / Website schema
+  const logoUrl = (s as any)?.logo_url || (s.logo_path ? `${baseUrl}/storage/${s.logo_path}` : null);
+  const ogImage = (s as any)?.og_image_default || (s as any)?.schema_org_logo || logoUrl;
+
+  // ── Organization Schema ──
   const orgSchema: any = {
     '@context': 'https://schema.org',
     '@type': (s as any)?.schema_org_type || 'Organization',
     name: (s as any)?.schema_org_name || s.site_name || 'OmniviaTech',
     url: baseUrl,
-    description: (s as any)?.meta_description || (s as any)?.site_description || '',
+    description: metaDesc,
   };
-  if ((s as any)?.schema_org_logo || s.logo_path) {
-    orgSchema.logo = (s as any)?.schema_org_logo || `${baseUrl}/storage/${s.logo_path}`;
-  }
+  if (logoUrl) orgSchema.logo = logoUrl;
+  if ((s as any)?.schema_org_logo) orgSchema.logo = (s as any)?.schema_org_logo;
   if ((s as any)?.schema_same_as) {
     orgSchema.sameAs = (s as any)?.schema_same_as.split(',').map((u: string) => u.trim()).filter(Boolean);
   }
@@ -284,7 +290,19 @@ watchEffect(() => {
     };
   }
 
-  // Inject org schema
+  // ── WebSite Schema ──
+  const websiteSchema: any = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: s.site_name || 'OmniviaTech',
+    url: baseUrl,
+    description: metaDesc,
+  };
+  if ((s as any)?.schema_same_as) {
+    websiteSchema.sameAs = (s as any)?.schema_same_as.split(',').map((u: string) => u.trim()).filter(Boolean);
+  }
+
+  // Inject Organization schema
   if (!seoScriptEl.value) {
     seoScriptEl.value = document.createElement('script');
     seoScriptEl.value.type = 'application/ld+json';
@@ -293,8 +311,17 @@ watchEffect(() => {
   }
   seoScriptEl.value.textContent = JSON.stringify(orgSchema);
 
-  // Breadcrumb schema
-  const path = route.path;
+  // Inject WebSite schema
+  let wsScript = document.querySelector('script#srl-website-schema') as HTMLScriptElement;
+  if (!wsScript) {
+    wsScript = document.createElement('script');
+    wsScript.type = 'application/ld+json';
+    wsScript.id = 'srl-website-schema';
+    document.head.appendChild(wsScript);
+  }
+  wsScript.textContent = JSON.stringify(websiteSchema);
+
+  // ── Breadcrumb Schema ──
   const breadcrumbItems: any[] = [
     { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
   ];
@@ -327,28 +354,45 @@ watchEffect(() => {
   }
   breadcrumbScriptEl.value.textContent = JSON.stringify(breadcrumbSchema);
 
-  // Update meta tags
-  const pageKey = path === '/' ? 'home' : path.split('/')[1]?.replace(/-/g, '_');
-  const metaTitle = (s as any)[`${pageKey}_meta_title`] || (s as any)?.meta_title || s.site_name;
-  const metaDesc = (s as any)[`${pageKey}_meta_description`] || (s as any)?.meta_description || '';
-
+  // ── Meta Tags ──
   document.title = metaTitle;
-  let descTag = document.querySelector('meta[name="description"]') as HTMLMetaElement;
-  if (!descTag) {
-    descTag = document.createElement('meta');
-    descTag.name = 'description';
-    document.head.appendChild(descTag);
+
+  setOrUpdateMeta('description', metaDesc);
+  setOrUpdateMeta('keywords', (s as any)?.meta_keywords || (s as any)?.site_keywords || 'technology, digital solutions, software development, AI, cloud computing, Africa');
+
+  // Canonical URL
+  let canonicalTag = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
+  if (!canonicalTag) {
+    canonicalTag = document.createElement('link');
+    canonicalTag.rel = 'canonical';
+    document.head.appendChild(canonicalTag);
   }
-  descTag.content = metaDesc;
+  canonicalTag.href = `${baseUrl}${path}`;
 
   // OG tags
   setMetaTag('og:title', metaTitle);
   setMetaTag('og:description', metaDesc);
   setMetaTag('og:url', `${baseUrl}${path}`);
-  if ((s as any)?.og_image_default) setMetaTag('og:image', (s as any)?.og_image_default);
-  if ((s as any)?.twitter_card_type) setMetaTag('twitter:card', (s as any)?.twitter_card_type);
+  setMetaTag('og:type', 'website');
+  setMetaTag('og:locale', 'en_US');
+  setMetaTag('og:site_name', s.site_name || 'OmniviaTech');
+  if (ogImage) {
+    setMetaTag('og:image', ogImage);
+    setMetaTag('twitter:image', ogImage);
+  }
+  setMetaTag('twitter:card', (s as any)?.twitter_card_type || 'summary_large_image');
   if ((s as any)?.twitter_handle) setMetaTag('twitter:site', (s as any)?.twitter_handle);
 });
+
+function setOrUpdateMeta(name: string, content: string) {
+  let tag = document.querySelector(`meta[name="${name}"]`) as HTMLMetaElement;
+  if (!tag) {
+    tag = document.createElement('meta');
+    tag.name = name;
+    document.head.appendChild(tag);
+  }
+  tag.content = content;
+}
 
 function setMetaTag(property: string, content: string) {
   const attr = property.startsWith('twitter:') ? 'name' : 'property';
@@ -364,6 +408,7 @@ function setMetaTag(property: string, content: string) {
 onUnmounted(() => {
   seoScriptEl.value?.remove();
   breadcrumbScriptEl.value?.remove();
+  document.querySelector('script#srl-website-schema')?.remove();
 });
 
 // ── Visible Breadcrumbs ──
@@ -396,13 +441,15 @@ const footerQuickLinks = [
   { to: '/terms', label: 'Terms of Service' },
 ];
 
-onMounted(async () => {
-  if (!cmsStore.homeData) {
-    await cmsStore.fetchHomeData().catch(() => {
-      console.error('Failed to fetch home data');
-    });
-  }
-});
+async function fetchSettings() {
+  await cmsStore.fetchHomeData().catch(() => {
+    console.error('Failed to fetch home data');
+  });
+}
+
+onMounted(fetchSettings);
+
+watch(() => route.path, fetchSettings);
 
 async function handleNewsletter() {
   if (!newsletterEmail.value) return;

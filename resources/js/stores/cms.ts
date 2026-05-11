@@ -93,6 +93,10 @@ interface Settings {
   address?: string;
   logo_path?: string;
   logo_url?: string;
+  footer_logo_path?: string;
+  footer_logo_url?: string;
+  favicon_path?: string;
+  favicon_url?: string;
   marquee_text?: string;
   facebook_url?: string;
   twitter_url?: string;
@@ -105,6 +109,38 @@ interface Settings {
   theme_preset?: string;
   theme_primary_color?: string;
   theme_accent_color?: string;
+  meta_title?: string;
+  meta_description?: string;
+  meta_keywords?: string;
+  og_image_default?: string;
+  canonical_url?: string;
+  schema_org_type?: string;
+  schema_org_name?: string;
+  schema_org_logo?: string;
+  schema_same_as?: string;
+  twitter_card_type?: string;
+  twitter_handle?: string;
+  site_description?: string;
+  city?: string;
+  country?: string;
+  home_meta_title?: string;
+  home_meta_description?: string;
+  about_meta_title?: string;
+  about_meta_description?: string;
+  services_meta_title?: string;
+  services_meta_description?: string;
+  products_meta_title?: string;
+  products_meta_description?: string;
+  blog_meta_title?: string;
+  blog_meta_description?: string;
+  contact_meta_title?: string;
+  contact_meta_description?: string;
+  case_studies_meta_title?: string;
+  case_studies_meta_description?: string;
+  industries_meta_title?: string;
+  industries_meta_description?: string;
+  faqs_meta_title?: string;
+  faqs_meta_description?: string;
 }
 
 interface HomeData {

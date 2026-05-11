@@ -86,7 +86,7 @@
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-2">Value Proposition</p>
           <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-3">Why Choose Our Products</h2>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           <div v-for="(val, i) in valueProps" :key="i" class="bg-card border border-border rounded-xl p-5 text-center hover:border-primary/40 hover:shadow-md transition-all">
             <div class="w-12 h-12 mx-auto bg-primary/10 rounded-xl flex items-center justify-center mb-3"><span class="text-xl">{{ val.icon }}</span></div>
             <h3 class="text-xs font-semibold text-foreground mb-1">{{ val.title }}</h3>
@@ -119,7 +119,8 @@
         <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <router-link v-for="product in products" :key="product.id" :to="`/products/${product.slug}`" class="group bg-card border border-border rounded-xl overflow-hidden hover:border-accent/30 hover:shadow-lg transition-all">
             <div class="aspect-[4/3] bg-muted overflow-hidden relative">
-              <img v-if="product.image_url" :src="product.image_url" :alt="product.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <img v-if="getProductImage(product)" :src="getProductImage(product)" :alt="product.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <img v-else-if="product.image_url" :src="product.image_url" :alt="product.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
               <div v-else class="w-full h-full flex items-center justify-center">
                 <svg class="w-8 h-8 text-muted-foreground/20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
               </div>
@@ -131,8 +132,6 @@
               <h3 class="text-xs font-semibold text-foreground mb-1 group-hover:text-accent transition-colors line-clamp-2">{{ product.name }}</h3>
               <p class="text-muted-foreground text-[11px] leading-relaxed line-clamp-2 mb-2">{{ product.excerpt || product.short_description }}</p>
               <div class="flex items-center justify-between">
-                <span v-if="product.price" class="text-accent font-bold text-xs">Ksh {{ Number(product.price).toLocaleString() }}</span>
-                <span v-else-if="product.price_label" class="text-accent font-bold text-xs">{{ product.price_label }}</span>
                 <span class="text-primary font-medium text-[11px] flex items-center gap-1">View <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg></span>
               </div>
             </div>
@@ -199,7 +198,7 @@
           <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-3">Other Areas You Might Be Interested In</h2>
           <p class="text-muted-foreground text-sm">Explore more of what OmniviaTech has to offer.</p>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           <router-link v-for="area in otherAreas" :key="area.label" :to="area.to" class="group bg-card border border-border rounded-xl p-5 text-center hover:border-primary/40 hover:shadow-md transition-all">
             <div class="w-12 h-12 mx-auto bg-primary/10 rounded-xl flex items-center justify-center mb-3 group-hover:bg-primary/20 transition"><span class="text-xl">{{ area.icon }}</span></div>
             <h3 class="text-xs font-semibold text-foreground group-hover:text-primary transition-colors">{{ area.label }}</h3>
@@ -214,15 +213,36 @@
 import axios from 'axios';
 import { ref, computed, onMounted } from 'vue';
 import heroOrbit from '@/../img/Orbit.webp';
-import heroLaptopDark from '@/../img/tech-background.png';
+import heroLaptopDark from '@/../img/tech-background.webp';
 import heroTechGlow from '@/../img/tech-glow.webp';
-import heroTech2 from '@/../img/tech2.jpg';
-import heroTech4 from '@/../img/tech4.jpg';
+import heroTech2 from '@/../img/tech2.webp';
+import heroTech4 from '@/../img/tech4.webp';
 import PaginationControls from '@/components/ui/pagination/PaginationControls.vue';
 import WishlistButton from '@/components/WishlistButton.vue';
 import { useToast } from '@/composables';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import { useCmsStore } from '@/stores/cms';
+import svcCustomWeb from '@/../img/services/Custom Web Development.webp';
+import svcEcommerce from '@/../img/services/E-commerece Development.webp';
+import svcApi from '@/../img/services/API Development.webp';
+import svcCrmErp from '@/../img/services/CRM & ERP Development.webp';
+import svcMobileApp from '@/../img/services/Mobile App Development.webp';
+import svcSeo from '@/../img/services/SEO Optimization.webp';
+
+const productImageMap: Record<string, string> = {
+  'smartcms-pro': svcCustomWeb,
+  'smartshop-platform': svcEcommerce,
+  'smartanalytics-dashboard': svcSeo,
+  'smartchat-ai': svcApi,
+  'smartsecure-firewall': svcCrmErp,
+  'smartbackup-cloud': svcMobileApp,
+};
+
+function getProductImage(product: any): string | undefined {
+  const slug = (product.slug || '').toLowerCase().trim();
+  if (productImageMap[slug]) return productImageMap[slug];
+  return undefined;
+}
 
 const cmsStore = useCmsStore();
 const s = computed(() => cmsStore.homeData?.settings || {} as any);

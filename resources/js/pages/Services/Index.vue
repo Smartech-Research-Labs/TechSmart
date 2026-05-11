@@ -164,7 +164,8 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <router-link v-for="service in filteredServices" :key="service.id" :to="`/services/${service.slug}`" class="group bg-card border border-border rounded-xl overflow-hidden hover:border-primary/30 hover:shadow-lg transition-all">
                 <div class="aspect-[4/3] bg-muted overflow-hidden relative">
-                  <img v-if="service.image_url" :src="service.image_url" :alt="service.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <img v-if="getServiceImage(service)" :src="getServiceImage(service)" :alt="service.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <img v-else-if="service.image_url" :src="service.image_url" :alt="service.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   <div v-else class="w-full h-full flex items-center justify-center"><span class="text-3xl">💡</span></div>
                   <span class="absolute top-2 left-2 px-2 py-0.5 bg-primary/90 text-white text-[10px] font-medium rounded">{{ service.category }}</span>
                   <div class="absolute top-2 right-2 z-10" @click.prevent><WishlistButton type="App\\Models\\Service" :item-id="service.id" /></div>
@@ -280,9 +281,10 @@
           </div>
         </div>
       </section>
+    </section>
 
-      <!-- ═══════════════ REQUEST A QUOTE ═══════════════ -->
-      <section class="py-14 md:py-20">
+    <!-- ═══════════════ REQUEST A QUOTE ═══════════════ -->
+    <section class="py-14 md:py-20">
       <div class="container mx-auto px-6">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
           <div>
@@ -374,10 +376,10 @@ import svcMobileApp from '@/../img/services/Mobile App Development.webp';
 import svcMobileApp2 from '@/../img/services/Mobile App.webp';
 import svcPaidAds from '@/../img/services/Paid Ads.webp';
 import svcSeo from '@/../img/services/SEO Optimization.webp';
-import heroLaptopDark from '@/../img/tech-background.png';
+import heroLaptopDark from '@/../img/tech-background.webp';
 import heroTechGlow from '@/../img/tech-glow.webp';
-import heroTech2 from '@/../img/tech2.jpg';
-import heroTech4 from '@/../img/tech4.jpg';
+import heroTech2 from '@/../img/tech2.webp';
+import heroTech4 from '@/../img/tech4.webp';
 import WishlistButton from '@/components/WishlistButton.vue';
 import { useToast } from '@/composables';
 import PublicLayout from '@/layouts/PublicLayout.vue';
@@ -408,6 +410,20 @@ const serviceImageMap: Record<string, string> = {
   'paid advertising': svcPaidAds,
   'ppc': svcPaidAds,
   'digital marketing': svcPaidAds,
+  'social media marketing': svcPaidAds,
+  'business intelligence': svcApi,
+  'automation': svcApi,
+  'testing': svcApi,
+  'devops': svcApi,
+  'cloud deployment': svcApi,
+  'audit trail': svcCrmErp,
+  'cybersecurity': svcCrmErp,
+  'data protection': svcCrmErp,
+  'ui/ux': svcCustomWeb,
+  'ux design': svcCustomWeb,
+  'website maintenance': svcCustomWeb,
+  'conversion rate': svcCustomWeb,
+  'performance': svcCustomWeb,
 };
 
 function getServiceImage(service: any): string | undefined {
@@ -420,7 +436,7 @@ function getServiceImage(service: any): string | undefined {
   for (const [key, img] of Object.entries(serviceImageMap)) {
     if (title.includes(key) || slug.includes(key) || category.includes(key)) return img;
   }
-  return undefined;
+  return svcCustomWeb;
 }
 
 const cmsStore = useCmsStore();

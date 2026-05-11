@@ -19,6 +19,36 @@
       </div>
     </section>
 
+    <!-- ═══════════════ BLOG STATS ═══════════════ -->
+    <section class="py-10 bg-muted/30 border-y border-border">
+      <div class="container mx-auto px-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div v-for="(stat, i) in blogStats" :key="i" class="text-center">
+            <div class="text-2xl md:text-3xl font-bold text-primary mb-1">{{ stat.value }}</div>
+            <div class="text-muted-foreground text-xs font-medium">{{ stat.label }}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ WHY READ OUR BLOG ═══════════════ -->
+    <section class="py-14 md:py-20">
+      <div class="container mx-auto px-6">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Why Read Our Blog</p>
+          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Expert Insights to Help You Succeed</h2>
+          <p class="text-muted-foreground text-sm leading-relaxed">Stay ahead of the curve with practical advice, in-depth tutorials, and the latest trends from industry experts who understand the challenges your business faces.</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div v-for="prop in whyReadProps" :key="prop.label" class="bg-card border border-border rounded-xl p-6 hover:shadow-lg hover:border-primary/20 transition-all">
+            <div class="w-11 h-11 bg-primary/10 rounded-xl flex items-center justify-center mb-4 text-xl">{{ prop.icon }}</div>
+            <h3 class="text-sm font-bold text-foreground mb-2">{{ prop.label }}</h3>
+            <p class="text-muted-foreground text-xs leading-relaxed">{{ prop.desc }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ═══════════════ FILTERS ═══════════════ -->
     <section class="py-3 border-b border-border bg-background sticky top-16 z-30">
       <div class="container mx-auto px-6">
@@ -35,10 +65,10 @@
       </div>
     </section>
 
-    <!-- ═══════════════ BLOG GRID (4 per row) ═══════════════ -->
+    <!-- ═══════════════ BLOG GRID ═══════════════ -->
     <section class="py-14 md:py-20">
       <div class="container mx-auto px-6">
-        <div v-if="loading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div v-if="loading" class="grid grid-cols-1 sm:grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div v-for="i in 8" :key="i" class="bg-card border border-border rounded-xl overflow-hidden animate-pulse">
             <div class="aspect-[4/3] bg-muted"></div>
             <div class="p-4 space-y-2"><div class="h-3 bg-muted rounded w-3/4"></div><div class="h-2 bg-muted rounded w-full"></div></div>
@@ -49,7 +79,7 @@
           <p class="text-muted-foreground text-sm">No articles found.</p>
         </div>
 
-        <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div v-else class="grid grid-cols-1 sm:grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <router-link v-for="blog in blogs" :key="blog.id" :to="`/blog/${blog.slug}`" class="group bg-card border border-border rounded-xl overflow-hidden hover:border-primary/30 hover:shadow-lg transition-all">
             <div class="aspect-[4/3] bg-muted overflow-hidden">
               <img v-if="blog.featured_image" :src="blog.featured_image.startsWith('http') ? blog.featured_image : `/storage/${blog.featured_image}`" :alt="blog.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -71,6 +101,86 @@
         <!-- Pagination -->
         <div v-if="totalPages > 1" class="flex justify-center mt-10 gap-1.5">
           <button v-for="page in totalPages" :key="page" @click="currentPage = page" :class="['w-8 h-8 rounded-lg text-xs font-medium transition', currentPage === page ? 'bg-primary text-white' : 'bg-card text-muted-foreground border border-border hover:border-primary']">{{ page }}</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ NEWSLETTER ═══════════════ -->
+    <section class="py-14 md:py-20" style="background-color: #262626; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1);">
+      <div class="container mx-auto px-6 max-w-2xl text-center">
+        <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Stay Informed</p>
+        <h3 class="text-xl md:text-2xl font-bold text-white mb-2">Never Miss an Article</h3>
+        <p class="text-white/75 text-sm mb-6">Subscribe to our newsletter and get the latest tech insights, tutorials, and industry news delivered straight to your inbox.</p>
+        <form @submit.prevent="submitNewsletter" class="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
+          <input v-model="newsletterEmail" type="email" required class="flex-1 px-5 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-white text-sm transition-all placeholder-white/40" placeholder="Enter your email" />
+          <button type="submit" :disabled="newsletterSubmitting" class="px-7 py-3 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary/90 disabled:opacity-50 transition-all shadow-sm whitespace-nowrap">
+            {{ newsletterSubmitting ? '...' : 'Subscribe' }}
+          </button>
+        </form>
+        <p class="text-white/40 text-[11px] mt-4">No spam, ever. Unsubscribe anytime.</p>
+      </div>
+    </section>
+
+    <!-- ═══════════════ TESTIMONIALS ═══════════════ -->
+    <section v-if="topReviews.length" class="py-14 md:py-20 bg-muted/20">
+      <div class="container mx-auto px-6 max-w-6xl">
+        <div class="text-center max-w-xl mx-auto mb-10">
+          <p class="text-amber-600 dark:text-amber-400 text-xs font-semibold tracking-widest uppercase mb-2">Testimonials</p>
+          <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight mb-3">What Our Readers Say</h2>
+          <p class="text-muted-foreground text-xs leading-relaxed">Join thousands of professionals who trust our blog for their technology insights.</p>
+        </div>
+
+        <Swiper
+          :modules="[Autoplay, Pagination]"
+          :slides-per-view="1"
+          :space-between="16"
+          :pagination="testimonialsPagination"
+          :autoplay="testimonialsAutoplay"
+          :breakpoints="{ 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 }, 1280: { slidesPerView: 4 } }"
+          class="testimonials-swiper pb-16"
+        >
+          <SwiperSlide v-for="review in topReviews" :key="review.id">
+            <div class="rounded-lg p-5 h-full flex flex-col shadow-md hover:shadow-xl transition-all" style="background-color: #262626; border: 1px solid rgba(255,255,255,0.1);">
+              <div class="flex gap-0.5 mb-3">
+                <svg v-for="s in review.rating" :key="s" class="w-4 h-4 text-amber-400 fill-current" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+              </div>
+              <p class="text-white/80 text-sm leading-relaxed mb-4 flex-1 line-clamp-3">"{{ review.comment }}"</p>
+              <div class="flex items-center gap-3 pt-4" style="border-top: 1px solid rgba(255,255,255,0.1)">
+                <div class="w-9 h-9 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0">
+                  {{ review.user_name?.charAt(0).toUpperCase() }}
+                </div>
+                <div class="min-w-0">
+                  <div class="font-semibold text-white text-sm truncate">{{ review.user_name }}</div>
+                  <div class="text-white/60 text-xs truncate">{{ review.company || 'Verified Client' }}</div>
+                </div>
+              </div>
+            </div>
+          </SwiperSlide>
+        </Swiper>
+      </div>
+    </section>
+
+    <!-- ═══════════════ FAQ ═══════════════ -->
+    <section class="py-14 md:py-20 bg-muted/30">
+      <div class="container mx-auto px-6 max-w-3xl">
+        <div class="text-center mb-10">
+          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">FAQ</p>
+          <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">Frequently Asked Questions</h2>
+          <p class="text-muted-foreground text-xs leading-relaxed mt-3">Everything you need to know about our blog and how we create content for you.</p>
+        </div>
+
+        <div class="space-y-3">
+          <div v-for="(faq, idx) in blogFaqs" :key="idx" class="bg-white border border-border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <button @click="toggleFaq(idx)" class="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
+              <span class="font-medium text-foreground text-sm pr-6">{{ faq.question }}</span>
+              <svg class="w-5 h-5 text-muted-foreground shrink-0 transition-transform duration-200" :class="{ 'rotate-180': openFaqIndex === idx }" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" /></svg>
+            </button>
+            <div v-show="openFaqIndex === idx" class="px-6 pb-5">
+              <p class="text-muted-foreground text-sm leading-relaxed">{{ faq.answer }}</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -142,11 +252,15 @@
 
 <script setup lang="ts">
 import axios from 'axios';
+import { Autoplay, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/vue';
 import { ref, computed, onMounted, watch } from 'vue';
-import heroLaptopDark from '@/../img/tech-background.png';
+import heroLaptopDark from '@/../img/tech-background.webp';
 import heroTechGlow from '@/../img/tech-glow.webp';
-import heroTech2 from '@/../img/tech2.jpg';
-import heroTech4 from '@/../img/tech4.jpg';
+import heroTech2 from '@/../img/tech2.webp';
+import heroTech4 from '@/../img/tech4.webp';
+import 'swiper/css';
+import 'swiper/css/pagination';
 import { useToast } from '@/composables';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import { useCmsStore } from '@/stores/cms';
@@ -180,6 +294,21 @@ const otherAreas = [
   { icon: '📞', label: 'Contact', to: '/contact' },
 ];
 
+const blogStats = [
+  { value: '50+', label: 'Articles Published' },
+  { value: '15+', label: 'Content Categories' },
+  { value: '10k+', label: 'Monthly Readers' },
+  { value: '5+', label: 'Expert Authors' },
+];
+
+const whyReadProps = [
+  { icon: '📚', label: 'In-Depth Tutorials', desc: 'Step-by-step guides and tutorials that walk you through implementing real-world technology solutions from start to finish.' },
+  { icon: '📊', label: 'Industry Insights', desc: 'Stay informed with the latest trends, market analysis, and emerging technologies shaping the business landscape.' },
+  { icon: '🛡️', label: 'Best Practices', desc: 'Learn proven methodologies and industry best practices for cybersecurity, cloud migration, DevOps, and more.' },
+  { icon: '💡', label: 'Practical Tips', desc: 'Actionable advice and tips you can immediately apply to improve your business operations and technology strategy.' },
+];
+
+// Quote Form
 const quoteForm = ref({ name: '', email: '', message: '' });
 const quoteSubmitting = ref(false);
 
@@ -193,6 +322,7 @@ async function submitQuote() {
   finally { quoteSubmitting.value = false; }
 }
 
+// Blog fetching
 async function fetchBlogs() {
   loading.value = true;
   try {
@@ -216,6 +346,48 @@ async function fetchCategories() {
   } catch { /* silent */ }
 }
 
+// Testimonials
+const topReviews = ref<any[]>([]);
+const testimonialsPagination = { clickable: true, dynamicBullets: true };
+const testimonialsAutoplay = { delay: 5000, disableOnInteraction: false };
+
+async function loadReviews() {
+  try {
+    const { data } = await axios.get('/api/v1/reviews', { params: { limit: 8 } });
+    topReviews.value = data.data || [];
+  } catch { /* silent */ }
+}
+
+// Newsletter
+const newsletterEmail = ref('');
+const newsletterSubmitting = ref(false);
+
+async function submitNewsletter() {
+  newsletterSubmitting.value = true;
+  try {
+    await axios.post('/api/v1/newsletter/subscribe', { email: newsletterEmail.value });
+    toast.success('Subscribed! Check your inbox for confirmation.');
+    newsletterEmail.value = '';
+  } catch { toast.error('Subscription failed. Please try again.'); }
+  finally { newsletterSubmitting.value = false; }
+}
+
+// FAQ
+const openFaqIndex = ref<number | null>(null);
+
+function toggleFaq(idx: number) {
+  openFaqIndex.value = openFaqIndex.value === idx ? null : idx;
+}
+
+const blogFaqs = [
+  { question: 'How often do you publish new articles?', answer: 'We publish new articles weekly, covering a wide range of technology topics including software development, cybersecurity, cloud computing, AI, and digital transformation.' },
+  { question: 'Can I contribute a guest post to the blog?', answer: 'Absolutely! We welcome contributions from industry experts. Please reach out to us through our contact page with your topic proposal and writing samples for review.' },
+  { question: 'How can I stay updated with new posts?', answer: 'The best way is to subscribe to our newsletter using the form above. You can also follow us on social media or bookmark our blog page and visit regularly.' },
+  { question: 'Are the tutorials suitable for beginners?', answer: 'We write content for all skill levels. Each article includes a difficulty indicator and prerequisites section, so you can choose the content that matches your experience level.' },
+  { question: 'Can I share or republish your content?', answer: 'You are welcome to share links to our articles on social media or with your network. For republication, please contact us to discuss licensing options.' },
+  { question: 'Do you cover product reviews and comparisons?', answer: 'Yes, we regularly review and compare technology products, software tools, and services to help our readers make informed purchasing decisions for their businesses.' },
+];
+
 function formatDate(date: string) {
   if (!date) return '';
   return new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
@@ -226,5 +398,15 @@ watch(searchQuery, () => { clearTimeout(searchTimeout); searchTimeout = setTimeo
 watch(selectedCategory, () => { currentPage.value = 1; fetchBlogs(); });
 watch(currentPage, fetchBlogs);
 
-onMounted(() => { fetchBlogs(); fetchCategories(); });
+onMounted(() => { fetchBlogs(); fetchCategories(); loadReviews(); });
 </script>
+
+<style scoped>
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+</style>

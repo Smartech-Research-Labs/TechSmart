@@ -42,7 +42,7 @@
         <div class="text-center max-w-xl mx-auto mb-10">
           <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-3">Why Choose Our Bundles</h2>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           <div v-for="(val, i) in valueProps" :key="i" class="bg-card border border-border rounded-xl p-5 text-center hover:border-primary/40 hover:shadow-md transition-all">
             <div class="w-12 h-12 mx-auto bg-primary/10 rounded-xl flex items-center justify-center mb-3"><span class="text-xl">{{ val.icon }}</span></div>
             <h3 class="text-xs font-semibold text-foreground mb-1">{{ val.title }}</h3>
@@ -149,7 +149,7 @@
           <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-3">Other Areas You Might Be Interested In</h2>
           <p class="text-muted-foreground text-sm">Explore more of what OmniviaTech has to offer.</p>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           <router-link v-for="area in otherAreas" :key="area.label" :to="area.to" class="group bg-card border border-border rounded-xl p-5 text-center hover:border-primary/40 hover:shadow-md transition-all">
             <div class="w-12 h-12 mx-auto bg-primary/10 rounded-xl flex items-center justify-center mb-3 group-hover:bg-primary/20 transition"><span class="text-xl">{{ area.icon }}</span></div>
             <h3 class="text-xs font-semibold text-foreground group-hover:text-primary transition-colors">{{ area.label }}</h3>
@@ -163,11 +163,11 @@
 <script setup lang="ts">
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
-import heroLaptopDark from '@/../img/tech-background.png';
+import heroLaptopDark from '@/../img/tech-background.webp';
 import heroTechGlow from '@/../img/tech-glow.webp';
 import heroTech from '@/../img/tech.webp';
-import heroTech2 from '@/../img/tech2.jpg';
-import heroTech4 from '@/../img/tech4.jpg';
+import heroTech2 from '@/../img/tech2.webp';
+import heroTech4 from '@/../img/tech4.webp';
 import { useToast } from '@/composables';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 

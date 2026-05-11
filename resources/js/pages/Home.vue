@@ -1,10 +1,10 @@
 ﻿<template>
   <PublicLayout>
  <!-- ═══════════════ HERO + COUNTER WRAPPER ═══════════════ -->
-<div class="relative overflow-hidden">
+<div class="relative overflow-hidden min-h-[60vh] md:min-h-[70vh]">
 
   <!-- Shared background layer — stretches behind both hero AND counter -->
-  <div class="absolute inset-0 z-0">
+  <div class="absolute inset-0 z-0 w-full h-full">
     <img
       v-if="heroSlides.length"
       :src="heroSlides[currentHeroSlide]?.bg_image"
@@ -15,7 +15,7 @@
   </div>
 
   <!-- ═══════════════ HERO SECTION ═══════════════ -->
-  <section class="relative min-h-[60vh] md:min-h-[70vh] flex items-center">
+  <section class="relative min-h-[60vh] md:min-h-[70vh] flex items-center z-10">
     <Swiper
       :modules="[Autoplay, Pagination]"
       :slides-per-view="1"
@@ -82,7 +82,40 @@
       </div>
     </section>
 
- 
+    <!-- ═══════════════ OUR JOURNEY ═══════════════ -->
+    <!-- <section class="py-14 md:py-20">
+      <div class="container mx-auto px-6">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Journey</p>
+          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">From Vision to Impact</h2>
+          <p class="text-muted-foreground text-sm leading-relaxed">What began as a bold idea in 2024 has quickly grown into a movement — delivering innovative technology solutions across Africa and beyond.</p>
+        </div>
+        <div class="max-w-3xl mx-auto">
+          <div class="relative border-l-2 border-primary/30 pl-8 space-y-10">
+            <div>
+              <div class="absolute -left-2.5 w-5 h-5 bg-primary rounded-full border-4 border-background"></div>
+              <h3 class="text-sm font-bold text-foreground mb-1">2024 — The Beginning</h3>
+              <p class="text-muted-foreground text-xs leading-relaxed">OmniviaTech was founded with a small but passionate team of developers determined to bridge the technology gap in emerging markets across Africa.</p>
+            </div>
+            <div>
+              <div class="absolute -left-2.5 w-5 h-5 bg-primary rounded-full border-4 border-background"></div>
+              <h3 class="text-sm font-bold text-foreground mb-1">2025 — First Major Milestone</h3>
+              <p class="text-muted-foreground text-xs leading-relaxed">Delivered our first 50 projects, expanding into cloud infrastructure and enterprise software solutions for businesses across East Africa.</p>
+            </div>
+            <div>
+              <div class="absolute -left-2.5 w-5 h-5 bg-primary rounded-full border-4 border-background"></div>
+              <h3 class="text-sm font-bold text-foreground mb-1">2026 — Scaling Impact</h3>
+              <p class="text-muted-foreground text-xs leading-relaxed">Opened multiple regional offices, growing our team to 50+ professionals and serving clients across West, East, and Southern Africa with a full suite of technology services.</p>
+            </div>
+            <div>
+              <div class="absolute -left-2.5 w-5 h-5 bg-primary rounded-full border-4 border-background"></div>
+              <h3 class="text-sm font-bold text-foreground mb-1">Today & Beyond</h3>
+              <p class="text-muted-foreground text-xs leading-relaxed">Continuing to innovate in AI, cloud computing, and cybersecurity, with a growing focus on sustainability and inclusive technology access for underserved communities.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> -->
 
     <!-- ═══════════════ ABOUT US ═══════════════ -->
     <section class="py-12 md:py-16">
@@ -107,7 +140,7 @@
             <p class="text-muted-foreground text-sm leading-relaxed mb-4">OmniviaTech is a leading technology company dedicated to empowering businesses with innovative digital solutions. We combine deep technical expertise with a passion for solving real-world challenges.</p>
             <p class="text-muted-foreground text-sm leading-relaxed mb-8">From startups to enterprises, we help organizations harness the power of technology to improve efficiency, scale operations, and drive growth across Africa and beyond.</p>
 
-            <div class="grid grid-cols-2 gap-4 mb-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
               <div class="flex items-center gap-3">
                 <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center shrink-0">
                   <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -153,7 +186,7 @@
         </div>
 
         <!-- Loading State -->
-        <div v-if="loading" class="grid grid-cols-2 md:grid-cols-4 gap-5">
+        <div v-if="loading" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
           <div v-for="i in 8" :key="i" class="bg-white/10 border border-white/20 rounded-2xl overflow-hidden animate-pulse">
             <div class="aspect-[4/3] bg-white/5"></div>
             <div class="p-5 space-y-2">
@@ -165,7 +198,7 @@
 
         <!-- Services from API -->
         <template v-else-if="allServices.length">
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
             <router-link v-for="service in allServices.slice(0, 8)" :key="service.id" :to="`/services/${service.slug}`" class="group block bg-white/10 border border-white/20 rounded-2xl overflow-hidden hover:border-white/40 hover:shadow-md transition-all duration-300">
               <div class="aspect-[4/3] bg-white/5 overflow-hidden relative">
                 <img v-if="getServiceImage(service)" :src="getServiceImage(service)" :alt="service.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -189,7 +222,7 @@
 
         <!-- Fallback: Static Featured Services -->
         <template v-else>
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
             <router-link v-for="service in featuredServices" :key="service.id" :to="`/services/${service.slug}`" class="group block bg-white/10 border border-white/20 rounded-2xl overflow-hidden hover:border-white/40 hover:shadow-md transition-all duration-300">
               <div class="aspect-[4/3] bg-white/5 overflow-hidden relative">
                 <img :src="service.image" :alt="service.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -274,7 +307,7 @@
           <p class="text-white/80 text-sm leading-relaxed">End-to-end technology and digital solutions designed to help your business thrive in the modern economy.</p>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
           <router-link v-for="(spec, i) in specializations" :key="i" :to="`/specializations/${spec.title.toLowerCase().replace(/\\s+/g, '-')}`" class="relative bg-white/10 border border-white/20 rounded-2xl p-6 text-center hover:border-white/40 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group overflow-hidden cursor-pointer">
             <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-white/2 opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div class="relative z-10">
@@ -354,7 +387,8 @@
           <SwiperSlide v-for="service in (allServices.length ? allServices.slice(0, 8) : featuredServices)" :key="service.id">
             <router-link :to="`/services/${service.slug}`" class="group block bg-white/10 rounded-2xl overflow-hidden border border-white/20 hover:border-white/40 hover:shadow-md transition-all duration-300">
               <div class="aspect-[4/3] bg-white/5 overflow-hidden relative">
-                <img v-if="service.image_url || service.image" :src="service.image_url || service.image" :alt="service.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img v-if="getServiceImage(service)" :src="getServiceImage(service)" :alt="service.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img v-else-if="service.image_url || service.image" :src="service.image_url || service.image" :alt="service.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-white/10 to-white/5">
                   <span class="text-3xl">{{ service.icon || '💡' }}</span>
                 </div>
@@ -390,10 +424,10 @@
         <!-- Two-column grid -->
         <div class="grid lg:grid-cols-2 gap-8 items-stretch">
 
-          <!-- ── LEFT: population.png image ── -->
+          <!-- ── LEFT: population.webp image ── -->
           <div class="relative rounded-2xl overflow-hidden min-h-[420px]">
             <img
-              :src="settings.population_image || '/images/population.png'"
+              :src="settings.population_image || populationImg"
               alt="Global population impacted by OmniviaTech"
               class="w-full h-full object-cover"
             />
@@ -523,9 +557,9 @@
         </div>
 
         <!-- Stats Row -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-10">
+        <div class="grid grid-cols-1 sm:grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-10">
           <div
-            v-for="(stat, i) in impactStats.slice(0, 4)"
+            v-for="(stat, i) in impactStats"
             :key="i"
             class="bg-white border border-border rounded-xl p-5 text-center hover:shadow-md hover:border-primary/20 transition-all"
           >
@@ -828,7 +862,7 @@
       </div>
  
       <!-- Bottom values strip -->
-      <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         <div v-for="val in missionValues" :key="val.label"
              class="text-center px-4 py-5 rounded-xl transition-all duration-200 hover:-translate-y-0.5"
              style="background-color: #1a1a1a; border: 1px solid #404040;">
@@ -974,7 +1008,8 @@
           <SwiperSlide v-for="product in products" :key="product.id">
             <router-link :to="`/products/${product.slug}`" class="group block bg-white rounded-2xl overflow-hidden border border-border hover:border-accent/20 hover:shadow-md transition-all duration-300">
               <div class="aspect-[4/3] bg-gray-100 overflow-hidden relative">
-                <img v-if="product.image_url" :src="product.image_url" :alt="product.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img v-if="getProductImage(product)" :src="getProductImage(product)" :alt="product.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img v-else-if="product.image_url" :src="product.image_url" :alt="product.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-accent/5 to-primary/5">
                   <svg class="w-10 h-10 text-muted-foreground/20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
                 </div>
@@ -986,14 +1021,19 @@
                 <h3 class="text-sm font-semibold text-foreground mb-2 group-hover:text-accent transition-colors line-clamp-2">{{ product.name }}</h3>
                 <p class="text-muted-foreground text-xs leading-relaxed line-clamp-2 mb-3">{{ product.excerpt || product.short_description }}</p>
                 <div class="flex items-center justify-between">
-                  <span v-if="product.price" class="text-accent font-bold text-sm">Ksh {{ Number(product.price).toLocaleString() }}</span>
-                  <span v-else-if="product.price_label" class="text-accent font-bold text-sm">{{ product.price_label }}</span>
                   <span class="text-primary font-medium text-xs flex items-center gap-1 group-hover:gap-2 transition-all">View <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg></span>
                 </div>
               </div>
             </router-link>
           </SwiperSlide>
         </Swiper>
+
+        <div class="text-center mt-10">
+          <router-link to="/products" class="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline underline-offset-4">
+            View All Products
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </router-link>
+        </div>
       </div>
     </section>
 
@@ -1432,21 +1472,21 @@
               </div>
               <div class="grid grid-cols-2 gap-4">
                 <input v-model="quoteForm.phone" type="tel" required class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all placeholder-white" placeholder="Phone *" />
-                <select v-model="quoteForm.service" required class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all">
+                <select v-model="quoteForm.service" required class="w-full text-white px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all">
                   <option value="">Service Needed *</option>
                   <option v-for="service in allServices" :key="service.id" :value="service.title">{{ service.title }}</option>
                 </select>
               </div>
               <textarea v-model="quoteForm.description" required rows="4" class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm resize-none transition-all placeholder-white" placeholder="Project description..."></textarea>
               <div class="grid grid-cols-2 gap-4">
-                <select v-model="quoteForm.budget" class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all">
+                <select v-model="quoteForm.budget" class="w-full text-white px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all">
                   <option value="">Budget Range</option>
                   <option value="Under Ksh 10,000">Under Ksh 10,000</option>
                   <option value="Ksh 10,000 - Ksh 50,000">Ksh 10,000 - Ksh 50,000</option>
                   <option value="Ksh 50,000 - Ksh 200,000">Ksh 50,000 - Ksh 200,000</option>
                   <option value="Over Ksh 200,000">Over Ksh 200,000</option>
                 </select>
-                <select v-model="quoteForm.timeline" class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all">
+                <select v-model="quoteForm.timeline" class="w-full text-white px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all">
                   <option value="">Timeline</option>
                   <option value="ASAP">ASAP</option>
                   <option value="1-2 months">1-2 months</option>
@@ -1480,22 +1520,40 @@
           <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">From Our Blog</h2>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          <router-link v-for="post in recentBlogs.slice(0, 4)" :key="post.id" :to="`/blog/${post.slug}`" class="group bg-white border border-border rounded-2xl overflow-hidden hover:border-primary/20 hover:shadow-md transition-all duration-300">
-            <div class="aspect-[4/3] bg-gray-100 overflow-hidden">
-              <img v-if="post.featured_image" :src="post.featured_image" :alt="post.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-              <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5">
-                <svg class="w-10 h-10 text-muted-foreground/20" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"><path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>
+        <Swiper
+          :modules="[Autoplay, Navigation]"
+          :slides-per-view="1"
+          :space-between="20"
+          :navigation="blogNavigation"
+          :autoplay="blogAutoplay"
+          :breakpoints="blogBreakpoints"
+          class="cards-swiper"
+        >
+          <SwiperSlide v-for="post in recentBlogs" :key="post.id">
+            <router-link :to="`/blog/${post.slug}`" class="group block bg-white border border-border rounded-2xl overflow-hidden hover:border-primary/20 hover:shadow-md transition-all duration-300">
+              <div class="aspect-[4/3] bg-gray-100 overflow-hidden">
+                <img v-if="getBlogImage(post)" :src="getBlogImage(post)" :alt="post.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img v-else-if="post.featured_image" :src="post.featured_image" :alt="post.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5">
+                  <svg class="w-10 h-10 text-muted-foreground/20" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"><path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>
+                </div>
               </div>
-            </div>
-            <div class="p-5">
-              <div class="flex items-center gap-2 mb-2">
-                <span class="text-xs font-medium text-primary bg-primary/10 px-2.5 py-1 rounded-full">{{ post.category }}</span>
-                <span class="text-muted-foreground text-xs">{{ formatDate(post.published_at) }}</span>
+              <div class="p-5">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-xs font-medium text-primary bg-primary/10 px-2.5 py-1 rounded-full">{{ post.category }}</span>
+                  <span class="text-muted-foreground text-xs">{{ formatDate(post.published_at) }}</span>
+                </div>
+                <h3 class="text-sm font-semibold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">{{ post.title }}</h3>
+                <p class="text-muted-foreground text-xs leading-relaxed line-clamp-2">{{ post.excerpt }}</p>
               </div>
-              <h3 class="text-sm font-semibold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">{{ post.title }}</h3>
-              <p class="text-muted-foreground text-xs leading-relaxed line-clamp-2">{{ post.excerpt }}</p>
-            </div>
+            </router-link>
+          </SwiperSlide>
+        </Swiper>
+
+        <div class="text-center mt-10">
+          <router-link to="/blog" class="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline underline-offset-4">
+            View All Articles
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </router-link>
         </div>
       </div>
@@ -1604,14 +1662,21 @@ import mobileAppDevelopmentImage from '../../img/services/Mobile App Development
 import mobileAppImage from '../../img/services/Mobile App.webp';
 import paidAdsImage from '../../img/services/Paid Ads.webp';
 import seoOptimizationImage from '../../img/services/SEO Optimization.webp';
-import heroTechBg from '../../img/tech-background.png';
-import heroTech2 from '../../img/tech-closeup.jpg';
+import heroTechBg from '../../img/tech-background.webp';
+import populationImg from '../../img/population.webp';
+import heroTech2 from '../../img/tech-closeup.webp';
 import heroTechGlow from '../../img/tech-glow.webp';
-import heroTech1 from '../../img/tech2.jpg';
-import heroTech5 from '../../img/tech3.jpg';
-import heroTech4 from '../../img/tech4.jpg';
-import heroCTAbg from '../../img/tech4.jpg';
-import heroTech6 from '../../img/tech7.jpg';
+import heroTech1 from '../../img/tech2.webp';
+import heroTech5 from '../../img/tech3.webp';
+import heroTech4 from '../../img/tech4.webp';
+import heroCTAbg from '../../img/tech4.webp';
+import heroTech6 from '../../img/tech7.webp';
+import techImg1 from '../../img/tech1.webp';
+import techImg2 from '../../img/tech2.webp';
+import techImg3 from '../../img/tech3.webp';
+import techImg4 from '../../img/tech4.webp';
+import techImg5 from '../../img/tech5.webp';
+import techImg6 from '../../img/tech6.webp';
 import videoSolutions from '../../videos/omniviatech-solutions.mp4';
 import videoCTA from '../../videos/omniviatech1.mp4';
 import WishlistButton from '../components/WishlistButton.vue';
@@ -1713,85 +1778,245 @@ const specializations = [
 ];
 
 const featuredServices = [
+  // ════════════════════════════════════════════
+  // 🔹 DEVELOPMENT SOLUTIONS
+  // ════════════════════════════════════════════
   {
-    id: 'custom-web-development',
-    title: 'Custom Website Development',
+    id: 1,
+    name: 'Custom Web Development',
+    title: 'Custom Web Development',
     slug: 'custom-web-development',
-    excerpt: 'Tailored websites and web applications built to match your brand and business goals.',
+    excerpt: 'Stunning, high-performance websites and web applications built with Laravel, Vue.js, React, and Next.js — tailored to your brand and business goals.',
     image: customWebDevelopmentImage,
+    icon: 'code',
   },
   {
-    id: 'api-development',
-    title: 'API Development',
-    slug: 'api-development',
-    excerpt: 'Scalable APIs for integrations, automation, and secure data exchange.',
-    image: apiDevelopmentImage,
-  },
-  {
-    id: 'crm-erp-development',
-    title: 'CRM & ERP Development',
-    slug: 'crm-erp-development',
-    excerpt: 'Custom CRM and ERP systems to streamline operations and improve productivity.',
-    image: crmErpDevelopmentImage,
-  },
-  {
-    id: 'ecommerce-development',
-    title: 'E-commerce Development',
-    slug: 'ecommerce-development',
-    excerpt: 'High-converting online stores built for seamless shopping experiences.',
-    image: eCommerceDevelopmentImage,
-  },
-  {
-    id: 'mobile-app-development',
+    id: 2,
+    name: 'Mobile App Development',
     title: 'Mobile App Development',
     slug: 'mobile-app-development',
-    excerpt: 'Native and cross-platform apps for iOS and Android that drive engagement.',
+    excerpt: 'Native and cross-platform mobile apps for iOS and Android that users love — built with React Native, Flutter, and native Swift/Kotlin.',
     image: mobileAppDevelopmentImage,
+    icon: 'smartphone',
   },
   {
-    id: 'paid-ads-management',
+    id: 3,
+    name: 'E-Commerce Development',
+    title: 'E-Commerce Development',
+    slug: 'e-commerce-development',
+    excerpt: 'Custom online stores, marketplace platforms, and payment integrations that drive revenue 24/7 with local and international payment gateways.',
+    image: eCommerceDevelopmentImage,
+    icon: 'shopping-cart',
+  },
+  {
+    id: 4,
+    name: 'API Development & Integration',
+    title: 'API Development & Integration',
+    slug: 'api-development-integration',
+    excerpt: 'RESTful and GraphQL API development, third-party integrations, and headless architecture for seamless data flow between systems.',
+    image: apiDevelopmentImage,
+    icon: 'plug',
+  },
+  {
+    id: 5,
+    name: 'CRM & ERP System Development',
+    title: 'CRM & ERP System Development',
+    slug: 'crm-erp-development',
+    excerpt: 'Custom CRM and ERP systems that streamline your operations, automate workflows, and provide 360-degree visibility into your business.',
+    image: crmErpDevelopmentImage,
+    icon: 'building',
+  },
+
+  // ════════════════════════════════════════════
+  // 🔹 GROWTH & MARKETING SOLUTIONS
+  // ════════════════════════════════════════════
+  {
+    id: 6,
+    name: 'SEO Optimization & Google Analytics',
+    title: 'SEO Optimization & Google Analytics',
+    slug: 'seo-optimization-analytics',
+    excerpt: 'Data-driven SEO strategies that boost organic traffic, improve search rankings, and integrate with Google Analytics for measurable results.',
+    image: seoOptimizationImage,
+    icon: 'search',
+  },
+  {
+    id: 7,
+    name: 'Paid Ads Management',
     title: 'Paid Ads Management',
     slug: 'paid-ads-management',
-    excerpt: 'Performance campaigns that increase traffic and conversions.',
+    excerpt: 'Strategic paid advertising across Facebook, Google, and LinkedIn — maximizing ROI with data-driven targeting and creative optimization.',
     image: paidAdsImage,
+    icon: 'megaphone',
   },
   {
-    id: 'seo-optimization',
-    title: 'SEO Optimization',
-    slug: 'seo-optimization',
-    excerpt: 'Search engine optimization to improve your online visibility.',
-    image: seoOptimizationImage,
+    id: 8,
+    name: 'Conversion Rate Optimization',
+    title: 'Conversion Rate Optimization',
+    slug: 'conversion-rate-optimization',
+    excerpt: 'Turn more visitors into customers with data-driven CRO — A/B testing, UX analysis, funnel optimization, and behavioural analytics.',
+    image: customWebDevelopmentImage,
+    icon: 'trending-up',
   },
   {
-    id: 'mobile-app-strategy',
-    title: 'Mobile App Strategy',
-    slug: 'mobile-app-strategy',
-    excerpt: 'Strategic mobile planning and development for business growth.',
-    image: mobileAppImage,
+    id: 9,
+    name: 'Social Media Marketing Strategy',
+    title: 'Social Media Marketing Strategy',
+    slug: 'social-media-marketing',
+    excerpt: 'Strategic social media management and content creation across all platforms to build your brand, engage your audience, and drive growth.',
+    image: customWebDevelopmentImage,
+    icon: 'share-2',
+  },
+  {
+    id: 10,
+    name: 'Business Intelligence & Analytics',
+    title: 'Business Intelligence & Analytics',
+    slug: 'business-intelligence-analytics',
+    excerpt: 'Transform raw data into actionable insights with custom BI dashboards, data pipelines, and predictive analytics powered by AI.',
+    image: customWebDevelopmentImage,
+    icon: 'bar-chart-2',
+  },
+
+  // ════════════════════════════════════════════
+  // 🔹 ENTERPRISE & TECHNICAL SOLUTIONS
+  // ════════════════════════════════════════════
+  {
+    id: 11,
+    name: 'Automation & Testing',
+    title: 'Automation & Testing',
+    slug: 'automation-testing',
+    excerpt: 'End-to-end test automation, CI/CD pipelines, workflow automation, and quality assurance to ship reliable software faster.',
+    image: customWebDevelopmentImage,
+    icon: 'check-circle',
+  },
+  {
+    id: 12,
+    name: 'Audit Trail Development',
+    title: 'Audit Trail Development',
+    slug: 'audit-trail-development',
+    excerpt: 'Comprehensive audit trail and compliance logging systems for regulatory requirements including POPIA, GDPR, and ISO 27001.',
+    image: customWebDevelopmentImage,
+    icon: 'file-text',
+  },
+  {
+    id: 13,
+    name: 'UI/UX Design & Prototyping',
+    title: 'UI/UX Design & Prototyping',
+    slug: 'ui-ux-design-prototyping',
+    excerpt: 'User-centered design that delights — wireframes, prototypes, design systems, and usability testing that create intuitive digital experiences.',
+    image: customWebDevelopmentImage,
+    icon: 'layout',
+  },
+  {
+    id: 14,
+    name: 'Cloud Deployment & DevOps',
+    title: 'Cloud Deployment & DevOps',
+    slug: 'cloud-deployment-devops',
+    excerpt: 'Scalable cloud infrastructure on AWS, Azure, and Google Cloud with CI/CD pipelines, containerization, and 24/7 monitoring.',
+    image: customWebDevelopmentImage,
+    icon: 'cloud',
+  },
+  {
+    id: 15,
+    name: 'Performance Optimization',
+    title: 'Performance Optimization',
+    slug: 'performance-optimization',
+    excerpt: 'Speed up your websites and applications — Core Web Vitals optimization, database tuning, caching strategies, and CDN configuration.',
+    image: customWebDevelopmentImage,
+    icon: 'zap',
+  },
+  {
+    id: 16,
+    name: 'Website Maintenance & Support',
+    title: 'Website Maintenance & Support',
+    slug: 'website-maintenance-support',
+    excerpt: 'Ongoing website maintenance, security updates, backups, uptime monitoring, and dedicated support to keep your digital assets running flawlessly.',
+    image: customWebDevelopmentImage,
+    icon: 'tool',
+  },
+  {
+    id: 17,
+    name: 'Cybersecurity & Data Protection',
+    title: 'Cybersecurity & Data Protection',
+    slug: 'cybersecurity-data-protection',
+    excerpt: 'Protect your digital assets with penetration testing, SOC-as-a-Service, POPIA/GDPR compliance, and comprehensive security solutions.',
+    image: customWebDevelopmentImage,
+    icon: 'shield',
   },
 ];
 
 const serviceImagePaths: Record<string, string> = {
   'api development': apiDevelopmentImage,
+  'api development & integration': apiDevelopmentImage,
   'api developer': apiDevelopmentImage,
   'api design': apiDevelopmentImage,
   'crm & erp development': crmErpDevelopmentImage,
+  'crm & erp system development': crmErpDevelopmentImage,
   'crm erp development': crmErpDevelopmentImage,
   'custom web development': customWebDevelopmentImage,
   'custom website development': customWebDevelopmentImage,
   'website development': customWebDevelopmentImage,
   'web development': customWebDevelopmentImage,
   'e-commerece development': eCommerceDevelopmentImage,
-  'ecommerce development': eCommerceDevelopmentImage,
   'e-commerce development': eCommerceDevelopmentImage,
+  'ecommerce development': eCommerceDevelopmentImage,
   'mobile app development': mobileAppDevelopmentImage,
   'mobile application development': mobileAppDevelopmentImage,
   'mobile app': mobileAppImage,
   'paid ads': paidAdsImage,
   'paid ads management': paidAdsImage,
   'seo optimization': seoOptimizationImage,
+  'seo optimization & google analytics': seoOptimizationImage,
   'search engine optimization': seoOptimizationImage,
+  'conversion rate optimization': customWebDevelopmentImage,
+  'social media marketing strategy': customWebDevelopmentImage,
+  'social media marketing': customWebDevelopmentImage,
+  'business intelligence & analytics': customWebDevelopmentImage,
+  'business intelligence': customWebDevelopmentImage,
+  'automation & testing': customWebDevelopmentImage,
+  'audit trail development': customWebDevelopmentImage,
+  'ui/ux design & prototyping': customWebDevelopmentImage,
+  'ui/ux design': customWebDevelopmentImage,
+  'ux design': customWebDevelopmentImage,
+  'cloud deployment & devops': customWebDevelopmentImage,
+  'cloud deployment': customWebDevelopmentImage,
+  'devops': customWebDevelopmentImage,
+  'performance optimization': customWebDevelopmentImage,
+  'website maintenance & support': customWebDevelopmentImage,
+  'website maintenance': customWebDevelopmentImage,
+  'cybersecurity & data protection': customWebDevelopmentImage,
+  'cybersecurity': customWebDevelopmentImage,
+  'data protection': customWebDevelopmentImage,
 };
+
+const productImageMap: Record<string, string> = {
+  'smartcms-pro': customWebDevelopmentImage,
+  'smartshop-platform': eCommerceDevelopmentImage,
+  'smartanalytics-dashboard': seoOptimizationImage,
+  'smartchat-ai': apiDevelopmentImage,
+  'smartsecure-firewall': crmErpDevelopmentImage,
+  'smartbackup-cloud': mobileAppDevelopmentImage,
+};
+
+function getProductImage(product: any) {
+  const slug = (product.slug || '').toString().trim().toLowerCase();
+  if (productImageMap[slug]) return productImageMap[slug];
+  return '';
+}
+
+const blogImageMap: Record<string, string> = {
+  '10 ways ai is transforming south african businesses in 2025': techImg1,
+  'why every business needs a cybersecurity strategy in 2025': techImg2,
+  'the complete guide to choosing the right tech stack for your startup': techImg3,
+  'how cloud migration can cut your it costs by 40%': techImg4,
+  'building a world-class e-commerce experience in south africa': techImg5,
+  'popia compliance checklist: what your business must do in 2025': techImg6,
+};
+
+function getBlogImage(blog: any) {
+  const title = (blog.title || '').toString().trim().toLowerCase();
+  if (blogImageMap[title]) return blogImageMap[title];
+  return '';
+}
 
 function getServiceImage(service: any) {
   const key = (service.title || service.name || service.slug || '').toString().trim().toLowerCase();
@@ -1799,18 +2024,11 @@ function getServiceImage(service: any) {
     return '';
   }
 
-  if (service.image) {
-    return service.image;
-  }
-
-  if (service.image_url) {
-    return service.image_url;
-  }
-
   if (serviceImagePaths[key]) {
     return serviceImagePaths[key];
   }
 
+  // Fallback matching for various service types
   if (key.includes('custom website') || key.includes('custom web') || key.includes('website development') || key.includes('web development')) {
     return customWebDevelopmentImage;
   }
@@ -1823,15 +2041,15 @@ function getServiceImage(service: any) {
     return apiDevelopmentImage;
   }
 
-  if (key.includes('crm')) {
+  if (key.includes('crm') || key.includes('erp')) {
     return crmErpDevelopmentImage;
   }
 
-  if (key.includes('seo')) {
+  if (key.includes('seo') || key.includes('optimization') || key.includes('analytics')) {
     return seoOptimizationImage;
   }
 
-  if (key.includes('ads')) {
+  if (key.includes('ads') || key.includes('paid') || key.includes('marketing')) {
     return paidAdsImage;
   }
 
@@ -1839,7 +2057,8 @@ function getServiceImage(service: any) {
     return mobileAppDevelopmentImage;
   }
 
-  return '';
+  // Default to a generic image if nothing matches
+  return customWebDevelopmentImage;
 }
 
 const currentHeroSlide = ref(0)
@@ -2009,6 +2228,9 @@ const impactSliderNavigation = { prevEl: '.pop-prev', nextEl: '.pop-next' } as a
 const impactSliderAutoplay = { delay: 5000, disableOnInteraction: false } as any;
 const productsAutoplay = { delay: 5000, disableOnInteraction: false } as any;
 const productsBreakpoints = industriesBreakpoints;
+const blogAutoplay = { delay: 4500, disableOnInteraction: false } as any;
+const blogBreakpoints = { 480: { slidesPerView: 2 }, 768: { slidesPerView: 3 }, 1024: { slidesPerView: 4 } } as any;
+const blogNavigation = true as any;
 const testimonialsPagination = { clickable: true } as any;
 const testimonialsAutoplay = { delay: 5000, disableOnInteraction: false } as any;
 

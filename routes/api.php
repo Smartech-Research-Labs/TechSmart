@@ -208,7 +208,9 @@ Route::prefix('v1')->group(function () {
         // Media Gallery
         Route::get('/media', [MediaController::class, 'index']);
         Route::post('/media/upload', [MediaController::class, 'upload']);
+        Route::post('/media/upload-multiple', [MediaController::class, 'uploadMultiple']);
         Route::delete('/media', [MediaController::class, 'destroy']);
+        Route::post('/media/delete-multiple', [MediaController::class, 'destroyMultiple']);
 
         // Blog Management
         Route::get('/blogs', [AdminBlogController::class, 'index']);

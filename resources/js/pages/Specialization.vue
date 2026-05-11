@@ -237,7 +237,7 @@ import axios from 'axios';
 import { ref, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import heroLaptop from '@/../img/Laptop.webp';
-import heroLaptopDark from '@/../img/tech-background.png';
+import heroLaptopDark from '@/../img/tech-background.webp';
 import heroTech from '@/../img/tech.webp';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 

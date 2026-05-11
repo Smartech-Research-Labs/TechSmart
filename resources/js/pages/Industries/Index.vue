@@ -236,7 +236,7 @@ import { Autoplay, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { ref, computed, onMounted } from 'vue';
 import heroLaptop from '@/../img/Laptop.webp';
-import heroTechBg from '@/../img/tech-background.png';
+import heroTechBg from '@/../img/tech-background.webp';
 import { useApi } from '@/composables/useApi';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import { useCmsStore } from '@/stores/cms';

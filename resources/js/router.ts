@@ -248,6 +248,12 @@ const routes: RouteRecordRaw[] = [
     meta: { title: 'Chat Management', requiresAuth: true, requiresAdmin: true },
   },
   {
+    path: '/admin/media',
+    name: 'admin-media',
+    component: () => import('@/pages/Admin/Media.vue'),
+    meta: { title: 'Media Library', requiresAuth: true, requiresAdmin: true },
+  },
+  {
     path: '/admin/settings',
     name: 'admin-settings',
     component: () => import('@/pages/Admin/Settings.vue'),

@@ -19,8 +19,7 @@ class Product extends Model implements HasMedia
         'short_description',
         'description',
         'category',
-        'price',
-        'price_label',
+        'image',
         'features',
         'specifications',
         'pricing_tiers',
@@ -32,13 +31,23 @@ class Product extends Model implements HasMedia
     protected function casts(): array
     {
         return [
-            'price' => 'decimal:2',
             'features' => 'array',
             'specifications' => 'array',
             'pricing_tiers' => 'array',
             'is_featured' => 'boolean',
             'is_published' => 'boolean',
         ];
+    }
+
+    public function getImageUrlAttribute(): ?string
+    {
+        if (!$this->image) {
+            return null;
+        }
+        if (str_starts_with($this->image, 'http')) {
+            return $this->image;
+        }
+        return '/storage/' . ltrim($this->image, '/');
     }
 
     public function reviews(): MorphMany

@@ -87,7 +87,6 @@ class HomeController extends Controller
 
             // Recent blog posts
             $recentBlogs = Blog::published()
-                ->take(3)
                 ->get(['id', 'title', 'slug', 'excerpt', 'featured_image', 'published_at', 'category']);
 
             // Approved reviews / testimonials
@@ -145,6 +144,9 @@ class HomeController extends Controller
                     'logo_path' => $logoPath,
                     'logo_url' => $logoPath ? Storage::url($logoPath) : null,
                     'footer_logo_path' => Setting::get('footer_logo_path'),
+                    'footer_logo_url' => ($footerLogo = Setting::get('footer_logo_path')) ? Storage::url($footerLogo) : null,
+                    'favicon_path' => Setting::get('favicon_path'),
+                    'favicon_url' => ($favicon = Setting::get('favicon_path')) ? Storage::url($favicon) : null,
                     'logo_height' => Setting::get('logo_height', '40'),
                     'logo_border_radius' => Setting::get('logo_border_radius', '0'),
                     'marquee_text' => Setting::get('marquee_text'),
@@ -177,6 +179,7 @@ class HomeController extends Controller
                     // SEO settings for schema markup
                     'meta_title' => Setting::get('meta_title'),
                     'meta_description' => Setting::get('meta_description'),
+                    'meta_keywords' => Setting::get('meta_keywords'),
                     'schema_org_type' => Setting::get('schema_org_type', 'Organization'),
                     'schema_org_name' => Setting::get('schema_org_name'),
                     'schema_org_logo' => Setting::get('schema_org_logo'),
