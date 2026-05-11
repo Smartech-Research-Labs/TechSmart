@@ -1076,6 +1076,246 @@
     </div>
   </section>
 
+  <!-- ═══════════════ WEBSITE PACKAGES SECTION ═══════════════ -->
+<section class="w-full relative overflow-hidden">
+  <div
+    class="relative bg-cover bg-center bg-fixed"
+    :style="{ backgroundImage: 'url(' + heroTechBg + ')' }"
+  >
+
+    <!-- Overlays -->
+    <div class="absolute inset-0 bg-[#0a081e]/78"></div>
+    <div class="absolute inset-0 bg-gradient-to-br from-primary/25 via-transparent to-accent/10"></div>
+
+    <!-- Content -->
+    <div class="relative z-10 py-20 px-6">
+
+      <!-- Header -->
+      <div class="max-w-2xl mx-auto text-center mb-14">
+
+        <!-- Eyebrow -->
+        <span class="inline-flex items-center gap-2 bg-white/10 border border-white/15 rounded-full px-4 py-1.5 text-[11px] uppercase tracking-[0.18em] text-white/70 font-medium mb-5">
+          <svg class="w-3.5 h-3.5 text-primary/80" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <rect x="3" y="3" width="7" height="7" rx="1"/>
+            <rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/>
+            <rect x="14" y="14" width="7" height="7" rx="1"/>
+          </svg>
+          Website Packages
+        </span>
+
+        <!-- Title -->
+        <h2 class="text-3xl md:text-4xl font-medium text-white leading-tight mb-4">
+          One package for
+          <span class="text-primary">every ambition</span>
+        </h2>
+
+        <p class="text-sm md:text-[15px] text-white/60 leading-relaxed max-w-xl mx-auto">
+          Hover any package to explore features, pricing and capabilities —
+          from startup landing pages to enterprise platforms.
+        </p>
+
+      </div>
+
+      <!-- Infinite Scroll Wrapper -->
+      <div class="relative overflow-hidden">
+
+        <!-- Fade edges -->
+        <div class="absolute left-0 top-0 bottom-0 w-24 z-20 bg-gradient-to-r from-[#0a081e] to-transparent"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-24 z-20 bg-gradient-to-l from-[#0a081e] to-transparent"></div>
+
+        <!-- Track -->
+        <div class="flex gap-5 w-max animate-[scrollCards_28s_linear_infinite] hover:[animation-play-state:paused]">
+
+          <!-- STARTER -->
+          <div class="w-[260px] flex-shrink-0 rounded-3xl border border-white/10 bg-white/[0.05] backdrop-blur-md p-6 hover:-translate-y-1 transition-all duration-300 hover:border-white/20">
+
+            <div class="w-11 h-11 rounded-xl bg-white/10 flex items-center justify-center mb-4">
+              <svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M5 19l14-7-14-7v14z"/>
+              </svg>
+            </div>
+
+            <h3 class="text-lg font-medium text-white mb-1">Starter</h3>
+
+            <p class="text-sm text-white/55 leading-relaxed mb-5">
+              Launch your idea with a clean, fast website.
+            </p>
+
+            <div class="space-y-3 border-t border-white/10 pt-5">
+
+              <div class="flex items-center gap-2 text-sm text-white/65">
+                <svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                  <path d="M5 13l4 4L19 7"/>
+                </svg>
+                5-page responsive site
+              </div>
+
+              <div class="flex items-center gap-2 text-sm text-white/65">
+                <svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                  <path d="M5 13l4 4L19 7"/>
+                </svg>
+                SSL & security setup
+              </div>
+
+              <div class="flex items-center gap-2 text-sm text-white/65">
+                <svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                  <path d="M5 13l4 4L19 7"/>
+                </svg>
+                SEO & contact forms
+              </div>
+
+            </div>
+
+            <div class="flex items-center justify-between pt-6">
+              <div class="text-sm text-white/50">
+                From <span class="text-white text-lg font-medium">$499</span>
+              </div>
+
+              <a href="/packages/starter"
+                 class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-white/15 text-xs text-white/80 hover:bg-white/10 transition-all">
+                Details
+              </a>
+            </div>
+
+          </div>
+
+          <!-- ADVANCED -->
+          <div class="w-[260px] flex-shrink-0 rounded-3xl border border-primary/40 bg-primary/10 backdrop-blur-md p-6 hover:-translate-y-1 transition-all duration-300">
+
+            <div class="w-11 h-11 rounded-xl bg-primary/15 flex items-center justify-center mb-4">
+              <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M13 2L3 14h7v8l11-12h-7l-1-8z"/>
+              </svg>
+            </div>
+
+            <div class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-primary/15 text-[10px] text-primary mb-3">
+              Most Popular
+            </div>
+
+            <h3 class="text-lg font-medium text-white mb-1">Advanced</h3>
+
+            <p class="text-sm text-white/55 leading-relaxed mb-5">
+              Built for growing businesses that need more power.
+            </p>
+
+            <div class="space-y-3 border-t border-white/10 pt-5">
+
+              <div class="flex items-center gap-2 text-sm text-white/65">
+                <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                  <path d="M5 13l4 4L19 7"/>
+                </svg>
+                Up to 20 pages + blog
+              </div>
+
+              <div class="flex items-center gap-2 text-sm text-white/65">
+                <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                  <path d="M5 13l4 4L19 7"/>
+                </svg>
+                CMS integration
+              </div>
+
+              <div class="flex items-center gap-2 text-sm text-white/65">
+                <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                  <path d="M5 13l4 4L19 7"/>
+                </svg>
+                Analytics dashboard
+              </div>
+
+            </div>
+
+            <div class="flex items-center justify-between pt-6">
+              <div class="text-sm text-white/50">
+                From <span class="text-white text-lg font-medium">$1,199</span>
+              </div>
+
+              <a href="/packages/advanced"
+                 class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-primary/30 text-xs text-primary hover:bg-primary/10 transition-all">
+                Details
+              </a>
+            </div>
+
+          </div>
+
+          <!-- PRO -->
+          <div class="w-[260px] flex-shrink-0 rounded-3xl border border-white/10 bg-white/[0.05] backdrop-blur-md p-6 hover:-translate-y-1 transition-all duration-300">
+
+            <div class="w-11 h-11 rounded-xl bg-emerald-500/10 flex items-center justify-center mb-4">
+              <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/>
+              </svg>
+            </div>
+
+            <h3 class="text-lg font-medium text-white mb-1">Pro</h3>
+
+            <p class="text-sm text-white/55 leading-relaxed mb-5">
+              Enterprise-level websites with advanced integrations.
+            </p>
+
+            <div class="space-y-3 border-t border-white/10 pt-5">
+
+              <div class="flex items-center gap-2 text-sm text-white/65">
+                <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                  <path d="M5 13l4 4L19 7"/>
+                </svg>
+                Unlimited pages
+              </div>
+
+              <div class="flex items-center gap-2 text-sm text-white/65">
+                <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                  <path d="M5 13l4 4L19 7"/>
+                </svg>
+                API integrations
+              </div>
+
+              <div class="flex items-center gap-2 text-sm text-white/65">
+                <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                  <path d="M5 13l4 4L19 7"/>
+                </svg>
+                Priority support SLA
+              </div>
+
+            </div>
+
+            <div class="flex items-center justify-between pt-6">
+              <div class="text-sm text-white/50">
+                From <span class="text-white text-lg font-medium">$2,499</span>
+              </div>
+
+              <a href="/packages/pro"
+                 class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-emerald-500/20 text-xs text-emerald-300 hover:bg-emerald-500/10 transition-all">
+                Details
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- CTA -->
+      <div class="text-center mt-14">
+
+        <a href="/packages"
+           class="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-primary text-white text-sm font-medium hover:bg-primary/85 transition-all">
+
+          Explore all packages
+
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path d="M7 17L17 7M17 7H7M17 7v10"/>
+          </svg>
+
+        </a>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
    
 
  
@@ -1120,6 +1360,140 @@
         </Swiper>
       </div>
     </section>
+
+    <!-- ═══════════════ WEBSITE PACKAGES CTA ═══════════════ -->
+    <section class="py-12 md:py-16">
+      <div class="container mx-auto px-6 max-w-8xl">
+        <div class="bg-primary/10 border border-primary/30 rounded-2xl overflow-hidden">
+          <div class="grid lg:grid-cols-2 gap-8 items-center p-8 md:p-12">
+            <!-- Content -->
+            <div>
+              <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Website Solutions</p>
+              <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Ready-Made Website Packages</h2>
+              <p class="text-muted-foreground text-sm leading-relaxed mb-6">
+                Choose from our carefully curated website packages designed for startups, growing businesses, enterprises, and e-commerce platforms. Each package includes professional design, security, support, and optimization.
+              </p>
+              <ul class="space-y-3 mb-8">
+                <li class="flex items-center gap-3">
+                  <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                  <span class="text-muted-foreground text-sm">Professional Responsive Design</span>
+                </li>
+                <li class="flex items-center gap-3">
+                  <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                  <span class="text-muted-foreground text-sm">Enterprise-Grade Security</span>
+                </li>
+                <li class="flex items-center gap-3">
+                  <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                  <span class="text-muted-foreground text-sm">Ongoing Support & Maintenance</span>
+                </li>
+              </ul>
+              <router-link
+                to="/packages"
+                class="inline-flex items-center gap-2 px-8 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg"
+              >
+                Explore All Packages
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+              </router-link>
+            </div>
+
+            <!-- Visual -->
+            <div class="hidden lg:flex justify-end">
+              <div class="relative">
+                <div class="absolute inset-0 bg-gradient-to-r from-primary to-accent opacity-10 rounded-2xl blur-2xl"></div>
+                <div class="relative bg-gradient-to-br from-primary/20 to-accent/20 border border-primary/30 rounded-2xl p-8 space-y-4">
+                  <div class="h-20 bg-white/10 rounded-lg border border-white/20 flex items-center justify-center text-white/60 text-sm">Basic Package</div>
+                  <div class="h-20 bg-primary/20 rounded-lg border border-primary/50 flex items-center justify-center text-primary text-sm font-semibold">Advanced Package</div>
+                  <div class="h-20 bg-white/10 rounded-lg border border-white/20 flex items-center justify-center text-white/60 text-sm">Pro & E-Commerce</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ WEBSITE PACKAGES CTA ═══════════════ -->
+  <section class="w-full relative overflow-hidden">
+    <div
+      class="relative min-h-[580px] bg-cover bg-center bg-fixed"
+      :style="{ backgroundImage: 'url(' + heroTechBg + ')' }"
+    >
+      <!-- Overlays -->
+      <div class="absolute inset-0 bg-[#0a081e]/72"></div>
+      <div class="absolute inset-0 bg-gradient-to-br from-primary/30 via-transparent to-accent/15"></div>
+
+      <!-- Content -->
+      <div class="relative z-10 flex flex-col items-center px-6 py-16 md:py-24">
+
+        <!-- Eyebrow -->
+        <span class="inline-flex items-center gap-1.5 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 text-[11px] font-medium tracking-widest uppercase text-white/80 mb-5">
+          <svg class="w-3.5 h-3.5 text-primary/80" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+          </svg>
+          Website solutions
+        </span>
+
+        <!-- Heading -->
+        <h2 class="text-2xl md:text-3xl font-medium text-white text-center leading-tight mb-3 max-w-xl">
+          Ready-made packages for<br>
+          <span class="text-primary/90">every business stage</span>
+        </h2>
+
+        <p class="text-white/60 text-sm text-center leading-relaxed mb-10 max-w-lg">
+          From your first landing page to a full e-commerce platform — choose the package that fits where you are now and scale as you grow.
+        </p>
+
+        <!-- 4 Package Cards -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 w-full max-w-3xl mb-8">
+
+          <div v-for="pkg in packages" :key="pkg.name"
+            class="rounded-2xl p-4 flex flex-col gap-2 border transition-all"
+            :class="pkg.featured
+              ? 'bg-primary/20 border-primary/50'
+              : 'bg-white/[0.07] border-white/[0.13] hover:bg-white/[0.11]'"
+          >
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center" :class="pkg.iconBg">
+              <component :is="pkg.icon" class="w-4 h-4" :class="pkg.iconColor" />
+            </div>
+            <p class="text-sm font-medium text-white">{{ pkg.name }}</p>
+            <span v-if="pkg.badge" class="text-[9.5px] font-medium bg-primary/20 text-primary-200 rounded-full px-2 py-0.5 w-fit">{{ pkg.badge }}</span>
+            <p class="text-[11px] text-white/50 leading-snug">{{ pkg.desc }}</p>
+          </div>
+
+        </div>
+
+        <!-- Feature pills -->
+        <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mb-8">
+          <div v-for="(f, i) in features" :key="f" class="flex items-center gap-1.5 text-xs text-white/65">
+            <svg class="w-3.5 h-3.5 text-accent" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path d="M5 13l4 4L19 7"/>
+            </svg>
+            {{ f }}
+            <span v-if="i < features.length - 1" class="w-px h-3.5 bg-white/20 ml-2"></span>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <router-link
+          to="/packages"
+          class="inline-flex items-center gap-2 px-7 py-2.5 bg-primary text-white text-sm font-medium rounded-full hover:bg-primary/85 transition-all"
+        >
+          Explore all packages
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path d="M7 17L17 7M17 7H7M17 7v10"/>
+          </svg>
+        </router-link>
+
+      </div>
+    </div>
+  </section>
 
     <!-- ═══════════════ CTA SECTION (FIXED IMAGE BACKGROUND) ═══════════════ --> 
     <section class="w-full min-h-[600px] relative">
@@ -1709,6 +2083,8 @@ const stackCategories = [
   // { label: 'AI & Data' },
 ]
 
+
+
 const techStack = [
   // Frontend
   { name: 'Vue.js',       icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#42b883" d="M78.8 10L64 35.4 49.2 10H0l64 110 64-110z"/><path fill="#35495e" d="M78.8 10L64 35.4 49.2 10H25.6L64 76l38.4-66z"/></svg>',     category: 'Frontend' },
@@ -1776,6 +2152,41 @@ const specializations = [
   { icon: '\uD83C\uDFAF', title: 'Digital Marketing', desc: 'SEO, PPC & social media' },
   { icon: '\uD83D\uDEE0\uFE0F', title: 'IT Consulting', desc: 'Strategic technology advisory' },
 ];
+
+
+const packages = [
+  {
+    name: 'Starter',
+    desc: 'Launch fast with a clean, professional site',
+    iconBg: 'bg-white/10',
+    iconColor: 'text-white/75',
+    featured: false
+  },
+  {
+    name: 'Advanced',
+    desc: 'For growing teams needing more power',
+    iconBg: 'bg-primary/30',
+    iconColor: 'text-primary-200',
+    featured: true,
+    badge: 'Most popular'
+  },
+  {
+    name: 'Pro',
+    desc: 'Enterprise features & custom integrations',
+    iconBg: 'bg-teal-500/20',
+    iconColor: 'text-teal-300',
+    featured: false
+  },
+  {
+    name: 'E-Commerce',
+    desc: 'Full online store with payments & inventory',
+    iconBg: 'bg-orange-500/20',
+    iconColor: 'text-orange-300',
+    featured: false
+  },
+];
+
+const features = ['Responsive design', 'Enterprise security', 'Ongoing support', 'SEO optimised'];
 
 const featuredServices = [
   // ════════════════════════════════════════════
@@ -2749,5 +3160,14 @@ onUnmounted(() => {
   width: 0.5px;
   height: 32px;
   background: rgba(255,255,255,0.12);
+}
+
+@keyframes scrollCards {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 </style>

@@ -56,14 +56,14 @@ class DatabaseSeeder extends Seeder
         $settings = [
             // General
             ['key' => 'site_name',       'value' => 'OmniviaTech',                              'group' => 'general', 'type' => 'text'],
-            ['key' => 'tagline',         'value' => 'Innovative Technology Solutions',         'group' => 'general', 'type' => 'text'],
+            ['key' => 'tagline',         'value' => 'Orbiting the edge of tech',         'group' => 'general', 'type' => 'text'],
             ['key' => 'logo_path',       'value' => null,                                      'group' => 'general', 'type' => 'text'],
-            ['key' => 'copyright_text',  'value' => '© 2025 OmniviaTech. All rights reserved.', 'group' => 'general', 'type' => 'text'],
+            ['key' => 'copyright_text',  'value' => '© 2026 OmniviaTech Technologies. All rights reserved.', 'group' => 'general', 'type' => 'text'],
 
             // Contact
-            ['key' => 'contact_email',   'value' => 'info@omniviatech.com',                   'group' => 'contact', 'type' => 'text'],
-            ['key' => 'contact_phone',   'value' => '+27 12 345 6789',                        'group' => 'contact', 'type' => 'text'],
-            ['key' => 'address',         'value' => '123 Innovation Drive, Sandton, Johannesburg, South Africa', 'group' => 'contact', 'type' => 'text'],
+            ['key' => 'contact_email',   'value' => 'info@omniviatech.co.ke',                   'group' => 'contact', 'type' => 'text'],
+            ['key' => 'contact_phone',   'value' => '+254 710351517',                        'group' => 'contact', 'type' => 'text'],
+            ['key' => 'address',         'value' => 'Nairobi, Kenya', 'group' => 'contact', 'type' => 'text'],
 
             // Social Media
             ['key' => 'facebook_url',    'value' => 'https://facebook.com/omniviatech',         'group' => 'social', 'type' => 'text'],
@@ -72,13 +72,13 @@ class DatabaseSeeder extends Seeder
             ['key' => 'instagram_url',   'value' => 'https://instagram.com/omniviatech',        'group' => 'social', 'type' => 'text'],
             ['key' => 'youtube_url',     'value' => 'https://youtube.com/@omniviatech',         'group' => 'social', 'type' => 'text'],
             ['key' => 'tiktok_url',      'value' => 'https://tiktok.com/@omniviatech',          'group' => 'social', 'type' => 'text'],
-            ['key' => 'whatsapp_url',    'value' => 'https://wa.me/27123456789',              'group' => 'social', 'type' => 'text'],
+            ['key' => 'whatsapp_url',    'value' => 'https://wa.me/254710351517',              'group' => 'social', 'type' => 'text'],
 
             // Marquee / Top Bar
             ['key' => 'marquee_text',    'value' => '🚀 Free consultation for new clients|💡 AI-powered solutions now available|🔒 Cybersecurity audit — limited offer|📱 Mobile app development starting at R15,000|⭐ Rated #1 tech agency in Johannesburg', 'group' => 'general', 'type' => 'text'],
 
             // SEO
-            ['key' => 'seo_title',       'value' => 'OmniviaTech — Innovative Technology Solutions', 'group' => 'seo', 'type' => 'text'],
+            ['key' => 'seo_title',       'value' => 'OmniviaTech — Orbiting the edge of tech', 'group' => 'seo', 'type' => 'text'],
             ['key' => 'seo_description', 'value' => 'OmniviaTech delivers world-class web development, mobile apps, AI solutions, cloud infrastructure and cybersecurity services across Africa.', 'group' => 'seo', 'type' => 'textarea'],
 
             // Theme
@@ -247,12 +247,17 @@ class DatabaseSeeder extends Seeder
 
         // ──── Clients ────
         $clients = [
-            ['name' => 'Vodacom',         'logo' => 'images/clients/vodacom.png',     'website_url' => 'https://vodacom.co.za',     'is_visible' => true, 'order' => 1],
-            ['name' => 'Standard Bank',    'logo' => 'images/clients/standard-bank.png','website_url' => 'https://standardbank.co.za','is_visible' => true, 'order' => 2],
-            ['name' => 'Takealot',         'logo' => 'images/clients/takealot.png',    'website_url' => 'https://takealot.com',      'is_visible' => true, 'order' => 3],
-            ['name' => 'Discovery',        'logo' => 'images/clients/discovery.png',   'website_url' => 'https://discovery.co.za',   'is_visible' => true, 'order' => 4],
-            ['name' => 'MTN Group',        'logo' => 'images/clients/mtn.png',         'website_url' => 'https://mtn.com',           'is_visible' => true, 'order' => 5],
-            ['name' => 'Capitec Bank',     'logo' => 'images/clients/capitec.png',     'website_url' => 'https://capitecbank.co.za', 'is_visible' => true, 'order' => 6],
+            ['name' => 'Parkrose Plumbing Ltd',        'logo' => 'images/clients/parkrose.png',         'website_url' => 'https://parkroseplumbing.co.ke',         'domain' => 'parkroseplumbing.co.ke',        'caption' => 'Premier plumbing solutions across Kenya', 'is_visible' => true, 'is_seeded' => true, 'order' => 1],
+            ['name' => 'Medialytica',                   'logo' => 'images/clients/medialytica.png',       'website_url' => 'https://medialytica.com',              'domain' => 'medialytica.com',               'caption' => 'Data-driven media analytics platform', 'is_visible' => true, 'is_seeded' => true, 'order' => 2],
+            ['name' => 'Tech for Development',          'logo' => 'images/clients/tech-dev.png',          'website_url' => 'https://techfordevelopment.org',       'domain' => 'techfordevelopment.org',         'caption' => 'Technology solutions for community development', 'is_visible' => true, 'is_seeded' => true, 'order' => 3],
+            ['name' => 'Indepth Research Institute',     'logo' => 'images/clients/indepth.png',           'website_url' => 'https://indepthresearch.org',          'domain' => 'indepthresearch.org',           'caption' => 'Advanced research and analytics institute', 'is_visible' => true, 'is_seeded' => true, 'order' => 4],
+            ['name' => 'Omidrop',                       'logo' => 'images/clients/omidrop.png',           'website_url' => 'https://omidrop.com',                  'domain' => 'omidrop.com',                   'caption' => 'Innovative logistics and supply chain solutions', 'is_visible' => true, 'is_seeded' => true, 'order' => 5],
+            ['name' => 'Maji Hill',                     'logo' => 'images/clients/maji-hill.png',         'website_url' => 'https://majihill.co.ke',               'domain' => 'majihill.co.ke',                'caption' => 'Water solutions for sustainable communities', 'is_visible' => true, 'is_seeded' => true, 'order' => 6],
+            ['name' => 'Frarega Ltd',                   'logo' => 'images/clients/frarega.png',           'website_url' => 'https://frarega.co.ke',                'domain' => 'frarega.co.ke',                 'caption' => 'Fresh produce and agricultural export leader', 'is_visible' => true, 'is_seeded' => true, 'order' => 7],
+            ['name' => 'Ziara Travels Ltd',             'logo' => 'images/clients/ziara.png',             'website_url' => 'https://ziaratravels.com',             'domain' => 'ziaratravels.com',              'caption' => 'Premium travel and tourism experiences', 'is_visible' => true, 'is_seeded' => true, 'order' => 8],
+            ['name' => 'Smartech Research Labs',        'logo' => 'images/clients/smartech.png',          'website_url' => 'https://smartechresearch.com',         'domain' => 'smartechresearch.com',          'caption' => 'Cutting-edge tech research and development', 'is_visible' => true, 'is_seeded' => true, 'order' => 9],
+            ['name' => 'Nexxear Digital Solutions',      'logo' => 'images/clients/nexxear.png',           'website_url' => 'https://nexxear.com',                  'domain' => 'nexxear.com',                   'caption' => 'Next-generation digital transformation partner', 'is_visible' => true, 'is_seeded' => true, 'order' => 10],
+            ['name' => 'Magnate Digital Solutions',      'logo' => 'images/clients/magnate.png',           'website_url' => 'https://magnate.digital',              'domain' => 'magnate.digital',               'caption' => 'Enterprise digital solutions at scale', 'is_visible' => true, 'is_seeded' => true, 'order' => 11],
         ];
 
         foreach ($clients as $c) {
@@ -291,10 +296,10 @@ class DatabaseSeeder extends Seeder
         $starterBundle = Bundle::create([
             'name'              => 'Digital Starter Pack',
             'slug'              => 'digital-starter-pack',
-            'short_description' => 'Everything you need to launch your online presence — website, CMS, and AI chatbot bundled at a discounted rate.',
-            'description'       => '<p>Get online fast with our curated starter bundle. Includes a custom-built website, SmartCMS Pro for content management, and SmartChat AI for 24/7 customer support. Save 20% compared to purchasing separately.</p>',
-            'price'             => 9999.00,
-            'price_label'       => 'From R9,999',
+            'short_description' => 'Everything you need to launch your online presence — website, CMS, and AI chatbot bundled at a special rate.',
+            'description'       => '<p>Get online fast with our curated starter bundle. Includes a custom-built website, SmartCMS Pro for content management, and SmartChat AI for 24/7 customer support. Contact us for pricing and a personalized quote.</p>',
+            'price'             => null,
+            'price_label'       => 'Contact us for pricing',
             'whats_included'    => ['Custom Website', 'SmartCMS Pro (6 months)', 'SmartChat AI (6 months)', 'SEO Setup', '3 Months Support'],
             'is_featured'       => true,
             'is_published'      => true,
@@ -313,9 +318,9 @@ class DatabaseSeeder extends Seeder
             'name'              => 'Enterprise Growth Suite',
             'slug'              => 'enterprise-growth-suite',
             'short_description' => 'Complete digital transformation package with AI analytics, e-commerce platform, cybersecurity, and ongoing consulting.',
-            'description'       => '<p>Our most comprehensive bundle for enterprises ready to dominate their market. Combines our top products with premium services for an end-to-end digital strategy.</p>',
-            'price'             => 29999.00,
-            'price_label'       => 'From R29,999',
+            'description'       => '<p>Our most comprehensive bundle for enterprises ready to dominate their market. Combines our top products with premium services for an end-to-end digital strategy. Contact us for a customized enterprise quote.</p>',
+            'price'             => null,
+            'price_label'       => 'Contact us for enterprise pricing',
             'whats_included'    => ['SmartShop E-Commerce', 'SmartAnalytics Dashboard', 'SmartSecure Firewall', 'AI Consulting (40 hrs)', 'Cloud Migration', '12 Months Priority Support'],
             'is_featured'       => true,
             'is_published'      => true,
@@ -485,6 +490,9 @@ class DatabaseSeeder extends Seeder
         foreach ($reviews as $r) {
             \App\Models\Review::create($r);
         }
+
+        // ──── Packages ────
+        $this->call(PackageSeeder::class);
 
         $this->command->info('🚀 OmniviaTech database seeded successfully!');
         $this->command->info('   Admin login: robertgicheha3@gmail.com / Admin@123');

@@ -52,6 +52,18 @@ const routes: RouteRecordRaw[] = [
     meta: { title: 'Bundle' },
   },
   {
+    path: '/packages',
+    name: 'packages',
+    component: () => import('@/pages/Packages/Index.vue'),
+    meta: { title: 'Packages' },
+  },
+  {
+    path: '/packages/:slug',
+    name: 'package-detail',
+    component: () => import('@/pages/Packages/Detail.vue'),
+    meta: { title: 'Package' },
+  },
+  {
     path: '/faqs',
     name: 'faqs',
     component: () => import('@/pages/Faqs.vue'),

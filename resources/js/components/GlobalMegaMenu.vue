@@ -371,6 +371,12 @@ const solutionsLinks = [
     img: customWebDevelopmentImage,
   },
   {
+    to: '/packages',
+    label: 'Packages',
+    desc: 'Ready-made website packages',
+    img: tech3,
+  },
+  {
     to: '/bundles',
     label: 'Bundles',
     desc: 'Packaged offerings for faster delivery',
