@@ -14,7 +14,8 @@ use App\Http\Controllers\Api\{
     AIController,
     BlogController,
     CaseStudyController,
-    IndustryController
+    IndustryController,
+    PackageController
 };
 use App\Http\Controllers\Api\User\{
     DashboardController,
@@ -38,6 +39,7 @@ use App\Http\Controllers\Api\Admin\{
     AdminChatController,
     AdminCaseStudyController,
     IndustryController as AdminIndustryController,
+    AdminClientController,
     TrashController,
     SearchController
 };
@@ -91,6 +93,10 @@ Route::prefix('v1')->group(function () {
     // ──── Bundles ────
     Route::get('/bundles', [BundleController::class, 'index']);
     Route::get('/bundles/{slug}', [BundleController::class, 'show']);
+    
+    // ──── Packages ────
+    Route::get('/packages', [PackageController::class, 'index']);
+    Route::get('/packages/{slug}', [PackageController::class, 'show']);
     
     // ──── FAQs ────
     Route::get('/faqs', [FaqController::class, 'index']);
@@ -193,6 +199,14 @@ Route::prefix('v1')->group(function () {
         Route::put('/cms/clients/{client}', [CMSController::class, 'updateClient']);
         Route::delete('/cms/clients/{client}', [CMSController::class, 'destroyClient']);
 
+        // Client Management (with image, domain, caption support)
+        Route::get('/clients', [AdminClientController::class, 'index']);
+        Route::post('/clients', [AdminClientController::class, 'store']);
+        Route::get('/clients/{client}', [AdminClientController::class, 'show']);
+        Route::put('/clients/{client}', [AdminClientController::class, 'update']);
+        Route::delete('/clients/{client}', [AdminClientController::class, 'destroy']);
+        Route::post('/clients/{id}/restore', [AdminClientController::class, 'restore']);
+
         Route::get('/cms/counters', [CMSController::class, 'counters']);
         Route::post('/cms/counters', [CMSController::class, 'storeCounter']);
         Route::put('/cms/counters/{counter}', [CMSController::class, 'updateCounter']);
@@ -268,6 +282,16 @@ Route::prefix('v1')->group(function () {
         Route::post('/bundles', [AdminBundleController::class, 'store']);
         Route::put('/bundles/{bundle}', [AdminBundleController::class, 'update']);
         Route::delete('/bundles/{bundle}', [AdminBundleController::class, 'destroy']);
+
+        // Packages
+        Route::get('/packages', [PackageController::class, 'adminIndex']);
+        Route::post('/packages', [PackageController::class, 'store']);
+        Route::put('/packages/{package}', [PackageController::class, 'update']);
+        Route::delete('/packages/{package}', [PackageController::class, 'destroy']);
+        Route::post('/packages/{package}/restore', [PackageController::class, 'restore']);
+        Route::post('/packages/{package}/features', [PackageController::class, 'addFeature']);
+        Route::put('/packages/{package}/features/{feature}', [PackageController::class, 'updateFeature']);
+        Route::delete('/packages/{package}/features/{feature}', [PackageController::class, 'deleteFeature']);
 
         // Chat (Admin)
         Route::get('/chat/sessions', [AdminChatController::class, 'sessions']);

@@ -12,8 +12,12 @@ class Client extends Model
     protected $fillable = [
         'name',
         'logo',
+        'image',
+        'domain',
+        'caption',
         'website_url',
         'is_visible',
+        'is_seeded',
         'order',
     ];
 
@@ -21,6 +25,7 @@ class Client extends Model
     {
         return [
             'is_visible' => 'boolean',
+            'is_seeded' => 'boolean',
         ];
     }
 

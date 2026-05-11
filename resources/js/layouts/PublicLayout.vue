@@ -426,6 +426,7 @@ const breadcrumbs = computed(() => {
 
 const footerServicesLinks = [
   { to: '/services', label: 'All Services' },
+  { to: '/packages', label: 'Website Packages' },
   { to: '/products', label: 'Products' },
   { to: '/bundles', label: 'Solution Bundles' },
   { to: '/industries', label: 'Industries' },
