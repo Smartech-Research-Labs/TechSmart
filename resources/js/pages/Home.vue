@@ -2160,6 +2160,7 @@ const packages = [
     desc: 'Launch fast with a clean, professional site',
     iconBg: 'bg-white/10',
     iconColor: 'text-white/75',
+    icon: '🚀',
     featured: false
   },
   {
@@ -2167,6 +2168,7 @@ const packages = [
     desc: 'For growing teams needing more power',
     iconBg: 'bg-primary/30',
     iconColor: 'text-primary-200',
+    icon: '⚡',
     featured: true,
     badge: 'Most popular'
   },
@@ -2175,6 +2177,7 @@ const packages = [
     desc: 'Enterprise features & custom integrations',
     iconBg: 'bg-teal-500/20',
     iconColor: 'text-teal-300',
+    icon: '👑',
     featured: false
   },
   {
@@ -2182,6 +2185,7 @@ const packages = [
     desc: 'Full online store with payments & inventory',
     iconBg: 'bg-orange-500/20',
     iconColor: 'text-orange-300',
+    icon: '🛍️',
     featured: false
   },
 ];
