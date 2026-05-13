@@ -1421,13 +1421,8 @@
     <!-- ═══════════════ WEBSITE PACKAGES CTA ═══════════════ -->
   <section class="w-full relative overflow-hidden">
     <div
-      class="relative min-h-[580px] bg-cover bg-center bg-fixed"
-      :style="{ backgroundImage: 'url(' + heroTechBg + ')' }"
+      class="relative min-h-[580px] bg-black"
     >
-      <!-- Overlays -->
-      <div class="absolute inset-0 bg-[#0a081e]/72"></div>
-      <div class="absolute inset-0 bg-gradient-to-br from-primary/30 via-transparent to-accent/15"></div>
-
       <!-- Content -->
       <div class="relative z-10 flex flex-col items-center px-6 py-16 md:py-24">
 
@@ -1450,24 +1445,37 @@
           From your first landing page to a full e-commerce platform — choose the package that fits where you are now and scale as you grow.
         </p>
 
-        <!-- 4 Package Cards -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 w-full max-w-3xl mb-8">
-
-          <div v-for="pkg in packages" :key="pkg.name"
-            class="rounded-2xl p-4 flex flex-col gap-2 border transition-all"
-            :class="pkg.featured
-              ? 'bg-primary/20 border-primary/50'
-              : 'bg-white/[0.07] border-white/[0.13] hover:bg-white/[0.11]'"
-          >
-            <div class="w-8 h-8 rounded-lg flex items-center justify-center" :class="pkg.iconBg">
-              <component :is="pkg.icon" class="w-4 h-4" :class="pkg.iconColor" />
+        <!-- 4 Package Cards - Infinite Scroll Carousel -->
+        <Swiper
+          :modules="[Autoplay]"
+          slides-per-view="auto"
+          :autoplay="{ delay: 0, disableOnInteraction: false }"
+          :loop="true"
+          :speed="5000"
+          class="w-full mb-8"
+          style="max-width: 100%"
+        >
+          <SwiperSlide v-for="pkg in packages" :key="pkg.name" style="width: auto">
+            <div class="rounded-2xl p-4 flex flex-col gap-3 border transition-all min-w-[200px]"
+              :class="pkg.featured
+                ? 'bg-primary/20 border-primary/50'
+                : 'bg-white/[0.07] border-white/[0.13] hover:bg-white/[0.11]'"
+            >
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center" :class="pkg.iconBg">
+                <component :is="pkg.icon" class="w-4 h-4" :class="pkg.iconColor" />
+              </div>
+              <p class="text-sm font-medium text-white">{{ pkg.name }}</p>
+              <span v-if="pkg.badge" class="text-[9.5px] font-medium bg-primary/20 text-primary-200 rounded-full px-2 py-0.5 w-fit">{{ pkg.badge }}</span>
+              <p class="text-[11px] text-white/50 leading-snug">{{ pkg.desc }}</p>
+              <router-link
+                :to="`/packages?type=${pkg.slug || pkg.name.toLowerCase()}`"
+                class="mt-2 inline-flex items-center gap-2 px-4 py-2 bg-primary text-white text-xs font-semibold rounded-full hover:bg-primary/90 transition-all w-full justify-center"
+              >
+                Request a Quote
+              </router-link>
             </div>
-            <p class="text-sm font-medium text-white">{{ pkg.name }}</p>
-            <span v-if="pkg.badge" class="text-[9.5px] font-medium bg-primary/20 text-primary-200 rounded-full px-2 py-0.5 w-fit">{{ pkg.badge }}</span>
-            <p class="text-[11px] text-white/50 leading-snug">{{ pkg.desc }}</p>
-          </div>
-
-        </div>
+          </SwiperSlide>
+        </Swiper>
 
         <!-- Feature pills -->
         <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mb-8">
@@ -2016,6 +2024,84 @@
  
       </div>
     </section>
+
+    <!-- ═══════════════ COOKIE CONSENT BANNER ═══════════════ -->
+    <div v-if="showCookieConsent" class="fixed bottom-0 left-0 right-0 z-50 p-4 sm:p-6">
+      <div class="max-w-4xl mx-auto bg-black border border-primary/40 rounded-2xl shadow-2xl backdrop-blur-md">
+        <div class="p-6 sm:p-8">
+          <!-- Header -->
+          <h3 class="text-white font-bold text-lg mb-2">Cookie Preferences</h3>
+          <p class="text-white/70 text-sm mb-6 leading-relaxed">
+            We use cookies to enhance your browsing experience, analyze site traffic, and personalize content. By continuing to use our site, you agree to our use of cookies.
+          </p>
+
+          <!-- Cookie Options -->
+          <div class="space-y-3 mb-6">
+            <!-- Necessary -->
+            <div class="flex items-center gap-3">
+              <input 
+                type="checkbox" 
+                id="necessary" 
+                v-model="cookiePreferences.necessary" 
+                disabled 
+                class="w-4 h-4 rounded accent-primary cursor-not-allowed opacity-50"
+              />
+              <label for="necessary" class="text-white/80 text-sm cursor-not-allowed">
+                <span class="font-semibold">Necessary</span> - Essential for site functionality (always enabled)
+              </label>
+            </div>
+            
+            <!-- Analytics -->
+            <div class="flex items-center gap-3">
+              <input 
+                type="checkbox" 
+                id="analytics" 
+                v-model="cookiePreferences.analytics" 
+                class="w-4 h-4 rounded accent-primary cursor-pointer"
+              />
+              <label for="analytics" class="text-white/80 text-sm cursor-pointer">
+                <span class="font-semibold">Analytics</span> - Help us understand how you use our site
+              </label>
+            </div>
+            
+            <!-- Marketing -->
+            <div class="flex items-center gap-3">
+              <input 
+                type="checkbox" 
+                id="marketing" 
+                v-model="cookiePreferences.marketing" 
+                class="w-4 h-4 rounded accent-primary cursor-pointer"
+              />
+              <label for="marketing" class="text-white/80 text-sm cursor-pointer">
+                <span class="font-semibold">Marketing</span> - Personalized ads and content recommendations
+              </label>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="flex flex-wrap gap-3 sm:gap-4">
+            <button
+              @click="acceptAllCookies()"
+              class="px-6 py-2.5 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all flex-1 sm:flex-none"
+            >
+              Accept All
+            </button>
+            <button
+              @click="saveCookiePreferences()"
+              class="px-6 py-2.5 bg-primary/20 text-primary border border-primary/40 text-sm font-semibold rounded-full hover:bg-primary/30 transition-all flex-1 sm:flex-none"
+            >
+              Save Preferences
+            </button>
+            <button
+              @click="declineCookies()"
+              class="px-6 py-2.5 bg-white/10 text-white/80 border border-white/20 text-sm font-semibold rounded-full hover:bg-white/15 transition-all flex-1 sm:flex-none"
+            >
+              Decline
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </PublicLayout>
 </template>
 
@@ -2157,6 +2243,7 @@ const specializations = [
 const packages = [
   {
     name: 'Starter',
+    slug: 'starter',
     desc: 'Launch fast with a clean, professional site',
     iconBg: 'bg-white/10',
     iconColor: 'text-white/75',
@@ -2165,6 +2252,7 @@ const packages = [
   },
   {
     name: 'Advanced',
+    slug: 'advanced',
     desc: 'For growing teams needing more power',
     iconBg: 'bg-primary/30',
     iconColor: 'text-primary-200',
@@ -2174,6 +2262,7 @@ const packages = [
   },
   {
     name: 'Pro',
+    slug: 'pro',
     desc: 'Enterprise features & custom integrations',
     iconBg: 'bg-teal-500/20',
     iconColor: 'text-teal-300',
@@ -2182,6 +2271,7 @@ const packages = [
   },
   {
     name: 'E-Commerce',
+    slug: 'ecommerce',
     desc: 'Full online store with payments & inventory',
     iconBg: 'bg-orange-500/20',
     iconColor: 'text-orange-300',
@@ -2879,6 +2969,12 @@ async function fetchFaqs() {
 
 // Tracks the active slide index for the "1 / N" counter
 const activeSlide = ref(0)
+const showCookieConsent = ref(true);
+const cookiePreferences = ref({
+  necessary: true,
+  analytics: false,
+  marketing: false,
+});
 function onSlideChange(swiper: { realIndex: number }) {
   activeSlide.value = swiper.realIndex
 }
@@ -2930,7 +3026,96 @@ function animateCounter(element: HTMLElement) {
   }, 16);
 }
 
+// Generate or retrieve visitor ID
+function getOrCreateVisitorId(): string {
+  let visitorId = localStorage.getItem('visiterId');
+  if (!visitorId) {
+    // Create a unique visitor ID based on browser fingerprinting
+    const browserData = `${navigator.userAgent}-${navigator.language}-${new Date().getTimezoneOffset()}`;
+    visitorId = 'visitor_' + btoa(browserData).replace(/[^a-zA-Z0-9]/g, '').substring(0, 32) + '_' + Date.now();
+    localStorage.setItem('visiterId', visitorId);
+  }
+  return visitorId;
+}
+
+// Cookie Consent Handlers
+async function acceptAllCookies() {
+  cookiePreferences.value = {
+    necessary: true,
+    analytics: true,
+    marketing: true,
+  };
+  await saveCookiePreferences(true);
+}
+
+async function declineCookies() {
+  cookiePreferences.value = {
+    necessary: true,
+    analytics: false,
+    marketing: false,
+  };
+  await saveCookiePreferences(false);
+}
+
+async function saveCookiePreferences(acceptAll: boolean = false) {
+  try {
+    const visitorId = getOrCreateVisitorId();
+    
+    const payload = {
+      visitor_id: visitorId,
+      necessary_cookies: true,
+      analytics_cookies: cookiePreferences.value.analytics,
+      marketing_cookies: cookiePreferences.value.marketing,
+      accept_all: acceptAll,
+      source: 'homepage',
+    };
+
+    // Send to backend
+    const response = await axios.post('/api/v1/cookies/consent', payload);
+    
+    // Save locally
+    localStorage.setItem('cookieConsent', JSON.stringify(cookiePreferences.value));
+    localStorage.setItem('cookieConsentDate', new Date().toISOString());
+    localStorage.setItem('cookieConsentId', response.data.data?.id);
+    
+    showCookieConsent.value = false;
+    toast.success('Cookie preferences saved');
+  } catch (error) {
+    console.error('Failed to save cookie preferences:', error);
+    // Still save locally even if API fails
+    localStorage.setItem('cookieConsent', JSON.stringify(cookiePreferences.value));
+    localStorage.setItem('cookieConsentDate', new Date().toISOString());
+    showCookieConsent.value = false;
+    toast.warning('Preferences saved locally');
+  }
+}
+
 onMounted(async () => {
+  // Check if user has already given cookie consent
+  const savedCookieConsent = localStorage.getItem('cookieConsent');
+  if (savedCookieConsent) {
+    cookiePreferences.value = JSON.parse(savedCookieConsent);
+    showCookieConsent.value = false;
+  } else {
+    // Try to fetch existing consent from backend
+    try {
+      const visitorId = getOrCreateVisitorId();
+      const response = await axios.get('/api/v1/cookies/consent', {
+        params: { visitor_id: visitorId }
+      });
+      if (response.data.has_consent && response.data.data) {
+        cookiePreferences.value = {
+          necessary: response.data.data.necessary_cookies,
+          analytics: response.data.data.analytics_cookies,
+          marketing: response.data.data.marketing_cookies,
+        };
+        showCookieConsent.value = false;
+      }
+    } catch (error) {
+      console.log('No existing cookie consent found');
+    }
+  }
+
   await Promise.all([fetchHomeData(), fetchFaqs()]);
   setTimeout(() => {
     const observer = new IntersectionObserver((entries) => {

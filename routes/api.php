@@ -15,7 +15,8 @@ use App\Http\Controllers\Api\{
     BlogController,
     CaseStudyController,
     IndustryController,
-    PackageController
+    PackageController,
+    CookieConsentController
 };
 use App\Http\Controllers\Api\User\{
     DashboardController,
@@ -112,6 +113,11 @@ Route::prefix('v1')->group(function () {
     // ──── Newsletter ────
     Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe']);
     Route::post('/newsletter/unsubscribe', [NewsletterController::class, 'unsubscribe']);
+
+    // ──── Cookie Consent ────
+    Route::post('/cookies/consent', [CookieConsentController::class, 'saveConsent']);
+    Route::get('/cookies/consent', [CookieConsentController::class, 'getConsent']);
+    Route::post('/cookies/revoke', [CookieConsentController::class, 'revokeConsent']);
 
     // ──── Public Blog ────
     Route::get('/blogs', [BlogController::class, 'index']);
@@ -333,6 +339,10 @@ Route::prefix('v1')->group(function () {
         Route::post('/trash/{type}/{id}/restore', [TrashController::class, 'restore']);
         Route::delete('/trash/{type}/{id}', [TrashController::class, 'forceDelete']);
         Route::post('/trash/{type}/restore-all', [TrashController::class, 'restoreAll']);
+
+        // Cookie Consent Analytics & Management
+        Route::get('/cookies/analytics', [CookieConsentController::class, 'getAnalytics']);
+        Route::get('/cookies/marketing-emails', [CookieConsentController::class, 'getMarketingEmails']);
     });
 });
 
