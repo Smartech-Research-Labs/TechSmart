@@ -178,6 +178,29 @@
                 </div>
               </details>
 
+              <!-- Population Impact -->
+              <details class="border border-border rounded-lg">
+                <summary class="px-3 py-2 text-sm font-medium text-foreground cursor-pointer hover:text-primary transition">Population Impact</summary>
+                <div class="p-3 pt-0 space-y-3">
+                  <div>
+                    <label class="block text-sm font-medium text-foreground mb-1">Population Impacted</label>
+                    <input v-model="form.population_impacted" type="text" placeholder="e.g. 50,000+ or 50K+" class="w-full px-3 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-primary" />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-foreground mb-1">Impact Description</label>
+                    <textarea v-model="form.impact_description" rows="3" placeholder="Describe the positive impact and outcomes..." class="w-full px-3 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-primary"></textarea>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-foreground mb-1">Sector</label>
+                    <input v-model="form.sector" type="text" placeholder="e.g. Plumbing Services, Travel & Tourism" class="w-full px-3 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-primary" />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-foreground mb-1">Case Study URL Slug</label>
+                    <input v-model="form.case_study_slug" type="text" placeholder="e.g. parkrose-plumbing" class="w-full px-3 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-primary" />
+                  </div>
+                </div>
+              </details>
+
               <!-- SEO -->
               <details class="border border-border rounded-lg">
                 <summary class="px-3 py-2 text-sm font-medium text-foreground cursor-pointer hover:text-primary transition">SEO Settings</summary>
@@ -271,6 +294,10 @@ const defaultForm = () => ({
   seo_description: '',
   is_published: true,
   is_featured: false,
+  population_impacted: '',
+  impact_description: '',
+  sector: '',
+  case_study_slug: '',
 });
 
 const form = reactive(defaultForm());
@@ -301,6 +328,10 @@ function buildPayload() {
     seo_description: form.seo_description || undefined,
     is_published: form.is_published,
     is_featured: form.is_featured,
+    population_impacted: form.population_impacted || undefined,
+    impact_description: form.impact_description || undefined,
+    sector: form.sector || undefined,
+    case_study_slug: form.case_study_slug || undefined,
   };
 }
 

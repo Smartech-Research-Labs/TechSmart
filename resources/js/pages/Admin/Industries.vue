@@ -133,8 +133,46 @@
 
               <!-- Images -->
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <ImageUploader v-model="form.image" label="Card Image" description="Used on listing cards" />
-                <ImageUploader v-model="form.banner_image" label="Banner Image" description="Detail page hero" />
+                <div class="space-y-1.5">
+                  <Label>Card Image</Label>
+                  <p class="text-xs text-muted-foreground mb-2">Used on listing cards</p>
+                  <div v-if="form.image_id" class="mb-2 flex gap-2 items-start">
+                    <div class="flex-1 p-3 bg-muted rounded-lg">
+                      <p class="text-xs font-medium text-foreground">Selected from Library</p>
+                      <p class="text-xs text-muted-foreground">ID: {{ form.image_id }}</p>
+                    </div>
+                    <button @click="form.image_id = null; form.image = ''" class="p-1.5 hover:bg-red-500/10 text-red-500 rounded-md">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                  </div>
+                  <div class="flex gap-2">
+                    <Button @click="showImagePickerModal('image')" size="sm" variant="outline" class="flex-1">
+                      <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6z"/><circle cx="9" cy="10" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                      Choose from Library
+                    </Button>
+                    <ImageUploader v-model="form.image" class="flex-1" />
+                  </div>
+                </div>
+                <div class="space-y-1.5">
+                  <Label>Banner Image</Label>
+                  <p class="text-xs text-muted-foreground mb-2">Detail page hero</p>
+                  <div v-if="form.banner_image_id" class="mb-2 flex gap-2 items-start">
+                    <div class="flex-1 p-3 bg-muted rounded-lg">
+                      <p class="text-xs font-medium text-foreground">Selected from Library</p>
+                      <p class="text-xs text-muted-foreground">ID: {{ form.banner_image_id }}</p>
+                    </div>
+                    <button @click="form.banner_image_id = null; form.banner_image = ''" class="p-1.5 hover:bg-red-500/10 text-red-500 rounded-md">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                  </div>
+                  <div class="flex gap-2">
+                    <Button @click="showImagePickerModal('banner')" size="sm" variant="outline" class="flex-1">
+                      <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6z"/><circle cx="9" cy="10" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                      Choose from Library
+                    </Button>
+                    <ImageUploader v-model="form.banner_image" class="flex-1" />
+                  </div>
+                </div>
               </div>
 
               <!-- Sub-Sectors (repeater) -->
@@ -239,6 +277,57 @@
         </div>
       </Transition>
     </Teleport>
+
+    <!-- Media Picker Modal -->
+    <Teleport to="body">
+      <Transition name="fade">
+        <div v-if="showMediaPicker" class="fixed inset-0 z-50 flex items-start justify-center p-4 pt-[5vh] overflow-y-auto">
+          <div class="fixed inset-0 bg-black/50" @click="showMediaPicker = false; pickerType = null" />
+          <div class="relative bg-card border border-border rounded-xl shadow-xl w-full max-w-4xl z-10 my-8">
+            <div class="flex items-center justify-between p-5 border-b border-border">
+              <h3 class="font-semibold text-foreground text-lg">Select Image from Media Library</h3>
+              <button @click="showMediaPicker = false; pickerType = null" class="p-1 hover:bg-muted rounded-md">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+              </button>
+            </div>
+
+            <div class="p-5 space-y-4 max-h-[60vh] overflow-y-auto">
+              <Input v-model="mediaPickerSearch" placeholder="Search images..." />
+              
+              <div v-if="mediaPickerLoading" class="flex items-center justify-center p-8">
+                <Loader2 class="w-6 h-6 animate-spin text-primary" />
+              </div>
+              <div v-else-if="mediaPickerItems.length === 0" class="text-center p-8">
+                <p class="text-muted-foreground">No images found</p>
+              </div>
+              <div v-else class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                <div
+                  v-for="item in mediaPickerItems"
+                  :key="item.id"
+                  @click="selectMedia(item)"
+                  class="cursor-pointer group relative rounded-lg overflow-hidden border-2 border-border hover:border-primary transition"
+                  :class="{ 'border-primary bg-primary/5': isMediaSelected(item.id) }"
+                >
+                  <div class="aspect-square bg-muted flex items-center justify-center">
+                    <img v-if="item.url" :src="item.url" :alt="item.name" class="w-full h-full object-cover group-hover:scale-110 transition" />
+                    <svg v-else class="w-8 h-8 text-muted-foreground" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                  </div>
+                  <div class="p-2 text-xs line-clamp-1">{{ item.name }}</div>
+                  <div v-if="isMediaSelected(item.id)" class="absolute top-1 right-1 w-5 h-5 bg-primary rounded-full flex items-center justify-center">
+                    <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between p-5 border-t border-border">
+              <Button @click="showMediaPicker = false; pickerType = null" variant="outline">Cancel</Button>
+              <Button @click="confirmMediaSelection" :disabled="!selectedMediaForPicker">Confirm Selection</Button>
+            </div>
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
   </AdminLayout>
 </template>
 
@@ -268,6 +357,14 @@ const editingId = ref<number | null>(null);
 const submitting = ref(false);
 const deleteTarget = ref<any>(null);
 
+// Media Picker
+const showMediaPicker = ref(false);
+const pickerType = ref<'image' | 'banner' | null>(null);
+const mediaPickerItems = ref<any[]>([]);
+const mediaPickerLoading = ref(false);
+const mediaPickerSearch = ref('');
+const selectedMediaForPicker = ref<any>(null);
+
 let debounceTimer: ReturnType<typeof setTimeout>;
 function debouncedFetch() {
   clearTimeout(debounceTimer);
@@ -282,6 +379,8 @@ const defaultForm = () => ({
   icon: '',
   image: '',
   banner_image: '',
+  image_id: null as number | null,
+  banner_image_id: null as number | null,
   sub_sectors: [] as { name: string; description: string; icon: string }[],
   process_steps: [] as { title: string; description: string; icon: string }[],
   features: [] as { title: string; description: string }[],
@@ -368,6 +467,57 @@ async function deleteIndustry() {
   } catch {
     toast.error('Delete failed');
   }
+}
+
+// Media Picker Functions
+async function showImagePickerModal(type: 'image' | 'banner') {
+  pickerType.value = type;
+  showMediaPicker.value = true;
+  selectedMediaForPicker.value = null;
+  mediaPickerSearch.value = '';
+  await fetchMediaLibraryItems();
+}
+
+async function fetchMediaLibraryItems() {
+  mediaPickerLoading.value = true;
+  try {
+    const params = new URLSearchParams({
+      per_page: '50',
+      folder: 'all',
+      search: mediaPickerSearch.value,
+    });
+    const response = await fetch(`/api/v1/admin/media-library?${params}`);
+    const data = await response.json();
+    mediaPickerItems.value = data.data;
+  } catch (error) {
+    toast.error('Failed to load media library');
+  } finally {
+    mediaPickerLoading.value = false;
+  }
+}
+
+function selectMedia(item: any) {
+  selectedMediaForPicker.value = selectedMediaForPicker.value?.id === item.id ? null : item;
+}
+
+function isMediaSelected(id: number): boolean {
+  return selectedMediaForPicker.value?.id === id;
+}
+
+function confirmMediaSelection() {
+  if (!selectedMediaForPicker.value || !pickerType.value) return;
+  
+  if (pickerType.value === 'image') {
+    form.image_id = selectedMediaForPicker.value.id;
+    form.image = selectedMediaForPicker.value.url;
+  } else if (pickerType.value === 'banner') {
+    form.banner_image_id = selectedMediaForPicker.value.id;
+    form.banner_image = selectedMediaForPicker.value.url;
+  }
+  
+  showMediaPicker.value = false;
+  pickerType.value = null;
+  selectedMediaForPicker.value = null;
 }
 
 onMounted(fetchIndustries);

@@ -11,6 +11,7 @@
           <img
             :src="blog.featured_image.startsWith('http') ? blog.featured_image : `/storage/${blog.featured_image}`"
             :alt="blog.title"
+            loading="eager"
             class="w-full h-full object-cover"
           />
         </div>

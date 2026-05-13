@@ -29,6 +29,7 @@ use App\Http\Controllers\Api\Admin\{
     CMSController,
     SettingController,
     MediaController,
+    MediaLibraryController,
     BlogController as AdminBlogController,
     PageController as AdminPageController,
     AdminReviewController,
@@ -231,6 +232,21 @@ Route::prefix('v1')->group(function () {
         Route::post('/media/upload-multiple', [MediaController::class, 'uploadMultiple']);
         Route::delete('/media', [MediaController::class, 'destroy']);
         Route::post('/media/delete-multiple', [MediaController::class, 'destroyMultiple']);
+
+        // Media Library (with SEO metadata)
+        Route::prefix('media-library')->group(function () {
+            Route::get('/', [MediaLibraryController::class, 'index']);
+            Route::get('/stats', [MediaLibraryController::class, 'getFolderStats']);
+            Route::post('/scan-import', [MediaLibraryController::class, 'scanAndImport']);
+            Route::get('/{mediaLibrary}', [MediaLibraryController::class, 'show']);
+            Route::put('/{mediaLibrary}', [MediaLibraryController::class, 'update']);
+            Route::delete('/{mediaLibrary}', [MediaLibraryController::class, 'destroy']);
+            
+            // SEO Metadata Generation
+            Route::post('/{mediaLibrary}/generate-seo', [MediaLibraryController::class, 'generateSeoMetadata']);
+            Route::post('/bulk-update', [MediaLibraryController::class, 'bulkUpdate']);
+            Route::post('/bulk-generate-seo', [MediaLibraryController::class, 'bulkGenerateSeoMetadata']);
+        });
 
         // Blog Management
         Route::get('/blogs', [AdminBlogController::class, 'index']);

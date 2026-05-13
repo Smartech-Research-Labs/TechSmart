@@ -36,6 +36,10 @@ class CaseStudy extends Model
         'is_featured',
         'published_at',
         'order',
+        'population_impacted',
+        'impact_description',
+        'sector',
+        'case_study_slug',
     ];
 
     protected function casts(): array

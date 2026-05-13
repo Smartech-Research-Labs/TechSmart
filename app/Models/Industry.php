@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Industry extends Model
 {
@@ -25,6 +26,32 @@ class Industry extends Model
         'stats'         => 'array',
         'is_active'     => 'boolean',
     ];
+
+    /**
+     * Get media associated with this industry
+     */
+    public function media(): BelongsToMany
+    {
+        return $this->belongsToMany(MediaLibrary::class, 'industry_media', 'industry_id', 'media_id')
+            ->withPivot('type')
+            ->withTimestamps();
+    }
+
+    /**
+     * Get the main card image
+     */
+    public function cardImage()
+    {
+        return $this->media()->wherePivot('type', 'image')->first();
+    }
+
+    /**
+     * Get the banner image
+     */
+    public function bannerImageMedia()
+    {
+        return $this->media()->wherePivot('type', 'banner')->first();
+    }
 
     public function scopeActive($query)
     {

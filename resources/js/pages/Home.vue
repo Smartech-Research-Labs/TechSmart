@@ -9,6 +9,8 @@
       v-if="heroSlides.length"
       :src="heroSlides[currentHeroSlide]?.bg_image"
       :alt="heroSlides[currentHeroSlide]?.title"
+      fetchpriority="high"
+      loading="eager"
       class="w-full h-full object-cover"
     />
     <div class="absolute inset-0 bg-black/60"></div>
@@ -23,7 +25,7 @@
       :pagination="heroPagination"
       :loop="true"
       class="hero-swiper w-full h-full"
-      @slide-change="(swiper) => currentHeroSlide = swiper.realIndex"
+      @slide-change="(swiper: any) => currentHeroSlide = swiper.realIndex"
     >
       <SwiperSlide v-for="slide in heroSlides" :key="slide.id">
         <div class="relative w-full min-h-[60vh] md:min-h-[70vh] flex items-center">
@@ -82,40 +84,7 @@
       </div>
     </section>
 
-    <!-- ═══════════════ OUR JOURNEY ═══════════════ -->
-    <!-- <section class="py-14 md:py-20">
-      <div class="container mx-auto px-6">
-        <div class="text-center max-w-2xl mx-auto mb-12">
-          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Journey</p>
-          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">From Vision to Impact</h2>
-          <p class="text-muted-foreground text-sm leading-relaxed">What began as a bold idea in 2024 has quickly grown into a movement — delivering innovative technology solutions across Africa and beyond.</p>
-        </div>
-        <div class="max-w-3xl mx-auto">
-          <div class="relative border-l-2 border-primary/30 pl-8 space-y-10">
-            <div>
-              <div class="absolute -left-2.5 w-5 h-5 bg-primary rounded-full border-4 border-background"></div>
-              <h3 class="text-sm font-bold text-foreground mb-1">2024 — The Beginning</h3>
-              <p class="text-muted-foreground text-xs leading-relaxed">OmniviaTech was founded with a small but passionate team of developers determined to bridge the technology gap in emerging markets across Africa.</p>
-            </div>
-            <div>
-              <div class="absolute -left-2.5 w-5 h-5 bg-primary rounded-full border-4 border-background"></div>
-              <h3 class="text-sm font-bold text-foreground mb-1">2025 — First Major Milestone</h3>
-              <p class="text-muted-foreground text-xs leading-relaxed">Delivered our first 50 projects, expanding into cloud infrastructure and enterprise software solutions for businesses across East Africa.</p>
-            </div>
-            <div>
-              <div class="absolute -left-2.5 w-5 h-5 bg-primary rounded-full border-4 border-background"></div>
-              <h3 class="text-sm font-bold text-foreground mb-1">2026 — Scaling Impact</h3>
-              <p class="text-muted-foreground text-xs leading-relaxed">Opened multiple regional offices, growing our team to 50+ professionals and serving clients across West, East, and Southern Africa with a full suite of technology services.</p>
-            </div>
-            <div>
-              <div class="absolute -left-2.5 w-5 h-5 bg-primary rounded-full border-4 border-background"></div>
-              <h3 class="text-sm font-bold text-foreground mb-1">Today & Beyond</h3>
-              <p class="text-muted-foreground text-xs leading-relaxed">Continuing to innovate in AI, cloud computing, and cybersecurity, with a growing focus on sustainability and inclusive technology access for underserved communities.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section> -->
+
 
     <!-- ═══════════════ ABOUT US ═══════════════ -->
     <section class="py-12 md:py-16">
@@ -124,18 +93,18 @@
           <!-- Left - Image -->
           <div class="relative">
             <div class="rounded-2xl overflow-hidden shadow-lg">
-              <img :src="settings.about_section_image || 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop&q=80'" alt="Our Team" class="w-full aspect-[4/3] object-cover" />
+              <img :src="settings.about_section_image || 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop&q=80'" alt="Our Team" loading="lazy" class="w-full aspect-[4/3] object-cover" />
             </div>
             <!-- Experience Badge -->
-            <div class="absolute -bottom-6 -right-6 md:bottom-6 md:right-6 bg-primary text-white rounded-2xl p-5 shadow-xl">
+                <div class="absolute -bottom-6 -right-6 md:bottom-6 md:right-6 bg-primary text-white rounded-2xl p-5 shadow-xl">
               <div class="text-3xl font-bold">10+</div>
-              <div class="text-xs font-medium text-primary-foreground/80">Years of<br/>Excellence</div>
+              <div class="text-xs font-medium text-white">Years of<br/>Excellence</div>
             </div>
           </div>
 
           <!-- Right - Content -->
           <div>
-            <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">About Us</p>
+            <p class="text-purple-600 text-xs font-semibold tracking-widest uppercase mb-3">About Us</p>
             <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight mb-4">Your Trusted Technology Partner</h2>
             <p class="text-muted-foreground text-sm leading-relaxed mb-4">OmniviaTech is a leading technology company dedicated to empowering businesses with innovative digital solutions. We combine deep technical expertise with a passion for solving real-world challenges.</p>
             <p class="text-muted-foreground text-sm leading-relaxed mb-8">From startups to enterprises, we help organizations harness the power of technology to improve efficiency, scale operations, and drive growth across Africa and beyond.</p>
@@ -168,7 +137,7 @@
             </div>
 
             <router-link to="/about" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-sm">
-              Learn More About Us
+              Discover Our Story
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
             </router-link>
           </div>
@@ -213,7 +182,7 @@
                 <h3 class="text-sm font-semibold text-white mb-2 group-hover:text-white/95 transition-colors line-clamp-2">{{ service.title }}</h3>
                 <p class="text-white/75 text-xs leading-relaxed line-clamp-2 mb-3">{{ service.excerpt || service.short_description }}</p>
                 <span class="text-white/90 font-medium text-xs flex items-center gap-1 group-hover:gap-2 transition-all">
-                  Learn More <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
+About this service <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
                 </span>
               </div>
             </router-link>
@@ -231,7 +200,7 @@
                 <h3 class="text-sm font-semibold text-white mb-2 group-hover:text-white/95 transition-colors line-clamp-2">{{ service.title }}</h3>
                 <p class="text-white/75 text-xs leading-relaxed line-clamp-2 mb-3">{{ service.excerpt }}</p>
                 <span class="text-white/90 font-medium text-xs flex items-center gap-1 group-hover:gap-2 transition-all">
-                  Learn More <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
+                  About this service <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
                 </span>
               </div>
             </router-link>
@@ -326,7 +295,7 @@
     <section class="py-12 md:py-16 bg-muted/20">
       <div class="container mx-auto px-6 max-w-5xl">
         <div class="text-center max-w-2xl mx-auto mb-10">
-          <p class="text-accent text-xs font-semibold tracking-widest uppercase mb-3">Industries</p>
+          <p class="text-gray-700 text-xs font-semibold tracking-widest uppercase mb-3">Industries</p>
           <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">Industries We Serve</h2>
         </div>
 
@@ -345,7 +314,7 @@
           <SwiperSlide v-for="(industry, i) in industries" :key="i">
             <router-link :to="`/industries#${industry.title.toLowerCase()}`" class="group block bg-white border border-border rounded-xl overflow-hidden hover:border-accent/40 hover:shadow-md transition-all duration-300 h-full">
               <div class="aspect-video bg-gray-100 overflow-hidden">
-                <img :src="industry.image" :alt="industry.title" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                <img :src="industry.image" :alt="industry.title" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
               </div>
               <div class="p-4 text-center">
                 <div class="w-9 h-9 mx-auto bg-accent/15 rounded-lg flex items-center justify-center mb-2 group-hover:bg-accent/25 transition-colors">
@@ -385,10 +354,10 @@
           class="cards-swiper"
         >
           <SwiperSlide v-for="service in (allServices.length ? allServices.slice(0, 8) : featuredServices)" :key="service.id">
-            <router-link :to="`/services/${service.slug}`" class="group block bg-white/10 rounded-2xl overflow-hidden border border-white/20 hover:border-white/40 hover:shadow-md transition-all duration-300">
-              <div class="aspect-[4/3] bg-white/5 overflow-hidden relative">
-                <img v-if="getServiceImage(service)" :src="getServiceImage(service)" :alt="service.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <img v-else-if="service.image_url || service.image" :src="service.image_url || service.image" :alt="service.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            <router-link :to="`/services/${service.slug}`" class="group block bg-white/10 rounded-2xl overflow-hidden border border-white/20 hover:border-white/40 hover:shadow-md transition-all duration-300 h-full flex flex-col">
+              <div class="aspect-[4/3] bg-white/5 overflow-hidden relative shrink-0">
+                <img v-if="getServiceImage(service)" :src="getServiceImage(service)" :alt="service.title" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img v-else-if="service.image_url || service.image" :src="service.image_url || service.image" :alt="service.title" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-white/10 to-white/5">
                   <span class="text-3xl">{{ service.icon || '💡' }}</span>
                 </div>
@@ -396,12 +365,12 @@
                   <WishlistButton type="App\\Models\\Service" :item-id="service.id" />
                 </div>
               </div>
-              <div class="p-5">
+              <div class="p-5 flex flex-col flex-grow">
                 <h3 class="text-sm font-semibold text-white mb-2 group-hover:text-white/95 transition-colors line-clamp-2">{{ service.title }}</h3>
-                <p class="text-white/75 text-xs leading-relaxed line-clamp-2 mb-3">{{ service.excerpt || service.short_description }}</p>
-                <div class="flex items-center justify-end">
+                <p class="text-white/75 text-xs leading-relaxed line-clamp-2 mb-3 flex-grow">{{ service.excerpt || service.short_description }}</p>
+                <div class="flex items-center justify-end mt-auto">
                   <span class="text-white/90 font-medium text-xs flex items-center gap-1 group-hover:gap-2 transition-all">
-                    Learn More <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
+                    About this service <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
                   </span>
                 </div>
               </div>
@@ -417,7 +386,7 @@
 
         <!-- Header -->
         <div class="text-center mb-10">
-          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Global Impact</p>
+          <p class="text-purple-600 text-xs font-semibold tracking-widest uppercase mb-3">Global Impact</p>
           <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">Population Impacted</h2>
         </div>
 
@@ -429,6 +398,7 @@
             <img
               :src="settings.population_image || populationImg"
               alt="Global population impacted by OmniviaTech"
+              loading="lazy"
               class="w-full h-full object-cover"
             />
             <!-- Subtle overlay so the image doesn't feel flat -->
@@ -473,11 +443,12 @@
                   <div class="flex flex-col h-full p-6 gap-4">
 
                     <!-- Project image -->
-                    <div class="rounded-xl overflow-hidden bg-white dark:bg-gray-900 flex items-center justify-center h-48 shrink-0">
+                    <div class="rounded-xl overflow-hidden bg-white dark:bg-gray-900 flex items-center justify-center h-48 shrink-0 relative">
                       <img
                         v-if="project.image"
                         :src="project.image"
                         :alt="project.title"
+                        loading="lazy"
                         class="w-full h-full object-cover"
                       />
                       <!-- Placeholder if no image -->
@@ -487,12 +458,16 @@
                       >
                         <span class="text-muted-foreground text-xs">No image available</span>
                       </div>
+                      <!-- Population impact badge -->
+                      <div class="absolute top-2 right-2 bg-emerald-500 text-white text-xs font-bold px-2.5 py-1.5 rounded-lg shadow-lg">
+                        {{ project.population_impacted || '50K+' }}
+                      </div>
                     </div>
 
                     <!-- Project meta -->
                     <div class="flex items-center gap-2 flex-wrap">
-                      <span class="bg-primary/10 text-primary text-xs font-semibold px-2.5 py-1 rounded-full">
-                        {{ project.sector ?? 'Research' }}
+                      <span class="bg-primary/10 text-purple-700 text-xs font-semibold px-2.5 py-1 rounded-full">
+                        {{ project.category ?? project.sector ?? 'Research' }}
                       </span>
                       <span class="text-muted-foreground text-xs">
                         {{ project.location }}
@@ -572,7 +547,7 @@
         <div class="text-center mt-10">
           <RouterLink
             to="/case-studies"
-            class="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline underline-offset-4"
+            class="inline-flex items-center gap-2 text-sm font-semibold text-purple-700 hover:underline underline-offset-4"
           >
             Browse all case studies
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -582,46 +557,7 @@
       </div>
     </section>
 
-    <!-- ═══════════════ CTA SECTION (VIDEO BACKGROUND) ═══════════════ --> 
-    <!-- <section class="w-full min-h-[600px] relative"> -->
 
-      <!-- VIDEO BACKGROUND -->
-      <!-- <video 
-        autoplay 
-        muted 
-        loop 
-        playsinline 
-        class="absolute inset-0 w-full h-[400px] object-contain"
-      >
-        <source :src="videoCTA" type="video/mp4" />
-      </video> -->
-      
-      <!-- OVERLAY -->
-      <!-- <div class="absolute inset-0 bg-black/60"></div> -->
-
-      <!-- STATIC CENTERED CONTENT -->
-      <!--
-      <div class="absolute inset-0 z-10 flex flex-col justify-center items-center text-center px-6 md:px-0">
-        
-        <h1 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4 max-w-3xl">
-          View What We Have to Offer Your Business
-        </h1>
-
-        <p class="text-white/70 text-sm md:text-base leading-relaxed mb-8 max-w-2xl">
-          Explore digital solutions tailored to help your business grow, improve efficiency, and strengthen your online presence.
-        </p>
-
-        <a 
-          href="#" 
-          class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold hover:bg-primary/90 transition-all shadow-lg"
-        >
-          Explore Services
-        </a>
-
-      </div>
-      -->
-
-    <!-- </section> -->
 
        <!-- ═══════════════ CTA SECTION (FIXED IMAGE BACKGROUND) ═══════════════ --> 
     <section class="w-full min-h-[600px] relative">
@@ -664,7 +600,7 @@
 
         <!-- Header -->
         <div class="text-center max-w-2xl mx-auto mb-10">
-          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Toolkit</p>
+          <p class="text-purple-600 text-xs font-semibold tracking-widest uppercase mb-3">Our Toolkit</p>
           <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight mb-3">
             Technologies We Work With
           </h2>
@@ -708,9 +644,9 @@
         <!-- Bottom note -->
         <p class="text-center text-muted-foreground text-xs mt-8">
           Don't see your stack?
-          <router-link to="/contact" class="text-primary font-semibold hover:underline underline-offset-2">
-            Talk to us — we adapt.
-          </router-link>
+            <router-link to="/contact" class="text-purple-700 font-semibold hover:underline underline-offset-2">
+              Talk to us — we adapt.
+            </router-link>
         </p>
 
       </div>
@@ -723,7 +659,7 @@
     <section class="py-12 md:py-16" style="background-color: #262626;">
       <div class="container mx-auto px-6 max-w-5xl">
         <div class="text-center max-w-2xl mx-auto mb-10">
-          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Process</p>
+          <p class="text-white text-xs font-semibold tracking-widest uppercase mb-3">Our Process</p>
           <h2 class="text-xl md:text-2xl font-bold text-white">How we bring your ideas to life</h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -734,7 +670,7 @@
             </div>
 
             <!-- Card -->
-            <div class="relative rounded-2xl p-8 transition-all duration-300 overflow-hidden h-full shadow-lg hover:shadow-2xl transform group-hover:-translate-y-2" style="background-color: #ffffff; border: 1px solid #404040;" @mouseenter="setCardBorderColor($event, '#3b82f6')" @mouseleave="setCardBorderColor($event, '#404040')">
+            <div class="relative rounded-2xl p-8 transition-all duration-300 overflow-hidden h-full shadow-lg hover:shadow-2xl transform group-hover:-translate-y-2 hover:border-[#3b82f6]" style="background-color: #ffffff; border: 1px solid #404040;">
               <!-- Animated background gradient -->
               <div class="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-br from-primary/20 to-primary/10 transition-opacity duration-500"></div>
               
@@ -745,7 +681,7 @@
               <div class="relative z-10 text-center">
                 <!-- Number Circle -->
                 <div class="w-16 h-16 bg-gradient-to-br from-primary/30 to-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:from-primary/50 group-hover:to-primary/30 group-hover:scale-110 transition-all duration-300 shadow-md">
-                  <span class="text-3xl font-bold text-primary">{{ idx + 1 }}</span>
+                  <span class="text-3xl font-bold text-primary">{{ Number(idx) + 1 }}</span>
                 </div>
 
                 <!-- Title & Description -->
@@ -754,7 +690,7 @@
               </div>
 
               <!-- Connector line (desktop only) -->
-              <div v-if="idx < processSteps.length - 1" class="hidden lg:block absolute top-1/2 -right-3 w-6 h-px bg-[#d311f5] to-transparent -translate-y-1/2"></div>
+              <div v-if="Number(idx) < processSteps.length - 1" class="hidden lg:block absolute top-1/2 -right-3 w-6 h-px bg-[#d311f5] to-transparent -translate-y-1/2"></div>
             </div>
           </div>
         </div>
@@ -767,7 +703,7 @@
  
       <!-- Header -->
       <div class="text-center max-w-2xl mx-auto mb-12">
-        <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Purpose</p>
+        <p class="text-purple-600 text-xs font-semibold tracking-widest uppercase mb-3">Our Purpose</p>
         <h2 class="text-xl md:text-2xl font-bold text-gray-900 leading-tight">Mission & Vision</h2>
         <p class="text-gray-600 text-sm leading-relaxed mt-3">
           The principles that shape every decision we make, and the future we are building toward.
@@ -778,10 +714,8 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
  
         <!-- Mission Card -->
-        <div class="relative group rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
-             style="background-color: #d311f5; border: 1px solid #d311f5;"
-             @mouseenter="setCardBorderColor($event, '#3b82f6')"
-             @mouseleave="setCardBorderColor($event, '#404040')">
+        <div class="relative group rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-[#3b82f6]"
+             style="background-color: #b80ed1; border: 1px solid #d311f5;">
  
           <!-- Animated background gradient on hover -->
           <div class="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-br from-primary/20 to-primary/10 transition-opacity duration-500 pointer-events-none"></div>
@@ -814,7 +748,7 @@
                     <path d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <span class="text-white/75 text-xs leading-relaxed">{{ pillar }}</span>
+                <span class="text-white/85 text-xs leading-relaxed">{{ pillar }}</span>
               </li>
             </ul>
           </div>
@@ -822,9 +756,7 @@
  
         <!-- Vision Card -->
         <div class="relative group rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
-             style="background-color: #3b82f6; border: 1px solid #3b82f6;"
-             @mouseenter="setCardBorderColor($event, '#3b82f6')"
-             @mouseleave="setCardBorderColor($event, '#404040')">
+             style="background-color: #2563eb; border: 1px solid #3b82f6;">
  
           <div class="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-br from-accent/20 to-accent/10 transition-opacity duration-500 pointer-events-none"></div>
           <div class="absolute -top-8 -right-8 w-32 h-32 bg-accent/5 rounded-full group-hover:scale-150 group-hover:bg-accent/10 transition-all duration-500 pointer-events-none"></div>
@@ -853,7 +785,7 @@
                 <div class="shrink-0 mt-0.5">
                   <span class="inline-block text-xs font-bold text-accent bg-[#ffffff] px-2 py-0.5 rounded-full">{{ horizon.label }}</span>
                 </div>
-                <span class="text-white/75 text-xs leading-relaxed">{{ horizon.text }}</span>
+                <span class="text-white/85 text-xs leading-relaxed">{{ horizon.text }}</span>
               </div>
             </div>
           </div>
@@ -922,7 +854,7 @@
     <section class="py-12 md:py-16">
       <div class="container mx-auto px-6 max-w-5xl">
         <div class="text-center max-w-2xl mx-auto mb-10">
-          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Why Choose Us</p>
+          <p class="text-purple-600 text-xs font-semibold tracking-widest uppercase mb-3">Why Choose Us</p>
           <h2 class="text-xl md:text-2xl font-bold text-foreground">Why OmniviaTech?</h2>
         </div>
 
@@ -933,7 +865,7 @@
               <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
             </div>
             <!-- Card -->
-              <div class="relative rounded-2xl p-7 transition-all duration-300 overflow-hidden h-full shadow-lg hover:shadow-2xl transform group-hover:-translate-y-2" style="background-color: #262626; border: 1px solid #404040;" @mouseenter="setCardBorderColor($event, '#3b82f6')" @mouseleave="setCardBorderColor($event, '#404040')">              <!-- Animated background gradient -->
+              <div class="relative rounded-2xl p-7 transition-all duration-300 overflow-hidden h-full shadow-lg hover:shadow-2xl transform group-hover:-translate-y-2 hover:border-[#3b82f6]" style="background-color: #262626; border: 1px solid #404040;">              <!-- Animated background gradient -->
               <div class="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-br from-primary/20 to-primary/10 transition-opacity duration-500"></div>
               
               <!-- Decorative element -->
@@ -988,11 +920,128 @@
       </div>
     </section>
 
+         <!-- ═══════════════ EXPLORE WHAT WE OFFER (5 SECTIONS) ═══════════════ -->
+    <section class="py-12 md:py-16 bg-muted/30">
+      <div class="container mx-auto px-6 max-w-5xl">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <p class="text-gray-800 text-xs font-semibold tracking-widest uppercase mb-3">Explore Our Offerings</p>
+          <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">Everything We Offer</h2>
+          <p class="text-muted-foreground text-sm leading-relaxed mt-3">
+            Comprehensive solutions designed to transform your business and drive measurable results.
+          </p>
+        </div>
+
+        <!-- 5 Equal Height Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          
+          <!-- 1. Services Card -->
+          <router-link to="/services" class="group relative rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl h-full">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600 to-blue-800" />
+            <div class="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-t from-black via-transparent to-transparent transition-opacity" />
+            <div class="relative z-10 p-6 h-full flex flex-col justify-between">
+              <div>
+                <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:bg-white/30 transition-all">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2">Services</h3>
+                <p class="text-white/80 text-sm leading-relaxed">
+                  Comprehensive digital solutions from web development to mobile apps and cloud infrastructure tailored for your needs.
+                </p>
+              </div>
+              <div class="flex items-center gap-2 text-white text-sm font-semibold group-hover:gap-3 transition-all mt-4">
+                Explore <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
+              </div>
+            </div>
+          </router-link>
+
+          <!-- 2. Packages Card -->
+          <router-link to="/packages" class="group relative rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl h-full">
+            <div class="absolute inset-0 bg-gradient-to-br from-purple-600 to-purple-800" />
+            <div class="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-t from-black via-transparent to-transparent transition-opacity" />
+            <div class="relative z-10 p-6 h-full flex flex-col justify-between">
+              <div>
+                <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:bg-white/30 transition-all">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2">Packages</h3>
+                <p class="text-white/80 text-sm leading-relaxed">
+                  Flexible pricing tiers designed to match any budget, from startups to enterprises with scalable options.
+                </p>
+              </div>
+              <div class="flex items-center gap-2 text-white text-sm font-semibold group-hover:gap-3 transition-all mt-4">
+                View <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
+              </div>
+            </div>
+          </router-link>
+
+          <!-- 3. Industries Card -->
+          <router-link to="/industries" class="group relative rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl h-full">
+            <div class="absolute inset-0 bg-gradient-to-br from-emerald-600 to-emerald-800" />
+            <div class="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-t from-black via-transparent to-transparent transition-opacity" />
+            <div class="relative z-10 p-6 h-full flex flex-col justify-between">
+              <div>
+                <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:bg-white/30 transition-all">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2">Industries</h3>
+                <p class="text-white/80 text-sm leading-relaxed">
+                  Industry-specific expertise serving healthcare, fintech, e-commerce, government, and more sectors.
+                </p>
+              </div>
+              <div class="flex items-center gap-2 text-white text-sm font-semibold group-hover:gap-3 transition-all mt-4">
+                Discover <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
+              </div>
+            </div>
+          </router-link>
+
+          <!-- 4. Marketplace Card -->
+          <router-link to="/products" class="group relative rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl h-full">
+            <div class="absolute inset-0 bg-gradient-to-br from-amber-600 to-amber-800" />
+            <div class="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-t from-black via-transparent to-transparent transition-opacity" />
+            <div class="relative z-10 p-6 h-full flex flex-col justify-between">
+              <div>
+                <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:bg-white/30 transition-all">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2">Marketplace</h3>
+                <p class="text-white/80 text-sm leading-relaxed">
+                  Browse and purchase ready-made solutions, templates, and digital products for immediate implementation.
+                </p>
+              </div>
+              <div class="flex items-center gap-2 text-white text-sm font-semibold group-hover:gap-3 transition-all mt-4">
+                Shop <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
+              </div>
+            </div>
+          </router-link>
+
+          <!-- 5. Solutions Card -->
+          <div class="group relative rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl h-full">
+            <div class="absolute inset-0 bg-gradient-to-br from-rose-600 to-rose-800" />
+            <div class="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-t from-black via-transparent to-transparent transition-opacity" />
+            <div class="relative z-10 p-6 h-full flex flex-col justify-between cursor-default">
+              <div>
+                <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:bg-white/30 transition-all">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6H3m3.343-6.346l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 00 12 6.5a3.374 3.374 0 00-2.495 1.07l-.548-.547z" /></svg>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2">Solutions</h3>
+                <p class="text-white/80 text-sm leading-relaxed">
+                  Custom-built solutions addressing unique business challenges with innovative technology and expertise.
+                </p>
+              </div>
+              <div class="flex items-center gap-2 text-white text-sm font-semibold group-hover:gap-3 transition-all mt-4">
+                Explore solutions <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ═══════════════ PRODUCTS CAROUSEL ═══════════════ -->
     <section v-if="products.length" class="py-12 md:py-16 bg-muted/20">
       <div class="container mx-auto px-6 max-w-5xl">
         <div class="text-center max-w-2xl mx-auto mb-10">
-          <p class="text-accent text-xs font-semibold tracking-widest uppercase mb-3">Our Products</p>
+          <p class="text-gray-700 text-xs font-semibold tracking-widest uppercase mb-3">Our Products</p>
           <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">Featured Products</h2>
         </div>
 
@@ -1006,10 +1055,10 @@
           class="cards-swiper"
         >
           <SwiperSlide v-for="product in products" :key="product.id">
-            <router-link :to="`/products/${product.slug}`" class="group block bg-white rounded-2xl overflow-hidden border border-border hover:border-accent/20 hover:shadow-md transition-all duration-300">
-              <div class="aspect-[4/3] bg-gray-100 overflow-hidden relative">
-                <img v-if="getProductImage(product)" :src="getProductImage(product)" :alt="product.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <img v-else-if="product.image_url" :src="product.image_url" :alt="product.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            <router-link :to="`/products/${product.slug}`" class="group block bg-white rounded-2xl overflow-hidden border border-border hover:border-accent/20 hover:shadow-md transition-all duration-300 h-full flex flex-col">
+              <div class="aspect-[4/3] bg-gray-100 overflow-hidden relative shrink-0">
+                <img v-if="getProductImage(product)" :src="getProductImage(product)" :alt="product.name" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img v-else-if="product.image_url" :src="product.image_url" :alt="product.name" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-accent/5 to-primary/5">
                   <svg class="w-10 h-10 text-muted-foreground/20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
                 </div>
@@ -1017,9 +1066,9 @@
                   <WishlistButton type="App\\Models\\Product" :item-id="product.id" />
                 </div>
               </div>
-              <div class="p-5">
+              <div class="p-5 flex flex-col flex-grow">
                 <h3 class="text-sm font-semibold text-foreground mb-2 group-hover:text-accent transition-colors line-clamp-2">{{ product.name }}</h3>
-                <p class="text-muted-foreground text-xs leading-relaxed line-clamp-2 mb-3">{{ product.excerpt || product.short_description }}</p>
+                <p class="text-muted-foreground text-xs leading-relaxed line-clamp-2 mb-3 flex-grow">{{ product.excerpt || product.short_description }}</p>
                 <div class="flex items-center justify-between">
                   <span class="text-primary font-medium text-xs flex items-center gap-1 group-hover:gap-2 transition-all">View <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg></span>
                 </div>
@@ -1324,7 +1373,7 @@
     <section v-if="topReviews.length" class="py-12 md:py-16 bg-muted/20">
       <div class="container mx-auto px-6 max-w-6xl">
         <div class="text-center max-w-xl mx-auto mb-10">
-          <p class="text-amber-600 dark:text-amber-400 text-xs font-semibold tracking-widest uppercase mb-2">Testimonials</p>
+          <p class="text-amber-700 dark:text-amber-400 text-xs font-semibold tracking-widest uppercase mb-2">Testimonials</p>
           <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight mb-3">What Our Clients Say</h2>
           <p class="text-muted-foreground text-xs leading-relaxed">Trusted by businesses across Africa and beyond.</p>
         </div>
@@ -1368,7 +1417,7 @@
           <div class="grid lg:grid-cols-2 gap-8 items-center p-8 md:p-12">
             <!-- Content -->
             <div>
-              <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Website Solutions</p>
+              <p class="text-gray-800 text-xs font-semibold tracking-widest uppercase mb-3">Website Solutions</p>
               <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Ready-Made Website Packages</h2>
               <p class="text-muted-foreground text-sm leading-relaxed mb-6">
                 Choose from our carefully curated website packages designed for startups, growing businesses, enterprises, and e-commerce platforms. Each package includes professional design, security, support, and optimization.
@@ -1484,7 +1533,7 @@
               <path d="M5 13l4 4L19 7"/>
             </svg>
             {{ f }}
-            <span v-if="i < features.length - 1" class="w-px h-3.5 bg-white/20 ml-2"></span>
+            <span v-if="Number(i) < features.length - 1" class="w-px h-3.5 bg-white/20 ml-2"></span>
           </div>
         </div>
 
@@ -1544,7 +1593,7 @@
  
       <!-- Header -->
       <div class="text-center max-w-2xl mx-auto mb-12">
-        <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Enterprise Ready</p>
+        <p class="text-purple-600 text-xs font-semibold tracking-widest uppercase mb-3">Enterprise Ready</p>
         <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">Security & Compliance</h2>
         <p class="text-muted-foreground text-sm leading-relaxed mt-3">
           Built with enterprise-grade security at every layer. Your data stays protected, your operations stay compliant.
@@ -1604,10 +1653,9 @@
       <!-- Security practices row -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
         <div v-for="(practice, idx) in securityPractices" :key="idx"
-             class="group relative rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl overflow-hidden"
-             style="background-color: #262626; border: 1px solid #404040;"
-             @mouseenter="setCardBorderColor($event, '#3b82f6')"
-             @mouseleave="setCardBorderColor($event, '#404040')">
+             class="group relative rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl overflow-hidden hover:border-[#3b82f6]"
+             style="background-color: #262626; border: 1px solid #404040;">
+
  
           <div class="absolute inset-0 opacity-0 group-hover:opacity-15 bg-gradient-to-br from-primary/20 to-primary/10 transition-opacity duration-500 pointer-events-none"></div>
           <div class="absolute -top-4 -right-4 w-16 h-16 bg-primary/5 rounded-full group-hover:scale-150 transition-all duration-500 pointer-events-none"></div>
@@ -1666,13 +1714,11 @@
       <div class="video-side">
         <video autoplay muted loop playsinline>
           <source :src="videoCTA" type="video/mp4" />
+          <track kind="captions" src="/captions/cta-video.vtt" srclang="en" label="English" />
           Your browser does not support the video tag.
         </video>
         <div class="video-overlay"></div>
-        <!-- <div class="live-badge">
-          <div class="live-dot"></div>
-          <span class="live-text">Live demo</span>
-        </div> -->
+
       </div>
 
       <div class="copy-side">
@@ -1721,7 +1767,7 @@
     <section class="py-12 md:py-16">
       <div class="container mx-auto px-6 max-w-5xl">
         <div class="text-center mb-10">
-          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-2">Our Foundation</p>
+          <p class="text-gray-800 text-xs font-semibold tracking-widest uppercase mb-2">Our Foundation</p>
           <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight mb-3">Our Core Values</h2>
           <p class="text-muted-foreground text-xs leading-relaxed max-w-2xl mx-auto">These principles guide every decision we make and every solution we deliver.</p>
         </div>
@@ -1838,7 +1884,7 @@
     <section class="py-12 md:py-16" style="background-color: #262626;">
       <div class="container mx-auto px-6 max-w-5xl">
         <div class="text-center max-w-2xl mx-auto mb-10">
-          <p class="text-accent text-xs font-semibold tracking-widest uppercase mb-3">Get Started</p>
+          <p class="text-white text-xs font-semibold tracking-widest uppercase mb-3">Request a Quote</p>
           <h2 class="text-xl md:text-2xl font-bold text-white leading-tight mb-3">Request a Quote</h2>
           <p class="text-white/75 text-sm leading-relaxed">Tell us about your project and we'll get back to you within 24 hours.</p>
         </div>
@@ -1849,26 +1895,29 @@
           <div>
             <form @submit.prevent="submitQuoteRequest" class="space-y-4">
               <div class="grid grid-cols-2 gap-4">
-                <input v-model="quoteForm.name" type="text" required class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all placeholder-white" placeholder="Full Name *" />
-                <input v-model="quoteForm.email" type="email" required class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all placeholder-white" placeholder="Email *" />
+                <input v-model="quoteForm.name" type="text" required aria-label="Full Name" class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all placeholder-white" placeholder="Full Name *" />
+                <input v-model="quoteForm.email" type="email" required aria-label="Email Address" class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all placeholder-white" placeholder="Email *" />
               </div>
               <div class="grid grid-cols-2 gap-4">
-                <input v-model="quoteForm.phone" type="tel" required class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all placeholder-white" placeholder="Phone *" />
-                <select v-model="quoteForm.service" required class="w-full text-white px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all">
+                <input v-model="quoteForm.phone" type="tel" required aria-label="Phone Number" class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all placeholder-white" placeholder="Phone *" />
+                <label for="quote-service" class="sr-only">Service Needed</label>
+                <select id="quote-service" v-model="quoteForm.service" required aria-label="Select Service Needed" class="w-full text-white px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all">
                   <option value="">Service Needed *</option>
                   <option v-for="service in allServices" :key="service.id" :value="service.title">{{ service.title }}</option>
                 </select>
               </div>
-              <textarea v-model="quoteForm.description" required rows="4" class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm resize-none transition-all placeholder-white" placeholder="Project description..."></textarea>
+              <textarea v-model="quoteForm.description" required rows="4" aria-label="Project Description" class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm resize-none transition-all placeholder-white" placeholder="Project description..."></textarea>
               <div class="grid grid-cols-2 gap-4">
-                <select v-model="quoteForm.budget" class="w-full text-white px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all">
+                <label for="quote-budget" class="sr-only">Budget Range</label>
+                <select id="quote-budget" v-model="quoteForm.budget" aria-label="Select Budget Range" class="w-full text-white px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all">
                   <option value="">Budget Range</option>
                   <option value="Under Ksh 10,000">Under Ksh 10,000</option>
                   <option value="Ksh 10,000 - Ksh 50,000">Ksh 10,000 - Ksh 50,000</option>
                   <option value="Ksh 50,000 - Ksh 200,000">Ksh 50,000 - Ksh 200,000</option>
                   <option value="Over Ksh 200,000">Over Ksh 200,000</option>
                 </select>
-                <select v-model="quoteForm.timeline" class="w-full text-white px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all">
+                <label for="quote-timeline" class="sr-only">Project Timeline</label>
+                <select id="quote-timeline" v-model="quoteForm.timeline" aria-label="Select Project Timeline" class="w-full text-white px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all">
                   <option value="">Timeline</option>
                   <option value="ASAP">ASAP</option>
                   <option value="1-2 months">1-2 months</option>
@@ -1898,7 +1947,7 @@
     <section v-if="recentBlogs.length" class="py-12 md:py-16 bg-muted/30">
       <div class="container mx-auto px-6 max-w-5xl">
         <div class="text-center max-w-2xl mx-auto mb-10">
-          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Latest Insights</p>
+          <p class="text-gray-700 text-xs font-semibold tracking-widest uppercase mb-3">Latest Insights</p>
           <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">From Our Blog</h2>
         </div>
 
@@ -1914,15 +1963,14 @@
           <SwiperSlide v-for="post in recentBlogs" :key="post.id">
             <router-link :to="`/blog/${post.slug}`" class="group block bg-white border border-border rounded-2xl overflow-hidden hover:border-primary/20 hover:shadow-md transition-all duration-300">
               <div class="aspect-[4/3] bg-gray-100 overflow-hidden">
-                <img v-if="getBlogImage(post)" :src="getBlogImage(post)" :alt="post.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <img v-else-if="post.featured_image" :src="post.featured_image" :alt="post.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img v-if="getBlogImage(post)" :src="getBlogImage(post)" :alt="post.title" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5">
                   <svg class="w-10 h-10 text-muted-foreground/20" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"><path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>
                 </div>
               </div>
               <div class="p-5">
                 <div class="flex items-center gap-2 mb-2">
-                  <span class="text-xs font-medium text-primary bg-primary/10 px-2.5 py-1 rounded-full">{{ post.category }}</span>
+                  <span class="text-xs font-medium text-purple-700 bg-primary/10 px-2.5 py-1 rounded-full">{{ post.category }}</span>
                   <span class="text-muted-foreground text-xs">{{ formatDate(post.published_at) }}</span>
                 </div>
                 <h3 class="text-sm font-semibold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">{{ post.title }}</h3>
@@ -1959,7 +2007,7 @@
     <section v-if="faqs.length" class="py-12 md:py-16 bg-muted/30">
       <div class="container mx-auto px-6 max-w-3xl">
         <div class="text-center mb-10">
-          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">FAQ</p>
+          <p class="text-gray-800 text-xs font-semibold tracking-widest uppercase mb-3">FAQ</p>
           <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">Frequently Asked Questions</h2>
         </div>
 
@@ -1995,6 +2043,7 @@
             :title="videoTitleMain"
           >
             <source :src="videoSrcMain" type="video/mp4" />
+            <track kind="captions" src="/captions/main-video.vtt" srclang="en" label="English" />
             Your browser does not support the video tag.
           </video>
         </div>
@@ -2201,7 +2250,7 @@ const techStack = [
   { name: 'AWS',          icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#FF9900" d="M40 72c-9 4-15 12.5-15 22.5C25 108.3 35.7 119 49.5 119c5.3 0 10.3-1.7 14.3-4.7M88 72c9 4 15 12.5 15 22.5C103 108.3 92.3 119 78.5 119c-5.3 0-10.3-1.7-14.3-4.7"/><path fill="#232F3E" d="M64 9L20 33v30l44 24 44-24V33L64 9zm0 8l36 20v24L64 81 28 61V37L64 17z"/></svg>', category: 'Cloud & DevOps' },
   { name: 'Docker',       icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#2496ED" d="M124.8 52.1c-2-1.4-6.6-2-10.1-1.3-.4-3.4-2.4-6.4-5.9-9.1l-2-1.4-1.4 2c-1.8 2.7-2.4 7.2-2.2 10.7-.6-.3-1.6-.7-2.3-1.1-1.4-.8-3.9-1.8-6.8-1.7H8.2l-.3 1.7c-.6 3.7-.4 12.1 4.8 19.2 3.8 5.2 9.5 7.8 16.8 7.8 16 0 27.8-7.4 33.3-20.8 2.2.1 6.9.2 9.3-4.6l.5-1-1-.6zM56 52H46v10h10V52zm-13 0H33v10h10V52zm-13 0H20v10h10V52zm26-13H56v10h10V39zm-13 0H43v10h10V39zm-13 0H30v10h10V39zm13-13H56v10h10V26zm-13 0H43v10h10V26z"/></svg>', category: 'Cloud & DevOps' },
   { name: 'GitHub CI',    icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#181717" d="M64 4C30.2 4 3 31.2 3 65c0 27 17.5 49.9 41.8 58 3 .6 4.1-1.3 4.1-2.9v-10.2c-16.9 3.7-20.4-8.1-20.4-8.1-2.7-6.9-6.7-8.7-6.7-8.7-5.5-3.7.4-3.7.4-3.7 6 .4 9.2 6.2 9.2 6.2 5.4 9.2 14.1 6.5 17.5 5 .5-3.9 2.1-6.5 3.8-8-13.4-1.5-27.5-6.7-27.5-29.9 0-6.6 2.4-12 6.2-16.2-.6-1.5-2.7-7.7.6-16 0 0 5.1-1.6 16.6 6.2 4.8-1.3 10-2 15.1-2s10.3.7 15.1 2c11.5-7.8 16.6-6.2 16.6-6.2 3.3 8.3 1.2 14.5.6 16 3.9 4.2 6.2 9.6 6.2 16.2 0 23.2-14.1 28.3-27.6 29.8 2.2 1.9 4.1 5.5 4.1 11.1v16.5c0 1.6 1.1 3.5 4.2 2.9C109.5 114.9 127 92 127 65 127 31.2 99.8 4 64 4z"/></svg>', category: 'Cloud & DevOps' },
-  // { name: 'Kubernetes',   icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#326CE5" d="M64 6L8 36v56l56 30 56-30V36L64 6zm0 8l48 26v48L64 114 16 88V40L64 14z"/><path fill="#326CE5" d="M52 52h24v24H52z" opacity=".5"/></svg>', category: 'Cloud & DevOps' },
+
   { name: 'Firebase',     icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#FFC400" d="M18 100L36 30l22 22L18 100z"/><path fill="#F57F17" d="M58 52L80 8l28 92L58 52z"/><path fill="#FF6F00" d="M18 100l62-8 28 8H18z" opacity=".8"/><path fill="#FFC400" d="M36 30l22 22 22-44L36 30z" opacity=".7"/></svg>', category: 'Cloud & DevOps' },
   { name: 'Linux',        icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#dd4814" d="M64 8C34 8 10 32 10 62c0 18 8.7 33.9 22 43.8V104h4v8h56v-8h4V105.8C109.3 95.9 118 80 118 62 118 32 94 8 64 8z"/><path fill="#fff" d="M47 54a9 9 0 100 18 9 9 0 000-18zm34 0a9 9 0 100 18 9 9 0 000-18z"/></svg>', category: 'Cloud & DevOps' },
   { name: 'DigitalOcean', icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#0080FF" d="M64 112v-16c22 0 40-18 40-40S86 16 64 16 24 34 24 56h16c0-13 11-24 24-24s24 11 24 24-11 24-24 24v32z"/></svg>', category: 'Cloud & DevOps' },
@@ -2212,13 +2261,6 @@ const techStack = [
   { name: 'Redis',        icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#D82C20" d="M64 8L8 40v48l56 32 56-32V40L64 8zm0 10l44 25.4v38.8L64 107 20 82.2V43.4L64 18z"/></svg>', category: 'Databases' },
   { name: 'Supabase',     icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#3ECF8E" d="M72 12L24 76h48V12z"/><path fill="#1C1C1C" d="M56 116l48-64H56v64z" opacity=".7"/></svg>', category: 'Databases' },
 
-  // AI & Data
-  // { name: 'TensorFlow',   icon: '<svg viewBox="0 0 128 128" width="28" height="28"><path fill="#FF6F00" d="M64 8L8 40v48l56 32 56-32V40L64 8zm0 10l44 25.4v38.8L64 107 20 82.2V43.4L64 18z"/><path fill="#FF6F00" d="M50 50v28l14 8 14-8V50l-14-8z" opacity=".5"/></svg>', category: 'AI & Data' },
-  // { name: 'OpenAI',       icon: '<svg viewBox="0 0 128 128" width="28" height="28"><circle cx="64" cy="64" r="56" fill="#10a37f"/><path fill="#fff" d="M64 28c-9.9 0-18.8 4.9-24.2 12.4A28.1 28.1 0 0028 64c0 15.5 12.5 28 28 28 9.9 0 18.8-4.9 24.2-12.4A28.1 28.1 0 00100 64c0-15.5-12.5-28-28-28-2.7 0-5.4.4-7.9 1.1" opacity=".8"/></svg>', category: 'AI & Data' },
-  // { name: 'Pandas',       icon: '<svg viewBox="0 0 128 128" width="28" height="28"><rect x="20" y="10" width="20" height="108" rx="6" fill="#150458"/><rect x="88" y="10" width="20" height="108" rx="6" fill="#E70488"/><rect x="40" y="42" width="48" height="20" rx="4" fill="#150458"/><rect x="40" y="66" width="48" height="20" rx="4" fill="#E70488"/></svg>', category: 'AI & Data' },
-  // { name: 'LangChain',    icon: '<svg viewBox="0 0 128 128" width="28" height="28"><rect width="128" height="128" rx="20" fill="#1C3D5A"/><path fill="#38bdf8" d="M24 64l20-20 20 20-20 20L24 64zm40 0l20-20 20 20-20 20L64 64z"/></svg>', category: 'AI & Data' },
-  // { name: 'n8n',          icon: '<svg viewBox="0 0 128 128" width="28" height="28"><rect width="128" height="128" rx="20" fill="#EA4B71"/><circle cx="40" cy="64" r="16" fill="#fff"/><circle cx="88" cy="64" r="16" fill="#fff"/><rect x="56" y="60" width="16" height="8" fill="#fff"/></svg>', category: 'AI & Data' },
-  // { name: 'Jupyter',      icon: '<svg viewBox="0 0 128 128" width="28" height="28"><circle cx="64" cy="64" r="56" fill="#F37626"/><path fill="#fff" d="M64 24c-11 0-20 9-20 20v40c0 11 9 20 20 20s20-9 20-20V44c0-11-9-20-20-20zm0 8a12 12 0 110 24 12 12 0 010-24z" opacity=".9"/></svg>', category: 'AI & Data' },
 ]
 
 const activeStackTechs = computed(() =>
@@ -2518,8 +2560,18 @@ const blogImageMap: Record<string, string> = {
 };
 
 function getBlogImage(blog: any) {
+  // First, use featured_image from API if available
+  if (blog.featured_image) {
+    return blog.featured_image.startsWith('http') 
+      ? blog.featured_image 
+      : `/storage/${blog.featured_image}`;
+  }
+  
+  // Fallback to title-based mapping for demo content
   const title = (blog.title || '').toString().trim().toLowerCase();
   if (blogImageMap[title]) return blogImageMap[title];
+  
+  // Final fallback: return empty string (will show placeholder in template)
   return '';
 }
 
@@ -2641,7 +2693,7 @@ const heroSlides = [
     subtitle: 'Innovation & Excellence',
     title: 'Your Technology Partner',
     description: 'From concept to deployment, we deliver world-class technology solutions tailored to your unique business needs.',
-    cta_text: 'Get Started',
+    cta_text: 'Start Your Project',
     cta_link: '/contact',
     cta_text_2: 'Our Services',
     cta_link_2: '/services',
@@ -2677,24 +2729,78 @@ const countersFallback = [
 const countersFinal = computed(() => counters.value.length ? counters.value : countersFallback);
 
 const impactProjectsFallback = [
-  { id: 1, title: 'E-Commerce Platform', category: 'Web Development', location: 'Kenya', image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop&q=80' },
-  { id: 2, title: 'Banking Mobile App', category: 'Mobile Apps', location: 'South Africa', image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=600&h=400&fit=crop&q=80' },
-  { id: 3, title: 'Healthcare Portal', category: 'Healthcare', location: 'Nigeria', image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&h=400&fit=crop&q=80' },
-  { id: 4, title: 'Logistics Dashboard', category: 'Analytics', location: 'Ethiopia', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop&q=80' },
-  { id: 5, title: 'EdTech Platform', category: 'Education', location: 'Ghana', image: 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=600&h=400&fit=crop&q=80' },
-  { id: 6, title: 'Fintech Solution', category: 'Finance', location: 'Rwanda', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&q=80' },
+  { 
+    id: 1, 
+    title: 'Parkrose Plumbing', 
+    category: 'Plumbing Services', 
+    location: 'Kenya',
+    description: 'Digital transformation for plumbing services across East Africa',
+    population_impacted: '50,000+',
+    case_study_slug: 'parkrose-plumbing',
+    image: 'https://images.unsplash.com/photo-1585299970651-2c488c8e1f66?w=600&h=400&fit=crop&q=80' 
+  },
+  { 
+    id: 2, 
+    title: 'Ziara Travels', 
+    category: 'Travel & Tourism', 
+    location: 'Kenya',
+    description: 'Online booking platform for travel and tourism packages',
+    population_impacted: '100,000+',
+    case_study_slug: 'ziara-travels',
+    image: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=600&h=400&fit=crop&q=80' 
+  },
+  { 
+    id: 3, 
+    title: 'Frarega Ltd', 
+    category: 'Hardware & Supplies', 
+    location: 'Kenya',
+    description: 'E-commerce platform for plumbing and hardware supplier',
+    population_impacted: '35,000+',
+    case_study_slug: 'frarega-ltd',
+    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop&q=80' 
+  },
+  { 
+    id: 4, 
+    title: 'Vike Insurance', 
+    category: 'Insurance', 
+    location: 'Kenya',
+    description: 'Digital insurance platform with online policy management',
+    population_impacted: '75,000+',
+    case_study_slug: 'vike-insurance',
+    image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&h=400&fit=crop&q=80' 
+  },
+  { 
+    id: 5, 
+    title: 'Medialytica', 
+    category: 'Media & Technology', 
+    location: 'Kenya',
+    description: 'Media buying and selling portal with analytics tools',
+    population_impacted: '120,000+',
+    case_study_slug: 'medialytica',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop&q=80' 
+  },
+  { 
+    id: 6, 
+    title: 'Smartech Research Labs', 
+    category: 'Software Development', 
+    location: 'Kenya',
+    description: 'Web and mobile app development services with cutting-edge technology',
+    population_impacted: '200,000+',
+    case_study_slug: 'smartech-research-labs',
+    image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&h=400&fit=crop&q=80' 
+  },
 ];
 const impactProjects = computed(() => impactProjectsApi.value.length ? impactProjectsApi.value : impactProjectsFallback);
 
 const industries = [
   { icon: '🏥', title: 'Healthcare', desc: 'Digital health solutions', image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&h=600&fit=crop&q=80' },
   { icon: '🏦', title: 'Finance', desc: 'Fintech & banking systems', image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=600&fit=crop&q=80' },
-  { icon: '📚', title: 'Education', desc: 'E-learning platforms', image: 'https://images.unsplash.com/photo-1427504494785-e7fdc53a351f?w=800&h=600&fit=crop&q=80' },
+  { icon: '📚', title: 'Education', desc: 'E-learning platforms', image: 'https://images.unsplash.com/photo-1523050854058-8df90110c7f1?w=800&h=600&fit=crop&q=80' },
   { icon: '🛒', title: 'Retail', desc: 'E-commerce solutions', image: 'https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=800&h=600&fit=crop&q=80' },
   { icon: '🚚', title: 'Logistics', desc: 'Supply chain management', image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&h=600&fit=crop&q=80' },
   { icon: '🏭', title: 'Manufacturing', desc: 'Industrial automation', image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&h=600&fit=crop&q=80' },
   { icon: '🌾', title: 'Agriculture', desc: 'AgriTech solutions', image: 'https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=800&h=600&fit=crop&q=80' },
-  { icon: '⚡', title: 'Energy', desc: 'Smart energy systems', image: 'https://images.unsplash.com/photo-1497440828260-c8e08f4d4c3d?w=800&h=600&fit=crop&q=80' },
+  { icon: '⚡', title: 'Energy', desc: 'Smart energy systems', image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&h=600&fit=crop&q=80' },
 ];
 
 const processSteps = [
@@ -2769,13 +2875,6 @@ function shareVideo(title: string) {
 
 function toggleFaq(idx: number) {
   openFaqIndex.value = openFaqIndex.value === idx ? null : idx;
-}
-
-function setCardBorderColor(event: MouseEvent, color: string) {
-  const target = event.currentTarget;
-  if (target instanceof HTMLElement) {
-    target.style.borderColor = color;
-  }
 }
 
 // Auto-play background video on scroll into view
@@ -2916,12 +3015,6 @@ const privacyPolicies = [
   },
 ]
  
-// ─── Shared utility (already exists in your codebase) ────────────────────────
-// function setCardBorderColor(event: MouseEvent, color: string) {
-//   const el = event.currentTarget as HTMLElement
-//   if (el) el.style.borderColor = color
-// }
-
 // Fetch Data
 async function fetchHomeData() {
   try {
@@ -3189,8 +3282,18 @@ onUnmounted(() => {
         background: rgba(0, 0, 0, 0.6);
         z-index: 1;
     }
+/* Fix WCAG contrast: darken primary button backgrounds for better text contrast */
+a.bg-primary.text-white,
+button.bg-primary.text-white {
+  background-color: #b80ed1;
+  background-color: color-mix(in srgb, #d311f5, black 10%);
+}
+a.bg-primary.text-white:hover,
+button.bg-primary.text-white:hover {
+  background-color: #a80cc4;
+  background-color: color-mix(in srgb, #d311f5, black 18%);
+}
 </style>
-
 
 <style>
 .cta-wrap {

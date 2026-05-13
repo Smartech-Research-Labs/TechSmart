@@ -1,37 +1,6 @@
 ﻿<template>
   <div class="min-h-screen flex flex-col text-foreground" style="background-color: #ffffff;">
-    <!-- Auth Header -->
-    <header class="sticky top-0 z-30 border-b" style="background-color: #ffffff;">
-      <div class="container mx-auto flex h-14 items-center justify-between px-4">
-        <router-link to="/contact" class="flex items-center gap-2 group">
-          <img
-            v-if="settings?.logo_path"
-            :src="`/storage/${settings.logo_path}`"
-            alt="Logo"
-            class="h-8 w-auto"
-          />
-          <div v-else class="w-8 h-8 bg-gradient-to-br from-primary to-primary/70 rounded-lg flex items-center justify-center">
-            <span class="text-primary-foreground font-bold text-sm">OT</span>
-          </div>
-          <span class="text-lg font-bold text-gray-500 group-hover:text-primary transition-colors">{{ settings?.site_name || 'OmniviaTech' }}</span>
-        </router-link>
-
-        <div class="flex items-center gap-2">
-          <Button variant="ghost" size="icon" class="h-8 w-8" @click="cycleTheme" :title="`Theme: ${appearance}`">
-            <IconSun v-if="appearance === 'light'" class="size-4" />
-            <IconMoon v-else-if="appearance === 'dark'" class="size-4" />
-            <IconDeviceDesktop v-else class="size-4" />
-          </Button>
-          <router-link v-if="showLogin" to="/login">
-            <Button variant="ghost" size="sm">Sign in</Button>
-          </router-link>
-          <router-link v-if="showRegister" to="/register">
-            <Button variant="outline" size="sm">Sign up</Button>
-          </router-link>
-        </div>
-      </div>
-    </header>
-
+    <!-- Site Header (GlobalMegaMenu) -->
     <GlobalMegaMenu />
 
     <!-- Content -->
@@ -54,34 +23,17 @@
 </template>
 
 <script setup lang="ts">
-import { IconSun, IconMoon, IconDeviceDesktop } from '@tabler/icons-vue'
 import { computed, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
 import GlobalMegaMenu from '@/components/GlobalMegaMenu.vue'
-import { Button } from '@/components/ui/button'
-import { useAppearance } from '@/composables/useAppearance'
 import { useCmsStore } from '@/stores/cms'
-import type { Appearance } from '@/types'
 
-const route = useRoute()
 const cmsStore = useCmsStore()
-const { appearance, updateAppearance } = useAppearance()
 
-const settings = computed(() => cmsStore.homeData?.settings)
+const settings = computed(() => cmsStore.homeData?.settings as any)
 
 onMounted(async () => {
   if (!cmsStore.homeData) {
-    await cmsStore.fetchHomeData().catch(() => {})
+    await cmsStore.fetchHomeData().catch(() => { /* ignore errors */ })
   }
 })
-
-const showLogin = computed(() => route.name !== 'login')
-const showRegister = computed(() => route.name !== 'register')
-
-const themes: Appearance[] = ['light', 'dark', 'system']
-
-function cycleTheme() {
-  const idx = themes.indexOf(appearance.value)
-  updateAppearance(themes[(idx + 1) % themes.length])
-}
 </script>

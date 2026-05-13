@@ -918,7 +918,6 @@ const activeStack = ref('Frontend');
 
 const activeStackTechs = computed(() => stackData[activeStack.value] || []);
 
-function setCardBorderColor(event: MouseEvent, color: string) {}
 
 // Mission & Vision
 const missionPillars = [

@@ -51,6 +51,10 @@ class AdminCaseStudyController extends Controller
             'is_published' => 'boolean',
             'is_featured' => 'boolean',
             'order' => 'nullable|integer',
+            'population_impacted' => 'nullable|string|max:100',
+            'impact_description' => 'nullable|string',
+            'sector' => 'nullable|string|max:100',
+            'case_study_slug' => 'nullable|string|max:255|unique:case_studies,case_study_slug',
         ]);
 
         $validated['slug'] = Str::slug($validated['title']);
@@ -99,6 +103,10 @@ class AdminCaseStudyController extends Controller
             'is_published' => 'boolean',
             'is_featured' => 'boolean',
             'order' => 'nullable|integer',
+            'population_impacted' => 'nullable|string|max:100',
+            'impact_description' => 'nullable|string',
+            'sector' => 'nullable|string|max:100',
+            'case_study_slug' => 'nullable|string|max:255|unique:case_studies,case_study_slug,' . $caseStudy->id,
         ]);
 
         if (isset($validated['title'])) {

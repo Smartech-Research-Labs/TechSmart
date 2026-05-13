@@ -28,9 +28,12 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('enquiries', function (Blueprint $table) {
-            $table->dropColumn(['type', 'subject']);
-            $table->string('enquirable_type')->nullable(false)->change();
-            $table->unsignedBigInteger('enquirable_id')->nullable(false)->change();
+            if (Schema::hasColumn('enquiries', 'type')) {
+                $table->dropColumn('type');
+            }
+            if (Schema::hasColumn('enquiries', 'subject')) {
+                $table->dropColumn('subject');
+            }
         });
     }
 };

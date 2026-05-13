@@ -295,6 +295,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/Admin/Industries.vue'),
     meta: { title: 'Manage Industries', requiresAuth: true, requiresAdmin: true },
   },
+  {
+    path: '/admin/clients',
+    name: 'admin-clients',
+    component: () => import('@/pages/Admin/Clients.vue'),
+    meta: { title: 'Trusted By (Clients/Partners)', requiresAuth: true, requiresAdmin: true },
+  },
 
   // SuperAdmin-only routes
   {
@@ -315,6 +321,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/Admin/AuditLogs.vue'),
     meta: { title: 'Audit Logs', requiresAuth: true, requiresSuperAdmin: true },
   },
+  {
+    path: '/admin/media-library',
+    name: 'admin-media-library',
+    component: () => import('@/pages/Admin/MediaLibrary.vue'),
+    meta: { title: 'Media Library', requiresAuth: true, requiresAdmin: true },
+  },
 
   // 404 Not Found
   {
@@ -330,12 +342,22 @@ const router = createRouter({
   routes,
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
-      return savedPosition;
+      return {
+        ...savedPosition,
+        behavior: 'smooth',
+      };
     }
     if (to.hash) {
-      return { el: to.hash, behavior: 'smooth' };
+      return {
+        el: to.hash,
+        behavior: 'smooth',
+        top: 80, // Account for fixed header
+      };
     }
-    return { top: 0, behavior: 'smooth' };
+    return {
+      top: 0,
+      behavior: 'smooth',
+    };
   },
 });
 
