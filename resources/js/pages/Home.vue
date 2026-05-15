@@ -2076,78 +2076,124 @@ About this service <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" st
 
     <!-- ═══════════════ COOKIE CONSENT BANNER ═══════════════ -->
     <div v-if="showCookieConsent" class="fixed bottom-0 left-0 right-0 z-50 p-4 sm:p-6">
-      <div class="max-w-4xl mx-auto bg-black border border-primary/40 rounded-2xl shadow-2xl backdrop-blur-md">
-        <div class="p-6 sm:p-8">
-          <!-- Header -->
-          <h3 class="text-white font-bold text-lg mb-2">Cookie Preferences</h3>
-          <p class="text-white/70 text-sm mb-6 leading-relaxed">
-            We use cookies to enhance your browsing experience, analyze site traffic, and personalize content. By continuing to use our site, you agree to our use of cookies.
+      <div class="max-w-6xl mx-auto bg-white rounded-lg shadow-2xl">
+        <div class="p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <!-- Message -->
+          <p class="text-gray-800 text-sm leading-relaxed flex-1">
+            We use cookies to enhance your browsing experience, analyze site traffic, and personalize content. You can manage your preferences or decline non-essential cookies.
           </p>
 
-          <!-- Cookie Options -->
-          <div class="space-y-3 mb-6">
-            <!-- Necessary -->
-            <div class="flex items-center gap-3">
-              <input 
-                type="checkbox" 
-                id="necessary" 
-                v-model="cookiePreferences.necessary" 
-                disabled 
-                class="w-4 h-4 rounded accent-primary cursor-not-allowed opacity-50"
-              />
-              <label for="necessary" class="text-white/80 text-sm cursor-not-allowed">
-                <span class="font-semibold">Necessary</span> - Essential for site functionality (always enabled)
-              </label>
-            </div>
-            
-            <!-- Analytics -->
-            <div class="flex items-center gap-3">
-              <input 
-                type="checkbox" 
-                id="analytics" 
-                v-model="cookiePreferences.analytics" 
-                class="w-4 h-4 rounded accent-primary cursor-pointer"
-              />
-              <label for="analytics" class="text-white/80 text-sm cursor-pointer">
-                <span class="font-semibold">Analytics</span> - Help us understand how you use our site
-              </label>
-            </div>
-            
-            <!-- Marketing -->
-            <div class="flex items-center gap-3">
-              <input 
-                type="checkbox" 
-                id="marketing" 
-                v-model="cookiePreferences.marketing" 
-                class="w-4 h-4 rounded accent-primary cursor-pointer"
-              />
-              <label for="marketing" class="text-white/80 text-sm cursor-pointer">
-                <span class="font-semibold">Marketing</span> - Personalized ads and content recommendations
-              </label>
-            </div>
-          </div>
+          <!-- Action Buttons -->
+          <div class="flex flex-wrap gap-2 sm:gap-3 justify-end w-full sm:w-auto">
+            <!-- Preferences Button (Gray) -->
+            <button
+              @click="showPreferencesModal = true"
+              class="px-5 py-2 bg-gray-400 hover:bg-gray-500 text-white text-sm font-semibold rounded-lg transition-colors duration-200 whitespace-nowrap"
+            >
+              Preferences
+            </button>
 
-          <!-- Actions -->
-          <div class="flex flex-wrap gap-3 sm:gap-4">
-            <button
-              @click="acceptAllCookies()"
-              class="px-6 py-2.5 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all flex-1 sm:flex-none"
-            >
-              Accept All
-            </button>
-            <button
-              @click="saveCookiePreferences()"
-              class="px-6 py-2.5 bg-primary/20 text-primary border border-primary/40 text-sm font-semibold rounded-full hover:bg-primary/30 transition-all flex-1 sm:flex-none"
-            >
-              Save Preferences
-            </button>
+            <!-- Decline Button (Red) -->
             <button
               @click="declineCookies()"
-              class="px-6 py-2.5 bg-white/10 text-white/80 border border-white/20 text-sm font-semibold rounded-full hover:bg-white/15 transition-all flex-1 sm:flex-none"
+              class="px-5 py-2 bg-red-500 hover:bg-red-600 text-white text-sm font-semibold rounded-lg transition-colors duration-200 whitespace-nowrap"
             >
               Decline
             </button>
+
+            <!-- Accept Button (Green) -->
+            <button
+              @click="acceptAllCookies()"
+              class="px-5 py-2 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold rounded-lg transition-colors duration-200 whitespace-nowrap"
+            >
+              Accept
+            </button>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ COOKIE PREFERENCES MODAL ═══════════════ -->
+    <div v-if="showPreferencesModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+      <div class="bg-white rounded-lg shadow-2xl max-w-md w-full">
+        <!-- Modal Header -->
+        <div class="border-b border-gray-200 p-5">
+          <h3 class="text-lg font-bold text-gray-900">Cookie Preferences</h3>
+        </div>
+
+        <!-- Modal Content -->
+        <div class="p-5 space-y-4">
+          <!-- Necessary (Always Enabled) -->
+          <div class="flex items-start gap-3">
+            <input 
+              type="checkbox" 
+              id="modal-necessary" 
+              v-model="cookiePreferences.necessary" 
+              disabled 
+              checked
+              class="w-4 h-4 mt-1 rounded cursor-not-allowed opacity-60"
+            />
+            <div class="flex-1">
+              <label for="modal-necessary" class="block font-semibold text-gray-900 text-sm cursor-not-allowed">
+                Necessary Cookies
+              </label>
+              <p class="text-xs text-gray-600 mt-1">
+                Essential for site functionality (always enabled)
+              </p>
+            </div>
+          </div>
+
+          <!-- Analytics -->
+          <div class="flex items-start gap-3">
+            <input 
+              type="checkbox" 
+              id="modal-analytics" 
+              v-model="cookiePreferences.analytics" 
+              class="w-4 h-4 mt-1 rounded cursor-pointer"
+            />
+            <div class="flex-1">
+              <label for="modal-analytics" class="block font-semibold text-gray-900 text-sm cursor-pointer">
+                Analytics Cookies
+              </label>
+              <p class="text-xs text-gray-600 mt-1">
+                Help us understand how you use our site to improve your experience
+              </p>
+            </div>
+          </div>
+
+          <!-- Marketing -->
+          <div class="flex items-start gap-3">
+            <input 
+              type="checkbox" 
+              id="modal-marketing" 
+              v-model="cookiePreferences.marketing" 
+              class="w-4 h-4 mt-1 rounded cursor-pointer"
+            />
+            <div class="flex-1">
+              <label for="modal-marketing" class="block font-semibold text-gray-900 text-sm cursor-pointer">
+                Marketing Cookies
+              </label>
+              <p class="text-xs text-gray-600 mt-1">
+                Personalized ads and content recommendations based on your interests
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="border-t border-gray-200 p-5 flex gap-3">
+          <button
+            @click="showPreferencesModal = false"
+            class="flex-1 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-900 text-sm font-semibold rounded-lg transition-colors duration-200"
+          >
+            Cancel
+          </button>
+          <button
+            @click="saveAndClosePreferences()"
+            class="flex-1 px-4 py-2 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold rounded-lg transition-colors duration-200"
+          >
+            Save
+          </button>
         </div>
       </div>
     </div>
@@ -3063,6 +3109,7 @@ async function fetchFaqs() {
 // Tracks the active slide index for the "1 / N" counter
 const activeSlide = ref(0)
 const showCookieConsent = ref(true);
+const showPreferencesModal = ref(false);
 const cookiePreferences = ref({
   necessary: true,
   analytics: false,
@@ -3181,6 +3228,11 @@ async function saveCookiePreferences(acceptAll: boolean = false) {
     showCookieConsent.value = false;
     toast.warning('Preferences saved locally');
   }
+}
+
+async function saveAndClosePreferences() {
+  await saveCookiePreferences(false);
+  showPreferencesModal.value = false;
 }
 
 onMounted(async () => {
