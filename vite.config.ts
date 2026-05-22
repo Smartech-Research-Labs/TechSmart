@@ -40,4 +40,21 @@ export default defineConfig({
             host: '127.0.0.1',
         },
     },
+    build: {
+        minify: 'terser',
+        terserOptions: {
+            compress: {
+                drop_console: true,
+            },
+        },
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    'vue': ['vue'],
+                    'ui': ['@nuxt/ui'],
+                },
+            },
+        },
+        chunkSizeWarningLimit: 600,
+    },
 });

@@ -27,6 +27,9 @@ class DatabaseSeeder extends Seeder
         // ──── Roles & Permissions ────
         $this->call(RolesAndPermissionsSeeder::class);
 
+        // ──── SEO Data ────
+        $this->call(SeoDataSeeder::class);
+
         // ──── Users ────
         $admin = User::create([
             'name' => 'Robert Gicheha',

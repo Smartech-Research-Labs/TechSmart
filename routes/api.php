@@ -43,7 +43,9 @@ use App\Http\Controllers\Api\Admin\{
     IndustryController as AdminIndustryController,
     AdminClientController,
     TrashController,
-    SearchController
+    SearchController,
+    SeoDataController,
+    SeoManagementController
 };
 use Illuminate\Support\Facades\Route;
 
@@ -138,6 +140,9 @@ Route::prefix('v1')->group(function () {
 
     // ──── Pages (Dynamic Pages) ────
     Route::get('/pages/{slug}', [AdminPageController::class, 'showBySlug']);
+    
+    // ──── SEO Data (Public) ────
+    Route::get('/seo/page/{pageName}', [SeoDataController::class, 'getByPageName']);
     
     // ──── User Dashboard Routes (Protected) ────
     Route::middleware('auth:sanctum')->prefix('user')->group(function () {
@@ -355,6 +360,22 @@ Route::prefix('v1')->group(function () {
         Route::post('/trash/{type}/{id}/restore', [TrashController::class, 'restore']);
         Route::delete('/trash/{type}/{id}', [TrashController::class, 'forceDelete']);
         Route::post('/trash/{type}/restore-all', [TrashController::class, 'restoreAll']);
+
+        // SEO Management
+        Route::get('/seo', [SeoManagementController::class, 'index']);
+        Route::post('/seo', [SeoManagementController::class, 'store']);
+        Route::get('/seo/{seoData}', [SeoManagementController::class, 'show']);
+        Route::put('/seo/{seoData}', [SeoManagementController::class, 'update']);
+        Route::delete('/seo/{seoData}', [SeoManagementController::class, 'destroy']);
+        Route::post('/seo/preview', [SeoManagementController::class, 'preview']);
+        Route::post('/seo/bulk-update', [SeoManagementController::class, 'bulkUpdate']);
+        Route::get('/seo/audit/report', [SeoManagementController::class, 'getAudit']);
+        Route::get('/seo/tracking/config', [SeoManagementController::class, 'trackingConfig']);
+        Route::get('/seo/analytics/data', [SeoManagementController::class, 'analyticsData']);
+        Route::post('/seo/search-console/submit', [SeoManagementController::class, 'submitToSearchConsole']);
+
+        // Previous SEO routes (kept for compatibility)
+        Route::get('/seo/page/{pageName}', [SeoDataController::class, 'getByPageName']);
 
         // Cookie Consent Analytics & Management
         Route::get('/cookies/analytics', [CookieConsentController::class, 'getAnalytics']);

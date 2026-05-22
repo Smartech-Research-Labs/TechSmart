@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
@@ -48,6 +48,12 @@
         @if($metaKeywords)
             <meta name="keywords" content="{{ $metaKeywords }}">
         @endif
+
+        <!-- Performance Optimization: Resource Hints -->
+        <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+        <link rel="prefetch" href="//www.google-analytics.com/analytics.js" as="script">
         @if($searchConsole)
             <meta name="google-site-verification" content="{{ $searchConsole }}">
         @endif

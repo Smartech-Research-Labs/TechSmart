@@ -9,6 +9,8 @@ use Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets;
 use Spatie\Permission\Middleware\PermissionMiddleware;
 use Spatie\Permission\Middleware\RoleMiddleware;
 use Spatie\Permission\Middleware\RoleOrPermissionMiddleware;
+use Sentry\Laravel\Integration;
+
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -32,6 +34,6 @@ return Application::configure(basePath: dirname(__DIR__))
             'role_or_permission' => RoleOrPermissionMiddleware::class,
         ]);
     })
-    ->withExceptions(function (Exceptions $exceptions): void {
-        //
+     ->withExceptions(function (Exceptions $exceptions) {
+        Integration::handles($exceptions);
     })->create();

@@ -46,17 +46,9 @@
               Featured
             </div>
 
-            <!-- Image -->
-            <div class="h-48 md:h-40 bg-muted overflow-hidden">
-              <img
-                v-if="pkg.image"
-                :src="pkg.image_url"
-                :alt="pkg.name"
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div v-else class="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                <span class="text-4xl">📦</span>
-              </div>
+            <!-- Colored Header -->
+            <div :class="getPackageHeaderColor(packages.indexOf(pkg))" class="h-48 md:h-40 bg-gradient-to-br flex items-center justify-center">
+              <span class="text-5xl md:text-4xl opacity-20">{{ getPackageIcon(pkg.name) }}</span>
             </div>
 
             <!-- Content -->
@@ -166,6 +158,204 @@
       </div>
     </section>
 
+    <!-- ═══════════════ PACKAGE COMPARISON ═══════════════ -->
+    <section class="py-14 md:py-20">
+      <div class="container mx-auto px-6">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Package Features</p>
+          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Everything You Need to Succeed</h2>
+          <p class="text-muted-foreground text-sm leading-relaxed">Compare our packages and find the perfect fit for your business goals. All packages include professional support and ongoing maintenance.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-card border border-border rounded-xl p-6 hover:border-primary/30 transition-all">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+              </div>
+              <h3 class="text-lg font-bold text-foreground">Professional Design</h3>
+            </div>
+            <p class="text-muted-foreground text-sm leading-relaxed">Custom-designed websites tailored to your brand identity with modern, responsive layouts that impress visitors.</p>
+          </div>
+
+          <div class="bg-card border border-border rounded-xl p-6 hover:border-primary/30 transition-all">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              </div>
+              <h3 class="text-lg font-bold text-foreground">SEO Optimized</h3>
+            </div>
+            <p class="text-muted-foreground text-sm leading-relaxed">Built with SEO best practices to help your website rank higher in search results and attract organic traffic.</p>
+          </div>
+
+          <div class="bg-card border border-border rounded-xl p-6 hover:border-primary/30 transition-all">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+              </div>
+              <h3 class="text-lg font-bold text-foreground">Secure & Protected</h3>
+            </div>
+            <p class="text-muted-foreground text-sm leading-relaxed">Enterprise-level security with SSL certificates, regular backups, malware protection, and GDPR compliance.</p>
+          </div>
+
+          <div class="bg-card border border-border rounded-xl p-6 hover:border-primary/30 transition-all">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 bg-amber-500/20 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 10h4.764a2 2 0 011.789 2.894l-3.646 7.23a2 2 0 01-1.789 1.106H2a2 2 0 01-2-2V8a2 2 0 012-2h1.657a2 2 0 011.414.586l2.828 2.829a2 2 0 001.414.586h2.657a2 2 0 012 2v.5z"/></svg>
+              </div>
+              <h3 class="text-lg font-bold text-foreground">Lightning Fast</h3>
+            </div>
+            <p class="text-muted-foreground text-sm leading-relaxed">Optimized for speed with CDN delivery, automatic caching, and performance enhancements for instant loading.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ TESTIMONIALS ═══════════════ -->
+    <section class="py-14 md:py-20 bg-muted/30">
+      <div class="container mx-auto px-6">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Success Stories</p>
+          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">What Our Clients Say</h2>
+          <p class="text-muted-foreground text-sm leading-relaxed">Discover how our packages have transformed businesses across different industries.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-card border border-border rounded-xl p-6">
+            <div class="flex items-center gap-1 mb-4">
+              <span v-for="i in 5" :key="i" class="text-amber-500">★</span>
+            </div>
+            <p class="text-muted-foreground text-sm leading-relaxed mb-4">"The website built with their Professional package has increased our online visibility significantly. Customer inquiries have doubled since launch."</p>
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center">
+                <span class="text-sm font-bold text-primary">JM</span>
+              </div>
+              <div>
+                <p class="text-sm font-bold text-foreground">Jane Muthoni</p>
+                <p class="text-xs text-muted-foreground">Digital Marketing Manager</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-card border border-border rounded-xl p-6">
+            <div class="flex items-center gap-1 mb-4">
+              <span v-for="i in 5" :key="i" class="text-amber-500">★</span>
+            </div>
+            <p class="text-muted-foreground text-sm leading-relaxed mb-4">"We upgraded to the Business package after outgrowing our Starter plan. The team made the transition seamless with no downtime. Highly recommended!"</p>
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-green-500/20 rounded-full flex items-center justify-center">
+                <span class="text-sm font-bold text-green-600">AK</span>
+              </div>
+              <div>
+                <p class="text-sm font-bold text-foreground">Ahmed Khalid</p>
+                <p class="text-xs text-muted-foreground">E-commerce Director</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-card border border-border rounded-xl p-6">
+            <div class="flex items-center gap-1 mb-4">
+              <span v-for="i in 5" :key="i" class="text-amber-500">★</span>
+            </div>
+            <p class="text-muted-foreground text-sm leading-relaxed mb-4">"The Enterprise package gave us everything we needed for a complex implementation. The support team was responsive and professional throughout the process."</p>
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-blue-500/20 rounded-full flex items-center justify-center">
+                <span class="text-sm font-bold text-blue-600">SP</span>
+              </div>
+              <div>
+                <p class="text-sm font-bold text-foreground">Sarah Peterson</p>
+                <p class="text-xs text-muted-foreground">Operations Manager</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ SPLIT SECTION - IMAGE + TEXT ═══════════════ -->
+    <section class="py-14 md:py-20">
+      <div class="container mx-auto px-6">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <!-- Left - Image -->
+          <div class="relative">
+            <div class="rounded-2xl overflow-hidden shadow-lg">
+              <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=500&fit=crop&q=80" alt="Package Development" loading="lazy" decoding="async" class="w-full aspect-[4/3] object-cover" />
+            </div>
+          </div>
+
+          <!-- Right - Content -->
+          <div>
+            <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Why Choose Our Packages</p>
+            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-6">Complete Website Solutions Built for Success</h2>
+            <p class="text-muted-foreground text-sm leading-relaxed mb-6">Our packages are designed by industry experts with years of experience in web development, SEO, and digital marketing. Each tier is carefully crafted to provide maximum value at every stage of your business growth.</p>
+
+            <div class="space-y-4 mb-8">
+              <div class="flex items-start gap-4">
+                <div class="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                  <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+                </div>
+                <div>
+                  <h3 class="font-bold text-foreground mb-1">No Hidden Costs</h3>
+                  <p class="text-muted-foreground text-sm">Transparent pricing with all features clearly listed. What you see is what you get.</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4">
+                <div class="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                  <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8v4m0 4v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </div>
+                <div>
+                  <h3 class="font-bold text-foreground mb-1">24/7 Support</h3>
+                  <p class="text-muted-foreground text-sm">Our support team is always available to help with any questions or issues.</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4">
+                <div class="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                  <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                </div>
+                <div>
+                  <h3 class="font-bold text-foreground mb-1">Future-Proof</h3>
+                  <p class="text-muted-foreground text-sm">Regular updates and enhancements keep your website modern and secure.</p>
+                </div>
+              </div>
+            </div>
+
+            <router-link to="/contact" class="inline-flex items-center gap-2 px-8 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all">
+              Get Started Today
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+            </router-link>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ CLIENTS SECTION ═══════════════ -->
+    <section class="py-14 md:py-20 bg-[#262626]">
+      <div class="container mx-auto px-6">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Partners</p>
+          <h2 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4">Trusted by Leading Companies</h2>
+          <p class="text-white/70 text-sm leading-relaxed">Businesses across various industries rely on our packages to power their online presence.</p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-center">
+          <div class="flex items-center justify-center h-20 bg-white/5 rounded-xl border border-white/10 hover:border-primary/40 hover:bg-primary/5 transition-all">
+            <span class="text-white/60 font-semibold text-sm">Client Logo 1</span>
+          </div>
+          <div class="flex items-center justify-center h-20 bg-white/5 rounded-xl border border-white/10 hover:border-primary/40 hover:bg-primary/5 transition-all">
+            <span class="text-white/60 font-semibold text-sm">Client Logo 2</span>
+          </div>
+          <div class="flex items-center justify-center h-20 bg-white/5 rounded-xl border border-white/10 hover:border-primary/40 hover:bg-primary/5 transition-all">
+            <span class="text-white/60 font-semibold text-sm">Client Logo 3</span>
+          </div>
+          <div class="flex items-center justify-center h-20 bg-white/5 rounded-xl border border-white/10 hover:border-primary/40 hover:bg-primary/5 transition-all">
+            <span class="text-white/60 font-semibold text-sm">Client Logo 4</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ═══════════════ CTA SECTION ═══════════════ -->
     <section class="py-14 md:py-20">
       <div class="container mx-auto px-6">
@@ -205,8 +395,30 @@ import axios from 'axios';
 import heroLaptopDark from "@/../img/laptop-in-dark.webp";
 
 const router = useRouter();
-const packages = ref([]);
+const packages = ref<any[]>([]);
 const loading = ref(true);
+
+const packageColors = [
+  'from-blue-500 to-blue-600',
+  'from-green-500 to-emerald-600',
+  'from-purple-500 to-pink-600',
+  'from-amber-500 to-orange-600',
+];
+
+const packageIcons = {
+  'Starter': '🚀',
+  'Professional': '⭐',
+  'Business': '💼',
+  'Enterprise': '🏆',
+};
+
+const getPackageHeaderColor = (index: number) => {
+  return packageColors[index % packageColors.length];
+};
+
+const getPackageIcon = (name: string) => {
+  return packageIcons[name as keyof typeof packageIcons] || '📦';
+};
 
 const formatPrice = (price: number) => {
   return price.toLocaleString('en-KE', {
