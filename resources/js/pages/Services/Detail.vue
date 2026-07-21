@@ -115,8 +115,7 @@
     <section class="w-full min-h-[600px] relative">
       <div 
         class="relative min-h-[540px] text-white overflow-hidden bg-fixed bg-cover bg-center"
-        :style="{ backgroundImage: 'url(' + heroCTAbg + ')' }"
-      >
+        :style="{ backgroundImage: 'url(' + heroCTAbg + ')' }">
         
         <div class="absolute inset-0 bg-black/60"></div>
         
@@ -321,7 +320,6 @@
             </p>
           </div>
 
-<<<<<<< HEAD
           <Swiper
             :modules="[Autoplay, Navigation]"
             :slides-per-view="1"
@@ -348,7 +346,6 @@
               </router-link>
             </SwiperSlide>
           </Swiper>
-=======
           <!-- GRID LAYOUT -->
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             
@@ -390,7 +387,6 @@
             </router-link>
 
           </div>
->>>>>>> 1d35d88c6706dd9b697d392f06392c3d55bff2cd
         </div>
       </section>
 
@@ -746,16 +742,10 @@
 </template>
 
 <script setup lang="ts">
-import { Autoplay, Navigation } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/vue';
-import { ref, onMounted, watch } from 'vue';
-import { useRoute } from 'vue-router';
+
 import heroLaptop from '@/../img/Laptop.webp';
-<<<<<<< HEAD
-=======
 import heroOrbit from '@/../img/Orbit.webp';
 import populationImg from '@/../img/population.webp';
->>>>>>> 1d35d88c6706dd9b697d392f06392c3d55bff2cd
 import svcApi from '@/../img/services/API Development.webp';
 import svcCrmErp from '@/../img/services/CRM & ERP Development.webp';
 import svcCustomWeb from '@/../img/services/Custom Web Development.webp';
@@ -764,10 +754,6 @@ import svcMobileApp from '@/../img/services/Mobile App Development.webp';
 import svcMobileApp2 from '@/../img/services/Mobile App.webp';
 import svcPaidAds from '@/../img/services/Paid Ads.webp';
 import svcSeo from '@/../img/services/SEO Optimization.webp';
-<<<<<<< HEAD
-import heroLaptopDark from '@/../img/tech-background.png';
-=======
-import heroLaptopDark from '@/../img/tech-background.webp';
 import heroTechBg from '@/../img/tech-background.webp';
 import heroTech from '@/../img/tech.webp';
 import heroTech1 from '@/../img/tech1.webp';
@@ -778,11 +764,7 @@ import heroTech5 from '@/../img/tech5.webp';
 import heroTech6 from '@/../img/tech6.webp';
 import heroTech7 from '@/../img/tech7.webp';
 import heroTech8 from '@/../img/tech8.webp';
->>>>>>> 1d35d88c6706dd9b697d392f06392c3d55bff2cd
 import heroTechGlow from '@/../img/tech-glow.webp';
-import PublicLayout from '@/layouts/PublicLayout.vue';
-import api from '@/services/api';
-import { useCmsStore } from '@/stores/cms';
 // Swiper styles are imported globally in the main layout
 // import 'swiper/css';
 // import 'swiper/css/navigation';
@@ -840,8 +822,6 @@ function getServiceImage(service: any): string | null {
   }
   return svcCustomWeb;
 }
-<<<<<<< HEAD
-=======
 import { computed, ref, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { Swiper, SwiperSlide } from 'swiper/vue';
@@ -854,7 +834,6 @@ import heroCTAbg from '@/../img/tech8.webp';
 // Swiper styles are imported globally in the main layout
 // import 'swiper/css';
 // import 'swiper/css/navigation';
->>>>>>> 1d35d88c6706dd9b697d392f06392c3d55bff2cd
 
 const route = useRoute();
 const cmsStore = useCmsStore();

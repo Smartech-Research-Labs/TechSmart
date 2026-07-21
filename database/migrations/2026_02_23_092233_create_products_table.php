@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('short_description');
             $table->longText('description');
             $table->string('category');
+            $table->string('image')->nullable();
             $table->decimal('price', 10, 2)->nullable();
             $table->string('price_label')->default('Get a Quote');
             $table->json('features')->nullable();

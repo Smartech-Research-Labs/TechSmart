@@ -356,11 +356,7 @@
     </section>
 
     <!-- ═══════════════ OTHER AREAS ═══════════════ -->
-<<<<<<< HEAD
     <section class="py-14 md:py-20 bg-muted/30">
-=======
-    <section class="py-14 md:py-20">
->>>>>>> 1d35d88c6706dd9b697d392f06392c3d55bff2cd
         <div class="container mx-auto px-6">
         <div class="text-center max-w-xl mx-auto mb-8">
           <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-3">Other Areas You Might Be Interested In</h2>
