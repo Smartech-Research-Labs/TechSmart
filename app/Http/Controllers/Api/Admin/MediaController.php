@@ -10,6 +10,23 @@ use Illuminate\Support\Str;
 class MediaController extends Controller
 {
     /**
+     * Strip script content and event handlers from an SVG before it's stored,
+     * since SVGs are served directly and would otherwise execute embedded JS.
+     */
+    private function sanitizeSvg(string $contents): string
+    {
+        $contents = preg_replace('#<script\b[^>]*>.*?</script>#is', '', $contents) ?? '';
+        $contents = preg_replace('#<foreignObject\b[^>]*>.*?</foreignObject>#is', '', $contents) ?? '';
+        $contents = preg_replace('/\son[a-z]+\s*=\s*"[^"]*"/i', '', $contents) ?? '';
+        $contents = preg_replace("/\son[a-z]+\s*=\s*'[^']*'/i", '', $contents) ?? '';
+        $contents = preg_replace('/(href|xlink:href)\s*=\s*"\s*javascript:[^"]*"/i', '$1="#"', $contents) ?? '';
+        $contents = preg_replace("/(href|xlink:href)\s*=\s*'\s*javascript:[^']*'/i", "$1='#'", $contents) ?? '';
+        $contents = str_ireplace(['<?php', '<?='], '', $contents);
+
+        return $contents;
+    }
+
+    /**
      * List all uploaded media files (gallery).
      */
     public function index(Request $request)
@@ -98,7 +115,13 @@ class MediaController extends Controller
 
         // Regular upload (no conversion or SVG/WebP already)
         $fileName = $baseName . '-' . time() . '.' . $extension;
-        $storedPath = $file->storeAs($folder, $fileName, 'public');
+
+        if ($extension === 'svg') {
+            $storedPath = $folder . '/' . $fileName;
+            Storage::disk('public')->put($storedPath, $this->sanitizeSvg(file_get_contents($file->getRealPath())));
+        } else {
+            $storedPath = $file->storeAs($folder, $fileName, 'public');
+        }
 
         return response()->json([
             'message' => 'Image uploaded successfully',
@@ -106,6 +129,26 @@ class MediaController extends Controller
             'url' => Storage::url($storedPath),
             'format' => $extension,
         ]);
+    }
+
+    /**
+     * Ensure a client-supplied storage path can't escape the public disk root.
+     */
+    private function isSafePath(string $path): bool
+    {
+        if ($path === '' || str_contains($path, "\0")) {
+            return false;
+        }
+
+        // Reject traversal sequences and absolute/drive-rooted paths outright.
+        if (str_contains($path, '..') || str_starts_with($path, '/') || str_starts_with($path, '\\') || preg_match('#^[a-zA-Z]:#', $path)) {
+            return false;
+        }
+
+        $root = realpath(Storage::disk('public')->path(''));
+        $resolved = realpath(Storage::disk('public')->path($path));
+
+        return $root !== false && $resolved !== false && str_starts_with($resolved, $root);
     }
 
     /**
@@ -118,6 +161,11 @@ class MediaController extends Controller
         ]);
 
         $path = $request->path;
+
+        if (!$this->isSafePath($path)) {
+            return response()->json(['message' => 'Invalid file path'], 422);
+        }
+
         if (Storage::disk('public')->exists($path)) {
             Storage::disk('public')->delete($path);
             return response()->json(['message' => 'File deleted']);
@@ -180,7 +228,13 @@ class MediaController extends Controller
             }
 
             $fileName = $baseName . '-' . time() . '-' . uniqid() . '.' . $extension;
-            $storedPath = $file->storeAs($folder, $fileName, 'public');
+
+            if ($extension === 'svg') {
+                $storedPath = $folder . '/' . $fileName;
+                Storage::disk('public')->put($storedPath, $this->sanitizeSvg(file_get_contents($file->getRealPath())));
+            } else {
+                $storedPath = $file->storeAs($folder, $fileName, 'public');
+            }
 
             $uploaded[] = [
                 'path' => $storedPath,
@@ -209,6 +263,11 @@ class MediaController extends Controller
         $notFound = [];
 
         foreach ($request->paths as $path) {
+            if (!$this->isSafePath($path)) {
+                $notFound[] = $path;
+                continue;
+            }
+
             if (Storage::disk('public')->exists($path)) {
                 Storage::disk('public')->delete($path);
                 $deleted[] = $path;

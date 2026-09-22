@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\MediaLibrary;
 use App\Services\AISeoBulkUpdateService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Exception;
@@ -144,9 +145,10 @@ class MediaLibraryController extends Controller
                 'data' => $mediaLibrary,
             ]);
         } catch (Exception $e) {
+            Log::error('Media SEO metadata generation failed', ['media_id' => $mediaLibrary->id, 'error' => $e->getMessage()]);
+
             return response()->json([
                 'message' => 'Failed to generate metadata',
-                'error' => $e->getMessage(),
             ], 500);
         }
     }
@@ -197,9 +199,10 @@ class MediaLibraryController extends Controller
                 'results' => $results,
             ]);
         } catch (Exception $e) {
+            Log::error('Bulk media SEO metadata generation failed', ['error' => $e->getMessage()]);
+
             return response()->json([
                 'message' => 'Bulk generation failed',
-                'error' => $e->getMessage(),
             ], 500);
         }
     }
@@ -221,9 +224,10 @@ class MediaLibraryController extends Controller
                 'message' => 'Media deleted successfully',
             ]);
         } catch (Exception $e) {
+            Log::error('Media deletion failed', ['media_id' => $mediaLibrary->id, 'error' => $e->getMessage()]);
+
             return response()->json([
                 'message' => 'Failed to delete media',
-                'error' => $e->getMessage(),
             ], 500);
         }
     }
@@ -316,9 +320,10 @@ class MediaLibraryController extends Controller
                 'skipped' => $skipped,
             ]);
         } catch (Exception $e) {
+            Log::error('Media library scan and import failed', ['error' => $e->getMessage()]);
+
             return response()->json([
                 'message' => 'Scan and import failed',
-                'error' => $e->getMessage(),
             ], 500);
         }
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Services\OpenAIService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class AIController extends Controller
@@ -49,9 +50,14 @@ class AIController extends Controller
             ]);
 
         } catch (\Exception $e) {
+            Log::error('AI request failed', [
+                'action' => $request->route()?->getActionMethod(),
+                'error' => $e->getMessage(),
+            ]);
+
             return response()->json([
                 'success' => false,
-                'message' => $e->getMessage(),
+                'message' => 'The AI request could not be completed. Please try again.',
             ], 500);
         }
     }
@@ -87,9 +93,14 @@ class AIController extends Controller
             ]);
 
         } catch (\Exception $e) {
+            Log::error('AI request failed', [
+                'action' => $request->route()?->getActionMethod(),
+                'error' => $e->getMessage(),
+            ]);
+
             return response()->json([
                 'success' => false,
-                'message' => $e->getMessage(),
+                'message' => 'The AI request could not be completed. Please try again.',
             ], 500);
         }
     }
@@ -133,9 +144,14 @@ class AIController extends Controller
             ]);
 
         } catch (\Exception $e) {
+            Log::error('AI request failed', [
+                'action' => $request->route()?->getActionMethod(),
+                'error' => $e->getMessage(),
+            ]);
+
             return response()->json([
                 'success' => false,
-                'message' => $e->getMessage(),
+                'message' => 'The AI request could not be completed. Please try again.',
             ], 500);
         }
     }
@@ -181,9 +197,14 @@ class AIController extends Controller
             ]);
 
         } catch (\Exception $e) {
+            Log::error('AI request failed', [
+                'action' => $request->route()?->getActionMethod(),
+                'error' => $e->getMessage(),
+            ]);
+
             return response()->json([
                 'success' => false,
-                'message' => $e->getMessage(),
+                'message' => 'The AI request could not be completed. Please try again.',
             ], 500);
         }
     }
@@ -219,9 +240,14 @@ class AIController extends Controller
             ]);
 
         } catch (\Exception $e) {
+            Log::error('AI request failed', [
+                'action' => $request->route()?->getActionMethod(),
+                'error' => $e->getMessage(),
+            ]);
+
             return response()->json([
                 'success' => false,
-                'message' => $e->getMessage(),
+                'message' => 'The AI request could not be completed. Please try again.',
             ], 500);
         }
     }
@@ -254,9 +280,14 @@ class AIController extends Controller
             ]);
 
         } catch (\Exception $e) {
+            Log::error('AI request failed', [
+                'action' => $request->route()?->getActionMethod(),
+                'error' => $e->getMessage(),
+            ]);
+
             return response()->json([
                 'success' => false,
-                'message' => $e->getMessage(),
+                'message' => 'The AI request could not be completed. Please try again.',
             ], 500);
         }
     }

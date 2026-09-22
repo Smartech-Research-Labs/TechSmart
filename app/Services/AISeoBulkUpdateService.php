@@ -38,7 +38,7 @@ class AISeoBulkUpdateService
                 $results[] = [
                     'id' => $image['id'],
                     'success' => false,
-                    'error' => $e->getMessage(),
+                    'error' => 'Failed to generate metadata for this image.',
                 ];
             }
         }

@@ -60,12 +60,12 @@ Route::prefix('v1')->group(function () {
 
     // ──── Authentication ────
     Route::prefix('auth')->group(function () {
-        Route::post('/login', [AuthController::class, 'login']);
-        Route::post('/register', [AuthController::class, 'register']);
+        Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:6,1');
+        Route::post('/register', [AuthController::class, 'register'])->middleware('throttle:6,1');
 
         // Email Two-Factor Authentication
-        Route::post('/2fa/verify', [AuthController::class, 'verifyTwoFactorEmail']);
-        Route::post('/2fa/resend', [AuthController::class, 'resendTwoFactorEmail']);
+        Route::post('/2fa/verify', [AuthController::class, 'verifyTwoFactorEmail'])->middleware('throttle:5,1');
+        Route::post('/2fa/resend', [AuthController::class, 'resendTwoFactorEmail'])->middleware('throttle:3,1');
 
         // Google OAuth
         Route::get('/google/redirect', [SocialAuthController::class, 'redirectToGoogle']);

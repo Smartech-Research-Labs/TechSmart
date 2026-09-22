@@ -71,7 +71,6 @@ class CookieConsentController extends Controller
 
             return response()->json([
                 'message' => 'Failed to save cookie preferences',
-                'error' => $e->getMessage(),
             ], 500);
         }
     }

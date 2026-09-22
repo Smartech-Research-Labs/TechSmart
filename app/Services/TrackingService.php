@@ -111,7 +111,7 @@ class TrackingService
             return $data;
         } catch (Exception $e) {
             \Log::error('Google Analytics Error: ' . $e->getMessage());
-            return ['error' => $e->getMessage()];
+            return ['error' => 'Failed to fetch Google Analytics data.'];
         }
     }
 
@@ -160,7 +160,7 @@ class TrackingService
             ];
         } catch (Exception $e) {
             \Log::error('Search Console Error: ' . $e->getMessage());
-            return ['error' => $e->getMessage()];
+            return ['error' => 'Failed to submit URL to Search Console.'];
         }
     }
 
