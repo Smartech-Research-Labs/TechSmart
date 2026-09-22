@@ -56,7 +56,6 @@ export function useSocket() {
 
   function emit(event: string, data?: any) {
     if (!socket.value?.connected) {
-      console.warn('Socket not connected, cannot emit:', event);
       return false;
     }
     socket.value.emit(event, data);
@@ -65,7 +64,6 @@ export function useSocket() {
 
   function on(event: string, handler: (...args: any[]) => void) {
     if (!socket.value) {
-      console.warn('Socket not initialized');
       return;
     }
     socket.value.on(event, handler);

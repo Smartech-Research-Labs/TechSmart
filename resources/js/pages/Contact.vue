@@ -363,14 +363,14 @@ async function loadReviews() {
   try {
     const { data } = await axios.get('/api/v1/reviews', { params: { limit: 8 } });
     topReviews.value = data.data || [];
-  } catch { console.log('Error loading reviews'); }
+  } catch { /* Error loading reviews */ }
 }
 
 async function loadBlogs() {
   try {
     const { data } = await axios.get('/api/v1/blogs', { params: { limit: 4 } });
     recentBlogs.value = data.data || [];
-  } catch { console.log('Error loading blogs'); }
+  } catch { /* Error loading blogs */ }
 }
 
 function toggleFaq(index: number) {

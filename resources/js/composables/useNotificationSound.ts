@@ -26,7 +26,7 @@ export function useNotificationSound() {
       try {
         audioContext.value = new (window.AudioContext || (window as any).webkitAudioContext)();
       } catch (e) {
-        console.warn('Web Audio API not supported:', e);
+        // Web Audio API not supported in this browser
       }
     }
   }

@@ -351,7 +351,7 @@ async function loadReviews() {
   try {
     const { data } = await axios.get('/api/v1/reviews', { params: { limit: 8 } });
     topReviews.value = data.data || [];
-  } catch { console.log('Error loading reviews'); }
+  } catch { /* Error loading reviews */ }
 }
 
 function toggleFaq(index: number) {

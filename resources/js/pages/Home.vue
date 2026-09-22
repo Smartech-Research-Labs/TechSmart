@@ -3230,7 +3230,7 @@ onMounted(async () => {
         showCookieConsent.value = false;
       }
     } catch (error) {
-      console.log('No existing cookie consent found');
+      // No existing cookie consent found
     }
   }
 
