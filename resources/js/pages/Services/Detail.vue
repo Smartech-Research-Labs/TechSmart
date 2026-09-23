@@ -72,7 +72,7 @@
             <!-- Right: Description + Feature Highlights -->
             <div>
               <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">About This Service</p>
-              <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">{{ service.name }}</h2>
+              <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">{{ service.name }}</h2>
               <div class="text-muted-foreground text-sm leading-relaxed space-y-4 mb-8" v-html="service.description"></div>
 
               <!-- Quick Feature Highlights (first 4) -->
@@ -94,7 +94,7 @@
         <div class="container mx-auto px-6">
           <div class="text-center max-w-2xl mx-auto mb-12">
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">What's Included</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Key Features & Deliverables</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">Key Features & Deliverables</h2>
             <p class="text-muted-foreground text-sm leading-relaxed">Everything you get when you choose our {{ service.name }} service.</p>
           </div>
 
@@ -110,41 +110,6 @@
         </div>
       </section>
 
-
-             <!-- ═══════════════ CTA SECTION (FIXED IMAGE BACKGROUND) ═══════════════ --> 
-    <section class="w-full min-h-[600px] relative">
-      <div 
-        class="relative min-h-[540px] text-white overflow-hidden bg-fixed bg-cover bg-center"
-        :style="{ backgroundImage: 'url(' + heroCTAbg + ')' }"
-      >
-        
-        <div class="absolute inset-0 bg-black/60"></div>
-        
-        <!-- STATIC CENTERED CONTENT -->
-        <div class="absolute inset-0 z-10 flex flex-col justify-center items-center text-center px-6 md:px-0">
-          
-          <h1 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4 max-w-3xl">
-            View What We Have to Offer Your Business
-          </h1>
-
-          <p class="text-white/70 text-sm md:text-base leading-relaxed mb-8 max-w-2xl">
-            Explore digital solutions tailored to help your business grow, improve efficiency, and strengthen your online presence.
-          </p>
-
-          <a 
-            href="#" 
-            class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold hover:bg-primary/90 transition-all shadow-lg"
-          >
-            Explore Services
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-              <path d="M7 17L17 7M17 7H7M17 7v10"/>
-            </svg>
-          </a>
-
-        </div>
-
-      </div>
-    </section>
 
       <!-- ═══════════════ 4. PROCESS / HOW IT WORKS ═══════════════ -->
       <section v-if="processSteps.length" class="py-10 md:py-14">
@@ -187,7 +152,12 @@
           <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
             <div v-for="tech in activeStackTechs" :key="tech.name" class="group flex flex-col items-center gap-2 p-4 rounded-xl border border-border bg-card hover:border-primary/30 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default">
               <div class="w-10 h-10 flex items-center justify-center text-2xl shrink-0">
-                <span v-html="tech.icon"></span>
+                <span v-if="tech.icon" v-html="tech.icon"></span>
+                <span
+                  v-else
+                  class="w-8 h-8 rounded-lg flex items-center justify-center text-white text-[10px] font-bold"
+                  :style="{ backgroundColor: tech.mono }"
+                >{{ tech.name.slice(0, 2).toUpperCase() }}</span>
               </div>
               <span class="text-[11px] font-semibold text-foreground text-center leading-tight group-hover:text-primary transition-colors">{{ tech.name }}</span>
             </div>
@@ -197,45 +167,13 @@
         </div>
       </section>
 
-      <!-- ═══════════════ 5. POPULATION IMPACTED ═══════════════ -->
-      <section class="py-14 md:py-20 bg-muted/30">
-        <div class="container mx-auto px-6">
-          <div class="text-center max-w-3xl mx-auto mb-12">
-            <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Global Impact</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Population Impacted</h2>
-            <p class="text-muted-foreground text-sm leading-relaxed">Our solutions reach communities and organizations worldwide, driving data-driven decisions aligned with the UN's Sustainable Development Goals.</p>
-          </div>
-
-          <div class="grid lg:grid-cols-2 gap-8 items-stretch">
-            <!-- Left: Globe Map -->
-            <div class="rounded-2xl flex flex-col items-center justify-center min-h-[380px] relative overflow-hidden">
-              <img :src="populationImg" alt="Population Impacted" class="absolute inset-0 w-full h-full object-contain" />
-              <div class="absolute inset-0 bg-black/60"></div>
-              <div class="relative flex flex-col items-center justify-center min-h-[380px] px-6">
-              <p class="text-center mb-6">
-                <span class="bg-primary text-white px-3 py-1.5 rounded text-sm font-semibold">Delivered</span>
-                <span class="text-white/90 ml-2 text-sm italic">impactful projects across the globe.</span>
-              </p>
-              </div>
-            </div>
-
-            <!-- Right: Stats Grid -->
-            <div class="grid grid-cols-2 gap-4 content-center">
-              <div v-for="(stat, i) in impactStats" :key="i" class="bg-card border border-border rounded-xl p-5 text-center hover:shadow-sm hover:border-primary/20 transition-all">
-                <div class="text-2xl md:text-3xl font-bold text-primary mb-1">{{ stat.value }}</div>
-                <div class="text-muted-foreground text-xs font-medium">{{ stat.label }}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       <!-- ═══════════════ 6. CASE STUDIES ═══════════════ -->
       <section class="py-14 md:py-20" :class="caseStudies.length ? '' : 'bg-muted/30'">
         <div class="container mx-auto px-6">
           <div class="text-center max-w-2xl mx-auto mb-12">
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Success Stories</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Case Studies</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">Case Studies</h2>
             <p class="text-muted-foreground text-sm leading-relaxed">See how our {{ service.name }} service has delivered real results for our clients.</p>
           </div>
 
@@ -274,7 +212,7 @@
         <div class="container mx-auto px-6">
           <div class="text-center max-w-2xl mx-auto mb-12">
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Blog & Insights</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Related Articles</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">Related Articles</h2>
             <p class="text-muted-foreground text-sm leading-relaxed">Stay up to date with the latest insights about {{ service.category || service.name }}.</p>
           </div>
 
@@ -312,7 +250,7 @@
               Explore More
             </p>
 
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">
               Related Services
             </h2>
 
@@ -370,7 +308,7 @@
         <div class="container mx-auto px-6">
           <div class="text-center max-w-2xl mx-auto mb-12">
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Why Choose Us</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">The OmniviaTech Advantage</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">The OmniviaTech Advantage</h2>
             <p class="text-muted-foreground text-sm leading-relaxed">Why leading organizations trust us for their {{ service.category || 'technology' }} needs.</p>
           </div>
 
@@ -396,7 +334,7 @@
         <div class="container mx-auto px-6">
           <div class="text-center max-w-2xl mx-auto mb-12">
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Industries We Serve</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Areas You Might Be Interested In</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">Areas You Might Be Interested In</h2>
             <p class="text-muted-foreground text-sm leading-relaxed">Our {{ service.name }} service is tailored for various sectors and industries.</p>
           </div>
 
@@ -439,7 +377,7 @@
         <div class="container mx-auto px-6">
           <div class="text-center max-w-2xl mx-auto mb-12">
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Client Testimonials</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">What Our Clients Say</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">What Our Clients Say</h2>
             <p class="text-muted-foreground text-sm leading-relaxed">Hear from organizations that have transformed their operations with our solutions.</p>
           </div>
 
@@ -477,7 +415,7 @@
           <div class="max-w-3xl mx-auto">
             <div class="text-center mb-12">
               <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Frequently Asked Questions</p>
-              <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Have Questions?</h2>
+              <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">Have Questions?</h2>
               <p class="text-muted-foreground text-sm leading-relaxed">Find answers to common questions about our {{ service.name }} service.</p>
             </div>
 
@@ -524,136 +462,13 @@
         </div>
       </section>
 
-      <!-- ═══════════════ 8F. TRUST BADGES ═══════════════ -->
-      <section class="py-10 md:py-14">
-        <div class="container mx-auto px-6">
-          <div class="text-center mb-8">
-            <p class="text-xs text-muted-foreground font-medium uppercase tracking-wider">Trusted By Leading Organizations</p>
-          </div>
-          <div class="flex flex-wrap items-center justify-center gap-8 md:gap-12 opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500">
-            <div v-for="badge in trustBadges" :key="badge.name" class="flex flex-col items-center gap-2">
-              <div class="w-16 h-16 bg-muted/50 rounded-xl flex items-center justify-center">
-                <svg class="w-8 h-8 text-foreground/60" fill="currentColor" viewBox="0 0 24 24">
-                  <path v-if="badge.icon === 'shield'" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                  <path v-else-if="badge.icon === 'award'" d="M12 15l-2 5.54.18-.55L8.5 18l-1.68 1.99.18-.55L5 20.98l3.54-2.09L12 15zm0 0l2 5.54-.18-.55 1.68 1.99L17.18 20l-.18.55 2 1.44-3.54-2.09L12 15zm0 0l-2-5.54-.18-.55-1.68-1.99.18.55-2-1.44 3.54 2.09L12 15zm0 0l2-5.54.18-.55 1.68-1.99-.18.55 2-1.44-3.54 2.09L12 15z"/>
-                  <path v-else d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-              </div>
-              <span class="text-[10px] font-medium text-muted-foreground text-center">{{ badge.name }}</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ═══════════════ MISSION & VISION ═══════════════ -->
-      <section class="py-12 md:py-16" style="background-color: #ffffff;">
-        <div class="container mx-auto px-6 max-w-5xl">
-          <div class="text-center max-w-2xl mx-auto mb-12">
-            <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Purpose</p>
-            <h2 class="text-xl md:text-2xl font-bold text-gray-900 leading-tight">Mission & Vision</h2>
-            <p class="text-gray-600 text-sm leading-relaxed mt-3">The principles that shape every decision we make, and the future we are building toward.</p>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="relative group rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl" style="background-color: #d311f5; border: 1px solid #d311f5;">
-              <div class="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-br from-primary/20 to-primary/10 transition-opacity duration-500 pointer-events-none"></div>
-              <div class="absolute -top-8 -right-8 w-32 h-32 bg-primary/5 rounded-full group-hover:scale-150 group-hover:bg-primary/10 transition-all duration-500 pointer-events-none"></div>
-              <div class="h-1 w-full bg-gradient-to-r from-primary to-primary/40"></div>
-              <div class="relative z-10 p-8">
-                <div class="w-14 h-14 bg-white rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-all duration-300 shadow-md">
-                  <svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                </div>
-                <h3 class="text-lg font-bold text-white mb-3">Our Mission</h3>
-                <p class="text-white/80 text-sm leading-relaxed mb-6">To empower businesses across Africa and beyond with innovative, scalable, and reliable technology solutions that drive measurable growth, improve operational efficiency, and create lasting impact in the communities we serve.</p>
-                <ul class="space-y-3">
-                  <li v-for="pillar in missionPillars" :key="pillar" class="flex items-start gap-3">
-                    <div class="w-5 h-5 bg-white rounded-full flex items-center justify-center shrink-0 mt-0.5">
-                      <svg class="w-3 h-3 text-primary" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
-                    </div>
-                    <span class="text-white/75 text-xs leading-relaxed">{{ pillar }}</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="relative group rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl" style="background-color: #3b82f6; border: 1px solid #3b82f6;">
-              <div class="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-br from-accent/20 to-accent/10 transition-opacity duration-500 pointer-events-none"></div>
-              <div class="absolute -top-8 -right-8 w-32 h-32 bg-accent/5 rounded-full group-hover:scale-150 group-hover:bg-accent/10 transition-all duration-500 pointer-events-none"></div>
-              <div class="h-1 w-full bg-gradient-to-r from-accent to-accent/40"></div>
-              <div class="relative z-10 p-8">
-                <div class="w-14 h-14 bg-white rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-all duration-300 shadow-md">
-                  <svg class="w-7 h-7 text-accent" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-                </div>
-                <h3 class="text-lg font-bold text-white mb-3">Our Vision</h3>
-                <p class="text-white/80 text-sm leading-relaxed mb-6">To be Africa's most trusted technology partner — a company recognised globally for building transformative digital infrastructure that bridges the gap between ambition and achievement for businesses of every size.</p>
-                <div class="space-y-4">
-                  <div v-for="horizon in visionHorizons" :key="horizon.label" class="flex items-start gap-3">
-                    <div class="shrink-0 mt-0.5">
-                      <span class="inline-block text-xs font-bold text-accent bg-white px-2 py-0.5 rounded-full">{{ horizon.label }}</span>
-                    </div>
-                    <span class="text-white/75 text-xs leading-relaxed">{{ horizon.text }}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div v-for="val in missionValues" :key="val.label" class="text-center px-4 py-5 rounded-xl transition-all duration-200 hover:-translate-y-0.5" style="background-color: #1a1a1a; border: 1px solid #404040;">
-              <div class="text-2xl mb-2">{{ val.icon }}</div>
-              <div class="text-white font-semibold text-xs mb-1">{{ val.label }}</div>
-              <div class="text-white/55 text-xs leading-snug">{{ val.desc }}</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ═══════════════ CTA (FULL WIDTH, NO RADIUS) ═══════════════ -->
-  <section class="py-14 md:py-20 w-full">
-    <div class="w-full px-0">
-      <div class="relative bg-black w-full overflow-hidden">
-        
-        <div class="absolute inset-0 opacity-30 bg-cover bg-center" :style="{ backgroundImage: 'url(' + heroTechGlow + ')' }"></div>
-        <div class="absolute inset-0 bg-black/70"></div>
-
-        <div class="relative grid lg:grid-cols-2 items-center">
-          
-          <div class="p-8 md:p-12 lg:p-14">
-            <h2 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4">
-              Join Our Growing Team
-            </h2>
-
-            <p class="text-white/70 text-sm leading-relaxed mb-8">
-              We're always looking for talented people who are passionate about technology and innovation.
-            </p>
-
-            <router-link 
-              to="/contact" 
-              class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold hover:bg-primary/90 transition-all shadow-lg"
-            >
-              Get In Touch
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                <path d="M7 17L17 7M17 7H7M17 7v10"/>
-              </svg>
-            </router-link>
-          </div>
-
-          <div class="hidden lg:flex items-end justify-end h-full min-h-[300px]">
-            <img :src="heroTech4" alt="Professional" class="h-full max-h-[350px] object-cover object-top w-full" />
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </section>
-   
 
        <!-- ═══════════════ REQUEST A QUOTE ═══════════════ -->
-    <section class="py-12 md:py-16" style="background-color: #262626;">
+    <section class="py-14 md:py-20 bg-gray-900">
       <div class="container mx-auto px-6 max-w-5xl">
         <div class="text-center max-w-2xl mx-auto mb-10">
           <p class="text-accent text-xs font-semibold tracking-widest uppercase mb-3">Get Started</p>
-          <h2 class="text-xl md:text-2xl font-bold text-white leading-tight mb-3">Request a Quote</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-white leading-tight mb-3">Request a Quote</h2>
           <p class="text-white/75 text-sm leading-relaxed">Tell us about your project and we'll get back to you within 24 hours.</p>
         </div>
       </div>
@@ -663,31 +478,31 @@
           <div>
             <form @submit.prevent="submitQuoteRequest" class="space-y-4">
               <div class="grid grid-cols-2 gap-4">
-                <input v-model="quoteForm.name" type="text" required class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all placeholder-white" placeholder="Full Name *" />
-                <input v-model="quoteForm.email" type="email" required class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all placeholder-white" placeholder="Email *" />
+                <input v-model="quoteForm.name" type="text" required class="w-full px-5 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-white text-sm transition-all placeholder-white/40" placeholder="Full Name *" />
+                <input v-model="quoteForm.email" type="email" required class="w-full px-5 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-white text-sm transition-all placeholder-white/40" placeholder="Email *" />
               </div>
               <div class="grid grid-cols-2 gap-4">
-                <input v-model="quoteForm.phone" type="tel" required class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all placeholder-white" placeholder="Phone *" />
-                <select v-model="quoteForm.service" required class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all">
-                  <option value="">Service Needed *</option>
-                  <option v-for="service in allServices" :key="service.id" :value="service.title">{{ service.title }}</option>
+                <input v-model="quoteForm.phone" type="tel" required class="w-full px-5 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-white text-sm transition-all placeholder-white/40" placeholder="Phone *" />
+                <select v-model="quoteForm.service" required class="w-full px-5 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-white text-sm transition-all">
+                  <option value="" class="text-gray-900">Service Needed *</option>
+                  <option v-for="service in allServices" :key="service.id" :value="service.title" class="text-gray-900">{{ service.title }}</option>
                 </select>
               </div>
-              <textarea v-model="quoteForm.description" required rows="4" class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm resize-none transition-all placeholder-white" placeholder="Project description..."></textarea>
+              <textarea v-model="quoteForm.description" required rows="4" class="w-full px-5 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-white text-sm resize-none transition-all placeholder-white/40" placeholder="Project description..."></textarea>
               <div class="grid grid-cols-2 gap-4">
-                <select v-model="quoteForm.budget" class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all">
-                  <option value="">Budget Range</option>
-                  <option value="Under Ksh 10,000">Under Ksh 10,000</option>
-                  <option value="Ksh 10,000 - Ksh 50,000">Ksh 10,000 - Ksh 50,000</option>
-                  <option value="Ksh 50,000 - Ksh 200,000">Ksh 50,000 - Ksh 200,000</option>
-                  <option value="Over Ksh 200,000">Over Ksh 200,000</option>
+                <select v-model="quoteForm.budget" class="w-full px-5 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-white text-sm transition-all">
+                  <option value="" class="text-gray-900">Budget Range</option>
+                  <option value="Under Ksh 10,000" class="text-gray-900">Under Ksh 10,000</option>
+                  <option value="Ksh 10,000 - Ksh 50,000" class="text-gray-900">Ksh 10,000 - Ksh 50,000</option>
+                  <option value="Ksh 50,000 - Ksh 200,000" class="text-gray-900">Ksh 50,000 - Ksh 200,000</option>
+                  <option value="Over Ksh 200,000" class="text-gray-900">Over Ksh 200,000</option>
                 </select>
-                <select v-model="quoteForm.timeline" class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all">
-                  <option value="">Timeline</option>
-                  <option value="ASAP">ASAP</option>
-                  <option value="1-2 months">1-2 months</option>
-                  <option value="3-6 months">3-6 months</option>
-                  <option value="6+ months">6+ months</option>
+                <select v-model="quoteForm.timeline" class="w-full px-5 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-white text-sm transition-all">
+                  <option value="" class="text-gray-900">Timeline</option>
+                  <option value="ASAP" class="text-gray-900">ASAP</option>
+                  <option value="1-2 months" class="text-gray-900">1-2 months</option>
+                  <option value="3-6 months" class="text-gray-900">3-6 months</option>
+                  <option value="6+ months" class="text-gray-900">6+ months</option>
                 </select>
               </div>
               <button type="submit" :disabled="quoteFormSubmitting" class="w-full px-6 py-3.5 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary/90 disabled:opacity-50 transition-all shadow-sm">
@@ -718,8 +533,6 @@
 
 <script setup lang="ts">
 import heroLaptop from '@/../img/Laptop.webp';
-import heroOrbit from '@/../img/Orbit.webp';
-import populationImg from '@/../img/population.webp';
 import svcApi from '@/../img/services/API Development.webp';
 import svcCrmErp from '@/../img/services/CRM & ERP Development.webp';
 import svcCustomWeb from '@/../img/services/Custom Web Development.webp';
@@ -729,17 +542,7 @@ import svcMobileApp2 from '@/../img/services/Mobile App.webp';
 import svcPaidAds from '@/../img/services/Paid Ads.webp';
 import svcSeo from '@/../img/services/SEO Optimization.webp';
 import heroLaptopDark from '@/../img/tech-background.webp';
-import heroTechBg from '@/../img/tech-background.webp';
-import heroTech from '@/../img/tech.webp';
-import heroTech1 from '@/../img/tech1.webp';
-import heroTech2 from '@/../img/tech2.webp';
-import heroTech3 from '@/../img/tech3.webp';
-import heroTech4 from '@/../img/tech4.webp';
-import heroTech5 from '@/../img/tech5.webp';
-import heroTech6 from '@/../img/tech6.webp';
 import heroTech7 from '@/../img/tech7.webp';
-import heroTech8 from '@/../img/tech8.webp';
-import heroTechGlow from '@/../img/tech-glow.webp';
 
 const serviceImageMap: Record<string, string> = {
   'custom web development': svcCustomWeb,
@@ -802,7 +605,6 @@ import PublicLayout from '@/layouts/PublicLayout.vue';
 import api from '@/services/api';
 import { useCmsStore } from '@/stores/cms';
 import { useToast } from '@/composables';
-import heroCTAbg from '@/../img/tech8.webp';
 // Swiper styles are imported globally in the main layout
 // import 'swiper/css';
 // import 'swiper/css/navigation';
@@ -837,25 +639,6 @@ const serviceBenefits = ref([
   { title: 'Proven Results', description: 'Track record of delivering measurable outcomes and ROI for our clients.' },
 ]);
 
-// Trust badges
-const trustBadges = ref([
-  { name: 'ISO 27001 Certified', icon: 'shield' },
-  { name: 'GDPR Compliant', icon: 'shield' },
-  { name: 'Award Winner', icon: 'award' },
-  { name: 'Verified Partner', icon: 'check' },
-]);
-
-
-
-
-
-// Impact stats (static fallback – CMS can override)
-const impactStats = ref([
-  { value: '20+', label: 'Countries Reached' },
-  { value: '500K+', label: 'People Impacted' },
-  { value: '150+', label: 'Projects Completed' },
-  { value: '95%', label: 'Client Satisfaction' },
-]);
 
 // Tech stack
 const stackCategories = [
@@ -867,50 +650,53 @@ const stackCategories = [
   { label: 'Design' },
 ];
 
-const stackData: Record<string, { name: string; icon: string }[]> = {
+// Real brand icons where available; `mono` is an honest colored-initial
+// fallback badge for tools we don't have an accurate logo path for,
+// rather than reusing a generic circle as a fake logo.
+const stackData: Record<string, { name: string; icon?: string; mono?: string }[]> = {
   Frontend: [
-    { name: 'Vue.js', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#4fc08d"><path d="M24 1.61h-9.94L12 5.16 9.94 1.61H0l12 20.78ZM12 14.08 5.38 3.77h3.14L12 9.6l3.48-5.83h3.14Z"/></svg>' },
-    { name: 'React', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#61dafb"><path d="M12 2.5c-2.5 0-4.5 1.5-6 3.5s-2.5 4.5-2.5 6 1 4 2.5 6 3.5 3.5 6 3.5 4.5-1.5 6-3.5 2.5-4.5 2.5-6-1-4-2.5-6S14.5 2.5 12 2.5zm0 1c1.8 0 3.4 1 4.5 2.5 1.2 1.5 1.8 3.5 1.8 5.5s-.6 4-1.8 5.5C15.4 18.5 13.8 19.5 12 19.5s-3.4-1-4.5-2.5C6.3 15.5 5.7 13.5 5.7 11.5s.6-4 1.8-5.5C8.6 4.5 10.2 3.5 12 3.5z"/></svg>' },
-    { name: 'Next.js', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#000"><path d="M18.665 21.978C16.758 23.255 14.465 24 12 24 5.377 24 0 18.623 0 12S5.377 0 12 0s12 5.377 12 12c0 3.583-1.574 6.801-4.067 9.001L9.219 7.2H7.2v9.596h1.941V9.251l6.729 8.982c.626-.258 1.194-.587 1.695-.97L9.747 7.2H9.136v9.596h1.941V9.251l6.729 8.982c.626-.258 1.194-.587 1.695-.97z"/></svg>' },
-    { name: 'TypeScript', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#3178c6"><path d="M3 3h18v18H3V3zm10.25 14.25v-2.25h1.5v2.25c0 .75.375 1.125 1.125 1.125h1.125c.75 0 1.125-.375 1.125-1.125v-2.25h1.5v2.25c0 1.5-1.05 2.475-2.625 2.475h-1.125c-1.575 0-2.625-.975-2.625-2.475zm-4.875-6.45h2.25v7.95h1.5v-7.95h2.25V7.5h-6v3.3z"/></svg>' },
-    { name: 'Tailwind', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#06b6d4"><path d="M12 6C9.33 6 7.5 7.5 6.5 10c1-2 2.5-3 4.5-3s3.5 1 4.5 3c1-2 2.5-3 4.5-3-1-2.5-2.83-4-5.5-4zm0 12c2.67 0 4.5-1.5 5.5-4-1 2-2.5 3-4.5 3s-3.5-1-4.5-3c-1 2-2.5 3-4.5 3 1 2.5 2.83 4 5.5 4z"/></svg>' },
-    { name: 'Alpine.js', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#77c1d2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>' },
+    { name: 'Vue.js', icon: '<svg viewBox="0 0 128 128" width="24" height="24"><path fill="#42b883" d="M78.8 10L64 35.4 49.2 10H0l64 110 64-110z"/><path fill="#35495e" d="M78.8 10L64 35.4 49.2 10H25.6L64 76l38.4-66z"/></svg>' },
+    { name: 'React', icon: '<svg viewBox="0 0 128 128" width="24" height="24"><circle cx="64" cy="64" r="11.4" fill="#61dafb"/><path fill="none" stroke="#61dafb" stroke-width="5" d="M64 30c19.9 0 36.6 5.4 36.6 12 0 6.6-16.7 12-36.6 12S27.4 48.6 27.4 42c0-6.6 16.7-12 36.6-12z"/><path fill="none" stroke="#61dafb" stroke-width="5" d="M47.1 47c9.95-17.2 23.1-29.7 29.6-26 6.5 3.7 4 20.6-5.95 37.8S47.7 88.7 41.2 85c-6.5-3.7-4-20.6 5.9-38z"/><path fill="none" stroke="#61dafb" stroke-width="5" d="M47.1 81C37.15 63.8 34.65 46.9 41.2 43.2c6.5-3.7 19.65 8.8 29.6 26S81.1 102.7 74.65 106.4C68.1 110.1 57.05 98.2 47.1 81z"/></svg>' },
+    { name: 'Next.js', icon: '<svg viewBox="0 0 128 128" width="24" height="24"><circle cx="64" cy="64" r="64" fill="#000"/><path fill="#fff" d="M48 100V28l60 76H92L48 44v56H48z"/></svg>' },
+    { name: 'TypeScript', icon: '<svg viewBox="0 0 128 128" width="24" height="24"><rect width="128" height="128" rx="6" fill="#3178c6"/><path fill="#fff" d="M22 72h20v-8H22v8zm0 12h20v-8H22v8zm0 12h10v-8H22v8zM72 48H32V32h40v16zm16 48c-6.6 0-12-5.4-12-12s5.4-12 12-12 12 5.4 12 12-5.4 12-12 12z"/><path fill="#fff" d="M56 96V56h16v8h8V56h16v40H80V72h-8v24H56z"/></svg>' },
+    { name: 'Tailwind', icon: '<svg viewBox="0 0 128 128" width="24" height="24"><path fill="#38bdf8" d="M64 16C45.1 16 33.6 25.5 29 44.5c6.5-8.7 14-12 22.8-9.7 4.9 1.2 8.5 4.9 12.4 8.9C70.5 50.4 78.3 58.5 96 58.5c18.9 0 30.4-9.5 35-28.5-6.5 8.7-14 12-22.8 9.7-4.9-1.2-8.5-4.9-12.4-8.9C89.5 24.1 81.7 16 64 16zM29 58.5C10.1 58.5-1.4 68 -6 87c6.5-8.7 14-12 22.8-9.7 4.9 1.2 8.5 4.9 12.4 8.9C35.5 92.9 43.3 101 61 101c18.9 0 30.4-9.5 35-28.5-6.5 8.7-14 12-22.8 9.7-4.9-1.2-8.5-4.9-12.4-8.9C54.5 66.6 46.7 58.5 29 58.5z"/></svg>' },
+    { name: 'Nuxt.js', icon: '<svg viewBox="0 0 128 128" width="24" height="24"><path fill="#00DC82" d="M72 28L40 84H8L64 0 120 84H88L56 28z" opacity=".6"/><path fill="#00DC82" d="M104 84L72 28 40 84h64z" opacity=".3"/></svg>' },
   ],
   Backend: [
-    { name: 'Laravel', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#ff2d20"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm0 22C6.49 22 2 17.51 2 12S6.49 2 12 2s10 4.49 10 10-4.49 10-10 10z"/></svg>' },
-    { name: 'Node.js', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#339933"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0z"/></svg>' },
-    { name: 'Python', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#3776ab"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0z"/></svg>' },
-    { name: 'PHP', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#777bb4"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0z"/></svg>' },
-    { name: 'Go', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#00add8"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0z"/></svg>' },
-    { name: 'Rust', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#dea584"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0z"/></svg>' },
+    { name: 'Laravel', icon: '<svg viewBox="0 0 128 128" width="24" height="24"><path fill="#FF2D20" d="M124.3 23.5L102.5 5.3A7.2 7.2 0 0097.1 3H30.9a7.2 7.2 0 00-5.4 2.3L3.7 23.5A7.2 7.2 0 002 28.1v71.8a7.2 7.2 0 007.2 7.2h109.6a7.2 7.2 0 007.2-7.2V28.1a7.2 7.2 0 00-1.7-4.6zM64 92L26 54l10-10 28 28 28-28 10 10L64 92z"/></svg>' },
+    { name: 'Node.js', icon: '<svg viewBox="0 0 128 128" width="24" height="24"><path fill="#83cd29" d="M112.8 85.3L67.4 111a7.2 7.2 0 01-6.8 0L15.2 85.3A7.2 7.2 0 0112 79V29a7.2 7.2 0 013.2-6.2L60.6 6.7a7.2 7.2 0 016.8 0l45.4 16.1A7.2 7.2 0 01116 29v50a7.2 7.2 0 01-3.2 6.3z"/><path fill="#fff" d="M64 29v70L28 79V49L64 29z" opacity=".5"/></svg>' },
+    { name: 'Python', icon: '<svg viewBox="0 0 128 128" width="24" height="24"><path fill="#3572A5" d="M63.5 3C37.3 3 39 14 39 14v12h25v4H25S3 27.6 3 54.3C3 81 18.8 80 18.8 80H29V67.5S28.3 52 44 52h39.7S99 52.8 99 38V17C99 3.3 87 3 63.5 3zM51 19.5a5.5 5.5 0 110 11 5.5 5.5 0 010-11z"/><path fill="#FFD43B" d="M64.5 125C90.7 125 89 114 89 114v-12H64v-4h39S125 100.4 125 73.7C125 47 109.2 48 109.2 48H99V60.5S99.7 76 84 76H44.3S29 75.2 29 89V110C29 123.7 41 125 64.5 125zM77 108.5a5.5 5.5 0 110-11 5.5 5.5 0 010 11z"/></svg>' },
+    { name: 'PHP', mono: '#777bb4' },
+    { name: 'Go', icon: '<svg viewBox="0 0 128 128" width="24" height="24"><circle cx="64" cy="64" r="56" fill="#00ADD8"/><path fill="#fff" d="M40 60h24v8H40zm0 16h40v8H40zm8-32h40v8H48z"/></svg>' },
+    { name: 'Rust', mono: '#dea584' },
   ],
   Mobile: [
-    { name: 'React Native', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#61dafb"><path d="M12 2.5c-2.5 0-4.5 1.5-6 3.5s-2.5 4.5-2.5 6 1 4 2.5 6 3.5 3.5 6 3.5 4.5-1.5 6-3.5 2.5-4.5 2.5-6-1-4-2.5-6S14.5 2.5 12 2.5z"/></svg>' },
-    { name: 'Flutter', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#02569b"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0z"/></svg>' },
-    { name: 'Swift', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#f05138"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0z"/></svg>' },
-    { name: 'Kotlin', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#7f52ff"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0z"/></svg>' },
-    { name: 'Ionic', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#3880ff"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0z"/></svg>' },
+    { name: 'Flutter', icon: '<svg viewBox="0 0 128 128" width="24" height="24"><path fill="#54C5F8" d="M14 64L62 16h52L66 64 114 112H62L14 64z"/><path fill="#01579B" d="M62 112l26-26-14-14L38 112z"/><path fill="#29B6F6" d="M88 86L62 112l-12-12 26-26z"/></svg>' },
+    { name: 'React Native', icon: '<svg viewBox="0 0 128 128" width="24" height="24"><circle cx="64" cy="64" r="11.4" fill="#61dafb"/><path fill="none" stroke="#61dafb" stroke-width="5" d="M64 30c19.9 0 36.6 5.4 36.6 12 0 6.6-16.7 12-36.6 12S27.4 48.6 27.4 42c0-6.6 16.7-12 36.6-12zM47.1 47c9.95-17.2 23.1-29.7 29.6-26 6.5 3.7 4 20.6-5.95 37.8S47.7 88.7 41.2 85c-6.5-3.7-4-20.6 5.9-38zM47.1 81C37.15 63.8 34.65 46.9 41.2 43.2c6.5-3.7 19.65 8.8 29.6 26S81.1 102.7 74.65 106.4C68.1 110.1 57.05 98.2 47.1 81z"/></svg>' },
+    { name: 'Kotlin', icon: '<svg viewBox="0 0 128 128" width="24" height="24"><path fill="#7F52FF" d="M8 8h56l-56 56V8zm0 112l56-56 56 56H8zm64-56L128 8v112L72 64z"/></svg>' },
+    { name: 'Swift', icon: '<svg viewBox="0 0 128 128" width="24" height="24"><rect width="128" height="128" rx="24" fill="#F05138"/><path fill="#fff" d="M96 72c0 17.7-14.3 32-32 32a32 32 0 01-20.7-7.6s13.7 4.1 26.7-8.4C56.5 83.9 37.4 69 28 48c14 15 36 24 50 24-9-9-17.5-22.8-17.5-37.5A32 32 0 0196 72z"/></svg>' },
+    { name: 'Ionic', mono: '#3880ff' },
   ],
   Database: [
-    { name: 'MySQL', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#4479a1"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0z"/></svg>' },
-    { name: 'PostgreSQL', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#4169e1"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0z"/></svg>' },
-    { name: 'MongoDB', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#47a248"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0z"/></svg>' },
-    { name: 'Redis', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#dc382d"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0z"/></svg>' },
-    { name: 'SQLite', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#003b57"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0z"/></svg>' },
+    { name: 'MySQL', icon: '<svg viewBox="0 0 128 128" width="24" height="24"><path fill="#00618A" d="M2 73.9c5.3.7 8.9 3 9.9 7.6 1.1 4.9-1.8 9.7-7.4 12.7L2 95v10.5l3.3-1.5c7.4-3.3 12.5-9 13.5-15.8.8-5.2-.8-10.3-4.4-14.3h91.2c-3.6 4-5.2 9.1-4.4 14.3 1 6.8 6.1 12.5 13.5 15.8l3.3 1.5V95l-2.5-1.3c-5.6-3-8.5-7.8-7.4-12.7 1-4.6 4.6-6.9 9.9-7.6V62.6H2v11.3z"/><path fill="#00618A" d="M2 23v9.3c5.3.7 8.9 3 9.9 7.6 1.1 4.9-1.8 9.7-7.4 12.7L2 53.5V64h124v-10.5l-2.5-1.5c-5.6-3-8.5-7.8-7.4-12.7 1-4.6 4.6-6.9 9.9-7.6V23H2z"/></svg>' },
+    { name: 'PostgreSQL', icon: '<svg viewBox="0 0 128 128" width="24" height="24"><path fill="#336791" d="M93.8 24.2C87.4 17.7 78.7 14 69.5 14c-7.7 0-15 2.6-20.9 7.2-5.9-4.6-13.2-7.2-20.9-7.2C18.5 14 9.8 17.7 3.4 24.2A34.5 34.5 0 000 45c0 7.2 2.5 14.2 7.1 19.8 2.8 3.4 6.2 6.2 10 8.2v35h104V73c3.8-2 7.2-4.8 10-8.2C135.5 59.2 138 52.2 138 45c0-7.9-3-15.4-8.3-20.8z"/></svg>' },
+    { name: 'MongoDB', icon: '<svg viewBox="0 0 128 128" width="24" height="24"><path fill="#4DB33D" d="M64 8C40.5 8 21.5 27 21.5 50.5c0 16.5 9.3 31 23 38.6V116h7v-25.1c.8.1 1.7.1 2.5.1s1.7 0 2.5-.1V116h7V89.1c13.7-7.6 23-22.1 23-38.6C86.5 27 67.5 8 64 8z"/></svg>' },
+    { name: 'Redis', icon: '<svg viewBox="0 0 128 128" width="24" height="24"><path fill="#D82C20" d="M64 8L8 40v48l56 32 56-32V40L64 8zm0 10l44 25.4v38.8L64 107 20 82.2V43.4L64 18z"/></svg>' },
+    { name: 'SQLite', mono: '#003b57' },
   ],
   DevOps: [
-    { name: 'Docker', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#2496ed"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0z"/></svg>' },
-    { name: 'AWS', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#ff9900"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0z"/></svg>' },
-    { name: 'Kubernetes', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#326ce5"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0z"/></svg>' },
-    { name: 'CI/CD', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#fc6d26"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0z"/></svg>' },
-    { name: 'Nginx', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#009639"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0z"/></svg>' },
+    { name: 'AWS', icon: '<svg viewBox="0 0 128 128" width="24" height="24"><path fill="#FF9900" d="M40 72c-9 4-15 12.5-15 22.5C25 108.3 35.7 119 49.5 119c5.3 0 10.3-1.7 14.3-4.7M88 72c9 4 15 12.5 15 22.5C103 108.3 92.3 119 78.5 119c-5.3 0-10.3-1.7-14.3-4.7"/><path fill="#232F3E" d="M64 9L20 33v30l44 24 44-24V33L64 9zm0 8l36 20v24L64 81 28 61V37L64 17z"/></svg>' },
+    { name: 'Docker', icon: '<svg viewBox="0 0 128 128" width="24" height="24"><path fill="#2496ED" d="M124.8 52.1c-2-1.4-6.6-2-10.1-1.3-.4-3.4-2.4-6.4-5.9-9.1l-2-1.4-1.4 2c-1.8 2.7-2.4 7.2-2.2 10.7-.6-.3-1.6-.7-2.3-1.1-1.4-.8-3.9-1.8-6.8-1.7H8.2l-.3 1.7c-.6 3.7-.4 12.1 4.8 19.2 3.8 5.2 9.5 7.8 16.8 7.8 16 0 27.8-7.4 33.3-20.8 2.2.1 6.9.2 9.3-4.6l.5-1-1-.6zM56 52H46v10h10V52zm-13 0H33v10h10V52zm-13 0H20v10h10V52zm26-13H56v10h10V39zm-13 0H43v10h10V39zm-13 0H30v10h10V39zm13-13H56v10h10V26zm-13 0H43v10h10V26z"/></svg>' },
+    { name: 'Kubernetes', mono: '#326ce5' },
+    { name: 'GitHub CI', icon: '<svg viewBox="0 0 128 128" width="24" height="24"><path fill="#181717" d="M64 4C30.2 4 3 31.2 3 65c0 27 17.5 49.9 41.8 58 3 .6 4.1-1.3 4.1-2.9v-10.2c-16.9 3.7-20.4-8.1-20.4-8.1-2.7-6.9-6.7-8.7-6.7-8.7-5.5-3.7.4-3.7.4-3.7 6 .4 9.2 6.2 9.2 6.2 5.4 9.2 14.1 6.5 17.5 5 .5-3.9 2.1-6.5 3.8-8-13.4-1.5-27.5-6.7-27.5-29.9 0-6.6 2.4-12 6.2-16.2-.6-1.5-2.7-7.7.6-16 0 0 5.1-1.6 16.6 6.2 4.8-1.3 10-2 15.1-2s10.3.7 15.1 2c11.5-7.8 16.6-6.2 16.6-6.2 3.3 8.3 1.2 14.5.6 16 3.9 4.2 6.2 9.6 6.2 16.2 0 23.2-14.1 28.3-27.6 29.8 2.2 1.9 4.1 5.5 4.1 11.1v16.5c0 1.6 1.1 3.5 4.2 2.9C109.5 114.9 127 92 127 65 127 31.2 99.8 4 64 4z"/></svg>' },
+    { name: 'DigitalOcean', icon: '<svg viewBox="0 0 128 128" width="24" height="24"><path fill="#0080FF" d="M64 112v-16c22 0 40-18 40-40S86 16 64 16 24 34 24 56h16c0-13 11-24 24-24s24 11 24 24-11 24-24 24v32z"/></svg>' },
   ],
   Design: [
-    { name: 'Figma', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#f24e1e"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0z"/></svg>' },
-    { name: 'Adobe XD', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#ff61f6"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0z"/></svg>' },
-    { name: 'Sketch', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#f7b500"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0z"/></svg>' },
-    { name: 'Photoshop', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#31a8ff"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0z"/></svg>' },
-    { name: 'Illustrator', icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="#ff9a00"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0z"/></svg>' },
+    { name: 'Figma', mono: '#f24e1e' },
+    { name: 'Adobe XD', mono: '#ff61f6' },
+    { name: 'Sketch', mono: '#f7b500' },
+    { name: 'Photoshop', mono: '#31a8ff' },
+    { name: 'Illustrator', mono: '#ff9a00' },
   ],
 };
 
@@ -918,26 +704,6 @@ const activeStack = ref('Frontend');
 
 const activeStackTechs = computed(() => stackData[activeStack.value] || []);
 
-
-// Mission & Vision
-const missionPillars = [
-  'Innovation-driven development for measurable business outcomes',
-  'Scalable and secure architecture built for African and global markets',
-  'Client-first partnership with transparent communication at every step',
-];
-
-const visionHorizons = [
-  { label: '2026', text: 'Expand into 10 African markets with local delivery hubs' },
-  { label: '2028', text: 'Launch a flagship SaaS platform serving 50,000+ businesses' },
-  { label: '2030', text: 'Recognised as Africa\'s top technology partner globally' },
-];
-
-const missionValues = [
-  { icon: '🚀', label: 'Innovation', desc: 'Pushing boundaries with emerging tech' },
-  { icon: '🤝', label: 'Partnership', desc: 'Your success is our success' },
-  { icon: '🎯', label: 'Excellence', desc: 'Relentless pursuit of quality' },
-  { icon: '🌍', label: 'Impact', desc: 'Building for Africa & beyond' },
-];
 
 async function fetchService(slug: string) {
   loading.value = true;

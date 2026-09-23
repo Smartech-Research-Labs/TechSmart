@@ -4,19 +4,68 @@ namespace App\Services;
 
 use OpenAI;
 use Exception;
+use App\Contracts\AiTextGenerator;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Log;
 
-class OpenAIService
+class OpenAIService implements AiTextGenerator
 {
     protected $client;
 
     public function __construct()
     {
-        if (!config('services.openai.key')) {
+        // Prefer the .env-configured key; fall back to the key an admin has
+        // saved in Settings > AI (resources/js/pages/Admin/Settings.vue), so
+        // that panel actually takes effect instead of being write-only.
+        $key = config('services.openai.key') ?: Setting::get('openai_api_key');
+
+        if (!$key) {
             throw new Exception('OpenAI API key not configured');
         }
 
-        $this->client = OpenAI::client(config('services.openai.key'));
+        $this->client = OpenAI::client($key);
+    }
+
+    /**
+     * Generic strict-JSON chat completion. Sends a system + user prompt and
+     * decodes the model's response as an associative array, throwing if the
+     * response isn't valid JSON.
+     *
+     * @return array<string, mixed>
+     */
+    public function chatJson(string $systemPrompt, string $userPrompt, string $model = 'gpt-4o', float $temperature = 0.7, int $maxTokens = 2000): array
+    {
+        try {
+            $response = $this->client->chat()->create([
+                'model' => $model,
+                'messages' => [
+                    ['role' => 'system', 'content' => $systemPrompt],
+                    ['role' => 'user', 'content' => $userPrompt],
+                ],
+                'response_format' => ['type' => 'json_object'],
+                'temperature' => $temperature,
+                'max_tokens' => $maxTokens,
+            ]);
+        } catch (\OpenAI\Exceptions\RateLimitException $e) {
+            // OpenAI's PHP client maps both true rate-limiting and
+            // "no credits on the account" to this same exception with a
+            // generic message — the distinction only shows up in the raw
+            // HTTP body, which the client doesn't expose. Surface both
+            // possibilities so this doesn't read as a transient/retry-able
+            // error when it's actually a billing issue.
+            throw new Exception(
+                'OpenAI rate limit or quota exceeded. If this persists immediately on retry, ' .
+                'the account likely has no credits — check https://platform.openai.com/settings/organization/billing/'
+            );
+        }
+
+        $result = json_decode($response->choices[0]->message->content, true);
+
+        if (!is_array($result)) {
+            throw new Exception('OpenAI did not return valid JSON');
+        }
+
+        return $result;
     }
 
     /**

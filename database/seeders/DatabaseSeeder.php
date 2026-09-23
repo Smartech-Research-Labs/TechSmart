@@ -20,6 +20,27 @@ use Illuminate\Support\Facades\Hash;
 class DatabaseSeeder extends Seeder
 {
     /**
+     * Copy a bundled demo image from resources/img into the public storage
+     * disk so seeded records have a working image on any fresh environment
+     * (storage/app/public is gitignored, so this can't be committed directly).
+     */
+    public static function copySeedImage(string $sourceRelativeToResourcesImg, string $destRelativeToPublicDisk): void
+    {
+        $source = resource_path('img/' . $sourceRelativeToResourcesImg);
+        if (!file_exists($source)) {
+            return;
+        }
+
+        $dest = storage_path('app/public/' . $destRelativeToPublicDisk);
+        $destDir = dirname($dest);
+        if (!is_dir($destDir)) {
+            mkdir($destDir, 0755, true);
+        }
+
+        copy($source, $dest);
+    }
+
+    /**
      * Seed the application's database.
      */
     public function run(): void
@@ -198,6 +219,13 @@ class DatabaseSeeder extends Seeder
             ],
         ];
 
+        // Bundled demo backgrounds (no dedicated slider photography exists yet —
+        // reusing generic tech imagery so sliders don't render a broken image).
+        self::copySeedImage('tech-background.webp', 'images/slider-1.webp');
+        self::copySeedImage('tech-glow.webp', 'images/slider-2.webp');
+        self::copySeedImage('tech-closeup.webp', 'images/slider-3.webp');
+        self::copySeedImage('tech-image.webp', 'images/slider-4.webp');
+
         foreach ($sliders as $s) {
             Slider::create($s);
         }
@@ -295,19 +323,32 @@ class DatabaseSeeder extends Seeder
         }
 
         // ──── Clients ────
+        // NOTE: Parkrose, Frarega and Smartech have no matching logo asset in
+        // resources/img/clients — their `logo` path is left unset (null) rather
+        // than pointing at a file that doesn't exist. Upload real logos for
+        // these via the admin Clients panel.
         $clients = [
-            ['name' => 'Parkrose Plumbing Ltd',        'logo' => 'images/clients/parkrose.png',         'website_url' => 'https://parkroseplumbing.co.ke',         'domain' => 'parkroseplumbing.co.ke',        'caption' => 'Premier plumbing solutions across Kenya', 'is_visible' => true, 'is_seeded' => true, 'order' => 1],
-            ['name' => 'Medialytica',                   'logo' => 'images/clients/medialytica.png',       'website_url' => 'https://medialytica.com',              'domain' => 'medialytica.com',               'caption' => 'Data-driven media analytics platform', 'is_visible' => true, 'is_seeded' => true, 'order' => 2],
-            ['name' => 'Tech for Development',          'logo' => 'images/clients/tech-dev.png',          'website_url' => 'https://techfordevelopment.org',       'domain' => 'techfordevelopment.org',         'caption' => 'Technology solutions for community development', 'is_visible' => true, 'is_seeded' => true, 'order' => 3],
-            ['name' => 'Indepth Research Institute',     'logo' => 'images/clients/indepth.png',           'website_url' => 'https://indepthresearch.org',          'domain' => 'indepthresearch.org',           'caption' => 'Advanced research and analytics institute', 'is_visible' => true, 'is_seeded' => true, 'order' => 4],
-            ['name' => 'Omidrop',                       'logo' => 'images/clients/omidrop.png',           'website_url' => 'https://omidrop.com',                  'domain' => 'omidrop.com',                   'caption' => 'Innovative logistics and supply chain solutions', 'is_visible' => true, 'is_seeded' => true, 'order' => 5],
-            ['name' => 'Maji Hill',                     'logo' => 'images/clients/maji-hill.png',         'website_url' => 'https://majihill.co.ke',               'domain' => 'majihill.co.ke',                'caption' => 'Water solutions for sustainable communities', 'is_visible' => true, 'is_seeded' => true, 'order' => 6],
-            ['name' => 'Frarega Ltd',                   'logo' => 'images/clients/frarega.png',           'website_url' => 'https://frarega.co.ke',                'domain' => 'frarega.co.ke',                 'caption' => 'Fresh produce and agricultural export leader', 'is_visible' => true, 'is_seeded' => true, 'order' => 7],
-            ['name' => 'Ziara Travels Ltd',             'logo' => 'images/clients/ziara.png',             'website_url' => 'https://ziaratravels.com',             'domain' => 'ziaratravels.com',              'caption' => 'Premium travel and tourism experiences', 'is_visible' => true, 'is_seeded' => true, 'order' => 8],
-            ['name' => 'Smartech Research Labs',        'logo' => 'images/clients/smartech.png',          'website_url' => 'https://smartechresearch.com',         'domain' => 'smartechresearch.com',          'caption' => 'Cutting-edge tech research and development', 'is_visible' => true, 'is_seeded' => true, 'order' => 9],
-            ['name' => 'Nexxear Digital Solutions',      'logo' => 'images/clients/nexxear.png',           'website_url' => 'https://nexxear.com',                  'domain' => 'nexxear.com',                   'caption' => 'Next-generation digital transformation partner', 'is_visible' => true, 'is_seeded' => true, 'order' => 10],
-            ['name' => 'Magnate Digital Solutions',      'logo' => 'images/clients/magnate.png',           'website_url' => 'https://magnate.digital',              'domain' => 'magnate.digital',               'caption' => 'Enterprise digital solutions at scale', 'is_visible' => true, 'is_seeded' => true, 'order' => 11],
+            ['name' => 'Parkrose Plumbing Ltd',        'logo' => null,                                   'website_url' => 'https://parkroseplumbing.co.ke',         'domain' => 'parkroseplumbing.co.ke',        'caption' => 'Premier plumbing solutions across Kenya', 'is_visible' => true, 'is_seeded' => true, 'order' => 1],
+            ['name' => 'Medialytica',                   'logo' => 'images/clients/medialytica.webp',      'website_url' => 'https://medialytica.com',              'domain' => 'medialytica.com',               'caption' => 'Data-driven media analytics platform', 'is_visible' => true, 'is_seeded' => true, 'order' => 2],
+            ['name' => 'Tech for Development',          'logo' => 'images/clients/tech-dev.webp',         'website_url' => 'https://techfordevelopment.org',       'domain' => 'techfordevelopment.org',         'caption' => 'Technology solutions for community development', 'is_visible' => true, 'is_seeded' => true, 'order' => 3],
+            ['name' => 'Indepth Research Institute',     'logo' => 'images/clients/indepth.webp',          'website_url' => 'https://indepthresearch.org',          'domain' => 'indepthresearch.org',           'caption' => 'Advanced research and analytics institute', 'is_visible' => true, 'is_seeded' => true, 'order' => 4],
+            ['name' => 'Omidrop',                       'logo' => 'images/clients/omidrop.webp',          'website_url' => 'https://omidrop.com',                  'domain' => 'omidrop.com',                   'caption' => 'Innovative logistics and supply chain solutions', 'is_visible' => true, 'is_seeded' => true, 'order' => 5],
+            ['name' => 'Maji Hill',                     'logo' => 'images/clients/maji-hill.webp',        'website_url' => 'https://majihill.co.ke',               'domain' => 'majihill.co.ke',                'caption' => 'Water solutions for sustainable communities', 'is_visible' => true, 'is_seeded' => true, 'order' => 6],
+            ['name' => 'Frarega Ltd',                   'logo' => null,                                   'website_url' => 'https://frarega.co.ke',                'domain' => 'frarega.co.ke',                 'caption' => 'Fresh produce and agricultural export leader', 'is_visible' => true, 'is_seeded' => true, 'order' => 7],
+            ['name' => 'Ziara Travels Ltd',             'logo' => 'images/clients/ziara.webp',            'website_url' => 'https://ziaratravels.com',             'domain' => 'ziaratravels.com',              'caption' => 'Premium travel and tourism experiences', 'is_visible' => true, 'is_seeded' => true, 'order' => 8],
+            ['name' => 'Smartech Research Labs',        'logo' => null,                                   'website_url' => 'https://smartechresearch.com',         'domain' => 'smartechresearch.com',          'caption' => 'Cutting-edge tech research and development', 'is_visible' => true, 'is_seeded' => true, 'order' => 9],
+            ['name' => 'Nexxear Digital Solutions',      'logo' => 'images/clients/nexxear.webp',          'website_url' => 'https://nexxear.com',                  'domain' => 'nexxear.com',                   'caption' => 'Next-generation digital transformation partner', 'is_visible' => true, 'is_seeded' => true, 'order' => 10],
+            ['name' => 'Magnate Digital Solutions',      'logo' => 'images/clients/magnate.webp',          'website_url' => 'https://magnate.digital',              'domain' => 'magnate.digital',               'caption' => 'Enterprise digital solutions at scale', 'is_visible' => true, 'is_seeded' => true, 'order' => 11],
         ];
+
+        self::copySeedImage('clients/Medialytica.webp', 'images/clients/medialytica.webp');
+        self::copySeedImage('clients/Tech for development.webp', 'images/clients/tech-dev.webp');
+        self::copySeedImage('clients/IRES-logo.webp', 'images/clients/indepth.webp');
+        self::copySeedImage('clients/Omidrop.webp', 'images/clients/omidrop.webp');
+        self::copySeedImage('clients/Majihill.webp', 'images/clients/maji-hill.webp');
+        self::copySeedImage('clients/Ziara Travels.webp', 'images/clients/ziara.webp');
+        self::copySeedImage('clients/Nexera.webp', 'images/clients/nexxear.webp');
+        self::copySeedImage('clients/Magnate Digital.webp', 'images/clients/magnate.webp');
 
         foreach ($clients as $c) {
             Client::create($c);
@@ -463,6 +504,10 @@ class DatabaseSeeder extends Seeder
                 'published_at'    => now()->subDays(35),
             ],
         ];
+
+        foreach (range(1, 6) as $i) {
+            self::copySeedImage("tech{$i}.webp", "blog/tech{$i}.webp");
+        }
 
         foreach ($blogPosts as $post) {
             Blog::create($post);

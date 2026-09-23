@@ -42,7 +42,7 @@
           <div class="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">About This Industry</p>
-              <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">{{ industry.title }} Solutions</h2>
+              <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">{{ industry.title }} Solutions</h2>
               <div class="text-muted-foreground text-sm leading-relaxed space-y-3" v-html="formattedDescription"></div>
             </div>
             <div class="rounded-xl overflow-hidden">
@@ -73,7 +73,7 @@
         <div class="container mx-auto px-6">
           <div class="text-center max-w-2xl mx-auto mb-12">
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Sub-Sectors</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground mb-4">Specialized Areas We Serve</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-4">Specialized Areas We Serve</h2>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             <div
@@ -96,7 +96,7 @@
         <div class="container mx-auto px-6">
           <div class="text-center max-w-2xl mx-auto mb-12">
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Key Features</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground mb-4">What We Deliver</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-4">What We Deliver</h2>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-4xl mx-auto">
             <div
@@ -121,7 +121,7 @@
         <div class="container mx-auto px-6">
           <div class="text-center max-w-2xl mx-auto mb-12">
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Process</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground mb-4">How We Work</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-4">How We Work</h2>
           </div>
           <div class="max-w-3xl mx-auto space-y-4">
             <div
@@ -147,7 +147,7 @@
       <!-- ═══════════════ 7. CTA ═══════════════ -->
       <section class="py-14 md:py-20 bg-gradient-to-r from-primary to-accent text-white">
         <div class="container mx-auto px-6 text-center max-w-2xl">
-          <h2 class="text-2xl md:text-3xl font-bold mb-4">{{ industry.cta_title || `Ready to Transform Your ${industry.title} Business?` }}</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">{{ industry.cta_title || `Ready to Transform Your ${industry.title} Business?` }}</h2>
           <p class="text-white/80 text-sm leading-relaxed mb-6">{{ industry.cta_description || `Let our experts help you leverage cutting-edge technology in the ${industry.title} sector. Start your consultation today.` }}</p>
           <div class="flex flex-wrap justify-center gap-3">
             <router-link to="/contact" class="inline-flex items-center gap-2 px-7 py-3 bg-white text-primary text-sm font-semibold rounded-full hover:bg-white/90 transition-all shadow-lg">
@@ -161,13 +161,12 @@
         </div>
       </section>
 
-      <!-- ═══════════════ 8. RELATED INDUSTRIES ═══════════════ -->
-            <!-- ═══════════════ 8. TESTIMONIALS CAROUSEL ═══════════════ -->
+      <!-- ═══════════════ 8. TESTIMONIALS CAROUSEL ═══════════════ -->
             <section v-if="topReviews.length" class="py-12 md:py-16 bg-muted/20">
               <div class="container mx-auto px-6 max-w-6xl">
                 <div class="text-center max-w-xl mx-auto mb-10">
                   <p class="text-amber-600 dark:text-amber-400 text-xs font-semibold tracking-widest uppercase mb-2">Testimonials</p>
-                  <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight mb-3">Success Stories from {{ industry.title }} Leaders</h2>
+                  <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-3">Success Stories from {{ industry.title }} Leaders</h2>
                   <p class="text-muted-foreground text-xs leading-relaxed">See how our solutions have transformed {{ industry.title }} businesses.</p>
                 </div>
 
@@ -181,14 +180,14 @@
                   class="testimonials-swiper pb-16"
                 >
                   <SwiperSlide v-for="review in topReviews" :key="review.id">
-                    <div class="rounded-lg p-5 h-full flex flex-col shadow-md hover:shadow-xl transition-all" style="background-color: #262626; border: 1px solid rgba(255,255,255,0.1);">
+                    <div class="rounded-lg p-5 h-full flex flex-col shadow-md hover:shadow-xl transition-all bg-gray-900 border border-white/10">
                       <div class="flex gap-0.5 mb-3">
                         <svg v-for="s in review.rating" :key="s" class="w-4 h-4 text-amber-400 fill-current" viewBox="0 0 20 20">
                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
                       </div>
                       <p class="text-white/80 text-sm leading-relaxed mb-4 flex-1 line-clamp-3">"{{ review.comment }}"</p>
-                      <div class="flex items-center gap-3 pt-4" style="border-top: 1px solid rgba(255,255,255,0.1)">
+                      <div class="flex items-center gap-3 pt-4 border-t border-white/10">
                         <div class="w-9 h-9 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0">
                           {{ review.user_name?.charAt(0).toUpperCase() }}
                         </div>
@@ -208,12 +207,12 @@
               <div class="container mx-auto px-6 max-w-3xl">
                 <div class="text-center mb-10">
                   <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">FAQ</p>
-                  <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">Common Questions About {{ industry.title }} Solutions</h2>
+                  <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight">Common Questions About {{ industry.title }} Solutions</h2>
                 </div>
 
                 <div class="space-y-3">
-                  <div v-for="(faq, idx) in industryFaqs" :key="idx" class="bg-white border border-border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                    <button @click="toggleFaq(idx)" class="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
+                  <div v-for="(faq, idx) in industryFaqs" :key="idx" class="bg-card border border-border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                    <button @click="toggleFaq(idx)" class="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-muted/40 transition-colors">
                       <span class="font-medium text-foreground text-sm pr-6">{{ faq.question }}</span>
                       <svg class="w-5 h-5 text-muted-foreground shrink-0 transition-transform duration-200" :class="{ 'rotate-180': openFaqIndex === idx }" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" /></svg>
                     </button>
@@ -230,7 +229,7 @@
         <div class="container mx-auto px-6">
           <div class="text-center max-w-2xl mx-auto mb-10">
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Explore More</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground mb-4">Other Industries</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-4">Other Industries</h2>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             <router-link

@@ -106,7 +106,7 @@
                   </div>
                 </td>
                 <td class="p-4 text-muted-foreground text-sm">{{ u.email }}</td>
-                <td class="p-4 text-muted-foreground text-sm">{{ u.phone || 'â€”' }}</td>
+                <td class="p-4 text-muted-foreground text-sm">{{ u.phone || '—' }}</td>
                 <td class="p-4">
                   <span :class="['px-2.5 py-1 rounded-full text-xs font-semibold', roleClass(u.role)]">
                     {{ capitalize(u.role) }}
@@ -132,7 +132,7 @@
         <!-- Pagination -->
         <div v-if="pagination.lastPage > 1" class="flex items-center justify-between px-4 py-3 border-t border-border">
           <p class="text-muted-foreground text-sm">
-            Showing {{ pagination.from }}â€“{{ pagination.to }} of {{ pagination.total }}
+            Showing {{ pagination.from }}–{{ pagination.to }} of {{ pagination.total }}
           </p>
           <div class="flex items-center gap-1">
             <button
@@ -195,14 +195,14 @@
                     Password
                     <span v-if="editingUser" class="text-muted-foreground font-normal">(leave blank to keep current)</span>
                   </label>
-                  <input v-model="form.password" type="password" :required="!editingUser" class="w-full bg-background border border-border rounded-lg px-4 py-2.5 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" />
+                  <input v-model="form.password" type="password" :required="!editingUser" class="w-full bg-background border border-border rounded-lg px-4 py-2.5 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition" placeholder="••••••••" />
                   <p v-if="formErrors.password" class="text-red-500 text-xs mt-1">{{ formErrors.password[0] }}</p>
                 </div>
 
                 <!-- Confirm Password -->
                 <div>
                   <label class="block text-sm font-medium text-foreground mb-1.5">Confirm Password</label>
-                  <input v-model="form.password_confirmation" type="password" :required="!!form.password" class="w-full bg-background border border-border rounded-lg px-4 py-2.5 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" />
+                  <input v-model="form.password_confirmation" type="password" :required="!!form.password" class="w-full bg-background border border-border rounded-lg px-4 py-2.5 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition" placeholder="••••••••" />
                 </div>
 
                 <!-- Role -->
@@ -347,7 +347,7 @@ function roleClass(role: string) {
 }
 
 function formatDate(dateStr: string) {
-  if (!dateStr) return 'â€”';
+  if (!dateStr) return '—';
   return new Date(dateStr).toLocaleDateString('en-ZA', {
     year: 'numeric',
     month: 'short',

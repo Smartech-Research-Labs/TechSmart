@@ -214,7 +214,7 @@
       <!-- Pagination -->
       <div v-if="!loading && !error && filteredActivity.length > 0" class="flex items-center justify-between">
         <p class="text-sm text-muted-foreground">
-          Showing {{ paginationStart }}â€“{{ paginationEnd }} of {{ filteredActivity.length }} entries
+          Showing {{ paginationStart }}–{{ paginationEnd }} of {{ filteredActivity.length }} entries
         </p>
         <div class="flex gap-2">
           <button

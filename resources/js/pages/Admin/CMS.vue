@@ -72,7 +72,7 @@
             </div>
           </div>
           <div v-else class="text-center py-12 bg-card border border-border rounded-lg">
-            <p class="text-4xl mb-3"></p>
+            <p class="text-4xl mb-3">🖼️</p>
             <p class="text-muted-foreground">No sliders yet. Create your first hero slider!</p>
           </div>
         </div>
@@ -89,7 +89,7 @@
           <div v-if="clients.length > 0" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             <div v-for="client in clients" :key="client.id" class="bg-card border border-border rounded-lg p-4 text-center group relative hover:border-primary transition">
               <img v-if="client.logo" :src="`/storage/${client.logo}`" :alt="client.name" class="h-16 w-auto mx-auto object-contain" onerror="this.src='/placeholder-logo.png'" />
-              <div v-else class="h-16 flex items-center justify-center text-3xl"></div>
+              <div v-else class="h-16 flex items-center justify-center text-3xl">🏢</div>
               <p class="mt-2 text-sm font-medium text-foreground">{{ client.name }}</p>
               <p v-if="client.website_url" class="text-xs text-muted-foreground truncate">{{ client.website_url }}</p>
               <div class="absolute inset-0 bg-background/90 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-2 rounded-lg">
@@ -99,7 +99,7 @@
             </div>
           </div>
           <div v-else class="text-center py-12 bg-card border border-border rounded-lg">
-            <p class="text-4xl mb-3"></p>
+            <p class="text-4xl mb-3">🏢</p>
             <p class="text-muted-foreground">No clients yet. Add your first client logo!</p>
           </div>
         </div>
@@ -134,7 +134,7 @@
             </div>
           </div>
           <div v-else class="text-center py-12 bg-card border border-border rounded-lg">
-            <p class="text-4xl mb-3"></p>
+            <p class="text-4xl mb-3">📊</p>
             <p class="text-muted-foreground">No counters yet. Create stats for your homepage!</p>
           </div>
         </div>
@@ -166,7 +166,7 @@
             </div>
           </div>
           <div v-else class="text-center py-12 bg-card border border-border rounded-lg">
-            <p class="text-4xl mb-3"></p>
+            <p class="text-4xl mb-3">📄</p>
             <p class="text-muted-foreground">No custom pages yet.</p>
           </div>
         </div>
@@ -181,7 +181,9 @@
         <div class="bg-card border border-border rounded-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6">
           <div class="flex items-center justify-between mb-6">
             <h2 class="text-xl font-bold text-foreground">{{ sliderModal.editing ? 'Edit Slider' : 'Create Slider' }}</h2>
-            <button @click="sliderModal.show = false" class="text-muted-foreground hover:text-foreground"></button>
+            <button @click="sliderModal.show = false" class="text-muted-foreground hover:text-foreground transition">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
           </div>
           <form @submit.prevent="submitSlider" class="space-y-4">
             <div>
@@ -256,7 +258,9 @@
         <div class="bg-card border border-border rounded-xl w-full max-w-md max-h-[90vh] overflow-y-auto p-6">
           <div class="flex items-center justify-between mb-6">
             <h2 class="text-xl font-bold text-foreground">{{ clientModal.editing ? 'Edit Client' : 'Add Client' }}</h2>
-            <button @click="clientModal.show = false" class="text-muted-foreground hover:text-foreground"></button>
+            <button @click="clientModal.show = false" class="text-muted-foreground hover:text-foreground transition">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
           </div>
           <form @submit.prevent="submitClient" class="space-y-4">
             <div>
@@ -307,7 +311,9 @@
         <div class="bg-card border border-border rounded-xl w-full max-w-md max-h-[90vh] overflow-y-auto p-6">
           <div class="flex items-center justify-between mb-6">
             <h2 class="text-xl font-bold text-foreground">{{ counterModal.editing ? 'Edit Counter' : 'Add Counter' }}</h2>
-            <button @click="counterModal.show = false" class="text-muted-foreground hover:text-foreground"></button>
+            <button @click="counterModal.show = false" class="text-muted-foreground hover:text-foreground transition">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
           </div>
           <form @submit.prevent="submitCounter" class="space-y-4">
             <div>
@@ -326,7 +332,7 @@
             </div>
             <div>
               <label class="block text-sm font-medium text-foreground mb-1">Icon</label>
-              <input v-model="counterModal.form.icon" type="text" class="w-full px-3 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-primary" placeholder="e.g.  or icon class" />
+              <input v-model="counterModal.form.icon" type="text" class="w-full px-3 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-primary" placeholder="e.g. 🚀 or icon class" />
             </div>
             <div class="grid grid-cols-2 gap-4 items-end">
               <div>
@@ -363,7 +369,9 @@
         <div class="bg-card border border-border rounded-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6">
           <div class="flex items-center justify-between mb-6">
             <h2 class="text-xl font-bold text-foreground">{{ pageModal.editing ? 'Edit Page' : 'Create Page' }}</h2>
-            <button @click="pageModal.show = false" class="text-muted-foreground hover:text-foreground"></button>
+            <button @click="pageModal.show = false" class="text-muted-foreground hover:text-foreground transition">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
           </div>
           <form @submit.prevent="submitPage" class="space-y-4">
             <div class="grid grid-cols-2 gap-4">

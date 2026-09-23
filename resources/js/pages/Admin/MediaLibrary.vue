@@ -100,7 +100,7 @@
           <!-- Actions (show on hover) -->
           <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-2">
             <button
-              @click.stop="editingMedia = item; showEditModal = true"
+              @click.stop="editingItem(item)"
               class="p-2 bg-primary text-white rounded-lg hover:bg-primary/90"
               title="Edit metadata"
             >
@@ -254,6 +254,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
+import { useApi } from '@/composables/useApi'
 import { useToast } from '@/composables/useToast'
 import AdminLayout from '@/layouts/AdminLayout.vue'
 import { Button } from '@/components/ui/button'
@@ -264,7 +265,8 @@ import { Select } from '@/components/ui/select'
 import { Loader2, Wand2, Edit2, Trash2, X } from 'lucide-vue-next'
 import { debounce } from '@/utils/debounce'
 
-const { toast } = useToast()
+const { get, post, put, delete: destroy } = useApi()
+const toast = useToast()
 
 // State
 const media = ref([])
@@ -311,25 +313,24 @@ onMounted(() => {
 async function fetchMedia() {
   loading.value = true
   try {
-    const params = new URLSearchParams({
+    const params: Record<string, string | number> = {
       page: page.value,
       per_page: perPage.value,
       search: search.value,
       sort: sortBy.value,
       direction: 'desc',
-    })
-
-    if (selectedFolder.value !== 'all') {
-      params.append('folder', selectedFolder.value)
     }
 
-    const response = await fetch(`/api/v1/admin/media-library?${params}`)
-    const data = await response.json()
+    if (selectedFolder.value !== 'all') {
+      params.folder = selectedFolder.value
+    }
+
+    const data = await get('/admin/media-library', { params })
 
     media.value = data.data
     total.value = data.total
   } catch (error) {
-    toast({ title: 'Error', description: 'Failed to fetch media', variant: 'destructive' })
+    toast.error('Error', 'Failed to fetch media')
   } finally {
     loading.value = false
   }
@@ -337,9 +338,7 @@ async function fetchMedia() {
 
 async function fetchFolderStats() {
   try {
-    const response = await fetch('/api/v1/admin/media-library/stats')
-    const data = await response.json()
-    folderStats.value = data
+    folderStats.value = await get('/admin/media-library/stats')
   } catch (error) {
     console.error('Failed to fetch folder stats', error)
   }
@@ -348,20 +347,14 @@ async function fetchFolderStats() {
 async function scanImages() {
   scanning.value = true
   try {
-    const response = await fetch('/api/v1/admin/media-library/scan-import', {
-      method: 'POST',
-    })
-    const data = await response.json()
+    const data = await post('/admin/media-library/scan-import')
 
-    toast({
-      title: 'Scan Complete',
-      description: `Imported ${data.imported_count} images, Skipped ${data.skipped_count}`,
-    })
+    toast.success('Scan Complete', `Imported ${data.imported_count} images, Skipped ${data.skipped_count}`)
 
     fetchMedia()
     fetchFolderStats()
   } catch (error) {
-    toast({ title: 'Error', description: 'Failed to scan images', variant: 'destructive' })
+    toast.error('Error', 'Failed to scan images')
   } finally {
     scanning.value = false
   }
@@ -383,19 +376,13 @@ async function saveMetadata() {
 
   savingMetadata.value = true
   try {
-    const response = await fetch(`/api/v1/admin/media-library/${editingMedia.value.id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(editForm.value),
-    })
+    await put(`/admin/media-library/${editingMedia.value.id}`, editForm.value)
 
-    if (!response.ok) throw new Error('Failed to save')
-
-    toast({ title: 'Success', description: 'Metadata saved successfully' })
+    toast.success('Success', 'Metadata saved successfully')
     showEditModal.value = false
     fetchMedia()
   } catch (error) {
-    toast({ title: 'Error', description: 'Failed to save metadata', variant: 'destructive' })
+    toast.error('Error', 'Failed to save metadata')
   } finally {
     savingMetadata.value = false
   }
@@ -403,19 +390,12 @@ async function saveMetadata() {
 
 async function generateSeoForItem(item) {
   try {
-    const response = await fetch(`/api/v1/admin/media-library/${item.id}/generate-seo`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ context: '' }),
-    })
+    await post(`/admin/media-library/${item.id}/generate-seo`, { context: '' })
 
-    if (!response.ok) throw new Error('Failed to generate')
-
-    const data = await response.json()
-    toast({ title: 'Success', description: 'SEO metadata generated' })
+    toast.success('Success', 'SEO metadata generated')
     fetchMedia()
   } catch (error) {
-    toast({ title: 'Error', description: 'Failed to generate SEO metadata', variant: 'destructive' })
+    toast.error('Error', 'Failed to generate SEO metadata')
   }
 }
 
@@ -430,29 +410,19 @@ async function generateBulkSeo() {
 
   generatingBulkSeo.value = true
   try {
-    const response = await fetch('/api/v1/admin/media-library/bulk-generate-seo', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        media_ids: selectedMedia.value,
-        context: bulkSeoContext.value,
-        type: bulkSeoType.value,
-      }),
+    const data = await post('/admin/media-library/bulk-generate-seo', {
+      media_ids: selectedMedia.value,
+      context: bulkSeoContext.value,
+      type: bulkSeoType.value,
     })
 
-    if (!response.ok) throw new Error('Failed to generate')
-
-    const data = await response.json()
-    toast({
-      title: 'Success',
-      description: data.message,
-    })
+    toast.success('Success', data.message)
 
     showBulkSeoModal.value = false
     selectedMedia.value = []
     fetchMedia()
   } catch (error) {
-    toast({ title: 'Error', description: 'Failed to generate bulk SEO metadata', variant: 'destructive' })
+    toast.error('Error', 'Failed to generate bulk SEO metadata')
   } finally {
     generatingBulkSeo.value = false
   }
@@ -462,16 +432,12 @@ async function deleteMedia(item) {
   if (!confirm(`Delete "${item.name}"?`)) return
 
   try {
-    const response = await fetch(`/api/v1/admin/media-library/${item.id}`, {
-      method: 'DELETE',
-    })
+    await destroy(`/admin/media-library/${item.id}`)
 
-    if (!response.ok) throw new Error('Failed to delete')
-
-    toast({ title: 'Success', description: 'Media deleted' })
+    toast.success('Success', 'Media deleted')
     fetchMedia()
   } catch (error) {
-    toast({ title: 'Error', description: 'Failed to delete media', variant: 'destructive' })
+    toast.error('Error', 'Failed to delete media')
   }
 }
 </script>

@@ -227,7 +227,7 @@
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
               </svg>
-              Loading sessionsâ€¦
+              Loading sessions…
             </div>
 
             <!-- Error -->
@@ -319,7 +319,7 @@
                   :disabled="closingSession"
                   class="px-3 py-1.5 bg-red-500/20 text-red-400 hover:bg-red-500/30 rounded-md text-xs font-medium transition disabled:opacity-50"
                 >
-                  {{ closingSession ? 'Closingâ€¦' : 'Close Session' }}
+                  {{ closingSession ? 'Closing…' : 'Close Session' }}
                 </button>
               </div>
             </div>
@@ -332,7 +332,7 @@
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                 </svg>
-                Loading messagesâ€¦
+                Loading messages…
               </div>
 
               <!-- Messages Error -->
@@ -387,7 +387,7 @@
                 <input
                   v-model="replyText"
                   type="text"
-                  placeholder="Type your replyâ€¦"
+                  placeholder="Type your reply…"
                   class="flex-1 bg-muted border border-border rounded-lg px-4 py-2.5 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
                   :disabled="sendingReply"
                 />
@@ -396,7 +396,7 @@
                   :disabled="!replyText.trim() || sendingReply"
                   class="px-5 py-2.5 bg-primary text-primary-foreground rounded-lg font-medium text-sm hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {{ sendingReply ? 'Sendingâ€¦' : 'Send' }}
+                  {{ sendingReply ? 'Sending…' : 'Send' }}
                 </button>
               </form>
             </div>
@@ -418,7 +418,7 @@ import { useApi } from '@/composables/useApi';
 import { useToast } from '@/composables/useToast';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 
-// â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Types ───────────────────────────────────────────────────────────
 interface User {
   id: number;
   name: string;
@@ -429,7 +429,7 @@ interface ChatSession {
   id: number;
   user_id: number;
   subject: string | null;
-  status: 'open' | 'closed';
+  status: 'active' | 'closed';
   assigned_admin_id: number | null;
   created_at: string;
   user?: User;
@@ -515,7 +515,7 @@ const replyText = ref('');
 const sendingReply = ref(false);
 const closingSession = ref(false);
 
-// â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Helpers ─────────────────────────────────────────────────────────
 function formatDate(dateStr: string): string {
   if (!dateStr) return '';
   const d = new Date(dateStr);
@@ -544,13 +544,13 @@ function scrollToBottom() {
   });
 }
 
-// â”€â”€ API Calls â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── API Calls ───────────────────────────────────────────────────────
 async function fetchStats() {
   try {
     const data = await get<Stats>('/admin/chat/stats');
     stats.value = data;
   } catch {
-    // Silently fail â€” stats are non-critical
+    // Silently fail — stats are non-critical
   }
 }
 
@@ -639,7 +639,7 @@ async function closeSession() {
   }
 }
 
-// â”€â”€ Init â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Init ────────────────────────────────────────────────────────────
 onMounted(() => {
   fetchStats();
   fetchSessions();

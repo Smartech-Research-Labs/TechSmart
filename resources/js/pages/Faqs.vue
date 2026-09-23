@@ -24,7 +24,7 @@
       <div class="container mx-auto px-6">
         <div class="text-center max-w-2xl mx-auto mb-12">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Support Channels</p>
-          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Multiple Ways to Get Help</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">Multiple Ways to Get Help</h2>
           <p class="text-muted-foreground text-sm leading-relaxed">We believe in making support accessible. Choose the channel that works best for you, and our team will respond promptly to ensure your questions are answered.</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -61,7 +61,7 @@
       <div class="container mx-auto px-6">
         <div class="text-center max-w-2xl mx-auto mb-12">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">FAQ Categories</p>
-          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Browse by Topic</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">Browse by Topic</h2>
           <p class="text-muted-foreground text-sm leading-relaxed">Our FAQs cover a wide range of topics. Here are the most common categories clients ask about when working with OmniviaTech.</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
@@ -132,7 +132,7 @@
           </div>
           <div>
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">We're Here to Help</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Everything You Need to Know</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">Everything You Need to Know</h2>
             <p class="text-muted-foreground text-sm leading-relaxed mb-4">We understand that choosing a technology partner is a big decision. That's why we've compiled answers to the most frequently asked questions about our services, process, and pricing.</p>
             <p class="text-muted-foreground text-sm leading-relaxed">Can't find what you're looking for? Don't hesitate to reach out — our team is always happy to help.</p>
           </div>
@@ -145,7 +145,7 @@
       <div class="container mx-auto px-6 max-w-3xl">
         <div class="text-center mb-10">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-2">Answers</p>
-          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-3">Common Questions</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-3">Common Questions</h2>
         </div>
 
         <!-- Search FAQs -->
@@ -176,7 +176,7 @@
     <section class="py-14 md:py-20">
       <div class="container mx-auto px-6">
         <div class="text-center max-w-xl mx-auto mb-10">
-          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-3">Why Businesses Chose Us</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-3">Why Businesses Chose Us</h2>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           <div v-for="(val, i) in valueProps" :key="i" class="bg-card border border-border rounded-xl p-5 text-center hover:border-primary/40 hover:shadow-md transition-all">
@@ -194,7 +194,7 @@
         <div class="grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <p class="text-accent text-xs font-semibold tracking-widest uppercase mb-2">Get Started</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-2">Request a Quote</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-2">Request a Quote</h2>
             <p class="text-muted-foreground text-sm mb-6">Ready to move forward? Tell us about your project.</p>
             <form @submit.prevent="submitQuote" class="space-y-3">
               <div class="grid grid-cols-2 gap-3">
@@ -220,7 +220,7 @@
           <div class="absolute inset-0 bg-black/70"></div>
           <div class="relative grid lg:grid-cols-2 items-center">
             <div class="p-8 md:p-12 lg:p-14">
-              <h2 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4">Still Have Questions?</h2>
+              <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-white leading-tight mb-4">Still Have Questions?</h2>
               <p class="text-white/70 text-sm leading-relaxed mb-8">Our team is ready to help. Reach out for personalized guidance on any of our services or products.</p>
               <router-link to="/contact" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg">
                 Contact Us
@@ -239,7 +239,7 @@
     <section class="py-14 md:py-20 bg-muted/30">
       <div class="container mx-auto px-6">
         <div class="text-center max-w-xl mx-auto mb-8">
-          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-3">Other Areas You Might Be Interested In</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-3">Other Areas You Might Be Interested In</h2>
           <p class="text-muted-foreground text-sm">Explore more of what OmniviaTech has to offer.</p>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">

@@ -98,7 +98,7 @@
             <!-- Sidebar -->
             <div class="lg:col-span-1">
               <!-- Sticky Card -->
-              <div class="sticky top-24 bg-[#262626] border border-white/10 rounded-xl p-6 space-y-4">
+              <div class="sticky top-24 bg-gray-900 border border-white/10 rounded-xl p-6 space-y-4">
                 <!-- Price Highlight -->
                 <div v-if="pkg?.price" class="text-center pb-4 border-b border-white/10">
                   <div class="text-3xl font-bold text-primary mb-2">KES {{ formatPrice(pkg.price) }}</div>
@@ -127,7 +127,7 @@
                 <!-- Contact Buttons -->
                 <div class="space-y-3 pt-2">
                   <a
-                    :href="`https://wa.me/254710351517?text=Hi%2C%20I%20am%20interested%20in%20the%20${pkg?.name || 'website'}%20package`"
+                    :href="`https://wa.me/${whatsappDigits}?text=${encodeURIComponent('Hi, I am interested in the ' + (pkg?.name || 'website') + ' package')}`"
                     target="_blank"
                     rel="noopener noreferrer"
                     class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#25D366] text-white rounded-lg hover:bg-[#20ba5a] transition-all text-sm font-semibold"
@@ -139,7 +139,7 @@
                   </a>
 
                   <a
-                    href="mailto:info@omniviatech.co.ke"
+                    :href="`mailto:${s.contact_email || 'info@omniviatech.com'}`"
                     class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all text-sm font-semibold"
                   >
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -191,7 +191,7 @@
         <div class="container mx-auto px-6">
           <div class="text-center max-w-2xl mx-auto mb-12">
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Why This Package</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Why Choose {{ pkg?.name || 'This Package' }}</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">Why Choose {{ pkg?.name || 'This Package' }}</h2>
             <p class="text-muted-foreground text-sm leading-relaxed">Discover the unique benefits and advantages of this package tier designed specifically for your business stage.</p>
           </div>
 
@@ -261,7 +261,7 @@
             <!-- Right - Content -->
             <div>
               <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Package Features in Detail</p>
-              <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-6">What Makes {{ pkg?.name || 'This Package' }} Special</h2>
+              <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-6">What Makes {{ pkg?.name || 'This Package' }} Special</h2>
               <p class="text-muted-foreground text-sm leading-relaxed mb-6">This package is designed with the perfect balance of functionality and affordability. Whether you're just starting out or looking to enhance your existing presence, {{ pkg?.name || 'this package' }} provides all the essential tools you need.</p>
 
               <div class="space-y-4">
@@ -301,59 +301,27 @@
       </section>
 
       <!-- ═══════════════ TESTIMONIALS ═══════════════ -->
-      <section class="py-14 md:py-20 bg-[#262626]">
+      <section v-if="topReviews.length" class="py-14 md:py-20 bg-gray-900">
         <div class="container mx-auto px-6">
           <div class="text-center max-w-2xl mx-auto mb-12">
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Customer Success</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4">Success Stories from {{ pkg?.name || 'Package' }} Users</h2>
-            <p class="text-white/70 text-sm leading-relaxed">See how businesses like yours have achieved amazing results with this package.</p>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-white leading-tight mb-4">What Our Clients Say</h2>
+            <p class="text-white/70 text-sm leading-relaxed">See how businesses like yours have achieved results working with us.</p>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-white/5 border border-white/10 rounded-xl p-6 hover:border-primary/40 hover:bg-primary/5 transition-all">
+            <div v-for="review in topReviews.slice(0, 3)" :key="review.id" class="bg-white/5 border border-white/10 rounded-xl p-6 hover:border-primary/40 hover:bg-primary/5 transition-all">
               <div class="flex items-center gap-1 mb-4">
-                <span v-for="i in 5" :key="i" class="text-amber-500">★</span>
+                <span v-for="i in review.rating" :key="i" class="text-amber-500">★</span>
               </div>
-              <p class="text-white/80 text-sm leading-relaxed mb-4">"This package gave us exactly what we needed to get online quickly. The support team was incredibly helpful throughout the process."</p>
+              <p class="text-white/80 text-sm leading-relaxed mb-4">"{{ review.comment }}"</p>
               <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-blue-500/20 rounded-full flex items-center justify-center">
-                  <span class="text-sm font-bold text-blue-300">MC</span>
+                <div class="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center">
+                  <span class="text-sm font-bold text-primary">{{ review.user_name?.charAt(0).toUpperCase() }}</span>
                 </div>
                 <div>
-                  <p class="text-sm font-bold text-white">Michael Chen</p>
-                  <p class="text-xs text-white/60">Small Business Owner</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="bg-white/5 border border-white/10 rounded-xl p-6 hover:border-primary/40 hover:bg-primary/5 transition-all">
-              <div class="flex items-center gap-1 mb-4">
-                <span v-for="i in 5" :key="i" class="text-amber-500">★</span>
-              </div>
-              <p class="text-white/80 text-sm leading-relaxed mb-4">"The features included in this package exceeded our expectations. We've seen a significant increase in online inquiries since launch."</p>
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-green-500/20 rounded-full flex items-center justify-center">
-                  <span class="text-sm font-bold text-green-300">LP</span>
-                </div>
-                <div>
-                  <p class="text-sm font-bold text-white">Lisa Parker</p>
-                  <p class="text-xs text-white/60">Consultant</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="bg-white/5 border border-white/10 rounded-xl p-6 hover:border-primary/40 hover:bg-primary/5 transition-all">
-              <div class="flex items-center gap-1 mb-4">
-                <span v-for="i in 5" :key="i" class="text-amber-500">★</span>
-              </div>
-              <p class="text-white/80 text-sm leading-relaxed mb-4">"Great value for money. The website looks professional and the ongoing support gives us peace of mind. Highly recommended!"</p>
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-purple-500/20 rounded-full flex items-center justify-center">
-                  <span class="text-sm font-bold text-purple-300">RS</span>
-                </div>
-                <div>
-                  <p class="text-sm font-bold text-white">Robert Smith</p>
-                  <p class="text-xs text-white/60">Entrepreneur</p>
+                  <p class="text-sm font-bold text-white">{{ review.user_name }}</p>
+                  <p class="text-xs text-white/60">{{ review.company || 'Verified Client' }}</p>
                 </div>
               </div>
             </div>
@@ -365,13 +333,13 @@
       <section class="py-14 md:py-20 bg-primary/5 border-y border-border">
         <div class="container mx-auto px-6">
           <div class="text-center max-w-2xl mx-auto">
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Ready to Get Started?</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">Ready to Get Started?</h2>
             <p class="text-muted-foreground text-sm leading-relaxed mb-8">
               Join hundreds of successful businesses using the {{ pkg?.name || 'Professional' }} package. Start building your online presence today with professional support every step of the way.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                :href="`https://wa.me/254710351517?text=Hi%2C%20I%20am%20interested%20in%20the%20${pkg?.name || 'website'}%20package`"
+                :href="`https://wa.me/${whatsappDigits}?text=${encodeURIComponent('Hi, I am interested in the ' + (pkg?.name || 'website') + ' package')}`"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="inline-flex items-center justify-center gap-2 px-8 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all"
@@ -396,7 +364,7 @@
           <div class="max-w-2xl mx-auto">
             <div class="text-center mb-12">
               <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Get Started Today</p>
-              <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Request a Quote for {{ pkg?.name || 'This Package' }}</h2>
+              <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">Request a Quote for {{ pkg?.name || 'This Package' }}</h2>
               <p class="text-muted-foreground text-sm leading-relaxed">Fill out the form below and our team will get back to you within 24 hours with a personalized quote and consultation.</p>
             </div>
 
@@ -477,7 +445,7 @@
                 <span v-else>Sending...</span>
               </button>
 
-              <p class="text-xs text-muted-foreground text-center">We'll send your quote to <strong>info@omniviatech.co.ke</strong></p>
+              <p class="text-xs text-muted-foreground text-center">We'll get back to you within 24 hours at the email you provide.</p>
             </form>
           </div>
         </div>
@@ -500,18 +468,24 @@
 import { ref, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
+import { useCmsStore } from '@/stores/cms';
+import { useToast } from '@/composables';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import axios from 'axios';
-import heroLaptopDark from "@/../img/laptop-in-dark.webp";
-import tech1 from "@/../img/tech1.webp";
+import tech1 from '@/../img/tech1.webp';
 
 const route = useRoute();
 const authStore = useAuthStore();
+const cmsStore = useCmsStore();
+const toast = useToast();
+const s = computed(() => cmsStore.homeData?.settings || {} as any);
+const whatsappDigits = computed(() => (s.value.whatsapp_number || s.value.contact_phone || '254710351517').replace(/[^0-9]/g, ''));
 const pkg = ref<any>(null);
 const loading = ref(true);
 const wishlistLoading = ref(false);
 const isInWishlist = ref(false);
 const submittingQuote = ref(false);
+const topReviews = ref<any[]>([]);
 const quoteForm = ref({
   name: '',
   email: '',
@@ -600,53 +574,44 @@ const scrollToQuote = () => {
 };
 
 const submitQuoteForm = async () => {
+  submittingQuote.value = true;
   try {
-    submittingQuote.value = true;
-    
-    // Create email body
-    const emailBody = `
-New Quote Request for ${pkg.value?.name || 'Website Package'}
-
-Customer Details:
-Name: ${quoteForm.value.name}
-Email: ${quoteForm.value.email}
-Phone: ${quoteForm.value.phone}
-Company: ${quoteForm.value.company}
-
-Project Details:
-${quoteForm.value.message}
-
----
-This is an automated email from the website quote form.
-    `;
-
-    // Send email using mailto (opens email client) or via API
-    // For now, we'll create a mailto link
-    const subject = encodeURIComponent(`Quote Request: ${pkg.value?.name || 'Website Package'}`);
-    const body = encodeURIComponent(emailBody);
-    
-    // Option 1: Open email client
-    window.location.href = `mailto:info@omniviatech.co.ke?subject=${subject}&body=${body}`;
-    
-    // Reset form
-    setTimeout(() => {
-      quoteForm.value = {
-        name: '',
-        email: '',
-        phone: '',
-        company: '',
-        message: '',
-        agreeTerms: false,
-      };
-      submittingQuote.value = false;
-    }, 500);
+    await axios.post('/api/v1/enquiries', {
+      type: 'quote',
+      name: quoteForm.value.name,
+      email: quoteForm.value.email,
+      phone: quoteForm.value.phone,
+      company: quoteForm.value.company,
+      service: pkg.value?.name,
+      message: quoteForm.value.message,
+    });
+    toast.success('Quote request submitted! We will contact you within 24 hours.');
+    quoteForm.value = {
+      name: '',
+      email: '',
+      phone: '',
+      company: '',
+      message: '',
+      agreeTerms: false,
+    };
   } catch (error) {
     console.error('Failed to submit quote form:', error);
+    toast.error('Failed to submit. Please try again.');
+  } finally {
     submittingQuote.value = false;
   }
 };
 
+async function loadReviews() {
+  try {
+    const { data } = await axios.get('/api/v1/reviews', { params: { limit: 6 } });
+    topReviews.value = data.data || [];
+  } catch { /* silent */ }
+}
+
 onMounted(() => {
+  if (!cmsStore.homeData) cmsStore.fetchHomeData().catch(() => {});
   fetchPackage();
+  loadReviews();
 });
 </script>

@@ -89,10 +89,10 @@
     </section>
 
     <!-- ═══════════════ CTA ═══════════════ -->
-    <section class="py-16 md:py-20 bg-black text-white">
+    <section class="relative py-16 md:py-20 bg-black text-white overflow-hidden">
       <div class="absolute inset-0 opacity-30 bg-cover bg-center" :style="{ backgroundImage: 'url(' + heroTechGlow + ')' }"></div>
       <div class="relative container mx-auto px-6 text-center">
-        <h2 class="text-2xl md:text-3xl font-bold mb-4">Have a Project in Mind?</h2>
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">Have a Project in Mind?</h2>
         <p class="text-white/70 text-sm max-w-lg mx-auto mb-8">Let's discuss how our expertise can help your organization achieve its goals. Reach out for a free consultation.</p>
         <router-link to="/contact" class="inline-flex items-center gap-2 px-7 py-3 bg-white text-foreground text-sm font-semibold rounded-full hover:bg-white/90 transition-all shadow-lg">
           Get in Touch

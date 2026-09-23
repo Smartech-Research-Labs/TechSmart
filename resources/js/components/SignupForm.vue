@@ -1,4 +1,5 @@
 ﻿<script setup lang="ts">
+import axios from 'axios';
 import { ref, computed } from 'vue';
 import type { HTMLAttributes } from 'vue';
 import { useRouter } from 'vue-router';
@@ -133,7 +134,8 @@ async function handleSubmit() {
 async function handleGoogleSignUp() {
   googleProcessing.value = true;
   try {
-    window.location.href = `${import.meta.env.VITE_API_URL}/auth/google/redirect`;
+    const response = await axios.get('/api/v1/auth/google/redirect');
+    window.location.href = response.data.url;
   } catch {
     errors.value.email = 'Google sign-up failed. Please try again.';
     googleProcessing.value = false;
@@ -392,7 +394,7 @@ async function handleGoogleSignUp() {
                 <span class="text-xl font-bold text-foreground">OmniviaTech</span>
               </div>
               <p class="text-sm text-muted-foreground">
-                Join thousands of clients building with us
+                Join the businesses building with us
               </p>
             </div>
           </div>

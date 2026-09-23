@@ -128,7 +128,7 @@
         <div class="container mx-auto px-6">
           <div class="text-center max-w-2xl mx-auto mb-12">
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">More Success Stories</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Related Case Studies</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">Related Case Studies</h2>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -151,7 +151,7 @@
         <div class="absolute inset-0 opacity-30 bg-cover bg-center" :style="{ backgroundImage: 'url(' + heroTechGlow + ')' }"></div>
         <div class="absolute inset-0 bg-black/70"></div>
         <div class="relative container mx-auto px-6 text-center">
-          <h2 class="text-2xl md:text-3xl font-bold mb-4">Want Similar Results?</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">Want Similar Results?</h2>
           <p class="text-white/70 text-sm max-w-lg mx-auto mb-8">Let our experts help you achieve the same level of success. Contact us for a free consultation.</p>
           <div class="flex flex-wrap justify-center gap-3">
             <router-link to="/contact" class="inline-flex items-center gap-2 px-7 py-3 bg-white text-foreground text-sm font-semibold rounded-full hover:bg-white/90 transition-all shadow-lg">

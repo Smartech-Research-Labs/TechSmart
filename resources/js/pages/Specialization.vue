@@ -40,7 +40,7 @@
           <!-- Right - Content -->
           <div>
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">About This Area</p>
-            <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight mb-4">{{ specialization.title }}</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">{{ specialization.title }}</h2>
             <p class="text-muted-foreground text-sm leading-relaxed mb-4">{{ specialization.full_description }}</p>
             <p class="text-muted-foreground text-sm leading-relaxed mb-8">{{ specialization.extended_description }}</p>
 
@@ -81,11 +81,11 @@
     </section>
 
     <!-- ═══════════════ WHY CHOOSE US FOR THIS AREA ═══════════════ -->
-    <section v-if="whyChooseContent.length" class="py-12 md:py-16" style="background-color: #262626;">
+    <section v-if="whyChooseContent.length" class="py-12 md:py-16 bg-gray-900">
       <div class="container mx-auto px-6 max-w-5xl">
         <div class="text-center max-w-2xl mx-auto mb-10">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Why Choose Us</p>
-          <h2 class="text-xl md:text-2xl font-bold text-white leading-tight">Why Choose OmniviaTech for {{ specialization?.title }}</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-white leading-tight">Why Choose OmniviaTech for {{ specialization?.title }}</h2>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -93,7 +93,7 @@
             <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-1 z-20">
               <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
             </div>
-            <div class="relative rounded-2xl p-7 transition-all duration-300 overflow-hidden h-full shadow-lg hover:shadow-2xl transform group-hover:-translate-y-2" style="background-color: #262626; border: 1px solid #404040;" @mouseenter="$event.target.style.borderColor = '#3b82f6'" @mouseleave="$event.target.style.borderColor = '#404040'">
+            <div class="relative rounded-2xl p-7 transition-all duration-300 overflow-hidden h-full shadow-lg hover:shadow-2xl transform group-hover:-translate-y-2 bg-gray-900 border border-white/10 hover:border-accent">
               <div class="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-br from-primary/20 to-primary/10 transition-opacity duration-500"></div>
               <div class="absolute -top-6 -right-6 w-24 h-24 bg-primary/5 rounded-full group-hover:scale-150 group-hover:bg-primary/10 transition-all duration-500"></div>
               <div class="relative z-10">
@@ -114,7 +114,7 @@
       <div class="container mx-auto px-6 max-w-5xl">
         <div class="text-center max-w-2xl mx-auto mb-10">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Services</p>
-          <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">What We Offer in {{ specialization?.title }}</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight">What We Offer in {{ specialization?.title }}</h2>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -134,7 +134,7 @@
       <div class="container mx-auto px-6 max-w-5xl">
         <div class="text-center max-w-2xl mx-auto mb-10">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Process</p>
-          <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">How We Work</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight">How We Work</h2>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -155,7 +155,7 @@
       <div class="container mx-auto px-6 max-w-5xl">
         <div class="text-center max-w-2xl mx-auto mb-10">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Success Stories</p>
-          <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">What Our Clients Say</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight">What Our Clients Say</h2>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -174,11 +174,11 @@
     </section>
 
     <!-- ═══════════════ REQUEST A QUOTE ═══════════════ -->
-    <section class="py-12 md:py-16" style="background-color: #262626;">
+    <section class="py-12 md:py-16 bg-gray-900">
       <div class="container mx-auto px-6 max-w-5xl">
         <div class="text-center max-w-2xl mx-auto mb-10">
           <p class="text-accent text-xs font-semibold tracking-widest uppercase mb-3">Get Started</p>
-          <h2 class="text-xl md:text-2xl font-bold text-white leading-tight mb-3">Request a Quote</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-white leading-tight mb-3">Request a Quote</h2>
           <p class="text-white/75 text-sm leading-relaxed">Tell us about your {{ specialization?.title }} project and we'll get back to you within 24 hours.</p>
         </div>
 
@@ -239,7 +239,10 @@ import { useRoute } from 'vue-router';
 import heroLaptop from '@/../img/Laptop.webp';
 import heroLaptopDark from '@/../img/tech-background.webp';
 import heroTech from '@/../img/tech.webp';
+import { useToast } from '@/composables';
 import PublicLayout from '@/layouts/PublicLayout.vue';
+
+const toast = useToast();
 
 const route = useRoute();
 const specialization = ref<any>(null);
@@ -310,7 +313,7 @@ async function fetchSpecialization() {
     // Fetch services and testimonials
     const [servicesRes, testimonialsRes] = await Promise.all([
       axios.get('/api/v1/services').catch(() => ({ data: { data: [] } })),
-      axios.get('/api/v1/testimonials').catch(() => ({ data: { data: [] } })),
+      axios.get('/api/v1/reviews', { params: { limit: 6 } }).catch(() => ({ data: { data: [] } })),
     ]);
 
     allServices.value = servicesRes.data?.data || [];
@@ -325,7 +328,7 @@ async function fetchSpecialization() {
 async function submitQuoteRequest() {
   quoteFormSubmitting.value = true;
   try {
-    await axios.post('/api/v1/contact', {
+    await axios.post('/api/v1/enquiries', {
       type: 'quote',
       name: quoteForm.value.name,
       email: quoteForm.value.email,
@@ -335,13 +338,12 @@ async function submitQuoteRequest() {
       budget: quoteForm.value.budget,
       timeline: quoteForm.value.timeline,
     });
-    
-    // Reset form and show success message
+
     quoteForm.value = { name: '', email: '', phone: '', service: '', description: '', budget: '', timeline: '' };
-    alert('Thank you! We will contact you soon.');
+    toast.success('Quote request submitted! We will contact you within 24 hours.');
   } catch (error) {
     console.error('Error submitting quote:', error);
-    alert('Error submitting quote. Please try again.');
+    toast.error('Failed to submit quote request. Please try again.');
   } finally {
     quoteFormSubmitting.value = false;
   }

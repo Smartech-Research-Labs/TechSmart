@@ -1,5 +1,5 @@
 ﻿<template>
-  <div class="min-h-screen flex flex-col text-foreground" style="background-color: #ffffff;">
+  <div class="min-h-screen flex flex-col bg-background text-foreground">
     <!-- Site Header (GlobalMegaMenu) -->
     <GlobalMegaMenu />
 
@@ -9,13 +9,13 @@
     </main>
 
     <!-- Auth Footer -->
-    <footer class="border-t py-4" style="background-color: #ffffff; border-color: rgba(255,255,255,0.1);">
-      <div class="container mx-auto flex flex-col items-center justify-between gap-2 px-4 text-xs text-gray-500 sm:flex-row">
+    <footer class="border-t border-border py-4">
+      <div class="container mx-auto flex flex-col items-center justify-between gap-2 px-4 text-xs text-muted-foreground sm:flex-row">
         <p>&copy; {{ new Date().getFullYear() }} {{ settings?.site_name || 'OmniviaTech' }}. All rights reserved.</p>
         <div class="flex items-center gap-4">
-          <router-link to="/" class="hover:text-white transition-colors">Home</router-link>
-          <router-link to="/contact" class="hover:text-white transition-colors">Contact</router-link>
-          <router-link to="/faqs" class="hover:text-white transition-colors">FAQs</router-link>
+          <router-link to="/" class="hover:text-primary transition-colors">Home</router-link>
+          <router-link to="/contact" class="hover:text-primary transition-colors">Contact</router-link>
+          <router-link to="/faqs" class="hover:text-primary transition-colors">FAQs</router-link>
         </div>
       </div>
     </footer>

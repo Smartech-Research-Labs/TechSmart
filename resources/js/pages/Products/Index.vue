@@ -24,7 +24,7 @@
       <div class="container mx-auto px-6">
         <div class="text-center max-w-2xl mx-auto mb-12">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Key Features</p>
-          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">What Makes Our Products Stand Out</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">What Makes Our Products Stand Out</h2>
           <p class="text-muted-foreground text-sm leading-relaxed">Every product in our catalog is built with modern technology stacks, following industry best practices for performance, security, and scalability. Here is what you can expect from any OmniviaTech product.</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -71,7 +71,7 @@
           </div>
           <div>
             <p class="text-accent text-xs font-semibold tracking-widest uppercase mb-3">Why Our Products</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Built for Performance & Scale</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">Built for Performance & Scale</h2>
             <p class="text-muted-foreground text-sm leading-relaxed mb-4">Our products are engineered with modern technology stacks, designed for reliability, and optimized for the African market. Every solution undergoes rigorous testing to ensure it meets enterprise-grade standards.</p>
             <p class="text-muted-foreground text-sm leading-relaxed">Whether you need a ready-made SaaS platform or a customizable toolkit, our products give you the head start you need.</p>
           </div>
@@ -84,7 +84,7 @@
       <div class="container mx-auto px-6">
         <div class="text-center max-w-xl mx-auto mb-10">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-2">Value Proposition</p>
-          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-3">Why Choose Our Products</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-3">Why Choose Our Products</h2>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           <div v-for="(val, i) in valueProps" :key="i" class="bg-card border border-border rounded-xl p-5 text-center hover:border-primary/40 hover:shadow-md transition-all">
@@ -101,7 +101,7 @@
       <div class="container mx-auto px-6">
         <div class="mb-8">
           <p class="text-accent text-xs font-semibold tracking-widest uppercase mb-2">Browse Products</p>
-          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight">Our Product Catalog</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight">Our Product Catalog</h2>
         </div>
 
         <div v-if="loading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -149,7 +149,7 @@
         <div class="grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <p class="text-accent text-xs font-semibold tracking-widest uppercase mb-2">Get Started</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-2">Request a Quote</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-2">Request a Quote</h2>
             <p class="text-muted-foreground text-sm mb-6">Interested in our products? Let us know your requirements.</p>
             <form @submit.prevent="submitQuote" class="space-y-3">
               <div class="grid grid-cols-2 gap-3">
@@ -176,7 +176,7 @@
           <div class="absolute inset-0 bg-black/70"></div>
           <div class="relative grid lg:grid-cols-2 items-center">
             <div class="p-8 md:p-12 lg:p-14">
-              <h2 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4">Need Something Custom?</h2>
+              <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-white leading-tight mb-4">Need Something Custom?</h2>
               <p class="text-white/70 text-sm leading-relaxed mb-8">We build tailored products to match your exact business requirements.</p>
               <router-link to="/contact" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg">
                 Contact Us
@@ -195,7 +195,7 @@
     <section class="py-14 md:py-20 bg-muted/30">
       <div class="container mx-auto px-6">
         <div class="text-center max-w-xl mx-auto mb-8">
-          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-3">Other Areas You Might Be Interested In</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-3">Other Areas You Might Be Interested In</h2>
           <p class="text-muted-foreground text-sm">Explore more of what OmniviaTech has to offer.</p>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">

@@ -475,91 +475,6 @@
           </div>
         </CardContent>
       </Card>
-
-      <!-- Server Metrics -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <!-- Performance Metrics -->
-        <Card>
-          <CardHeader>
-            <CardTitle class="text-base flex items-center gap-2">
-              <IconActivity class="size-4 text-primary" />
-              Performance
-            </CardTitle>
-          </CardHeader>
-          <CardContent class="space-y-4">
-            <div class="space-y-2">
-              <div class="flex justify-between text-xs">
-                <span class="text-muted-foreground">Response Time</span>
-                <span class="text-foreground font-medium">{{ overview?.system_health?.response_time || '45ms' }}</span>
-              </div>
-              <div class="h-2 bg-muted rounded-full overflow-hidden">
-                <div class="h-full w-[25%] bg-emerald-500 rounded-full" />
-              </div>
-            </div>
-            <div class="space-y-2">
-              <div class="flex justify-between text-xs">
-                <span class="text-muted-foreground">Memory Usage</span>
-                <span class="text-foreground font-medium">{{ overview?.system_health?.memory_usage || '62%' }}</span>
-              </div>
-              <div class="h-2 bg-muted rounded-full overflow-hidden">
-                <div class="h-full w-[62%] bg-blue-500 rounded-full" />
-              </div>
-            </div>
-            <div class="space-y-2">
-              <div class="flex justify-between text-xs">
-                <span class="text-muted-foreground">CPU Load</span>
-                <span class="text-foreground font-medium">{{ overview?.system_health?.cpu_load || '28%' }}</span>
-              </div>
-              <div class="h-2 bg-muted rounded-full overflow-hidden">
-                <div class="h-full w-[28%] bg-violet-500 rounded-full" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <!-- Traffic Sources -->
-        <Card>
-          <CardHeader>
-            <CardTitle class="text-base flex items-center gap-2">
-              <IconChartBar class="size-4 text-primary" />
-              Traffic Sources
-            </CardTitle>
-          </CardHeader>
-          <CardContent class="space-y-3">
-            <div v-for="source in trafficSources" :key="source.name" class="flex items-center justify-between">
-              <div class="flex items-center gap-2">
-                <span class="text-base">{{ source.icon }}</span>
-                <span class="text-sm text-foreground">{{ source.name }}</span>
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="text-sm font-medium text-foreground">{{ source.percentage }}%</span>
-                <div class="w-16 h-1.5 bg-muted rounded-full overflow-hidden">
-                  <div :class="['h-full rounded-full', source.color]" :style="{ width: `${source.percentage}%` }" />
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <!-- Top Pages -->
-        <Card>
-          <CardHeader>
-            <CardTitle class="text-base flex items-center gap-2">
-              <IconFileDescription class="size-4 text-primary" />
-              Top Pages
-            </CardTitle>
-          </CardHeader>
-          <CardContent class="space-y-2">
-            <div v-for="(page, idx) in topPages" :key="page.path" class="flex items-center justify-between py-1.5">
-              <div class="flex items-center gap-2">
-                <span class="text-xs text-muted-foreground font-mono">{{ idx + 1 }}.</span>
-                <span class="text-sm text-foreground truncate max-w-[120px]">{{ page.name }}</span>
-              </div>
-              <span class="text-xs text-muted-foreground">{{ page.views }} views</span>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
     </template>
   </AdminLayout>
 </template>
@@ -584,8 +499,6 @@ import {
   IconDeviceDesktop,
   IconDeviceMobile,
   IconActivity,
-  IconChartBar,
-  IconFileDescription,
 } from '@tabler/icons-vue';
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
@@ -740,23 +653,6 @@ const contentDistribution = computed(() => {
     percentage: total > 0 ? Math.round((i.count / total) * 100) : 0,
   }));
 });
-
-// --- Traffic sources (static demo data) ---
-const trafficSources = [
-  { name: 'Direct', icon: '🔗', percentage: 40, color: 'bg-blue-500' },
-  { name: 'Search', icon: '🔍', percentage: 30, color: 'bg-emerald-500' },
-  { name: 'Social', icon: '📱', percentage: 20, color: 'bg-pink-500' },
-  { name: 'Referral', icon: '🔄', percentage: 10, color: 'bg-amber-500' },
-];
-
-// --- Top pages (static demo data) ---
-const topPages = [
-  { name: 'Home', path: '/', views: 2453 },
-  { name: 'Services', path: '/services', views: 1842 },
-  { name: 'Products', path: '/products', views: 1205 },
-  { name: 'Contact', path: '/contact', views: 976 },
-  { name: 'About', path: '/about', views: 654 },
-];
 
 // --- Format user date ---
 function formatUserDate(dateStr: string): string {

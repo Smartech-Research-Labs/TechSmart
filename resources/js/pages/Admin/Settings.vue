@@ -899,6 +899,45 @@
               </div>
             </CardContent>
           </Card>
+
+          <!-- AI Blog Automation -->
+          <Card class="mt-6">
+            <CardHeader>
+              <CardTitle>AI Blog Automation</CardTitle>
+              <CardDescription>Automatically writes and publishes an SEO-optimized blog post every Monday and Thursday, covering your services for an international audience. Requires an OpenAI API key above.</CardDescription>
+            </CardHeader>
+            <CardContent class="space-y-6">
+              <div class="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
+                <div>
+                  <p class="text-foreground font-semibold">Automated Posting</p>
+                  <p class="text-sm text-muted-foreground">
+                    {{ aiBlog.enabled ? 'Enabled' : 'Disabled' }} &middot; Schedule: {{ aiBlog.schedule }}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  :disabled="aiBlogToggling"
+                  :class="['relative inline-flex h-6 w-11 items-center rounded-full transition-colors disabled:opacity-50', aiBlog.enabled ? 'bg-primary' : 'bg-border']"
+                  @click="toggleAiBlogAutomation"
+                >
+                  <span :class="['inline-block h-4 w-4 transform rounded-full bg-white transition-transform', aiBlog.enabled ? 'translate-x-6' : 'translate-x-1']" />
+                </button>
+              </div>
+
+              <Button variant="outline" :disabled="aiBlogGenerating" @click="generateAiBlogNow">
+                <Loader2 v-if="aiBlogGenerating" class="mr-2 h-4 w-4 animate-spin" />
+                {{ aiBlogGenerating ? 'Generating...' : 'Generate a Post Now' }}
+              </Button>
+
+              <div v-if="aiBlog.recent_posts?.length" class="space-y-2">
+                <p class="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Recent AI Posts</p>
+                <div v-for="post in aiBlog.recent_posts" :key="post.id" class="flex items-center justify-between text-sm p-2.5 rounded-lg hover:bg-muted/30 transition">
+                  <span class="text-foreground truncate pr-2">{{ post.title }}</span>
+                  <span class="text-xs text-muted-foreground shrink-0">{{ post.category }}</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>
@@ -1044,7 +1083,7 @@ const form = reactive({
   huggingface_api_key: '',
   groq_api_key: '',
   ollama_base_url: '',
-  default_ai_provider: 'openai',
+  default_ai_provider: 'gemini',
   ai_max_tokens: '2048',
   ai_temperature: '0.7',
 });
@@ -1346,6 +1385,54 @@ function applyPreset(preset: { name: string; primary: string; accent: string }) 
   form.theme_accent_color = preset.accent;
 }
 
+// ── AI Blog Automation ──
+interface AiBlogStatus {
+  enabled: boolean;
+  schedule: string;
+  recent_posts: Array<{ id: number; title: string; category: string }>;
+}
+
+const aiBlog = ref<AiBlogStatus>({ enabled: true, schedule: '', recent_posts: [] });
+const aiBlogToggling = ref(false);
+const aiBlogGenerating = ref(false);
+
+async function fetchAiBlogStatus() {
+  try {
+    aiBlog.value = await get('/admin/ai-blog/status');
+  } catch {
+    // Non-critical — panel just shows defaults until this loads.
+  }
+}
+
+async function toggleAiBlogAutomation() {
+  aiBlogToggling.value = true;
+  try {
+    const data = await post('/admin/ai-blog/toggle', { enabled: !aiBlog.value.enabled });
+    aiBlog.value.enabled = data.enabled;
+    toast.success('Updated', data.message);
+  } catch (e: any) {
+    toast.error('Failed to update', e?.response?.data?.message ?? 'Please try again.');
+  } finally {
+    aiBlogToggling.value = false;
+  }
+}
+
+async function generateAiBlogNow() {
+  aiBlogGenerating.value = true;
+  try {
+    const data = await post('/admin/ai-blog/generate-now');
+    toast.success('Post published', `"${data.blog.title}" is now live.`);
+    await fetchAiBlogStatus();
+  } catch (e: any) {
+    toast.error('Generation failed', e?.response?.data?.message ?? 'Please try again.');
+  } finally {
+    aiBlogGenerating.value = false;
+  }
+}
+
 // ── Init ──
-onMounted(fetchSettings);
+onMounted(() => {
+  fetchSettings();
+  fetchAiBlogStatus();
+});
 </script>

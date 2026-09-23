@@ -174,7 +174,11 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { Loader2, Upload, Trash2, ImageIcon, Check } from 'lucide-vue-next'
-import axios from 'axios'
+import { useApi } from '@/composables/useApi'
+import { useToast } from '@/composables/useToast'
+
+const { get, post, delete: destroy } = useApi()
+const toast = useToast()
 
 interface MediaImage {
   path: string
@@ -212,8 +216,10 @@ const deleting = ref(false)
 async function fetchImages() {
   loading.value = true
   try {
-    const { data } = await axios.get('/api/v1/admin/media')
+    const data = await get('/admin/media')
     images.value = data.images
+  } catch {
+    toast.error('Error', 'Failed to load media')
   } finally {
     loading.value = false
   }
@@ -233,7 +239,7 @@ async function handleSingleUpload(e: Event) {
     formData.append('image', file)
     formData.append('convert_webp', String(convertWebp.value))
 
-    await axios.post('/api/v1/admin/media/upload', formData, {
+    await post('/admin/media/upload', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     })
 
@@ -262,7 +268,7 @@ async function handleBulkUpload(e: Event) {
     }
     formData.append('convert_webp', String(convertWebp.value))
 
-    const { data } = await axios.post('/api/v1/admin/media/upload-multiple', formData, {
+    const data = await post('/admin/media/upload-multiple', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     })
 
@@ -283,11 +289,11 @@ function previewImage(image: MediaImage) {
 
 async function deleteSingle(path: string) {
   try {
-    await axios.delete('/api/v1/admin/media', { data: { path } })
+    await destroy('/admin/media', { data: { path } })
     previewImageUrl.value = null
     await fetchImages()
   } catch {
-    // ignore
+    toast.error('Error', 'Failed to delete image')
   }
 }
 
@@ -312,11 +318,13 @@ function confirmBulkDelete() {
 async function executeBulkDelete() {
   deleting.value = true
   try {
-    await axios.post('/api/v1/admin/media/delete-multiple', { paths: selected.value })
+    await post('/admin/media/delete-multiple', { paths: selected.value })
     selected.value = []
     selectMode.value = false
     showDeleteConfirm.value = false
     await fetchImages()
+  } catch {
+    toast.error('Error', 'Failed to delete selected images')
   } finally {
     deleting.value = false
   }

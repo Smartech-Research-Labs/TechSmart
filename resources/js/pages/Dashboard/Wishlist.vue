@@ -79,13 +79,13 @@
               <span v-if="item.wishlistable?.price" class="text-primary font-bold">
                 Ksh {{ Number(item.wishlistable.price).toLocaleString() }}
               </span>
-              <span v-else class="text-muted-foreground text-sm">â€”</span>
+              <span v-else class="text-muted-foreground text-sm">—</span>
               <router-link
                 v-if="item.wishlistable?.slug"
                 :to="getDetailLink(item)"
                 class="text-sm text-muted-foreground hover:text-foreground transition"
               >
-                View Details â†’
+                View Details →
               </router-link>
             </div>
           </div>
@@ -146,10 +146,10 @@ function getTypeLabel(type: string): string {
 }
 
 function getTypeEmoji(type: string): string {
-  if (type.includes('Product')) return 'ðŸ“¦';
-  if (type.includes('Service')) return 'ðŸš€';
-  if (type.includes('Bundle')) return 'ðŸ“';
-  return 'ðŸ’Ž';
+  if (type.includes('Product')) return '📦';
+  if (type.includes('Service')) return '🚀';
+  if (type.includes('Bundle')) return '📁';
+  return '💎';
 }
 
 function getDetailLink(item: any): string {

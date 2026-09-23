@@ -21,7 +21,7 @@
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
         </svg>
-        <span class="ml-3 text-muted-foreground">Loading rolesâ€¦</span>
+        <span class="ml-3 text-muted-foreground">Loading roles…</span>
       </div>
 
       <!-- Error State -->
@@ -205,7 +205,7 @@
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                   </svg>
-                  <span class="ml-2 text-sm text-muted-foreground">Loading permissionsâ€¦</span>
+                  <span class="ml-2 text-sm text-muted-foreground">Loading permissions…</span>
                 </div>
 
                 <div v-else class="space-y-4">
@@ -312,7 +312,7 @@ import { useApi } from '@/composables/useApi';
 import { useToast } from '@/composables/useToast';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 
-// â”€â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Types ─────────────────────────────────────────────────
 interface Role {
   id: number;
   name: string;
@@ -322,11 +322,11 @@ interface Role {
   users_count: number;
 }
 
-// â”€â”€â”€ Composables â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Composables ─────────────────────────────────────────────────────
 const { get, post, put, delete: del } = useApi();
 const toast = useToast();
 
-// â”€â”€â”€ State â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── State ───────────────────────────────────────────────────────────
 const roles = ref<Role[]>([]);
 const allPermissions = ref<string[]>([]);
 const loading = ref(false);
@@ -349,7 +349,7 @@ const form = reactive({
 
 const SYSTEM_ROLES = ['superadmin', 'admin', 'user'];
 
-// â”€â”€â”€ Computed â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Computed ────────────────────────────────────────────────────────
 const groupedPermissions = computed(() => {
   const groups: Record<string, string[]> = {};
   for (const perm of allPermissions.value) {
@@ -366,7 +366,7 @@ const groupedPermissions = computed(() => {
   return sorted;
 });
 
-// â”€â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Helpers ─────────────────────────────────────────────────────────
 function isSystemRole(name: string): boolean {
   return SYSTEM_ROLES.includes(name.toLowerCase());
 }
@@ -381,7 +381,7 @@ function roleColor(name: string): string {
 }
 
 function formatDate(dateStr: string): string {
-  if (!dateStr) return 'â€”';
+  if (!dateStr) return '—';
   return new Date(dateStr).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short',
@@ -427,7 +427,7 @@ function resetForm() {
   formErrors.permissions = undefined;
 }
 
-// â”€â”€â”€ API Calls â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── API Calls ───────────────────────────────────────────────────────
 async function fetchRoles() {
   loading.value = true;
   error.value = null;
@@ -456,7 +456,7 @@ async function fetchPermissions() {
   }
 }
 
-// â”€â”€â”€ Modal Actions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Modal Actions ───────────────────────────────────────────────────
 function openCreateModal() {
   resetForm();
   editingRole.value = null;
@@ -522,7 +522,7 @@ async function submitForm() {
   }
 }
 
-// â”€â”€â”€ Delete â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Delete ──────────────────────────────────────────────────────────
 function confirmDelete(role: Role) {
   deletingRole.value = role;
   showDeleteModal.value = true;
@@ -546,7 +546,7 @@ async function deleteRole() {
   }
 }
 
-// â”€â”€â”€ Init â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Init ────────────────────────────────────────────────────────────
 onMounted(() => {
   fetchRoles();
 });

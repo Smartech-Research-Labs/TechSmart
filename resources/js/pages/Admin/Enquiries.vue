@@ -265,7 +265,7 @@ async function fetchStats() {
     stats.in_progress = data.in_progress ?? 0;
     stats.resolved = data.resolved ?? 0;
   } catch {
-    // stats are non-critical â€” silently ignore
+    // stats are non-critical — silently ignore
   }
 }
 

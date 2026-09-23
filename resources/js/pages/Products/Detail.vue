@@ -63,7 +63,7 @@
 
             <div>
               <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">About This Product</p>
-              <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">{{ product.name }}</h2>
+              <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">{{ product.name }}</h2>
               <div class="text-muted-foreground text-sm leading-relaxed space-y-4 mb-8" v-html="product.description || '<p>Loading description...</p>'"></div>
 
               <div v-if="featureList.length" class="space-y-3">
@@ -83,7 +83,7 @@
         <div class="container mx-auto px-6">
           <div class="text-center max-w-2xl mx-auto mb-12">
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Key Features</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Features & Capabilities</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">Features & Capabilities</h2>
             <p class="text-muted-foreground text-sm leading-relaxed">Everything {{ product.name }} includes to power your business.</p>
           </div>
 
@@ -102,7 +102,7 @@
         <div class="container mx-auto px-6">
           <div class="text-center max-w-2xl mx-auto mb-12">
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Technical Specifications</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Specifications</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">Specifications</h2>
             <p class="text-muted-foreground text-sm leading-relaxed">Detailed technical information about {{ product.name }}.</p>
           </div>
 
@@ -117,67 +117,11 @@
         </div>
       </section>
 
-      <section class="w-full min-h-[600px] relative">
-        <div
-          class="relative min-h-[540px] text-white overflow-hidden bg-fixed bg-cover bg-center"
-          :style="{ backgroundImage: 'url(' + heroCTAbg + ')' }"
-        >
-          <div class="absolute inset-0 bg-black/60"></div>
-          <div class="absolute inset-0 z-10 flex flex-col justify-center items-center text-center px-6 md:px-0">
-            <h1 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4 max-w-3xl">
-              View What We Have to Offer Your Business
-            </h1>
-            <p class="text-white/70 text-sm md:text-base leading-relaxed mb-8 max-w-2xl">
-              Explore digital solutions tailored to help your business grow, improve efficiency, and strengthen your online presence.
-            </p>
-            <a
-              href="/products"
-              class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold hover:bg-primary/90 transition-all shadow-lg"
-            >
-              Explore Products
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                <path d="M7 17L17 7M17 7H7M17 7v10"/>
-              </svg>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <section class="py-14 md:py-20 bg-muted/30">
-        <div class="container mx-auto px-6">
-          <div class="text-center max-w-3xl mx-auto mb-12">
-            <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Global Impact</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Population Impacted</h2>
-            <p class="text-muted-foreground text-sm leading-relaxed">Our solutions reach communities and organizations worldwide, driving data-driven decisions aligned with the UN's Sustainable Development Goals.</p>
-          </div>
-
-          <div class="grid lg:grid-cols-2 gap-8 items-stretch">
-            <div class="rounded-2xl flex flex-col items-center justify-center min-h-[380px] relative overflow-hidden">
-              <img :src="populationImg" alt="Population Impacted" class="absolute inset-0 w-full h-full object-contain" />
-              <div class="absolute inset-0 bg-black/60"></div>
-              <div class="relative flex flex-col items-center justify-center min-h-[380px] px-6">
-                <p class="text-center mb-6">
-                  <span class="bg-primary text-white px-3 py-1.5 rounded text-sm font-semibold">Delivered</span>
-                  <span class="text-white/90 ml-2 text-sm italic">impactful projects across the globe.</span>
-                </p>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4 content-center">
-              <div v-for="(stat, i) in impactStats" :key="i" class="bg-card border border-border rounded-xl p-5 text-center hover:shadow-sm hover:border-primary/20 transition-all">
-                <div class="text-2xl md:text-3xl font-bold text-primary mb-1">{{ stat.value }}</div>
-                <div class="text-muted-foreground text-xs font-medium">{{ stat.label }}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section class="py-14 md:py-20">
         <div class="container mx-auto px-6">
           <div class="text-center max-w-2xl mx-auto mb-12">
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Success Stories</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Case Studies</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">Case Studies</h2>
             <p class="text-muted-foreground text-sm leading-relaxed">See how our {{ product.name }} product has delivered real results for our clients.</p>
           </div>
 
@@ -215,7 +159,7 @@
         <div class="container mx-auto px-6">
           <div class="text-center max-w-2xl mx-auto mb-12">
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Blog & Insights</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Related Articles</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">Related Articles</h2>
             <p class="text-muted-foreground text-sm leading-relaxed">Stay up to date with insights about {{ product.category || product.name }}.</p>
           </div>
 
@@ -248,7 +192,7 @@
         <div class="container mx-auto px-6">
           <div class="text-center max-w-2xl mx-auto mb-12">
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Explore More</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Other Products You Might Be Interested In</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">Other Products You Might Be Interested In</h2>
             <p class="text-muted-foreground text-sm leading-relaxed">Discover more products that complement {{ product.name }}.</p>
           </div>
 
@@ -281,7 +225,7 @@
         <div class="container mx-auto px-6">
           <div class="text-center max-w-2xl mx-auto mb-12">
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Why Choose Us</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">The OmniviaTech Advantage</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">The OmniviaTech Advantage</h2>
             <p class="text-muted-foreground text-sm leading-relaxed">Why leading organizations trust us for their {{ product.category || 'technology' }} needs.</p>
           </div>
 
@@ -306,7 +250,7 @@
         <div class="container mx-auto px-6">
           <div class="text-center max-w-2xl mx-auto mb-12">
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Industries We Serve</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Areas You Might Be Interested In</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">Areas You Might Be Interested In</h2>
             <p class="text-muted-foreground text-sm leading-relaxed">Our {{ product.name }} product serves various sectors and industries.</p>
           </div>
 
@@ -338,7 +282,7 @@
         <div class="container mx-auto px-6">
           <div class="text-center max-w-2xl mx-auto mb-12">
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Client Testimonials</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">What Our Clients Say</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">What Our Clients Say</h2>
             <p class="text-muted-foreground text-sm leading-relaxed">Hear from organizations that use {{ product.name }}.</p>
           </div>
 
@@ -372,7 +316,7 @@
           <div class="max-w-3xl mx-auto">
             <div class="text-center mb-12">
               <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Frequently Asked Questions</p>
-              <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Have Questions?</h2>
+              <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">Have Questions?</h2>
               <p class="text-muted-foreground text-sm leading-relaxed">Find answers to common questions about {{ product.name }}.</p>
             </div>
 
@@ -406,118 +350,11 @@
         </div>
       </section>
 
-      <section class="py-10 md:py-14">
-        <div class="container mx-auto px-6">
-          <div class="text-center mb-8">
-            <p class="text-xs text-muted-foreground font-medium uppercase tracking-wider">Trusted By Leading Organizations</p>
-          </div>
-          <div class="flex flex-wrap items-center justify-center gap-8 md:gap-12 opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500">
-            <div v-for="badge in trustBadges" :key="badge.name" class="flex flex-col items-center gap-2">
-              <div class="w-16 h-16 bg-muted/50 rounded-xl flex items-center justify-center">
-                <svg class="w-8 h-8 text-foreground/60" fill="currentColor" viewBox="0 0 24 24">
-                  <path v-if="badge.icon === 'shield'" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                  <path v-else-if="badge.icon === 'award'" d="M12 15l-2 5.54.18-.55L8.5 18l-1.68 1.99.18-.55L5 20.98l3.54-2.09L12 15zm0 0l2 5.54-.18-.55 1.68 1.99L17.18 20l-.18.55 2 1.44-3.54-2.09L12 15zm0 0l-2-5.54-.18-.55-1.68-1.99.18.55-2-1.44 3.54 2.09L12 15zm0 0l2-5.54.18-.55 1.68-1.99-.18.55 2-1.44-3.54 2.09L12 15z"/>
-                  <path v-else d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-              </div>
-              <span class="text-[10px] font-medium text-muted-foreground text-center">{{ badge.name }}</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="py-12 md:py-16" style="background-color: #ffffff;">
-        <div class="container mx-auto px-6 max-w-5xl">
-          <div class="text-center max-w-2xl mx-auto mb-12">
-            <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Purpose</p>
-            <h2 class="text-xl md:text-2xl font-bold text-gray-900 leading-tight">Mission & Vision</h2>
-            <p class="text-gray-600 text-sm leading-relaxed mt-3">The principles that shape every decision we make, and the future we are building toward.</p>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="relative group rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl" style="background-color: #d311f5; border: 1px solid #d311f5;">
-              <div class="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-br from-primary/20 to-primary/10 transition-opacity duration-500 pointer-events-none"></div>
-              <div class="absolute -top-8 -right-8 w-32 h-32 bg-primary/5 rounded-full group-hover:scale-150 group-hover:bg-primary/10 transition-all duration-500 pointer-events-none"></div>
-              <div class="h-1 w-full bg-gradient-to-r from-primary to-primary/40"></div>
-              <div class="relative z-10 p-8">
-                <div class="w-14 h-14 bg-white rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-all duration-300 shadow-md">
-                  <svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                </div>
-                <h3 class="text-lg font-bold text-white mb-3">Our Mission</h3>
-                <p class="text-white/80 text-sm leading-relaxed mb-6">To empower businesses across Africa and beyond with innovative, scalable, and reliable technology solutions that drive measurable growth, improve operational efficiency, and create lasting impact in the communities we serve.</p>
-                <ul class="space-y-3">
-                  <li v-for="pillar in missionPillars" :key="pillar" class="flex items-start gap-3">
-                    <div class="w-5 h-5 bg-white rounded-full flex items-center justify-center shrink-0 mt-0.5">
-                      <svg class="w-3 h-3 text-primary" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
-                    </div>
-                    <span class="text-white/75 text-xs leading-relaxed">{{ pillar }}</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="relative group rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl" style="background-color: #3b82f6; border: 1px solid #3b82f6;">
-              <div class="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-br from-accent/20 to-accent/10 transition-opacity duration-500 pointer-events-none"></div>
-              <div class="absolute -top-8 -right-8 w-32 h-32 bg-accent/5 rounded-full group-hover:scale-150 group-hover:bg-accent/10 transition-all duration-500 pointer-events-none"></div>
-              <div class="h-1 w-full bg-gradient-to-r from-accent to-accent/40"></div>
-              <div class="relative z-10 p-8">
-                <div class="w-14 h-14 bg-white rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-all duration-300 shadow-md">
-                  <svg class="w-7 h-7 text-accent" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-                </div>
-                <h3 class="text-lg font-bold text-white mb-3">Our Vision</h3>
-                <p class="text-white/80 text-sm leading-relaxed mb-6">To be Africa's most trusted technology partner — a company recognised globally for building transformative digital infrastructure that bridges the gap between ambition and achievement for businesses of every size.</p>
-                <div class="space-y-4">
-                  <div v-for="horizon in visionHorizons" :key="horizon.label" class="flex items-start gap-3">
-                    <div class="shrink-0 mt-0.5">
-                      <span class="inline-block text-xs font-bold text-accent bg-white px-2 py-0.5 rounded-full">{{ horizon.label }}</span>
-                    </div>
-                    <span class="text-white/75 text-xs leading-relaxed">{{ horizon.text }}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div v-for="val in missionValues" :key="val.label" class="text-center px-4 py-5 rounded-xl transition-all duration-200 hover:-translate-y-0.5" style="background-color: #1a1a1a; border: 1px solid #404040;">
-              <div class="text-2xl mb-2">{{ val.icon }}</div>
-              <div class="text-white font-semibold text-xs mb-1">{{ val.label }}</div>
-              <div class="text-white/55 text-xs leading-snug">{{ val.desc }}</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="py-14 md:py-20 w-full">
-        <div class="w-full px-0">
-          <div class="relative bg-black w-full overflow-hidden">
-            <div class="absolute inset-0 opacity-30 bg-cover bg-center" :style="{ backgroundImage: 'url(' + heroTechGlow + ')' }"></div>
-            <div class="absolute inset-0 bg-black/70"></div>
-
-            <div class="relative grid lg:grid-cols-2 items-center">
-              <div class="p-8 md:p-12 lg:p-14">
-                <h2 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4">Join Our Growing Team</h2>
-                <p class="text-white/70 text-sm leading-relaxed mb-8">We're always looking for talented people who are passionate about technology and innovation.</p>
-                <router-link to="/contact" class="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white text-sm font-semibold hover:bg-primary/90 transition-all shadow-lg">
-                  Get In Touch
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                    <path d="M7 17L17 7M17 7H7M17 7v10"/>
-                  </svg>
-                </router-link>
-              </div>
-              <div class="hidden lg:flex items-end justify-end h-full min-h-[300px]">
-                <img :src="heroTech4" alt="Professional" class="h-full max-h-[350px] object-cover object-top w-full" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="py-12 md:py-16" style="background-color: #262626;">
+      <section class="py-14 md:py-20 bg-gray-900">
         <div class="container mx-auto px-6 max-w-5xl">
           <div class="text-center max-w-2xl mx-auto mb-10">
             <p class="text-accent text-xs font-semibold tracking-widest uppercase mb-3">Get Started</p>
-            <h2 class="text-xl md:text-2xl font-bold text-white leading-tight mb-3">Request a Quote</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-white leading-tight mb-3">Request a Quote</h2>
             <p class="text-white/75 text-sm leading-relaxed">Tell us about your project and we'll get back to you within 24 hours.</p>
           </div>
         </div>
@@ -526,31 +363,31 @@
             <div>
               <form @submit.prevent="submitQuoteRequest" class="space-y-4">
                 <div class="grid grid-cols-2 gap-4">
-                  <input v-model="quoteForm.name" type="text" required class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all placeholder-white" placeholder="Full Name *" />
-                  <input v-model="quoteForm.email" type="email" required class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all placeholder-white" placeholder="Email *" />
+                  <input v-model="quoteForm.name" type="text" required class="w-full px-5 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-white text-sm transition-all placeholder-white/40" placeholder="Full Name *" />
+                  <input v-model="quoteForm.email" type="email" required class="w-full px-5 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-white text-sm transition-all placeholder-white/40" placeholder="Email *" />
                 </div>
                 <div class="grid grid-cols-2 gap-4">
-                  <input v-model="quoteForm.phone" type="tel" required class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all placeholder-white" placeholder="Phone *" />
-                  <select v-model="quoteForm.product" required class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all">
-                    <option value="">Product Interested In *</option>
-                    <option :value="product.name" selected>{{ product.name }}</option>
+                  <input v-model="quoteForm.phone" type="tel" required class="w-full px-5 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-white text-sm transition-all placeholder-white/40" placeholder="Phone *" />
+                  <select v-model="quoteForm.product" required class="w-full px-5 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-white text-sm transition-all">
+                    <option value="" class="text-gray-900">Product Interested In *</option>
+                    <option :value="product.name" selected class="text-gray-900">{{ product.name }}</option>
                   </select>
                 </div>
-                <textarea v-model="quoteForm.message" required rows="4" class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm resize-none transition-all placeholder-white" placeholder="Tell us about your requirements..."></textarea>
+                <textarea v-model="quoteForm.message" required rows="4" class="w-full px-5 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-white text-sm resize-none transition-all placeholder-white/40" placeholder="Tell us about your requirements..."></textarea>
                 <div class="grid grid-cols-2 gap-4">
-                  <select v-model="quoteForm.budget" class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all">
-                    <option value="">Budget Range</option>
-                    <option value="Under Ksh 10,000">Under Ksh 10,000</option>
-                    <option value="Ksh 10,000 - Ksh 50,000">Ksh 10,000 - Ksh 50,000</option>
-                    <option value="Ksh 50,000 - Ksh 200,000">Ksh 50,000 - Ksh 200,000</option>
-                    <option value="Over Ksh 200,000">Over Ksh 200,000</option>
+                  <select v-model="quoteForm.budget" class="w-full px-5 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-white text-sm transition-all">
+                    <option value="" class="text-gray-900">Budget Range</option>
+                    <option value="Under Ksh 10,000" class="text-gray-900">Under Ksh 10,000</option>
+                    <option value="Ksh 10,000 - Ksh 50,000" class="text-gray-900">Ksh 10,000 - Ksh 50,000</option>
+                    <option value="Ksh 50,000 - Ksh 200,000" class="text-gray-900">Ksh 50,000 - Ksh 200,000</option>
+                    <option value="Over Ksh 200,000" class="text-gray-900">Over Ksh 200,000</option>
                   </select>
-                  <select v-model="quoteForm.timeline" class="w-full px-5 py-3 bg-muted/30 border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-foreground text-sm transition-all">
-                    <option value="">Timeline</option>
-                    <option value="ASAP">ASAP</option>
-                    <option value="1-2 months">1-2 months</option>
-                    <option value="3-6 months">3-6 months</option>
-                    <option value="6+ months">6+ months</option>
+                  <select v-model="quoteForm.timeline" class="w-full px-5 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 text-white text-sm transition-all">
+                    <option value="" class="text-gray-900">Timeline</option>
+                    <option value="ASAP" class="text-gray-900">ASAP</option>
+                    <option value="1-2 months" class="text-gray-900">1-2 months</option>
+                    <option value="3-6 months" class="text-gray-900">3-6 months</option>
+                    <option value="6+ months" class="text-gray-900">6+ months</option>
                   </select>
                 </div>
                 <button type="submit" :disabled="quoteSubmitting" class="w-full px-6 py-3.5 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary/90 disabled:opacity-50 transition-all shadow-sm">
@@ -579,18 +416,8 @@
 
 <script setup lang="ts">
 import heroLaptop from '@/../img/Laptop.webp';
-import populationImg from '@/../img/population.webp';
 import heroLaptopDark from '@/../img/tech-background.webp';
-import heroTechGlow from '@/../img/tech-glow.webp';
-import heroTech1 from '@/../img/tech1.webp';
-import heroTech2 from '@/../img/tech2.webp';
-import heroTech3 from '@/../img/tech3.webp';
-import heroTech4 from '@/../img/tech4.webp';
-import heroTech5 from '@/../img/tech5.webp';
-import heroTech6 from '@/../img/tech6.webp';
 import heroTech7 from '@/../img/tech7.webp';
-import heroTech8 from '@/../img/tech8.webp';
-import heroCTAbg from '@/../img/tech8.webp';
 import svcCustomWeb from '@/../img/services/Custom Web Development.webp';
 import svcEcommerce from '@/../img/services/E-commerece Development.webp';
 import svcApi from '@/../img/services/API Development.webp';
@@ -658,38 +485,6 @@ const productBenefits = ref([
   { title: 'Proven Results', description: 'Track record of delivering measurable outcomes and ROI for our clients.' },
 ]);
 
-const trustBadges = ref([
-  { name: 'ISO 27001 Certified', icon: 'shield' },
-  { name: 'GDPR Compliant', icon: 'shield' },
-  { name: 'Award Winner', icon: 'award' },
-  { name: 'Verified Partner', icon: 'check' },
-]);
-
-const impactStats = ref([
-  { value: '20+', label: 'Countries Reached' },
-  { value: '500K+', label: 'People Impacted' },
-  { value: '150+', label: 'Projects Completed' },
-  { value: '95%', label: 'Client Satisfaction' },
-]);
-
-const missionPillars = [
-  'Innovation-driven development for measurable business outcomes',
-  'Scalable and secure architecture built for African and global markets',
-  'Client-first partnership with transparent communication at every step',
-];
-
-const visionHorizons = [
-  { label: '2026', text: 'Expand into 10 African markets with local delivery hubs' },
-  { label: '2028', text: 'Launch a flagship SaaS platform serving 50,000+ businesses' },
-  { label: '2030', text: 'Recognised as Africa\'s top technology partner globally' },
-];
-
-const missionValues = [
-  { icon: '🚀', label: 'Innovation', desc: 'Pushing boundaries with emerging tech' },
-  { icon: '🤝', label: 'Partnership', desc: 'Your success is our success' },
-  { icon: '🎯', label: 'Excellence', desc: 'Relentless pursuit of quality' },
-  { icon: '🌍', label: 'Impact', desc: 'Building for Africa & beyond' },
-];
 
 function formatDate(dateStr: string) {
   if (!dateStr) return '';

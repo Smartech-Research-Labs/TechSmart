@@ -33,7 +33,7 @@
           <!-- Text -->
           <div>
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Who We Are</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-5">
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-5">
               OmniviaTech Technologies — <span class="text-primary">Your Digital Growth Partner</span>
             </h2>
             <p class="text-muted-foreground text-sm leading-relaxed mb-4">
@@ -83,7 +83,7 @@
       <div class="container mx-auto px-6">
         <div class="text-center max-w-2xl mx-auto mb-12">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">What We Do</p>
-          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Services We Offer</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">Services We Offer</h2>
           <p class="text-muted-foreground text-sm leading-relaxed">
             A complete range of technology services crafted to accelerate your business in the digital economy.
           </p>
@@ -128,7 +128,7 @@
       <div class="container mx-auto px-6">
         <div class="text-center max-w-2xl mx-auto mb-12">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Industries We Serve</p>
-          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Built for Every Sector</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">Built for Every Sector</h2>
           <p class="text-muted-foreground text-sm leading-relaxed">
             We have partnered with organisations across a broad spectrum of industries, tailoring our approach to the specific realities of each sector.
           </p>
@@ -165,7 +165,7 @@
       <div class="container mx-auto px-6 max-w-6xl">
         <div class="text-center max-w-2xl mx-auto mb-12">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Why Choose Us</p>
-          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Why OmniviaTech?</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">Why OmniviaTech?</h2>
           <p class="text-muted-foreground text-sm leading-relaxed">
             In a crowded technology landscape, our clients keep coming back because of the unique combination of expertise, integrity, and results we deliver.
           </p>
@@ -175,8 +175,7 @@
           <div
             v-for="(reason, i) in whyUsReasons"
             :key="i"
-            class="relative group rounded-2xl p-7 transition-all duration-300 overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-1.5 border border-[#333] hover:border-[#d311f580]"
-            style="background-color: #1c1c1c;"
+            class="relative group rounded-2xl p-7 transition-all duration-300 overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-1.5 bg-gray-900 border border-white/10 hover:border-primary/50"
           >
             <div class="absolute -top-8 -right-8 w-28 h-28 bg-primary/5 rounded-full group-hover:scale-150 group-hover:bg-primary/10 transition-all duration-500"></div>
             <div class="relative z-10">
@@ -202,7 +201,7 @@
           <!-- Text -->
           <div>
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">How We Work</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-5">
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-5">
               A Process Built Around <span class="text-primary">Your Success</span>
             </h2>
             <p class="text-muted-foreground text-sm leading-relaxed mb-4">
@@ -249,7 +248,7 @@
       <div class="container mx-auto px-6">
         <div class="text-center max-w-2xl mx-auto mb-14">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Journey</p>
-          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">From Day One to Today</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">From Day One to Today</h2>
           <p class="text-muted-foreground text-sm leading-relaxed">
             A short time in business, but every milestone has been intentional — growing steadily, sustainably, and always client-first.
           </p>
@@ -282,7 +281,7 @@
       <div class="container mx-auto px-6">
         <div class="text-center max-w-xl mx-auto mb-12">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Purpose</p>
-          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight">Mission &amp; Vision</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight">Mission &amp; Vision</h2>
         </div>
 
         <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
@@ -321,7 +320,7 @@
       <div class="container mx-auto px-6">
         <div class="text-center max-w-xl mx-auto mb-12">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">What We Believe</p>
-          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-3">Our Core Values</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-3">Our Core Values</h2>
           <p class="text-muted-foreground text-sm">The principles that guide every decision, every project, every interaction.</p>
         </div>
 
@@ -353,7 +352,7 @@
           <div class="relative grid lg:grid-cols-2 items-center">
             <div class="p-8 md:p-12 lg:p-14">
               <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Careers</p>
-              <h2 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4">Join Our Growing Team</h2>
+              <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-white leading-tight mb-4">Join Our Growing Team</h2>
               <p class="text-white/70 text-sm leading-relaxed mb-8">
                 We are always looking for talented, curious people who are passionate about technology and want to build things that matter. If that sounds like you, let's talk.
               </p>
@@ -378,7 +377,7 @@
       <div class="container mx-auto px-6 max-w-6xl">
         <div class="text-center max-w-xl mx-auto mb-12">
           <p class="text-amber-500 text-xs font-semibold tracking-widest uppercase mb-2">Testimonials</p>
-          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-3">What Our Clients Say</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-3">What Our Clients Say</h2>
           <p class="text-muted-foreground text-xs">Trusted by businesses across Africa and beyond.</p>
         </div>
 
@@ -392,14 +391,14 @@
           class="testimonials-swiper pb-14"
         >
           <SwiperSlide v-for="review in topReviews" :key="review.id">
-            <div class="rounded-xl p-5 h-full flex flex-col shadow-md hover:shadow-xl transition-all" style="background-color: #1c1c1c; border: 1px solid rgba(255,255,255,0.08);">
+            <div class="rounded-xl p-5 h-full flex flex-col shadow-md hover:shadow-xl transition-all bg-gray-900 border border-white/10">
               <div class="flex gap-0.5 mb-3">
                 <svg v-for="s in review.rating" :key="s" class="w-4 h-4 text-amber-400 fill-current" viewBox="0 0 20 20" role="img" :aria-label="`${review.rating} out of 5 stars`">
                   <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                 </svg>
               </div>
               <p class="text-white/80 text-sm leading-relaxed mb-4 flex-1 line-clamp-4">"{{ review.comment }}"</p>
-              <div class="flex items-center gap-3 pt-4" style="border-top: 1px solid rgba(255,255,255,0.08)">
+              <div class="flex items-center gap-3 pt-4 border-t border-white/10">
                 <div class="w-9 h-9 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0">
                   {{ review.user_name?.charAt(0).toUpperCase() }}
                 </div>
@@ -428,30 +427,30 @@
               <div class="absolute inset-0 opacity-10" :style="{ backgroundImage: 'url(' + heroTechBg + ')', backgroundSize: 'cover' }"></div>
               <div class="relative z-10">
                 <p class="text-white/70 text-xs font-semibold tracking-widest uppercase mb-3">Get Started</p>
-                <h2 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4">Start Your Project With Us</h2>
+                <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-white leading-tight mb-4">Start Your Project With Us</h2>
                 <p class="text-white/80 text-sm leading-relaxed mb-8">
                   Have an idea or challenge? Fill in the form and one of our consultants will reach out within 24 hours to discuss how we can help.
                 </p>
 
                 <!-- contact bullets -->
                 <div class="space-y-4">
-                  <div class="flex items-center gap-3">
+                  <div v-if="settings.contact_email" class="flex items-center gap-3">
                     <div class="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0">
                       <svg aria-hidden="true" class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                     </div>
-                    <span class="text-white/80 text-sm">hello@omniviatech.com</span>
+                    <span class="text-white/80 text-sm">{{ settings.contact_email }}</span>
                   </div>
-                  <div class="flex items-center gap-3">
+                  <div v-if="settings.contact_phone" class="flex items-center gap-3">
                     <div class="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0">
                       <svg aria-hidden="true" class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
                     </div>
-                    <span class="text-white/80 text-sm">+254 700 000 000</span>
+                    <span class="text-white/80 text-sm">{{ settings.contact_phone }}</span>
                   </div>
-                  <div class="flex items-center gap-3">
+                  <div v-if="settings.address" class="flex items-center gap-3">
                     <div class="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0">
                       <svg aria-hidden="true" class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                     </div>
-                    <span class="text-white/80 text-sm">Nairobi, Kenya</span>
+                    <span class="text-white/80 text-sm">{{ settings.address }}</span>
                   </div>
                 </div>
               </div>
@@ -515,10 +514,10 @@
       <div class="container mx-auto px-6 max-w-5xl">
         <div class="text-center max-w-2xl mx-auto mb-12">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Latest Insights</p>
-          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight">From Our Blog</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight">From Our Blog</h2>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          <router-link v-for="post in recentBlogs.slice(0, 4)" :key="post.id" :to="`/blog/${post.slug}`" class="group bg-white border border-border rounded-2xl overflow-hidden hover:border-primary/20 hover:shadow-lg transition-all duration-300">
+          <router-link v-for="post in recentBlogs.slice(0, 4)" :key="post.id" :to="`/blog/${post.slug}`" class="group bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/20 hover:shadow-lg transition-all duration-300">
             <div class="aspect-[4/3] bg-gray-100 overflow-hidden">
               <img v-if="post.featured_image" :src="post.featured_image.startsWith('http') ? post.featured_image : `/storage/${post.featured_image}`" :alt="post.title" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
               <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5">
@@ -546,7 +545,7 @@
       <div class="container mx-auto px-6 max-w-3xl">
         <div class="text-center mb-12">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">FAQ</p>
-          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight">Frequently Asked Questions</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight">Frequently Asked Questions</h2>
         </div>
         <div class="space-y-3">
           <div v-for="(faq, idx) in aboutFaqs" :key="idx" class="bg-card border border-border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
@@ -569,7 +568,7 @@
     <section class="py-16 md:py-24 bg-muted/30">
       <div class="container mx-auto px-6">
         <div class="text-center max-w-xl mx-auto mb-10">
-          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-3">Other Areas You Might Be Interested In</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-3">Other Areas You Might Be Interested In</h2>
           <p class="text-muted-foreground text-sm">Explore more of what OmniviaTech has to offer.</p>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
@@ -588,7 +587,7 @@
 import axios from 'axios';
 import { Autoplay, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/vue';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import heroLaptop   from '@/../img/Laptop.webp';
 import heroTechBg   from '@/../img/tech-background.webp';
 import heroTechGlow from '@/../img/tech-glow.webp';
@@ -596,10 +595,13 @@ import heroTech2    from '@/../img/tech2.webp';
 import heroTech4    from '@/../img/tech4.webp';
 import { useToast } from '@/composables';
 import PublicLayout  from '@/layouts/PublicLayout.vue';
+import { useCmsStore } from '@/stores/cms';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
 const toast = useToast();
+const cmsStore = useCmsStore();
+const settings = computed(() => cmsStore.homeData?.settings ?? {});
 const topReviews  = ref<any[]>([]);
 const recentBlogs = ref<any[]>([]);
 const openFaqIndex = ref<number | null>(null);
@@ -718,6 +720,7 @@ async function loadBlogs() {
 
 loadReviews();
 loadBlogs();
+if (!cmsStore.homeData) cmsStore.fetchHomeData().catch(() => {});
 
 // ─── Quote form ─────────────────────────────────────────
 

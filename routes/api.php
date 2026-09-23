@@ -31,6 +31,7 @@ use App\Http\Controllers\Api\Admin\{
     MediaController,
     MediaLibraryController,
     BlogController as AdminBlogController,
+    AiBlogController,
     PageController as AdminPageController,
     AdminReviewController,
     AdminEnquiryController,
@@ -259,6 +260,11 @@ Route::prefix('v1')->group(function () {
         Route::get('/blogs/{blog}', [AdminBlogController::class, 'show']);
         Route::put('/blogs/{blog}', [AdminBlogController::class, 'update']);
         Route::delete('/blogs/{blog}', [AdminBlogController::class, 'destroy']);
+
+        // AI Blog Automation
+        Route::get('/ai-blog/status', [AiBlogController::class, 'status']);
+        Route::post('/ai-blog/toggle', [AiBlogController::class, 'toggle']);
+        Route::post('/ai-blog/generate-now', [AiBlogController::class, 'generateNow']);
 
         // Page Management
         Route::get('/pages', [AdminPageController::class, 'index']);

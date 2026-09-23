@@ -28,7 +28,7 @@
           </div>
           <div>
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Deep Domain Expertise</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Solutions Built for Your Sector</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">Solutions Built for Your Sector</h2>
             <p class="text-muted-foreground text-sm leading-relaxed mb-4">Every industry operates differently. We bring decades of combined experience across multiple sectors to deliver technology solutions that address real-world challenges.</p>
             <p class="text-muted-foreground text-sm leading-relaxed mb-6">Our approach combines deep domain knowledge with cutting-edge technology to create solutions that drive efficiency, innovation, and growth in your specific industry.</p>
             <div class="flex flex-wrap gap-2">
@@ -44,7 +44,7 @@
       <div class="container mx-auto px-6">
         <div class="text-center max-w-2xl mx-auto mb-12">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Explore</p>
-          <h2 class="text-2xl md:text-3xl font-bold text-foreground mb-4">Industries We Transform</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-4">Industries We Transform</h2>
           <p class="text-muted-foreground text-sm">From healthcare to energy, discover how we help organizations leverage technology across every sector.</p>
         </div>
 
@@ -100,14 +100,14 @@
       <div class="container mx-auto px-6 max-w-5xl">
         <div class="text-center max-w-2xl mx-auto mb-10">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Why Partner With Us</p>
-          <h2 class="text-xl md:text-2xl font-bold text-foreground">Why Choose OmniviaTech for Your Industry</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground">Why Choose OmniviaTech for Your Industry</h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div v-for="(reason, i) in industryReasons" :key="i" class="relative group">
             <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-1 z-20">
               <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
             </div>
-            <div class="relative rounded-2xl p-7 transition-all duration-300 overflow-hidden h-full shadow-lg hover:shadow-2xl transform group-hover:-translate-y-2" style="background-color: #262626; border: 1px solid #404040;">
+            <div class="relative rounded-2xl p-7 transition-all duration-300 overflow-hidden h-full shadow-lg hover:shadow-2xl transform group-hover:-translate-y-2 bg-gray-900 border border-white/10">
               <div class="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-br from-primary/20 to-primary/10 transition-opacity duration-500"></div>
               <div class="absolute -top-6 -right-6 w-24 h-24 bg-primary/5 rounded-full group-hover:scale-150 group-hover:bg-primary/10 transition-all duration-500"></div>
               <div class="relative z-10">
@@ -128,7 +128,7 @@
       <div class="container mx-auto px-6 max-w-6xl">
           <div class="text-center max-w-xl mx-auto mb-10">
             <p class="text-amber-600 dark:text-amber-400 text-xs font-semibold tracking-widest uppercase mb-2">Testimonials</p>
-            <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight mb-3">Industry Leaders Trust OmniviaTech</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-3">Industry Leaders Trust OmniviaTech</h2>
             <p class="text-muted-foreground text-xs leading-relaxed">See what industry leaders say about our specialized technology solutions.</p>
           </div>
 
@@ -142,14 +142,14 @@
             class="testimonials-swiper pb-16"
           >
             <SwiperSlide v-for="review in topReviews" :key="review.id">
-              <div class="rounded-lg p-5 h-full flex flex-col shadow-md hover:shadow-xl transition-all" style="background-color: #262626; border: 1px solid rgba(255,255,255,0.1);">
+              <div class="rounded-lg p-5 h-full flex flex-col shadow-md hover:shadow-xl transition-all bg-gray-900 border border-white/10">
                 <div class="flex gap-0.5 mb-3">
                   <svg v-for="s in review.rating" :key="s" class="w-4 h-4 text-amber-400 fill-current" viewBox="0 0 20 20">
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                   </svg>
                 </div>
                 <p class="text-white/80 text-sm leading-relaxed mb-4 flex-1 line-clamp-3">"{{ review.comment }}"</p>
-                <div class="flex items-center gap-3 pt-4" style="border-top: 1px solid rgba(255,255,255,0.1)">
+                <div class="flex items-center gap-3 pt-4 border-t border-white/10">
                   <div class="w-9 h-9 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0">
                     {{ review.user_name?.charAt(0).toUpperCase() }}
                   </div>
@@ -169,12 +169,12 @@
         <div class="container mx-auto px-6 max-w-5xl">
           <div class="text-center max-w-2xl mx-auto mb-10">
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Latest Insights</p>
-            <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">Industry Trends & Insights</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight">Industry Trends & Insights</h2>
             <p class="text-muted-foreground text-xs leading-relaxed mt-2">Learn from our blog about industry-specific technology trends and best practices.</p>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            <router-link v-for="post in recentBlogs.slice(0, 4)" :key="post.id" :to="`/blog/${post.slug}`" class="group bg-white border border-border rounded-2xl overflow-hidden hover:border-primary/20 hover:shadow-md transition-all duration-300">
+            <router-link v-for="post in recentBlogs.slice(0, 4)" :key="post.id" :to="`/blog/${post.slug}`" class="group bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/20 hover:shadow-md transition-all duration-300">
               <div class="aspect-[4/3] bg-gray-100 overflow-hidden">
                 <img v-if="post.featured_image" :src="post.featured_image.startsWith('http') ? post.featured_image : `/storage/${post.featured_image}`" :alt="post.title" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5">
@@ -199,12 +199,12 @@
         <div class="container mx-auto px-6 max-w-3xl">
           <div class="text-center mb-10">
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">FAQ</p>
-            <h2 class="text-xl md:text-2xl font-bold text-foreground leading-tight">Frequently Asked Questions About Our Industry Solutions</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight">Frequently Asked Questions About Our Industry Solutions</h2>
           </div>
 
           <div class="space-y-3">
-            <div v-for="(faq, idx) in industriesFaqs" :key="idx" class="bg-white border border-border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-              <button @click="toggleFaq(idx)" class="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
+            <div v-for="(faq, idx) in industriesFaqs" :key="idx" class="bg-card border border-border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+              <button @click="toggleFaq(idx)" class="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-muted/40 transition-colors">
                 <span class="font-medium text-foreground text-sm pr-6">{{ faq.question }}</span>
                 <svg class="w-5 h-5 text-muted-foreground shrink-0 transition-transform duration-200" :class="{ 'rotate-180': openFaqIndex === idx }" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" /></svg>
               </button>
@@ -219,7 +219,7 @@
     <!-- ═══════════════ CTA ═══════════════ -->
     <section class="py-14 md:py-20 bg-gradient-to-r from-primary to-accent text-white">
       <div class="container mx-auto px-6 text-center max-w-2xl">
-        <h2 class="text-2xl md:text-3xl font-bold mb-4">Don't See Your Industry?</h2>
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">Don't See Your Industry?</h2>
         <p class="text-white/80 text-sm leading-relaxed mb-6">Our team has deep expertise across a wide range of sectors. Contact us to discuss how we can tailor our technology solutions for your unique industry needs.</p>
         <router-link to="/contact" class="inline-flex items-center gap-2 px-7 py-3 bg-white text-primary text-sm font-semibold rounded-full hover:bg-white/90 transition-all shadow-lg">
           Talk to Our Experts

@@ -34,7 +34,7 @@
 
       <!-- Empty State -->
       <div v-else-if="services.length === 0" class="bg-card border border-border rounded-lg p-12 text-center">
-        <p class="text-4xl mb-4">ðŸ› ï¸</p>
+        <p class="text-4xl mb-4">🛠️</p>
         <p class="text-foreground font-semibold text-lg mb-1">No services yet</p>
         <p class="text-muted-foreground text-sm mb-6">Create your first service to get started.</p>
         <button @click="openCreateModal" class="bg-primary hover:bg-primary/90 text-white font-medium px-4 py-2 text-sm rounded-lg transition">
@@ -63,7 +63,7 @@
           class="bg-card border border-border rounded-lg p-6 hover:border-primary transition"
         >
           <div class="flex items-start justify-between mb-4">
-            <span class="text-3xl">{{ service.icon || 'ðŸ”§' }}</span>
+            <span class="text-3xl">{{ service.icon || '🔧' }}</span>
             <div class="flex items-center gap-2">
               <span v-if="service.is_featured" class="px-2 py-1 rounded text-xs font-semibold bg-amber-500/20 text-amber-400">
                 Featured
@@ -126,7 +126,7 @@
             </div>
             <div>
               <label class="block text-sm font-medium text-foreground mb-1">Icon</label>
-              <input v-model="form.icon" type="text" class="w-full px-3 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-primary" placeholder="e.g. ðŸš€ or icon class name" />
+              <input v-model="form.icon" type="text" class="w-full px-3 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-primary" placeholder="e.g. 🚀 or icon class name" />
             </div>
           </div>
 
@@ -254,7 +254,7 @@ import AdminLayout from '@/layouts/AdminLayout.vue';
 const { get, post, put, delete: destroy } = useApi();
 const toast = useToast();
 
-// â”€â”€ State â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── State ──────────────────────────────────────────────
 interface Service {
   id: number;
   name: string;
@@ -320,13 +320,13 @@ const defaultForm = () => ({
 
 const form = ref(defaultForm());
 
-// â”€â”€ Toast helper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Toast helper ───────────────────────────────────────
 function showToast(message: string, type: 'success' | 'error' = 'success') {
   if (type === 'success') toast.success(message);
   else toast.error(message);
 }
 
-// â”€â”€ Fetch â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Fetch ──────────────────────────────────────────────
 async function fetchServices() {
   loading.value = true;
   error.value = '';
@@ -340,7 +340,7 @@ async function fetchServices() {
   }
 }
 
-// â”€â”€ Create / Edit modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Create / Edit modal ───────────────────────────────
 function openCreateModal() {
   isEditing.value = false;
   editingId.value = null;
@@ -375,13 +375,13 @@ function closeModal() {
   formErrors.value = [];
 }
 
-// â”€â”€ Features / Steps helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Features / Steps helpers ──────────────────────────
 function addFeature() { form.value.features.push(''); }
 function removeFeature(idx: number) { form.value.features.splice(idx, 1); }
 function addStep() { form.value.process_steps.push({ title: '', description: '' }); }
 function removeStep(idx: number) { form.value.process_steps.splice(idx, 1); }
 
-// â”€â”€ Submit (Create or Update) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Submit (Create or Update) ─────────────────────────
 async function submitForm() {
   formErrors.value = [];
   submitting.value = true;
@@ -416,7 +416,7 @@ async function submitForm() {
   }
 }
 
-// â”€â”€ Delete â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Delete ─────────────────────────────────────────────
 function confirmDelete(service: Service) {
   serviceToDelete.value = service;
   showDeleteModal.value = true;
@@ -438,6 +438,6 @@ async function deleteService() {
   }
 }
 
-// â”€â”€ Init â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Init ───────────────────────────────────────────────
 onMounted(fetchServices);
 </script>

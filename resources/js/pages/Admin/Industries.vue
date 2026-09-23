@@ -481,13 +481,9 @@ async function showImagePickerModal(type: 'image' | 'banner') {
 async function fetchMediaLibraryItems() {
   mediaPickerLoading.value = true;
   try {
-    const params = new URLSearchParams({
-      per_page: '50',
-      folder: 'all',
-      search: mediaPickerSearch.value,
+    const data = await get('/admin/media-library', {
+      params: { per_page: 50, folder: 'all', search: mediaPickerSearch.value },
     });
-    const response = await fetch(`/api/v1/admin/media-library?${params}`);
-    const data = await response.json();
     mediaPickerItems.value = data.data;
   } catch (error) {
     toast.error('Failed to load media library');

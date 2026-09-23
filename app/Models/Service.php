@@ -45,7 +45,17 @@ class Service extends Model implements HasMedia
         return '/storage/' . ltrim($this->image, '/');
     }
 
-    protected $appends = ['image_url'];
+    /**
+     * Alias for `name`. The frontend consistently reads `title` for services
+     * (matching how HomeController maps this field), so this keeps direct
+     * `/api/v1/services` responses consistent with that expectation.
+     */
+    public function getTitleAttribute(): ?string
+    {
+        return $this->name;
+    }
+
+    protected $appends = ['image_url', 'title'];
 
     protected function casts(): array
     {

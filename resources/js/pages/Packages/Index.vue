@@ -24,7 +24,7 @@
       <div class="container mx-auto px-6">
         <div class="text-center max-w-2xl mx-auto mb-12">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Offerings</p>
-          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Scalable Packages for Growth</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">Scalable Packages for Growth</h2>
           <p class="text-muted-foreground text-sm leading-relaxed">From startups to enterprises, we have the perfect solution. Each package is carefully designed to provide maximum value with professional support included.</p>
         </div>
 
@@ -110,11 +110,11 @@
     </section>
 
     <!-- ═══════════════ WHY CHOOSE OUR PACKAGES ═══════════════ -->
-    <section class="py-14 md:py-20 bg-[#262626]">
+    <section class="py-14 md:py-20 bg-gray-900">
       <div class="container mx-auto px-6">
         <div class="text-center max-w-2xl mx-auto mb-12">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Why Our Packages</p>
-          <h2 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4">Complete Solutions with Premium Support</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-white leading-tight mb-4">Complete Solutions with Premium Support</h2>
           <p class="text-white/70 text-sm leading-relaxed">Each package includes everything you need to succeed online, with dedicated support from our expert team.</p>
         </div>
 
@@ -163,7 +163,7 @@
       <div class="container mx-auto px-6">
         <div class="text-center max-w-2xl mx-auto mb-12">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Package Features</p>
-          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Everything You Need to Succeed</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">Everything You Need to Succeed</h2>
           <p class="text-muted-foreground text-sm leading-relaxed">Compare our packages and find the perfect fit for your business goals. All packages include professional support and ongoing maintenance.</p>
         </div>
 
@@ -212,59 +212,27 @@
     </section>
 
     <!-- ═══════════════ TESTIMONIALS ═══════════════ -->
-    <section class="py-14 md:py-20 bg-muted/30">
+    <section v-if="topReviews.length" class="py-14 md:py-20 bg-muted/30">
       <div class="container mx-auto px-6">
         <div class="text-center max-w-2xl mx-auto mb-12">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Success Stories</p>
-          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">What Our Clients Say</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">What Our Clients Say</h2>
           <p class="text-muted-foreground text-sm leading-relaxed">Discover how our packages have transformed businesses across different industries.</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="bg-card border border-border rounded-xl p-6">
+          <div v-for="review in topReviews.slice(0, 3)" :key="review.id" class="bg-card border border-border rounded-xl p-6">
             <div class="flex items-center gap-1 mb-4">
-              <span v-for="i in 5" :key="i" class="text-amber-500">★</span>
+              <span v-for="i in review.rating" :key="i" class="text-amber-500">★</span>
             </div>
-            <p class="text-muted-foreground text-sm leading-relaxed mb-4">"The website built with their Professional package has increased our online visibility significantly. Customer inquiries have doubled since launch."</p>
+            <p class="text-muted-foreground text-sm leading-relaxed mb-4">"{{ review.comment }}"</p>
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center">
-                <span class="text-sm font-bold text-primary">JM</span>
+                <span class="text-sm font-bold text-primary">{{ review.user_name?.charAt(0).toUpperCase() }}</span>
               </div>
               <div>
-                <p class="text-sm font-bold text-foreground">Jane Muthoni</p>
-                <p class="text-xs text-muted-foreground">Digital Marketing Manager</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="bg-card border border-border rounded-xl p-6">
-            <div class="flex items-center gap-1 mb-4">
-              <span v-for="i in 5" :key="i" class="text-amber-500">★</span>
-            </div>
-            <p class="text-muted-foreground text-sm leading-relaxed mb-4">"We upgraded to the Business package after outgrowing our Starter plan. The team made the transition seamless with no downtime. Highly recommended!"</p>
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 bg-green-500/20 rounded-full flex items-center justify-center">
-                <span class="text-sm font-bold text-green-600">AK</span>
-              </div>
-              <div>
-                <p class="text-sm font-bold text-foreground">Ahmed Khalid</p>
-                <p class="text-xs text-muted-foreground">E-commerce Director</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="bg-card border border-border rounded-xl p-6">
-            <div class="flex items-center gap-1 mb-4">
-              <span v-for="i in 5" :key="i" class="text-amber-500">★</span>
-            </div>
-            <p class="text-muted-foreground text-sm leading-relaxed mb-4">"The Enterprise package gave us everything we needed for a complex implementation. The support team was responsive and professional throughout the process."</p>
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 bg-blue-500/20 rounded-full flex items-center justify-center">
-                <span class="text-sm font-bold text-blue-600">SP</span>
-              </div>
-              <div>
-                <p class="text-sm font-bold text-foreground">Sarah Peterson</p>
-                <p class="text-xs text-muted-foreground">Operations Manager</p>
+                <p class="text-sm font-bold text-foreground">{{ review.user_name }}</p>
+                <p class="text-xs text-muted-foreground">{{ review.company || 'Verified Client' }}</p>
               </div>
             </div>
           </div>
@@ -286,7 +254,7 @@
           <!-- Right - Content -->
           <div>
             <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Why Choose Our Packages</p>
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-6">Complete Website Solutions Built for Success</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-6">Complete Website Solutions Built for Success</h2>
             <p class="text-muted-foreground text-sm leading-relaxed mb-6">Our packages are designed by industry experts with years of experience in web development, SEO, and digital marketing. Each tier is carefully crafted to provide maximum value at every stage of your business growth.</p>
 
             <div class="space-y-4 mb-8">
@@ -331,27 +299,25 @@
     </section>
 
     <!-- ═══════════════ CLIENTS SECTION ═══════════════ -->
-    <section class="py-14 md:py-20 bg-[#262626]">
+    <section v-if="clients.length" class="py-14 md:py-20 bg-gray-900">
       <div class="container mx-auto px-6">
         <div class="text-center max-w-2xl mx-auto mb-12">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Partners</p>
-          <h2 class="text-2xl md:text-3xl font-bold text-white leading-tight mb-4">Trusted by Leading Companies</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-white leading-tight mb-4">Trusted by Leading Companies</h2>
           <p class="text-white/70 text-sm leading-relaxed">Businesses across various industries rely on our packages to power their online presence.</p>
         </div>
 
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-center">
-          <div class="flex items-center justify-center h-20 bg-white/5 rounded-xl border border-white/10 hover:border-primary/40 hover:bg-primary/5 transition-all">
-            <span class="text-white/60 font-semibold text-sm">Client Logo 1</span>
-          </div>
-          <div class="flex items-center justify-center h-20 bg-white/5 rounded-xl border border-white/10 hover:border-primary/40 hover:bg-primary/5 transition-all">
-            <span class="text-white/60 font-semibold text-sm">Client Logo 2</span>
-          </div>
-          <div class="flex items-center justify-center h-20 bg-white/5 rounded-xl border border-white/10 hover:border-primary/40 hover:bg-primary/5 transition-all">
-            <span class="text-white/60 font-semibold text-sm">Client Logo 3</span>
-          </div>
-          <div class="flex items-center justify-center h-20 bg-white/5 rounded-xl border border-white/10 hover:border-primary/40 hover:bg-primary/5 transition-all">
-            <span class="text-white/60 font-semibold text-sm">Client Logo 4</span>
-          </div>
+          <a
+            v-for="client in clients.filter((c) => c.logo_url)"
+            :key="client.id"
+            :href="client.website_url || undefined"
+            target="_blank"
+            rel="noopener"
+            class="flex items-center justify-center h-20 bg-white/5 rounded-xl border border-white/10 hover:border-primary/40 hover:bg-primary/5 transition-all p-4"
+          >
+            <img :src="client.logo_url" :alt="client.name" class="max-h-10 max-w-full object-contain" loading="lazy" />
+          </a>
         </div>
       </div>
     </section>
@@ -361,7 +327,7 @@
       <div class="container mx-auto px-6">
         <div class="bg-primary/10 border border-primary/20 rounded-xl p-8 md:p-12 text-center">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Ready to Get Started?</p>
-          <h2 class="text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">Don't Know Which Package is Right for You?</h2>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">Don't Know Which Package is Right for You?</h2>
           <p class="text-muted-foreground text-sm leading-relaxed mb-8 max-w-2xl mx-auto">
             Our experts are ready to help you choose the perfect package and create a customized solution that meets your specific business goals.
           </p>
@@ -373,7 +339,7 @@
               Schedule a Consultation
             </router-link>
             <a
-              href="https://wa.me/254711223344?text=Hi%2C%20I%20would%20like%20to%20know%20more%20about%20your%20website%20packages"
+              :href="`https://wa.me/${(s.whatsapp_number || s.contact_phone || '').replace(/[^0-9]/g, '')}?text=${encodeURIComponent('Hi, I would like to know more about your website packages')}`"
               target="_blank"
               rel="noopener noreferrer"
               class="inline-flex items-center justify-center gap-2 px-8 py-3 bg-white/10 border border-white/20 text-foreground text-sm font-semibold rounded-full hover:bg-white/20 transition-all"
@@ -388,14 +354,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { computed, ref, onMounted } from 'vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import axios from 'axios';
-import heroLaptopDark from "@/../img/laptop-in-dark.webp";
+import heroLaptopDark from '@/../img/laptop-in-dark.webp';
+import { useCmsStore } from '@/stores/cms';
 
-const router = useRouter();
+const cmsStore = useCmsStore();
+const s = computed(() => cmsStore.homeData?.settings || {} as any);
+const clients = computed(() => cmsStore.homeData?.clients || []);
 const packages = ref<any[]>([]);
+const topReviews = ref<any[]>([]);
 const loading = ref(true);
 
 const packageColors = [
@@ -427,7 +396,16 @@ const formatPrice = (price: number) => {
   });
 };
 
+async function loadReviews() {
+  try {
+    const { data } = await axios.get('/api/v1/reviews', { params: { limit: 6 } });
+    topReviews.value = data.data || [];
+  } catch { /* silent */ }
+}
+
 onMounted(async () => {
+  if (!cmsStore.homeData) cmsStore.fetchHomeData().catch(() => {});
+  loadReviews();
   try {
     const response = await axios.get('/api/v1/packages');
     packages.value = response.data;
