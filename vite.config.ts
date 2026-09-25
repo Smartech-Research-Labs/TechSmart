@@ -27,6 +27,9 @@ export default defineConfig({
         }),
          ui(),
     ],
+    esbuild: {
+        drop: ['console'],
+    },
     resolve: {
         alias: {
             '@': path.resolve(__dirname, './resources/js'),
@@ -41,17 +44,11 @@ export default defineConfig({
         },
     },
     build: {
-        minify: 'terser',
-        terserOptions: {
-            compress: {
-                drop_console: true,
-            },
-        },
+        minify: 'esbuild',
         rollupOptions: {
             output: {
                 manualChunks: {
                     'vue': ['vue'],
-                    'ui': ['@nuxt/ui'],
                 },
             },
         },
