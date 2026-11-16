@@ -20,7 +20,7 @@
     </section>
 
     <!-- ═══════════════ PACKAGES GRID ═══════════════ -->
-    <section class="py-14 md:py-20">
+    <section class="py-14 md:py-20 bg-slate-100 dark:bg-gray-900/40">
       <div class="container mx-auto px-6">
         <div class="text-center max-w-2xl mx-auto mb-12">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Offerings</p>
@@ -34,73 +34,12 @@
           </div>
         </div>
 
-        <div v-else-if="packages.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <router-link
-            v-for="pkg in packages"
-            :key="pkg.id"
-            :to="`/packages/${pkg.slug}`"
-            class="group relative bg-card border border-border rounded-xl overflow-hidden hover:border-primary/50 hover:shadow-lg transition-all duration-300"
-          >
-            <!-- Featured Badge -->
-            <div v-if="pkg.is_featured" class="absolute top-4 left-4 z-10 bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full">
-              Featured
-            </div>
-
-            <!-- Colored Header -->
-            <div :class="getPackageHeaderColor(packages.indexOf(pkg))" class="h-48 md:h-40 bg-gradient-to-br flex items-center justify-center">
-              <span class="text-5xl md:text-4xl opacity-20">{{ getPackageIcon(pkg.name) }}</span>
-            </div>
-
-            <!-- Content -->
-            <div class="p-6">
-              <!-- Highlight Text -->
-              <p v-if="pkg.highlight_text" class="text-primary text-xs font-semibold tracking-widest uppercase mb-2">
-                {{ pkg.highlight_text }}
-              </p>
-
-              <!-- Tier Level -->
-              <p v-if="pkg.tier_level" class="text-muted-foreground text-xs mb-3">
-                {{ pkg.tier_level }}
-              </p>
-
-              <!-- Title -->
-              <h3 class="text-lg md:text-base font-bold text-foreground mb-2 leading-tight group-hover:text-primary transition-colors">
-                {{ pkg.name }}
-              </h3>
-
-              <!-- Price -->
-              <div v-if="pkg.price" class="mb-4">
-                <div class="flex items-baseline gap-2">
-                  <span class="text-2xl md:text-xl font-bold text-primary">KES {{ formatPrice(pkg.price) }}</span>
-                  <span v-if="pkg.price_label" class="text-xs text-muted-foreground">{{ pkg.price_label }}</span>
-                </div>
-              </div>
-
-              <!-- Description -->
-              <p class="text-muted-foreground text-xs md:text-xs leading-relaxed mb-4 line-clamp-2">
-                {{ pkg.short_description }}
-              </p>
-
-              <!-- Features Preview -->
-              <div v-if="pkg.includes && pkg.includes.length > 0" class="space-y-2 mb-6">
-                <div v-for="(item, idx) in pkg.includes.slice(0, 3)" :key="idx" class="flex items-start gap-2 text-xs">
-                  <span class="text-primary mt-0.5">✓</span>
-                  <span class="text-muted-foreground">{{ item }}</span>
-                </div>
-                <div v-if="pkg.includes.length > 3" class="text-xs text-primary font-semibold">
-                  +{{ pkg.includes.length - 3 }} more
-                </div>
-              </div>
-
-              <!-- Button -->
-              <div class="flex items-center gap-2 text-primary text-sm font-semibold group-hover:gap-3 transition-all">
-                View Details
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                  <path d="M7 17L17 7M17 7H7M17 7v10"/>
-                </svg>
-              </div>
-            </div>
-          </router-link>
+        <div
+          v-else-if="packages.length > 0"
+          class="grid grid-cols-1 sm:grid-cols-2 gap-8 items-stretch mx-auto"
+          :class="packages.length > 3 ? 'lg:grid-cols-4' : 'lg:grid-cols-3 max-w-5xl'"
+        >
+          <PackageCard v-for="(pkg, i) in packages" :key="pkg.id" :pkg="pkg" :index="i" />
         </div>
 
         <div v-else class="text-center py-12">
@@ -357,6 +296,7 @@
 import { computed, ref, onMounted } from 'vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import axios from 'axios';
+import PackageCard from '@/components/PackageCard.vue';
 import heroLaptopDark from '@/../img/laptop-in-dark.webp';
 import { useCmsStore } from '@/stores/cms';
 
@@ -366,35 +306,6 @@ const clients = computed(() => cmsStore.homeData?.clients || []);
 const packages = ref<any[]>([]);
 const topReviews = ref<any[]>([]);
 const loading = ref(true);
-
-const packageColors = [
-  'from-blue-500 to-blue-600',
-  'from-green-500 to-emerald-600',
-  'from-purple-500 to-pink-600',
-  'from-amber-500 to-orange-600',
-];
-
-const packageIcons = {
-  'Starter': '🚀',
-  'Professional': '⭐',
-  'Business': '💼',
-  'Enterprise': '🏆',
-};
-
-const getPackageHeaderColor = (index: number) => {
-  return packageColors[index % packageColors.length];
-};
-
-const getPackageIcon = (name: string) => {
-  return packageIcons[name as keyof typeof packageIcons] || '📦';
-};
-
-const formatPrice = (price: number) => {
-  return price.toLocaleString('en-KE', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  });
-};
 
 async function loadReviews() {
   try {

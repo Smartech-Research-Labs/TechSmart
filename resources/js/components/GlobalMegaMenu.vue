@@ -1,5 +1,5 @@
 <template>
-  <nav class="sticky top-0 z-40 border-b border-[#3a3a3a] bg-slate-950/95 backdrop-blur-xl">
+  <nav class="sticky top-0 z-40 border-b border-[#3a3a3a] bg-slate-950/95">
     <div class="container mx-auto flex flex-wrap items-center justify-between gap-3 px-4 py-3 lg:px-6">
       <router-link to="/" class="flex items-center gap-3 text-white">
         <img
@@ -26,7 +26,7 @@
 
         <router-link to="/about" class="nav-link px-3 py-2 text-white/80 hover:text-primary transition font-medium text-sm rounded-lg hover:bg-white/10">Why Us</router-link>
 
-        <div class="mega-trigger">
+        <div class="mega-trigger" @mouseenter="hoverOpen('what')" @mouseleave="hoverClose">
           <button
             @click.prevent="toggleMega('what')"
             class="nav-link flex items-center gap-1 px-3 py-2 text-white/80 hover:text-primary transition font-medium text-sm rounded-lg hover:bg-white/10"
@@ -34,7 +34,7 @@
             type="button"
           >
             What We Offer
-            <svg class="w-3.5 h-3.5 transition-transform duration-200" :class="{ 'rotate-180': megaOpen === 'what' }" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            <svg class="w-3.5 h-3.5 transition-transform duration-100" :class="{ 'rotate-180': megaOpen === 'what' }" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
           </button>
 
           <div v-if="megaOpen === 'what'" class="mega-dropdown fixed left-1/2 top-[74px] z-50 mt-2 w-[min(94vw,1160px)] -translate-x-1/2 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl animate-mega-in">
@@ -58,7 +58,7 @@
                     @click="closeMega"
                     class="group flex w-full items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-left transition hover:border-primary/40"
                   >
-                    <img :src="item.img" alt="" loading="lazy" class="h-12 w-12 rounded-2xl object-cover border border-slate-200" />
+                    <img :src="item.img" alt="" decoding="async" class="h-12 w-12 rounded-2xl object-cover border border-slate-200" />
                     <div class="min-w-0">
                       <p class="text-sm font-semibold text-slate-900 group-hover:text-primary">{{ item.label }}</p>
                       <p class="text-xs text-slate-500">{{ item.desc }}</p>
@@ -72,7 +72,7 @@
                 <p class="mt-2 text-sm text-slate-600">Find out what makes OmniviaTech different.</p>
                 <div class="mt-4 space-y-2">
                   <router-link v-for="item in companyLinks" :key="item.label" :to="item.to" class="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 hover:border-primary/40 transition">
-                    <img :src="item.img" alt="" loading="lazy" class="h-10 w-10 rounded-xl object-cover border border-slate-200" />
+                    <img :src="item.img" alt="" decoding="async" class="h-10 w-10 rounded-xl object-cover border border-slate-200" />
                     <div class="min-w-0">
                       <p class="font-semibold text-slate-900">{{ item.label }}</p>
                       <p class="text-xs text-slate-500">{{ item.desc }}</p>
@@ -86,7 +86,7 @@
                 <p class="mt-2 text-sm text-slate-600">Navigate the rest of the site with fast access.</p>
                 <div class="mt-4 space-y-2">
                   <router-link v-for="item in resourceLinks" :key="item.label" :to="item.to" class="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 hover:border-primary/40 transition">
-                    <img :src="item.img" alt="" loading="lazy" class="h-10 w-10 rounded-xl object-cover border border-slate-200" />
+                    <img :src="item.img" alt="" decoding="async" class="h-10 w-10 rounded-xl object-cover border border-slate-200" />
                     <div class="min-w-0">
                       <p class="font-semibold text-slate-900">{{ item.label }}</p>
                       <p class="text-xs text-slate-500">{{ item.desc }}</p>
@@ -97,7 +97,7 @@
 
               <div class="rounded-3xl border border-slate-200 p-4 bg-white">
                 <div class="relative overflow-hidden rounded-3xl">
-                  <img :src="activePreview.img" :alt="activePreview.label" loading="lazy" class="h-44 w-full object-cover transition duration-300" />
+                  <img :src="activePreview.img" :alt="activePreview.label" decoding="async" class="h-44 w-full object-cover transition duration-300" />
                   <div class="absolute inset-0 bg-gradient-to-t from-white via-white/80 to-transparent"></div>
                   <div class="absolute bottom-4 left-4 right-4">
                     <p class="text-xs uppercase tracking-[0.3em] text-sky-600">Preview</p>
@@ -114,7 +114,7 @@
           </div>
         </div>
 
-        <div class="mega-trigger">
+        <div class="mega-trigger" @mouseenter="hoverOpen('solutions')" @mouseleave="hoverClose">
           <button @click.prevent="toggleMega('solutions')" class="nav-link px-3 py-2 text-white/80 hover:text-primary transition font-medium text-sm rounded-lg hover:bg-white/10" :class="{ 'text-primary': megaOpen === 'solutions' }">Solutions <svg class="w-3.5 h-3.5 inline-block ml-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg></button>
           <div v-if="megaOpen === 'solutions'" class="mega-dropdown fixed left-1/2 top-[74px] z-50 mt-2 w-[min(94vw,980px)] -translate-x-1/2 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl animate-mega-in">
             <div class="flex items-center justify-between border-b border-slate-200 px-6 py-3">
@@ -125,7 +125,7 @@
             </div>
             <div class="grid max-h-[58vh] gap-4 overflow-y-auto px-6 py-5 md:grid-cols-2 lg:grid-cols-4">
               <router-link v-for="item in solutionsLinks" :key="item.label" :to="item.to" class="rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-primary/40">
-                <img :src="item.img" alt="" loading="lazy" class="h-16 w-full rounded-xl object-cover" />
+                <img :src="item.img" alt="" decoding="async" class="h-16 w-full rounded-xl object-cover" />
                 <p class="mt-3 text-sm font-semibold text-slate-900">{{ item.label }}</p>
                 <p class="mt-1 text-xs text-slate-600">{{ item.desc }}</p>
               </router-link>
@@ -133,7 +133,7 @@
           </div>
         </div>
 
-        <div class="mega-trigger">
+        <div class="mega-trigger" @mouseenter="hoverOpen('company')" @mouseleave="hoverClose">
           <button @click.prevent="toggleMega('company')" class="nav-link px-3 py-2 text-white/80 hover:text-primary transition font-medium text-sm rounded-lg hover:bg-white/10" :class="{ 'text-primary': megaOpen === 'company' }">Company <svg class="w-3.5 h-3.5 inline-block ml-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg></button>
           <div v-if="megaOpen === 'company'" class="mega-dropdown fixed left-1/2 top-[74px] z-50 mt-2 w-[min(94vw,920px)] -translate-x-1/2 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl animate-mega-in">
             <div class="flex items-center justify-between border-b border-slate-200 px-6 py-3">
@@ -144,7 +144,7 @@
             </div>
             <div class="grid max-h-[58vh] gap-4 overflow-y-auto px-6 py-5 md:grid-cols-2 lg:grid-cols-3">
               <router-link v-for="item in companyLinks" :key="item.label" :to="item.to" class="rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-primary/40">
-                <img :src="item.img" alt="" loading="lazy" class="h-16 w-full rounded-xl object-cover" />
+                <img :src="item.img" alt="" decoding="async" class="h-16 w-full rounded-xl object-cover" />
                 <p class="mt-3 text-sm font-semibold text-slate-900">{{ item.label }}</p>
                 <p class="mt-1 text-xs text-slate-600">{{ item.desc }}</p>
               </router-link>
@@ -152,7 +152,7 @@
           </div>
         </div>
 
-        <div class="mega-trigger">
+        <div class="mega-trigger" @mouseenter="hoverOpen('marketplace')" @mouseleave="hoverClose">
           <button @click.prevent="toggleMega('marketplace')" class="nav-link px-3 py-2 text-white/80 hover:text-primary transition font-medium text-sm rounded-lg hover:bg-white/10" :class="{ 'text-primary': megaOpen === 'marketplace' }">Marketplace <svg class="w-3.5 h-3.5 inline-block ml-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg></button>
           <div v-if="megaOpen === 'marketplace'" class="mega-dropdown fixed left-1/2 top-[74px] z-50 mt-2 w-[min(94vw,1100px)] -translate-x-1/2 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl animate-mega-in">
             <div class="flex items-center justify-between border-b border-slate-200 px-6 py-3">
@@ -167,7 +167,7 @@
               <div class="mt-4 grid gap-4 grid-cols-2 md:grid-cols-4">
                 <div v-for="p in marketProducts" :key="p.id" class="rounded-2xl border border-slate-200 bg-white p-3">
                   <router-link :to="`/products/${p.slug}`" class="block" @click="closeMega">
-                    <img v-if="p.image_url" :src="p.image_url" alt="" loading="lazy" class="h-24 w-full object-cover rounded-md mb-2" />
+                    <img v-if="p.image_url" :src="p.image_url" alt="" decoding="async" class="h-24 w-full object-cover rounded-md mb-2" />
                     <p class="font-semibold text-slate-900">{{ p.name }}</p>
                     <p class="text-xs text-slate-500">{{ p.excerpt }}</p>
                   </router-link>
@@ -222,10 +222,10 @@
     </div>
 
     <transition
-      enter-active-class="transition duration-200 ease-out"
+      enter-active-class="transition duration-150 ease-out"
       enter-from-class="opacity-0 -translate-y-2"
       enter-to-class="opacity-100 translate-y-0"
-      leave-active-class="transition duration-150 ease-in"
+      leave-active-class="transition duration-100 ease-in"
       leave-from-class="opacity-100 translate-y-0"
       leave-to-class="opacity-0 -translate-y-2"
     >
@@ -322,8 +322,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import laptopInDark from '@/../img/laptop-in-dark.webp';
 import defaultLogo from '@/../img/Omnivatech-logo.webp';
 import apiDevelopmentImage from '@/../img/services/API Development.webp';
@@ -344,6 +344,7 @@ import { useAuthStore } from '@/stores/auth';
 import { useCmsStore } from '@/stores/cms';
 
 const router = useRouter();
+const route = useRoute();
 const authStore = useAuthStore();
 const cmsStore = useCmsStore();
 
@@ -463,12 +464,79 @@ function navigateTo(to: string) {
   router.push(to);
 }
 
+// ── Snappy open/close ─────────────────────────────────────────
+// Menus open on hover (desktop) with a tiny intent delay so sweeping the cursor
+// across the nav doesn't flash panels; once a menu is open, moving to a sibling
+// switches instantly. A short close delay lets the cursor cross the gap into the panel.
+const HOVER_OPEN_DELAY = 60;
+const HOVER_CLOSE_DELAY = 160;
+let hoverTimer: ReturnType<typeof setTimeout> | null = null;
+const openedByHover = ref(false);
+const canHover = typeof window !== 'undefined' && window.matchMedia?.('(hover: hover) and (pointer: fine)').matches;
+
+function clearHoverTimer() {
+  if (hoverTimer) { clearTimeout(hoverTimer); hoverTimer = null; }
+}
+
+function hoverOpen(key: string) {
+  if (!canHover) return;
+  clearHoverTimer();
+  if (megaOpen.value === key) return;
+  if (megaOpen.value) {
+    megaOpen.value = key;
+    openedByHover.value = true;
+    return;
+  }
+  hoverTimer = setTimeout(() => {
+    megaOpen.value = key;
+    openedByHover.value = true;
+  }, HOVER_OPEN_DELAY);
+}
+
+function hoverClose() {
+  if (!canHover) return;
+  clearHoverTimer();
+  // Menus pinned open by a click stay open until clicked away
+  if (!openedByHover.value) return;
+  hoverTimer = setTimeout(() => { megaOpen.value = null; }, HOVER_CLOSE_DELAY);
+}
+
 function toggleMega(key: string) {
+  clearHoverTimer();
+  // Clicking a menu that hover just opened pins it open instead of closing it
+  if (megaOpen.value === key && openedByHover.value) {
+    openedByHover.value = false;
+    return;
+  }
   megaOpen.value = megaOpen.value === key ? null : key;
+  openedByHover.value = false;
 }
 
 function closeMega() {
+  clearHoverTimer();
   megaOpen.value = null;
+  openedByHover.value = false;
+}
+
+function handleKeydown(event: KeyboardEvent) {
+  if (event.key === 'Escape' && megaOpen.value) closeMega();
+}
+
+// Close menus as soon as navigation happens (links inside panels don't all call closeMega)
+watch(() => route.fullPath, () => {
+  closeMega();
+  mobileMenuOpen.value = false;
+});
+
+// Warm the browser cache with every menu image while idle, so panels appear fully painted
+function preloadMenuImages() {
+  const urls = new Set<string>();
+  [...serviceLinks, ...solutionsLinks, ...companyLinks, ...resourceLinks].forEach((i) => urls.add(i.img));
+  urls.forEach((src) => {
+    const img = new Image();
+    img.decoding = 'async';
+    img.src = src;
+  });
 }
 
 function handleDocumentClick(event: MouseEvent) {
@@ -487,10 +555,15 @@ const marketProducts = computed(() => cmsStore.homeData?.featured_products || []
 
 onMounted(() => {
   document.addEventListener('click', handleDocumentClick);
+  document.addEventListener('keydown', handleKeydown);
+  const idle = (window as any).requestIdleCallback || ((cb: () => void) => setTimeout(cb, 1200));
+  idle(preloadMenuImages);
 });
 
 onBeforeUnmount(() => {
+  clearHoverTimer();
   document.removeEventListener('click', handleDocumentClick);
+  document.removeEventListener('keydown', handleKeydown);
 });
 
 async function handleLogout() {
@@ -501,11 +574,11 @@ async function handleLogout() {
 
 <style scoped>
 .animate-mega-in {
-  animation: mega-in 120ms ease-out;
+  animation: mega-in 90ms cubic-bezier(0.2, 0, 0, 1);
 }
 
 @keyframes mega-in {
-  from { opacity: 0; transform: translateY(-6px); }
+  from { opacity: 0; transform: translateY(-4px); }
   to { opacity: 1; transform: translateY(0); }
 }
 </style>

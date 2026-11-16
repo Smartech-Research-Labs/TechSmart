@@ -406,4 +406,28 @@ router.beforeEach(async (to, from, next) => {
   next();
 });
 
+// Prefetch the code for public pages once the browser is idle after the first page load,
+// so clicking a nav link renders instantly instead of waiting on a JS chunk download.
+// Skipped on data-saver / very slow connections. Auth-only and admin pages are not prefetched.
+router.isReady().then(() => {
+  const conn = (navigator as any).connection;
+  if (conn?.saveData || /(^|-)2g$/.test(conn?.effectiveType || '')) return;
+
+  const loaders = router.getRoutes()
+    .filter((r) => !r.meta.requiresAuth && !r.meta.requiresAdmin && !r.meta.requiresSuperAdmin && !r.meta.guest)
+    .map((r) => r.components?.default)
+    .filter((c): c is () => Promise<unknown> => typeof c === 'function');
+
+  const idle: (cb: () => void) => void =
+    (window as any).requestIdleCallback || ((cb: () => void) => setTimeout(cb, 1500));
+
+  // Load one chunk per idle slot so prefetching never competes with the current page
+  const next = () => {
+    const load = loaders.shift();
+    if (!load) return;
+    load().catch(() => {}).finally(() => idle(next));
+  };
+  idle(next);
+});
+
 export default router;

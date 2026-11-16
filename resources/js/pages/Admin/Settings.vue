@@ -1261,7 +1261,7 @@ async function saveSettings() {
     saving.value = false;
   }
   try {
-    await cmsStore.fetchHomeData();
+    await cmsStore.fetchHomeData(true);
   } catch {
     // Silent - save already succeeded, store refresh is secondary
   }
@@ -1287,7 +1287,7 @@ async function uploadLogo() {
     form.logo_path = data.logo_path ?? '';
     logoFile.value = null;
     if (logoPreview.value) { URL.revokeObjectURL(logoPreview.value); logoPreview.value = null; }
-    await cmsStore.fetchHomeData();
+    await cmsStore.fetchHomeData(true);
     toast.success('Logo uploaded', 'The site logo has been updated.');
   } catch (e: any) {
     toast.error('Upload failed', e?.response?.data?.message ?? 'Could not upload logo.');
@@ -1316,7 +1316,7 @@ async function uploadFavicon() {
     form.favicon_path = data.favicon_path ?? '';
     faviconFile.value = null;
     if (faviconPreview.value) { URL.revokeObjectURL(faviconPreview.value); faviconPreview.value = null; }
-    await cmsStore.fetchHomeData();
+    await cmsStore.fetchHomeData(true);
     toast.success('Favicon uploaded', 'The site favicon has been updated.');
   } catch (e: any) {
     toast.error('Upload failed', e?.response?.data?.message ?? 'Could not upload favicon.');
@@ -1345,7 +1345,7 @@ async function uploadFooterLogo() {
     form.footer_logo_path = data.footer_logo_path ?? '';
     footerLogoFile.value = null;
     if (footerLogoPreview.value) { URL.revokeObjectURL(footerLogoPreview.value); footerLogoPreview.value = null; }
-    await cmsStore.fetchHomeData();
+    await cmsStore.fetchHomeData(true);
     toast.success('Footer logo uploaded', 'The footer logo has been updated.');
   } catch (e: any) {
     toast.error('Upload failed', e?.response?.data?.message ?? 'Could not upload footer logo.');

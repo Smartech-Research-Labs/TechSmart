@@ -162,19 +162,37 @@ export const useCmsStore = defineStore('cms', () => {
   const loading = ref(false);
   const error = ref<string | null>(null);
 
-  async function fetchHomeData() {
-    loading.value = true;
-    error.value = null;
-    try {
-      const response = await axios.get('/api/v1/home');
-      homeData.value = response.data;
-      return response.data;
-    } catch (err: any) {
-      error.value = err.response?.data?.message || 'Failed to fetch home data';
-      throw err;
-    } finally {
-      loading.value = false;
+  // Home data (settings, menus, featured items) is shared by the layout and many pages.
+  // Cache it for a few minutes and de-duplicate concurrent requests so navigating
+  // between pages doesn't re-download the same payload every time.
+  const HOME_DATA_TTL_MS = 5 * 60 * 1000;
+  let homeDataFetchedAt = 0;
+  let homeDataInflight: Promise<any> | null = null;
+
+  async function fetchHomeData(force = false) {
+    if (!force && homeData.value && Date.now() - homeDataFetchedAt < HOME_DATA_TTL_MS) {
+      return homeData.value;
     }
+    if (homeDataInflight) return homeDataInflight;
+
+    // Only show a loading state when there's nothing to display yet
+    if (!homeData.value) loading.value = true;
+    error.value = null;
+    homeDataInflight = (async () => {
+      try {
+        const response = await axios.get('/api/v1/home');
+        homeData.value = response.data;
+        homeDataFetchedAt = Date.now();
+        return response.data;
+      } catch (err: any) {
+        error.value = err.response?.data?.message || 'Failed to fetch home data';
+        throw err;
+      } finally {
+        loading.value = false;
+        homeDataInflight = null;
+      }
+    })();
+    return homeDataInflight;
   }
 
   async function fetchTeam() {
@@ -209,6 +227,7 @@ export const useCmsStore = defineStore('cms', () => {
 
   function clearCache() {
     homeData.value = null;
+    homeDataFetchedAt = 0;
     team.value = [];
     mapData.value = [];
   }

@@ -4,13 +4,19 @@
     <div class="relative overflow-hidden min-h-[64vh] md:min-h-[78vh]">
       <!-- Shared background layer — stretches behind both hero AND counter -->
       <div class="absolute inset-0 z-0 w-full h-full">
+        <!-- All slide backgrounds are rendered up front (stacked) so they download immediately
+             and switching slides is just an opacity change — no network wait on each slide. -->
         <img
-          v-if="heroSlides.length"
-          :src="heroSlides[currentHeroSlide]?.bg_image"
-          :alt="heroSlides[currentHeroSlide]?.title"
-          fetchpriority="high"
+          v-for="(slide, i) in heroSlides"
+          :key="slide.id"
+          :src="slide.bg_image"
+          :alt="i === currentHeroSlide ? slide.title : ''"
+          :aria-hidden="i !== currentHeroSlide"
+          :fetchpriority="i === 0 ? 'high' : 'low'"
+          :decoding="i === 0 ? 'sync' : 'async'"
           loading="eager"
-          class="w-full h-full object-cover"
+          class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700"
+          :class="i === currentHeroSlide ? 'opacity-100' : 'opacity-0'"
         />
         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/55 to-black/40"></div>
       </div>
@@ -404,89 +410,25 @@
     </section>
 
     <!-- ═══════════════ PACKAGES ═══════════════ -->
-    <section v-if="packages.length" class="py-16 md:py-24">
+    <section class="bg-slate-100 dark:bg-gray-900/40 py-16 md:py-24">
       <div class="container mx-auto px-6 max-w-6xl">
-        <div class="flex flex-wrap items-end justify-between gap-6 mb-10">
-          <div class="max-w-2xl">
-            <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Offerings</p>
-            <h2 class="text-3xl md:text-4xl font-bold text-foreground leading-tight tracking-tight mb-3">Scalable packages for growth</h2>
-            <p class="text-muted-foreground text-sm leading-relaxed">From startups to enterprises — every package is built for maximum value, with professional support included.</p>
-          </div>
-          <router-link to="/packages" class="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline underline-offset-4 shrink-0">
-            Compare all packages
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </router-link>
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Offerings</p>
+          <h2 class="text-3xl md:text-4xl font-bold text-foreground leading-tight tracking-tight mb-3">Scalable packages for growth</h2>
+          <p class="text-muted-foreground text-sm leading-relaxed">From startups to enterprises — every package is built for maximum value, with professional support included.</p>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
-          <router-link
-            v-for="(pkg, i) in packages"
-            :key="pkg.id"
-            :to="`/packages/${pkg.slug}`"
-            class="group relative flex flex-col rounded-2xl overflow-hidden border transition-all duration-300 hover:-translate-y-1"
-            :class="pkg.is_featured
-              ? 'bg-gray-900 border-primary/60 shadow-xl shadow-primary/10 hover:shadow-2xl hover:shadow-primary/20'
-              : 'bg-card border-border shadow-sm hover:border-primary/30 hover:shadow-lg'"
-          >
-            <!-- Gradient accent strip -->
-            <div class="h-1.5 w-full bg-gradient-to-r" :class="packageGradients[i % packageGradients.length]"></div>
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 gap-8 items-stretch mx-auto"
+          :class="displayPackages.length > 3 ? 'lg:grid-cols-4' : 'lg:grid-cols-3 max-w-5xl'"
+        >
+          <PackageCard v-for="(pkg, i) in displayPackages" :key="pkg.id" :pkg="pkg" :index="i" />
+        </div>
 
-            <div class="flex flex-col flex-1 p-6">
-              <!-- Icon + badge -->
-              <div class="flex items-start justify-between mb-5">
-                <div class="w-12 h-12 rounded-xl bg-gradient-to-br flex items-center justify-center shadow-sm" :class="packageGradients[i % packageGradients.length]">
-                  <span class="text-2xl">{{ packageIcons[pkg.name] || '📦' }}</span>
-                </div>
-                <span v-if="pkg.is_featured" class="bg-primary text-white text-[10px] font-semibold tracking-widest uppercase px-3 py-1 rounded-full shadow-lg shadow-primary/25">
-                  Most popular
-                </span>
-              </div>
-
-              <!-- Tier + name -->
-              <p v-if="pkg.highlight_text || pkg.tier_level" class="text-primary text-[11px] font-semibold tracking-widest uppercase mb-1.5">
-                {{ pkg.highlight_text || pkg.tier_level }}
-              </p>
-              <h3 class="text-lg font-bold mb-2 leading-tight group-hover:text-primary transition-colors" :class="pkg.is_featured ? 'text-white' : 'text-foreground'">
-                {{ pkg.name }}
-              </h3>
-              <p class="text-xs leading-relaxed mb-5 line-clamp-2" :class="pkg.is_featured ? 'text-white/60' : 'text-muted-foreground'">
-                {{ pkg.short_description }}
-              </p>
-
-              <!-- Price -->
-              <div v-if="pkg.price" class="pb-5 mb-5 border-b" :class="pkg.is_featured ? 'border-white/10' : 'border-border'">
-                <p class="text-[11px] font-medium uppercase tracking-wider mb-1" :class="pkg.is_featured ? 'text-white/50' : 'text-muted-foreground'">Starting at</p>
-                <div class="flex items-baseline gap-1.5 flex-wrap">
-                  <span class="text-sm font-semibold" :class="pkg.is_featured ? 'text-white/70' : 'text-muted-foreground'">KES</span>
-                  <span class="text-3xl font-bold tracking-tight" :class="pkg.is_featured ? 'text-white' : 'text-foreground'">{{ formatPackagePrice(pkg.price) }}</span>
-                  <span v-if="pkg.price_label" class="text-xs" :class="pkg.is_featured ? 'text-white/50' : 'text-muted-foreground'">{{ pkg.price_label }}</span>
-                </div>
-              </div>
-
-              <!-- Includes -->
-              <ul v-if="pkg.includes && pkg.includes.length" class="space-y-2.5 mb-6">
-                <li v-for="(item, idx) in pkg.includes.slice(0, 4)" :key="idx" class="flex items-start gap-2.5 text-xs">
-                  <span class="mt-0.5 w-4 h-4 rounded-full bg-primary/15 flex items-center justify-center shrink-0">
-                    <svg class="w-2.5 h-2.5 text-primary" fill="none" stroke="currentColor" stroke-width="3.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
-                  </span>
-                  <span :class="pkg.is_featured ? 'text-white/75' : 'text-muted-foreground'">{{ item }}</span>
-                </li>
-                <li v-if="pkg.includes.length > 4" class="text-xs font-semibold text-primary pl-[26px]">
-                  +{{ pkg.includes.length - 4 }} more included
-                </li>
-              </ul>
-
-              <!-- CTA (pinned to bottom so buttons align across cards) -->
-              <span
-                class="mt-auto inline-flex items-center justify-center gap-2 w-full py-3 rounded-full text-sm font-semibold transition-all"
-                :class="pkg.is_featured
-                  ? 'bg-primary text-white shadow-lg shadow-primary/25 group-hover:bg-primary/90'
-                  : 'border border-border text-foreground group-hover:border-primary group-hover:bg-primary group-hover:text-white'"
-              >
-                View details
-                <svg class="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-              </span>
-            </div>
+        <div class="text-center mt-12">
+          <router-link to="/packages" class="inline-flex items-center gap-2 px-7 py-3 border border-primary text-primary text-sm font-semibold rounded-full hover:bg-primary hover:text-white transition-all">
+            Compare all packages
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </router-link>
         </div>
       </div>
@@ -807,6 +749,7 @@ import axios from 'axios';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { ref, computed, onMounted } from 'vue';
+import { useCmsStore } from '@/stores/cms';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
@@ -834,6 +777,7 @@ import techImg5 from '../../img/tech5.webp';
 import techImg6 from '../../img/tech6.webp';
 import videoCTA from '../../videos/omniviatech.mp4';
 import WishlistButton from '../components/WishlistButton.vue';
+import PackageCard from '../components/PackageCard.vue';
 import PublicLayout from '../layouts/PublicLayout.vue';
 
 // Data
@@ -849,22 +793,27 @@ const recentBlogs = ref<any[]>([]);
 const settings = ref<any>({});
 const packages = ref<any[]>([]);
 
-// Packages section styling
-const packageGradients = [
-  'from-blue-500 to-blue-600',
-  'from-green-500 to-emerald-600',
-  'from-purple-500 to-pink-600',
-  'from-amber-500 to-orange-600',
+// Shown until real packages exist in the CMS, so the section is never empty
+const fallbackPackages = [
+  {
+    id: 'starter', slug: '', name: 'Starter', price: 15000, price_label: 'Month', is_featured: false,
+    short_description: 'Everything a new business needs to launch a fast, professional online presence.',
+    includes: ['5 Page responsive website', '1 Year free domain & hosting', '5 Professional email accounts', 'Basic on-page SEO setup', '24/7 Email support'],
+  },
+  {
+    id: 'business', slug: '', name: 'Business', price: 35000, price_label: 'Month', is_featured: true,
+    short_description: 'For growing teams that need more pages, integrations and marketing tools.',
+    includes: ['15 Page custom website', '10GB SSD hosting & SSL', '20 Professional email accounts', 'Advanced SEO & Google Analytics', '24/7 Priority support'],
+  },
+  {
+    id: 'premium', slug: '', name: 'Premium', price: 75000, price_label: 'Month', is_featured: false,
+    short_description: 'A complete digital platform with e-commerce, automation and dedicated support.',
+    includes: ['Unlimited pages & e-commerce store', '50GB SSD cloud hosting', 'Unlimited email accounts', 'CRM & payment integrations', '24/7 Dedicated account manager'],
+  },
 ];
-const packageIcons: Record<string, string> = {
-  'Starter': '🚀',
-  'Professional': '⭐',
-  'Business': '💼',
-  'Enterprise': '🏆',
-};
-function formatPackagePrice(price: number | string) {
-  return Number(price).toLocaleString('en-KE', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-}
+
+const displayPackages = computed<any[]>(() => (packages.value.length ? packages.value : fallbackPackages));
+
 
 // Static Data — niches shown as quick-scan chips in the Services section
 const specializations = [
@@ -1089,6 +1038,17 @@ function getServiceImage(service: any) {
 
 const currentHeroSlide = ref(0);
 
+// Start downloading the first hero image as soon as this module is evaluated,
+// before Vue renders the template, so it's ready by the time the <img> mounts.
+if (typeof document !== 'undefined' && !document.querySelector(`link[rel="preload"][href="${heroTechBg}"]`)) {
+  const link = document.createElement('link');
+  link.rel = 'preload';
+  link.as = 'image';
+  link.href = heroTechBg;
+  link.setAttribute('fetchpriority', 'high');
+  document.head.appendChild(link);
+}
+
 const heroSlides = [
   {
     id: 1,
@@ -1217,6 +1177,8 @@ const blogNavigation = true as any;
 const testimonialsPagination = { clickable: true } as any;
 const testimonialsAutoplay = { delay: 5000, disableOnInteraction: false } as any;
 
+const cmsStore = useCmsStore();
+
 // UI State
 const counterRefs = ref<HTMLElement[]>([]);
 const openFaqIndex = ref<number | null>(null);
@@ -1224,7 +1186,8 @@ const openFaqIndex = ref<number | null>(null);
 // Fetch Data
 async function fetchHomeData() {
   try {
-    const { data } = await axios.get('/api/v1/home');
+    // Shared, cached request — the layout fetches the same payload
+    const data = await cmsStore.fetchHomeData();
     const d = data.data || data;
     sliders.value = d.sliders || [];
     counters.value = d.counters || [];

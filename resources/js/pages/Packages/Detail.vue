@@ -1,463 +1,377 @@
 <template>
   <PublicLayout>
-    <!-- ═══════════════ HERO ═══════════════ -->
-    <section class="relative py-16 md:py-24 overflow-hidden">
-      <div class="absolute inset-0 z-0">
-        <img :src="tech1" alt="" class="w-full h-full object-cover" />
-        <div class="absolute inset-0 bg-black/50"></div>
-      </div>
-      <div class="relative z-10 container mx-auto px-6">
-        <div class="max-w-2xl">
-          <router-link to="/packages" class="inline-flex items-center gap-2 text-primary text-xs font-semibold tracking-widest uppercase mb-4 hover:gap-3 transition-all">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
-            Back to Packages
-          </router-link>
-          <p v-if="pkg?.tier_level" class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">{{ pkg.tier_level }}</p>
-          <h1 class="text-3xl md:text-5xl font-bold text-white leading-tight mb-4">{{ pkg?.name }}</h1>
-          <p class="text-white/80 text-base leading-relaxed mb-6">{{ pkg?.short_description }}</p>
-        </div>
-      </div>
-    </section>
-
-    <div v-if="loading" class="min-h-screen flex items-center justify-center">
-      <div class="inline-block">
-        <div class="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
-      </div>
+    <!-- Loading -->
+    <div v-if="loading" class="container mx-auto px-4 md:px-6 max-w-6xl py-6">
+      <div class="h-[60vh] rounded-3xl bg-slate-100 dark:bg-gray-800 animate-pulse"></div>
     </div>
 
-    <div v-else-if="pkg">
-      <!-- ═══════════════ MAIN CONTENT ═══════════════ -->
-      <section class="py-14 md:py-20">
-        <div class="container mx-auto px-6">
-          <div class="grid lg:grid-cols-3 gap-12">
-            <!-- Main Content -->
-            <div class="lg:col-span-2">
-              <!-- Price Section -->
-              <div class="mb-8 pb-8 border-b border-border">
-                <div v-if="pkg?.price" class="flex items-baseline gap-3 mb-4">
-                  <span class="text-4xl font-bold text-primary">KES {{ formatPrice(pkg.price) }}</span>
-                  <span v-if="pkg?.price_label" class="text-muted-foreground">{{ pkg.price_label }}</span>
-                </div>
-                <p class="text-muted-foreground">All packages include professional support and monthly maintenance.</p>
-              </div>
+    <div v-else-if="pkg" class="pkg-page">
+      <!-- ═══════════════ HERO ═══════════════ -->
+      <section class="container mx-auto px-4 md:px-6 max-w-6xl pt-6">
+        <div class="relative overflow-hidden rounded-3xl min-h-[440px] md:min-h-[520px] flex flex-col">
+          <img :src="tech1" alt="" class="absolute inset-0 w-full h-full object-cover" fetchpriority="high" />
+          <div class="absolute inset-0 bg-gradient-to-b from-slate-900/55 via-slate-900/25 to-slate-900/60"></div>
 
-              <!-- Description -->
-              <div v-if="pkg?.description" class="mb-8 pb-8 border-b border-border">
-                <div v-html="pkg.description" class="prose prose-invert max-w-none text-muted-foreground [&>h2]:text-2xl [&>h2]:font-bold [&>h2]:text-foreground [&>h2]:mb-4 [&>h2]:mt-0 [&>h3]:text-xl [&>h3]:font-bold [&>h3]:text-foreground [&>h3]:mb-3 [&>h3]:mt-4 [&>p]:leading-relaxed [&>p]:mb-4 [&>ul]:list-disc [&>ul]:list-inside [&>ul]:mb-4 [&>li]:text-muted-foreground [&>li]:mb-2 [&>strong]:font-semibold [&>strong]:text-foreground"></div>
-              </div>
+          <!-- Back link -->
+          <router-link
+            to="/packages"
+            class="relative z-10 m-5 self-start inline-flex items-center gap-1.5 rounded-full bg-white/15 backdrop-blur px-3.5 py-1.5 text-xs text-white hover:bg-white/25 transition-colors"
+          >
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+            All packages
+          </router-link>
 
-              <!-- Features List -->
-              <div v-if="pkg?.includes && pkg.includes.length > 0" class="mb-8 pb-8 border-b border-border">
-                <h2 class="text-2xl font-bold text-foreground mb-6">What's Included</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div v-for="(item, idx) in pkg.includes" :key="idx" class="flex items-start gap-3">
-                    <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                    </svg>
-                    <span class="text-muted-foreground text-sm">{{ item }}</span>
-                  </div>
-                </div>
-              </div>
+          <!-- Centered copy -->
+          <div class="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6 pb-20">
+            <p v-if="pkg.tier_level || pkg.highlight_text" class="text-white/80 text-xs tracking-[0.2em] uppercase mb-4">
+              {{ pkg.tier_level || pkg.highlight_text }}
+            </p>
+            <h1 class="text-4xl md:text-6xl font-light text-white tracking-tight leading-[1.1] max-w-3xl">
+              {{ pkg.name }}.<br class="hidden md:block" />
+              <span class="text-white/90"> Everything in one place.</span>
+            </h1>
+            <p v-if="pkg.short_description" class="mt-5 text-white/85 text-sm md:text-base font-light leading-relaxed max-w-xl">
+              {{ pkg.short_description }}
+            </p>
+            <button
+              type="button"
+              @click="scrollToQuote"
+              class="mt-7 inline-flex items-center gap-2 rounded-full bg-slate-900 px-5 py-2.5 text-sm text-white hover:bg-slate-800 transition-colors"
+            >
+              Request a quote
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+            </button>
+          </div>
 
-              <!-- Features from packageFeatures -->
-              <div v-if="pkg?.package_features && pkg.package_features.length > 0" class="mb-8">
-                <h2 class="text-2xl font-bold text-foreground mb-6">Key Features</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div v-for="feature in pkg.package_features" :key="feature.id" class="bg-card border border-border rounded-xl p-6 hover:border-primary/30 transition-all">
-                    <div v-if="feature.icon" class="text-3xl mb-3">{{ feature.icon }}</div>
-                    <h3 class="text-sm font-bold text-foreground mb-2">{{ feature.title }}</h3>
-                    <p v-if="feature.description" class="text-muted-foreground text-xs leading-relaxed">{{ feature.description }}</p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Fallback Content if no features -->
-              <div v-if="!pkg?.includes || pkg.includes.length === 0" class="mb-8 pb-8 border-b border-border">
-                <h2 class="text-2xl font-bold text-foreground mb-6">Package Features</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div class="flex items-start gap-3">
-                    <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-                    <span class="text-muted-foreground text-sm">Professional website design and development</span>
-                  </div>
-                  <div class="flex items-start gap-3">
-                    <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-                    <span class="text-muted-foreground text-sm">Responsive design for all devices</span>
-                  </div>
-                  <div class="flex items-start gap-3">
-                    <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-                    <span class="text-muted-foreground text-sm">SEO optimization included</span>
-                  </div>
-                  <div class="flex items-start gap-3">
-                    <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-                    <span class="text-muted-foreground text-sm">24/7 Support and maintenance</span>
-                  </div>
-                </div>
+          <!-- Bottom bar -->
+          <div class="relative z-10 flex flex-wrap items-end justify-between gap-4 px-5 pb-5">
+            <div class="flex items-center gap-3">
+              <p class="text-[11px] leading-tight text-white/85">Professional support<br />Monthly maintenance</p>
+              <div class="flex -space-x-2 rounded-full bg-white/20 backdrop-blur p-1">
+                <span class="w-7 h-7 rounded-full bg-sky-500 ring-2 ring-white/70 flex items-center justify-center text-[11px]">⚡</span>
+                <span class="w-7 h-7 rounded-full bg-emerald-500 ring-2 ring-white/70 flex items-center justify-center text-[11px]">🛡️</span>
+                <span class="w-7 h-7 rounded-full bg-amber-500 ring-2 ring-white/70 flex items-center justify-center text-[11px]">🤝</span>
               </div>
             </div>
+            <div class="flex items-center gap-4 text-[11px] text-white/90">
+              <a
+                :href="`https://wa.me/${whatsappDigits}?text=${encodeURIComponent('Hi, I am interested in the ' + (pkg?.name || 'website') + ' package')}`"
+                target="_blank" rel="noopener noreferrer" class="hover:text-white"
+              >WhatsApp ↗</a>
+              <a :href="`mailto:${s.contact_email || 'info@omniviatech.com'}`" class="hover:text-white">Email ↗</a>
+              <button type="button" @click="toggleWishlist" :disabled="wishlistLoading" class="hover:text-white">
+                {{ isInWishlist ? 'Saved ♥' : 'Save ♡' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            <!-- Sidebar -->
-            <div class="lg:col-span-1">
-              <!-- Sticky Card -->
-              <div class="sticky top-24 bg-gray-900 border border-white/10 rounded-xl p-6 space-y-4">
-                <!-- Price Highlight -->
-                <div v-if="pkg?.price" class="text-center pb-4 border-b border-white/10">
-                  <div class="text-3xl font-bold text-primary mb-2">KES {{ formatPrice(pkg.price) }}</div>
-                  <p class="text-white/60 text-xs">{{ pkg?.price_label || 'One-time payment' }}</p>
-                </div>
+      <!-- ═══════════════ ABOUT ═══════════════ -->
+      <section class="container mx-auto px-4 md:px-6 max-w-6xl pt-14 md:pt-20">
+        <div class="grid md:grid-cols-2 gap-6 md:gap-10">
+          <div>
+            <span class="pill">About {{ pkg.name }}</span>
+          </div>
+          <div>
+            <div
+              v-if="pkg.description"
+              v-html="pkg.description"
+              class="statement text-foreground text-lg md:text-2xl font-light leading-snug tracking-tight"
+            ></div>
+            <p v-else class="text-foreground text-lg md:text-2xl font-light leading-snug tracking-tight">
+              {{ pkg.short_description || 'A complete package designed to get your business online and growing — with professional support every step of the way.' }}
+            </p>
+          </div>
+        </div>
+      </section>
 
-                <!-- Wishlist Button -->
-                <button
-                  @click="toggleWishlist"
-                  :disabled="wishlistLoading"
-                  class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg transition-all"
-                  :class="isInWishlist
-                    ? 'bg-purple-700 border border-purple-600 text-white hover:bg-purple-800'
-                    : 'bg-purple-600 border border-purple-600 text-white hover:bg-purple-700'
-                  "
-                >
-                  <svg v-if="isInWishlist" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"/>
-                  </svg>
-                  <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                  </svg>
-                  {{ isInWishlist ? 'Added to Wishlist' : 'Add to Wishlist' }}
-                </button>
+      <!-- ═══════════════ BENTO CARDS ═══════════════ -->
+      <section class="container mx-auto px-4 md:px-6 max-w-6xl pt-10 md:pt-12">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <!-- Dark card -->
+          <div class="rounded-3xl bg-slate-900 p-7 flex flex-col justify-between min-h-[290px]">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 5h18v11H3zM8 20h8M12 16v4M7 9h2m2 0h2m2 0h2"/></svg>
+            <p class="mt-8 text-xl md:text-[1.4rem] font-light leading-snug text-white">
+              {{ pkg.includes?.[0] || 'Professional website design' }}
+              <span class="text-white/45"> {{ pkg.includes?.[1] ? 'with ' + pkg.includes[1].charAt(0).toLowerCase() + pkg.includes[1].slice(1) : 'with responsive layouts' }} —</span>
+              everything set up for you,
+              <span class="text-white/45">ready</span> from day one.
+            </p>
+            <div class="mt-6 flex items-center gap-3">
+              <span class="relative inline-flex h-6 w-11 items-center rounded-full bg-sky-500" aria-hidden="true">
+                <span class="absolute right-1 h-4 w-4 rounded-full bg-white ring-4 ring-sky-300/40"></span>
+              </span>
+              <span class="text-sm text-white/45">Monthly maintenance</span>
+            </div>
+          </div>
 
-                <!-- Contact Buttons -->
-                <div class="space-y-3 pt-2">
-                  <a
-                    :href="`https://wa.me/${whatsappDigits}?text=${encodeURIComponent('Hi, I am interested in the ' + (pkg?.name || 'website') + ' package')}`"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#25D366] text-white rounded-lg hover:bg-[#20ba5a] transition-all text-sm font-semibold"
-                  >
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-5.031 1.378c-3.055 2.116-4.922 5.636-4.922 9.28 0 5.494 4.479 9.968 9.973 9.968a9.9 9.9 0 005.461-1.64l.084.05c1.046.31 2.151.271 3.182-.12 1.034-.394 1.978-1.247 2.583-2.335.338-.627.56-1.316.645-2.019.085-.703.041-1.425-.128-2.117-.326-1.379-1.045-2.656-2.066-3.704-2.23-2.216-5.392-3.606-8.809-3.606z"/>
-                    </svg>
-                    Chat on WhatsApp
-                  </a>
+          <!-- Image card -->
+          <div class="relative overflow-hidden rounded-3xl min-h-[290px]">
+            <img :src="tech5" alt="" class="absolute inset-0 w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent"></div>
+            <span class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full bg-white/25 backdrop-blur-md px-4 py-2 text-sm text-white">
+              {{ pkg.highlight_text || pkg.tier_level || 'Setup, training & support' }}
+            </span>
+          </div>
 
-                  <a
-                    :href="`mailto:${s.contact_email || 'info@omniviatech.com'}`"
-                    class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all text-sm font-semibold"
-                  >
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                      <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                    </svg>
-                    Email Us
-                  </a>
+          <!-- Stats card -->
+          <div class="rounded-3xl bg-slate-50 dark:bg-gray-900 border border-slate-100 dark:border-gray-800 p-7 flex flex-col">
+            <p class="text-4xl md:text-5xl font-light tracking-tight text-foreground">
+              <template v-if="Number(pkg.price)"><span class="text-xl align-top mr-1">KES</span>{{ formatPrice(Number(pkg.price)) }}</template>
+              <template v-else>Custom</template>
+            </p>
+            <p class="mt-2 text-sm text-foreground">{{ pkg.price_label || 'One-time payment' }}</p>
+            <p class="mt-2 text-xs text-muted-foreground leading-relaxed">All packages include professional support and monthly maintenance.</p>
 
-                  <button
-                    @click="scrollToQuote"
-                    class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-all text-sm font-semibold"
-                  >
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                      <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                    </svg>
-                    Get a Quote
-                  </button>
-                </div>
-
-                <!-- Trust Badges -->
-                <div class="pt-4 border-t border-white/10 space-y-3 text-center">
-                  <div class="flex items-center justify-center gap-2 text-white/70 text-xs">
-                    <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                    </svg>
-                    Professional Support
-                  </div>
-                  <div class="flex items-center justify-center gap-2 text-white/70 text-xs">
-                    <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                    </svg>
-                    Monthly Maintenance
-                  </div>
-                  <div class="flex items-center justify-center gap-2 text-white/70 text-xs">
-                    <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                    </svg>
-                    24/7 Availability
-                  </div>
-                </div>
+            <div class="mt-auto pt-6 space-y-2.5">
+              <div v-for="row in [
+                { label: 'Included', value: pkg.includes?.length || 0 },
+                { label: 'Key features', value: pkg.package_features?.length || 0 },
+                { label: 'Support', value: '24/7', full: true },
+              ]" :key="row.label" class="flex items-center gap-3">
+                <span class="w-24 shrink-0 text-xs text-foreground">{{ row.label }}</span>
+                <span class="flex flex-1 gap-1">
+                  <span
+                    v-for="d in 10"
+                    :key="d"
+                    class="h-2.5 w-2.5 rounded-full"
+                    :class="(row.full || d <= Math.min(10, Number(row.value))) ? 'bg-sky-500' : 'bg-slate-200 dark:bg-gray-700'"
+                  ></span>
+                </span>
+                <span class="w-8 text-right text-xs text-foreground">{{ row.value }}</span>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- ═══════════════ WHY CHOOSE THIS PACKAGE ═══════════════ -->
-      <section class="py-14 md:py-20 bg-muted/30">
-        <div class="container mx-auto px-6">
-          <div class="text-center max-w-2xl mx-auto mb-12">
-            <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Why This Package</p>
-            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">Why Choose {{ pkg?.name || 'This Package' }}</h2>
-            <p class="text-muted-foreground text-sm leading-relaxed">Discover the unique benefits and advantages of this package tier designed specifically for your business stage.</p>
+      <!-- ═══════════════ FACTS IN NUMBERS ═══════════════ -->
+      <section class="container mx-auto px-4 md:px-6 max-w-6xl pt-14 md:pt-16 pb-14 md:pb-16 border-b border-slate-100 dark:border-gray-800">
+        <p class="text-center text-lg md:text-xl font-light text-foreground mb-10">A few more facts about this package in numbers</p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-y-10 text-center">
+          <div>
+            <p class="text-3xl md:text-4xl font-light tracking-tight text-foreground">{{ pkg.includes?.length || 4 }}+</p>
+            <p class="mt-1 text-xs text-muted-foreground">Items included</p>
           </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="bg-card border border-border rounded-xl p-6 hover:border-primary/30 transition-all">
-              <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
-                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-              </div>
-              <h3 class="text-lg font-bold text-foreground mb-2">Perfect Value</h3>
-              <p class="text-muted-foreground text-sm leading-relaxed">Optimized pricing that delivers maximum value for your investment without compromising on quality.</p>
-            </div>
-
-            <div class="bg-card border border-border rounded-xl p-6 hover:border-primary/30 transition-all">
-              <div class="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-4">
-                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m7 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-              </div>
-              <h3 class="text-lg font-bold text-foreground mb-2">Proven Results</h3>
-              <p class="text-muted-foreground text-sm leading-relaxed">Used by hundreds of successful businesses that have achieved their online goals with this tier.</p>
-            </div>
-
-            <div class="bg-card border border-border rounded-xl p-6 hover:border-primary/30 transition-all">
-              <div class="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4">
-                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-              </div>
-              <h3 class="text-lg font-bold text-foreground mb-2">Growth-Ready</h3>
-              <p class="text-muted-foreground text-sm leading-relaxed">Easily upgrade or customize as your business grows without starting from scratch.</p>
-            </div>
-
-            <div class="bg-card border border-border rounded-xl p-6 hover:border-primary/30 transition-all">
-              <div class="w-12 h-12 bg-amber-500/20 rounded-lg flex items-center justify-center mb-4">
-                <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8v4m0 4v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-              </div>
-              <h3 class="text-lg font-bold text-foreground mb-2">Expert Support</h3>
-              <p class="text-muted-foreground text-sm leading-relaxed">Dedicated support team ready to help you get the most out of your package investment.</p>
-            </div>
-
-            <div class="bg-card border border-border rounded-xl p-6 hover:border-primary/30 transition-all">
-              <div class="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center mb-4">
-                <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8v4m0 4v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-              </div>
-              <h3 class="text-lg font-bold text-foreground mb-2">Peace of Mind</h3>
-              <p class="text-muted-foreground text-sm leading-relaxed">Regular backups, security monitoring, and compliance protection included in all services.</p>
-            </div>
-
-            <div class="bg-card border border-border rounded-xl p-6 hover:border-primary/30 transition-all">
-              <div class="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center mb-4">
-                <svg class="w-6 h-6 text-cyan-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-              </div>
-              <h3 class="text-lg font-bold text-foreground mb-2">Lightning Speed</h3>
-              <p class="text-muted-foreground text-sm leading-relaxed">Optimized performance that ensures fast loading times and excellent user experience.</p>
-            </div>
+          <div>
+            <p class="text-3xl md:text-4xl font-light tracking-tight text-foreground">{{ pkg.package_features?.length || 3 }}</p>
+            <p class="mt-1 text-xs text-muted-foreground">Key features</p>
+          </div>
+          <div>
+            <p class="text-3xl md:text-4xl font-light tracking-tight text-foreground">24/7</p>
+            <p class="mt-1 text-xs text-muted-foreground">Support availability</p>
+          </div>
+          <div>
+            <p class="text-3xl md:text-4xl font-light tracking-tight text-foreground">24h</p>
+            <p class="mt-1 text-xs text-muted-foreground">Quote turnaround</p>
           </div>
         </div>
       </section>
 
-      <!-- ═══════════════ SPLIT SECTION - IMAGE + TEXT ═══════════════ -->
-      <section class="py-14 md:py-20">
-        <div class="container mx-auto px-6">
-          <div class="grid lg:grid-cols-2 gap-12 items-center">
-            <!-- Left - Image -->
-            <div class="relative">
-              <div class="rounded-2xl overflow-hidden shadow-lg">
-                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=500&fit=crop&q=80" alt="Package Features" loading="lazy" decoding="async" class="w-full aspect-[4/3] object-cover" />
-              </div>
+      <!-- ═══════════════ WHAT'S INCLUDED ═══════════════ -->
+      <section class="container mx-auto px-4 md:px-6 max-w-6xl py-14 md:py-20">
+        <div class="grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-10">
+          <div class="flex flex-col">
+            <span class="pill self-start">What's included</span>
+            <p class="mt-6 text-xl md:text-2xl font-light leading-snug tracking-tight text-foreground">
+              Everything that comes with {{ pkg.name }} — from first launch to ongoing growth, we've got every detail covered for you.
+            </p>
+            <div class="mt-8 lg:mt-auto pt-6">
+              <button type="button" @click="scrollToQuote" class="inline-flex items-center gap-2 rounded-full bg-slate-900 px-5 py-2.5 text-sm text-white hover:bg-slate-800 transition-colors">
+                Get a quote
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+              </button>
             </div>
+          </div>
 
-            <!-- Right - Content -->
-            <div>
-              <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Package Features in Detail</p>
-              <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-6">What Makes {{ pkg?.name || 'This Package' }} Special</h2>
-              <p class="text-muted-foreground text-sm leading-relaxed mb-6">This package is designed with the perfect balance of functionality and affordability. Whether you're just starting out or looking to enhance your existing presence, {{ pkg?.name || 'this package' }} provides all the essential tools you need.</p>
+          <ul class="rounded-3xl bg-slate-50 dark:bg-gray-900 border border-slate-100 dark:border-gray-800 px-6 md:px-8 py-2">
+            <li
+              v-for="(item, idx) in (pkg.includes?.length ? pkg.includes : ['Professional website design and development', 'Responsive design for all devices', 'SEO optimization included', '24/7 Support and maintenance'])"
+              :key="idx"
+              class="flex items-center gap-5 py-4 border-b border-slate-200/80 dark:border-gray-800 last:border-b-0"
+            >
+              <span class="text-xs tabular-nums text-muted-foreground w-6">{{ String(Number(idx) + 1).padStart(2, '0') }}</span>
+              <span class="flex-1 text-sm md:text-base font-light text-foreground">{{ item }}</span>
+              <span class="w-6 h-6 rounded-full bg-sky-500/10 flex items-center justify-center shrink-0">
+                <svg class="w-3 h-3 text-sky-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+              </span>
+            </li>
+          </ul>
+        </div>
 
-              <div class="space-y-4">
-                <div class="flex items-start gap-4">
-                  <div class="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
-                  </div>
-                  <div>
-                    <h3 class="font-bold text-foreground mb-1">Complete Setup</h3>
-                    <p class="text-muted-foreground text-sm">Full website configuration and launch support from our expert team.</p>
-                  </div>
-                </div>
+        <!-- Key features -->
+        <div v-if="pkg.package_features?.length" class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div
+            v-for="(feature, fi) in pkg.package_features"
+            :key="feature.id"
+            class="rounded-3xl p-7 min-h-[200px] flex flex-col"
+            :class="Number(fi) % 3 === 0 ? 'bg-slate-900 text-white' : 'bg-slate-50 dark:bg-gray-900 border border-slate-100 dark:border-gray-800'"
+          >
+            <span
+              class="self-start rounded-full px-3 py-1 text-[11px]"
+              :class="Number(fi) % 3 === 0 ? 'bg-white/10 text-white/70' : 'bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 text-muted-foreground'"
+            >Feature {{ String(Number(fi) + 1).padStart(2, '0') }}</span>
+            <div v-if="feature.icon" class="mt-6 text-3xl">{{ feature.icon }}</div>
+            <h3 class="mt-auto pt-6 text-lg font-normal" :class="Number(fi) % 3 === 0 ? 'text-white' : 'text-foreground'">{{ feature.title }}</h3>
+            <p v-if="feature.description" class="mt-1 text-xs leading-relaxed" :class="Number(fi) % 3 === 0 ? 'text-white/55' : 'text-muted-foreground'">{{ feature.description }}</p>
+          </div>
+        </div>
+      </section>
 
-                <div class="flex items-start gap-4">
-                  <div class="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8v4m0 4v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                  </div>
-                  <div>
-                    <h3 class="font-bold text-foreground mb-1">Training Included</h3>
-                    <p class="text-muted-foreground text-sm">Comprehensive training to help you manage and maintain your website.</p>
-                  </div>
-                </div>
-
-                <div class="flex items-start gap-4">
-                  <div class="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                    <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                  </div>
-                  <div>
-                    <h3 class="font-bold text-foreground mb-1">Ongoing Support</h3>
-                    <p class="text-muted-foreground text-sm">Continuous maintenance and updates to keep your site secure and performing.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+      <!-- ═══════════════ WHY THIS PACKAGE ═══════════════ -->
+      <section class="container mx-auto px-4 md:px-6 max-w-6xl pb-14 md:pb-20">
+        <div class="grid md:grid-cols-2 gap-6 md:gap-10 mb-10">
+          <div><span class="pill">Why {{ pkg.name }}</span></div>
+          <p class="text-lg md:text-2xl font-light leading-snug tracking-tight text-foreground">
+            The right balance of functionality and value — built to grow with you, without starting from scratch.
+          </p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px rounded-3xl overflow-hidden bg-slate-100 dark:bg-gray-800 border border-slate-100 dark:border-gray-800">
+          <div v-for="b in [
+            { t: 'Perfect value', d: 'Optimized pricing that delivers maximum value without compromising on quality.' },
+            { t: 'Proven results', d: 'Used by businesses that have achieved their online goals with this tier.' },
+            { t: 'Growth-ready', d: 'Upgrade or customize as your business grows — no starting over.' },
+            { t: 'Complete setup', d: 'Full configuration and launch support from our expert team.' },
+            { t: 'Training included', d: 'Hands-on training so you can manage and update your site with confidence.' },
+            { t: 'Peace of mind', d: 'Regular backups, security monitoring and compliance protection.' },
+          ]" :key="b.t" class="bg-white dark:bg-gray-950 p-7">
+            <h3 class="text-base font-normal text-foreground">{{ b.t }}</h3>
+            <p class="mt-2 text-xs leading-relaxed text-muted-foreground">{{ b.d }}</p>
           </div>
         </div>
       </section>
 
       <!-- ═══════════════ TESTIMONIALS ═══════════════ -->
-      <section v-if="topReviews.length" class="py-14 md:py-20 bg-gray-900">
-        <div class="container mx-auto px-6">
-          <div class="text-center max-w-2xl mx-auto mb-12">
-            <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Customer Success</p>
-            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-white leading-tight mb-4">What Our Clients Say</h2>
-            <p class="text-white/70 text-sm leading-relaxed">See how businesses like yours have achieved results working with us.</p>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div v-for="review in topReviews.slice(0, 3)" :key="review.id" class="bg-white/5 border border-white/10 rounded-xl p-6 hover:border-primary/40 hover:bg-primary/5 transition-all">
-              <div class="flex items-center gap-1 mb-4">
-                <span v-for="i in review.rating" :key="i" class="text-amber-500">★</span>
-              </div>
-              <p class="text-white/80 text-sm leading-relaxed mb-4">"{{ review.comment }}"</p>
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center">
-                  <span class="text-sm font-bold text-primary">{{ review.user_name?.charAt(0).toUpperCase() }}</span>
-                </div>
-                <div>
-                  <p class="text-sm font-bold text-white">{{ review.user_name }}</p>
-                  <p class="text-xs text-white/60">{{ review.company || 'Verified Client' }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
+      <section v-if="topReviews.length" class="container mx-auto px-4 md:px-6 max-w-6xl pb-14 md:pb-20">
+        <div class="flex flex-wrap items-end justify-between gap-4 mb-8">
+          <span class="pill">Client stories</span>
+          <p class="text-lg md:text-xl font-light text-foreground">What our clients say</p>
         </div>
-      </section>
-
-      <!-- ═══════════════ COMPARISON CTA ═══════════════ -->
-      <section class="py-14 md:py-20 bg-primary/5 border-y border-border">
-        <div class="container mx-auto px-6">
-          <div class="text-center max-w-2xl mx-auto">
-            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">Ready to Get Started?</h2>
-            <p class="text-muted-foreground text-sm leading-relaxed mb-8">
-              Join hundreds of successful businesses using the {{ pkg?.name || 'Professional' }} package. Start building your online presence today with professional support every step of the way.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                :href="`https://wa.me/${whatsappDigits}?text=${encodeURIComponent('Hi, I am interested in the ' + (pkg?.name || 'website') + ' package')}`"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="inline-flex items-center justify-center gap-2 px-8 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all"
-              >
-                Get Started Now
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-              </a>
-              <router-link
-                to="/contact"
-                class="inline-flex items-center justify-center gap-2 px-8 py-3 border-2 border-primary text-primary text-sm font-semibold rounded-full hover:bg-primary/10 transition-all"
-              >
-                Schedule a Call
-              </router-link>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div v-for="review in topReviews.slice(0, 3)" :key="review.id" class="rounded-3xl bg-slate-50 dark:bg-gray-900 border border-slate-100 dark:border-gray-800 p-7 flex flex-col">
+            <div class="flex gap-1 mb-4">
+              <span v-for="i in review.rating" :key="i" class="h-2.5 w-2.5 rounded-full bg-sky-500"></span>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ═══════════════ GET A QUOTE FORM ═══════════════ -->
-      <section id="quote-form" class="py-14 md:py-20 bg-muted/30">
-        <div class="container mx-auto px-6">
-          <div class="max-w-2xl mx-auto">
-            <div class="text-center mb-12">
-              <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Get Started Today</p>
-              <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-4">Request a Quote for {{ pkg?.name || 'This Package' }}</h2>
-              <p class="text-muted-foreground text-sm leading-relaxed">Fill out the form below and our team will get back to you within 24 hours with a personalized quote and consultation.</p>
-            </div>
-
-            <form @submit.prevent="submitQuoteForm" class="bg-card border border-border rounded-2xl p-8 space-y-6">
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label class="block text-sm font-semibold text-foreground mb-2">Full Name *</label>
-                  <input
-                    v-model="quoteForm.name"
-                    type="text"
-                    required
-                    class="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary transition-all"
-                    placeholder="Your full name"
-                  />
-                </div>
-
-                <div>
-                  <label class="block text-sm font-semibold text-foreground mb-2">Email Address *</label>
-                  <input
-                    v-model="quoteForm.email"
-                    type="email"
-                    required
-                    class="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary transition-all"
-                    placeholder="your@email.com"
-                  />
-                </div>
-
-                <div>
-                  <label class="block text-sm font-semibold text-foreground mb-2">Phone Number *</label>
-                  <input
-                    v-model="quoteForm.phone"
-                    type="tel"
-                    required
-                    class="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary transition-all"
-                    placeholder="+254 700 000000"
-                  />
-                </div>
-
-                <div>
-                  <label class="block text-sm font-semibold text-foreground mb-2">Company Name</label>
-                  <input
-                    v-model="quoteForm.company"
-                    type="text"
-                    class="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary transition-all"
-                    placeholder="Your company name"
-                  />
-                </div>
+            <p class="text-sm font-light leading-relaxed text-foreground mb-6">"{{ review.comment }}"</p>
+            <div class="mt-auto flex items-center gap-3">
+              <div class="w-9 h-9 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs">
+                {{ review.user_name?.charAt(0).toUpperCase() }}
               </div>
-
               <div>
-                <label class="block text-sm font-semibold text-foreground mb-2">Tell us about your project</label>
-                <textarea
-                  v-model="quoteForm.message"
-                  rows="4"
-                  class="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary transition-all resize-none"
-                  placeholder="Share details about your project, requirements, or any specific questions..."
-                ></textarea>
+                <p class="text-sm text-foreground">{{ review.user_name }}</p>
+                <p class="text-xs text-muted-foreground">{{ review.company || 'Verified Client' }}</p>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-              <div class="flex items-center gap-3">
-                <input
-                  v-model="quoteForm.agreeTerms"
-                  type="checkbox"
-                  id="agree"
-                  class="rounded"
-                />
-                <label for="agree" class="text-sm text-muted-foreground">
-                  I agree to receive email communications and understand my information will be used to provide a quote.
-                </label>
+      <!-- ═══════════════ CTA ═══════════════ -->
+      <section class="container mx-auto px-4 md:px-6 max-w-6xl pb-14 md:pb-20">
+        <div class="relative overflow-hidden rounded-3xl bg-slate-900 px-6 py-14 md:py-20 text-center">
+          <div class="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-sky-500/20 blur-3xl"></div>
+          <div class="absolute -bottom-24 -left-24 w-72 h-72 rounded-full bg-sky-500/10 blur-3xl"></div>
+          <h2 class="relative text-3xl md:text-5xl font-light tracking-tight text-white leading-tight">Ready to get started?</h2>
+          <p class="relative mt-4 text-sm md:text-base font-light text-white/60 max-w-xl mx-auto">
+            Join the businesses growing with the {{ pkg.name }} package — with professional support every step of the way.
+          </p>
+          <div class="relative mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+            <a
+              :href="`https://wa.me/${whatsappDigits}?text=${encodeURIComponent('Hi, I am interested in the ' + (pkg?.name || 'website') + ' package')}`"
+              target="_blank" rel="noopener noreferrer"
+              class="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm text-slate-900 hover:bg-white/90 transition-colors"
+            >
+              Chat on WhatsApp
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+            </a>
+            <router-link to="/contact" class="inline-flex items-center justify-center gap-2 rounded-full border border-white/25 px-6 py-3 text-sm text-white hover:bg-white/10 transition-colors">
+              Schedule a call
+            </router-link>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════ GET A QUOTE ═══════════════ -->
+      <section id="quote-form" class="container mx-auto px-4 md:px-6 max-w-6xl pb-16 md:pb-24 scroll-mt-24">
+        <div class="grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-10">
+          <div>
+            <span class="pill">Get a quote</span>
+            <p class="mt-6 text-xl md:text-2xl font-light leading-snug tracking-tight text-foreground">
+              Request a quote for {{ pkg.name }}. Our team will get back to you within 24 hours with a personalized proposal.
+            </p>
+            <div class="mt-8 space-y-3 text-sm">
+              <a :href="`mailto:${s.contact_email || 'info@omniviatech.com'}`" class="flex items-center justify-between border-b border-slate-200 dark:border-gray-800 pb-3 text-foreground hover:text-sky-600 transition-colors">
+                <span class="font-light">{{ s.contact_email || 'info@omniviatech.com' }}</span><span>↗</span>
+              </a>
+              <a
+                :href="`https://wa.me/${whatsappDigits}`"
+                target="_blank" rel="noopener noreferrer"
+                class="flex items-center justify-between border-b border-slate-200 dark:border-gray-800 pb-3 text-foreground hover:text-sky-600 transition-colors"
+              >
+                <span class="font-light">WhatsApp +{{ whatsappDigits }}</span><span>↗</span>
+              </a>
+              <button
+                type="button"
+                @click="toggleWishlist"
+                :disabled="wishlistLoading"
+                class="w-full flex items-center justify-between border-b border-slate-200 dark:border-gray-800 pb-3 text-foreground hover:text-sky-600 transition-colors"
+              >
+                <span class="font-light">{{ isInWishlist ? 'Saved to your wishlist' : 'Save this package to your wishlist' }}</span><span>{{ isInWishlist ? '♥' : '♡' }}</span>
+              </button>
+            </div>
+          </div>
+
+          <form @submit.prevent="submitQuoteForm" class="rounded-3xl bg-slate-50 dark:bg-gray-900 border border-slate-100 dark:border-gray-800 p-6 md:p-8 space-y-5">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label class="block text-xs text-muted-foreground mb-2">Full name *</label>
+                <input v-model="quoteForm.name" type="text" required class="field" placeholder="Your full name" />
               </div>
-
+              <div>
+                <label class="block text-xs text-muted-foreground mb-2">Email address *</label>
+                <input v-model="quoteForm.email" type="email" required class="field" placeholder="your@email.com" />
+              </div>
+              <div>
+                <label class="block text-xs text-muted-foreground mb-2">Phone number *</label>
+                <input v-model="quoteForm.phone" type="tel" required class="field" placeholder="+254 700 000000" />
+              </div>
+              <div>
+                <label class="block text-xs text-muted-foreground mb-2">Company name</label>
+                <input v-model="quoteForm.company" type="text" class="field" placeholder="Your company name" />
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs text-muted-foreground mb-2">Tell us about your project</label>
+              <textarea v-model="quoteForm.message" rows="4" class="field resize-none" placeholder="Share details about your project, requirements, or any specific questions..."></textarea>
+            </div>
+            <label for="agree" class="flex items-start gap-3 text-xs text-muted-foreground">
+              <input v-model="quoteForm.agreeTerms" type="checkbox" id="agree" class="mt-0.5 rounded accent-sky-500" />
+              I agree to receive email communications and understand my information will be used to provide a quote.
+            </label>
+            <div class="flex flex-wrap items-center justify-between gap-4">
+              <p class="text-xs text-muted-foreground">We'll reply within 24 hours.</p>
               <button
                 type="submit"
                 :disabled="submittingQuote"
-                class="w-full px-8 py-3 bg-primary text-white text-sm font-semibold rounded-lg hover:bg-primary/90 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
+                class="inline-flex items-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-sm text-white hover:bg-slate-800 disabled:opacity-50 transition-colors"
               >
-                <span v-if="!submittingQuote">Send Quote Request</span>
-                <span v-else>Sending...</span>
+                {{ submittingQuote ? 'Sending…' : 'Send quote request' }}
+                <svg v-if="!submittingQuote" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
               </button>
-
-              <p class="text-xs text-muted-foreground text-center">We'll get back to you within 24 hours at the email you provide.</p>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
       </section>
     </div>
 
     <!-- Error State -->
-    <div v-else class="min-h-screen flex items-center justify-center">
+    <div v-else class="min-h-[60vh] flex items-center justify-center px-6">
       <div class="text-center">
-        <h1 class="text-2xl font-bold text-foreground mb-4">Package Not Found</h1>
-        <router-link to="/packages" class="text-primary hover:underline">
-          Back to Packages
+        <span class="pill">404</span>
+        <h1 class="mt-5 text-3xl font-light tracking-tight text-foreground mb-6">Package not found</h1>
+        <router-link to="/packages" class="inline-flex items-center gap-2 rounded-full bg-slate-900 px-5 py-2.5 text-sm text-white hover:bg-slate-800 transition-colors">
+          Back to packages
         </router-link>
       </div>
     </div>
@@ -473,6 +387,7 @@ import { useToast } from '@/composables';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import axios from 'axios';
 import tech1 from '@/../img/tech1.webp';
+import tech5 from '@/../img/tech5.webp';
 
 const route = useRoute();
 const authStore = useAuthStore();
@@ -615,3 +530,37 @@ onMounted(() => {
   loadReviews();
 });
 </script>
+
+<style scoped>
+.pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  border: 1px solid rgb(226 232 240);
+  padding: 0.3rem 0.85rem;
+  font-size: 0.8rem;
+  color: var(--color-foreground, inherit);
+}
+:global(.dark) .pill { border-color: rgb(55 65 81); }
+
+.field {
+  width: 100%;
+  border-radius: 0.875rem;
+  border: 1px solid rgb(226 232 240);
+  background: white;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  color: rgb(15 23 42);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.field:focus { outline: none; border-color: rgb(14 165 233); box-shadow: 0 0 0 3px rgb(14 165 233 / 0.15); }
+:global(.dark) .field { background: rgb(3 7 18); border-color: rgb(31 41 55); color: white; }
+
+/* CMS description rendered as a large editorial statement */
+.statement :deep(h2),
+.statement :deep(h3) { font-weight: 400; margin: 1.25rem 0 0.5rem; }
+.statement :deep(p) { margin-bottom: 1rem; }
+.statement :deep(ul) { list-style: disc; padding-left: 1.25rem; font-size: 1rem; margin-bottom: 1rem; }
+.statement :deep(li) { margin-bottom: 0.35rem; }
+.statement :deep(strong) { font-weight: 500; }
+</style>
