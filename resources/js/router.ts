@@ -344,19 +344,19 @@ const router = createRouter({
     if (savedPosition) {
       return {
         ...savedPosition,
-        behavior: 'smooth',
+        behavior: 'instant',
       };
     }
     if (to.hash) {
       return {
         el: to.hash,
-        behavior: 'smooth',
+        behavior: 'instant',
         top: 80, // Account for fixed header
       };
     }
     return {
       top: 0,
-      behavior: 'smooth',
+      behavior: 'instant',
     };
   },
 });

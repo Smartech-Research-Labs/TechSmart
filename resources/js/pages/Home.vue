@@ -81,7 +81,7 @@
             rel="noopener"
             class="opacity-50 hover:opacity-100 transition-opacity duration-300"
           >
-            <img :src="client.logo_url" :alt="client.name" class="max-h-10 grayscale hover:grayscale-0 transition" loading="lazy" decoding="async" />
+            <img :src="client.logo_url" :alt="client.name" class="max-h-10 grayscale hover:grayscale-0 transition" decoding="async" />
           </a>
         </div>
       </div>
@@ -93,7 +93,7 @@
         <div class="grid lg:grid-cols-2 gap-14 items-center">
           <div class="relative">
             <div class="rounded-2xl overflow-hidden shadow-lg">
-              <img :src="settings.about_section_image || 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop&q=80'" alt="Our Team" loading="lazy" decoding="async" class="w-full aspect-[4/3] object-cover" />
+              <img :src="settings.about_section_image || 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop&q=80'" alt="Our Team" decoding="async" class="w-full aspect-[4/3] object-cover" />
             </div>
             <div class="absolute -bottom-6 -right-6 md:bottom-6 md:right-6 bg-primary text-white rounded-2xl p-5 shadow-xl">
               <div class="text-3xl font-bold">10+</div>
@@ -185,7 +185,7 @@
                 v-if="getServiceImage(service) || service.image_url || service.image"
                 :src="getServiceImage(service) || service.image_url || service.image"
                 :alt="service.title"
-                loading="lazy"
+               
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-white/10 to-white/5">
@@ -240,7 +240,7 @@
           <SwiperSlide v-for="product in products" :key="product.id">
             <router-link :to="`/products/${product.slug}`" class="group block bg-card rounded-2xl overflow-hidden border border-border hover:border-primary/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
               <div class="aspect-[4/3] bg-muted overflow-hidden relative shrink-0">
-                <img v-if="getProductImage(product) || product.image_url" :src="getProductImage(product) || product.image_url" :alt="product.name" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img v-if="getProductImage(product) || product.image_url" :src="getProductImage(product) || product.image_url" :alt="product.name" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-accent/5 to-primary/5">
                   <svg class="w-10 h-10 text-muted-foreground/20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
                 </div>
@@ -282,7 +282,7 @@
           <SwiperSlide v-for="(industry, i) in industries" :key="i">
             <router-link :to="`/industries#${industry.title.toLowerCase()}`" class="group block bg-card border border-border rounded-2xl overflow-hidden hover:border-accent/40 hover:shadow-md transition-all duration-300 h-full">
               <div class="aspect-video bg-muted overflow-hidden">
-                <img :src="industry.image" :alt="industry.title" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                <img :src="industry.image" :alt="industry.title" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
               </div>
               <div class="p-4 text-center">
                 <div class="w-9 h-9 mx-auto bg-accent/15 rounded-lg flex items-center justify-center mb-2 group-hover:bg-accent/25 transition-colors">
@@ -403,6 +403,95 @@
       </div>
     </section>
 
+    <!-- ═══════════════ PACKAGES ═══════════════ -->
+    <section v-if="packages.length" class="py-16 md:py-24">
+      <div class="container mx-auto px-6 max-w-6xl">
+        <div class="flex flex-wrap items-end justify-between gap-6 mb-10">
+          <div class="max-w-2xl">
+            <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Offerings</p>
+            <h2 class="text-3xl md:text-4xl font-bold text-foreground leading-tight tracking-tight mb-3">Scalable packages for growth</h2>
+            <p class="text-muted-foreground text-sm leading-relaxed">From startups to enterprises — every package is built for maximum value, with professional support included.</p>
+          </div>
+          <router-link to="/packages" class="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline underline-offset-4 shrink-0">
+            Compare all packages
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </router-link>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+          <router-link
+            v-for="(pkg, i) in packages"
+            :key="pkg.id"
+            :to="`/packages/${pkg.slug}`"
+            class="group relative flex flex-col rounded-2xl overflow-hidden border transition-all duration-300 hover:-translate-y-1"
+            :class="pkg.is_featured
+              ? 'bg-gray-900 border-primary/60 shadow-xl shadow-primary/10 hover:shadow-2xl hover:shadow-primary/20'
+              : 'bg-card border-border shadow-sm hover:border-primary/30 hover:shadow-lg'"
+          >
+            <!-- Gradient accent strip -->
+            <div class="h-1.5 w-full bg-gradient-to-r" :class="packageGradients[i % packageGradients.length]"></div>
+
+            <div class="flex flex-col flex-1 p-6">
+              <!-- Icon + badge -->
+              <div class="flex items-start justify-between mb-5">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-br flex items-center justify-center shadow-sm" :class="packageGradients[i % packageGradients.length]">
+                  <span class="text-2xl">{{ packageIcons[pkg.name] || '📦' }}</span>
+                </div>
+                <span v-if="pkg.is_featured" class="bg-primary text-white text-[10px] font-semibold tracking-widest uppercase px-3 py-1 rounded-full shadow-lg shadow-primary/25">
+                  Most popular
+                </span>
+              </div>
+
+              <!-- Tier + name -->
+              <p v-if="pkg.highlight_text || pkg.tier_level" class="text-primary text-[11px] font-semibold tracking-widest uppercase mb-1.5">
+                {{ pkg.highlight_text || pkg.tier_level }}
+              </p>
+              <h3 class="text-lg font-bold mb-2 leading-tight group-hover:text-primary transition-colors" :class="pkg.is_featured ? 'text-white' : 'text-foreground'">
+                {{ pkg.name }}
+              </h3>
+              <p class="text-xs leading-relaxed mb-5 line-clamp-2" :class="pkg.is_featured ? 'text-white/60' : 'text-muted-foreground'">
+                {{ pkg.short_description }}
+              </p>
+
+              <!-- Price -->
+              <div v-if="pkg.price" class="pb-5 mb-5 border-b" :class="pkg.is_featured ? 'border-white/10' : 'border-border'">
+                <p class="text-[11px] font-medium uppercase tracking-wider mb-1" :class="pkg.is_featured ? 'text-white/50' : 'text-muted-foreground'">Starting at</p>
+                <div class="flex items-baseline gap-1.5 flex-wrap">
+                  <span class="text-sm font-semibold" :class="pkg.is_featured ? 'text-white/70' : 'text-muted-foreground'">KES</span>
+                  <span class="text-3xl font-bold tracking-tight" :class="pkg.is_featured ? 'text-white' : 'text-foreground'">{{ formatPackagePrice(pkg.price) }}</span>
+                  <span v-if="pkg.price_label" class="text-xs" :class="pkg.is_featured ? 'text-white/50' : 'text-muted-foreground'">{{ pkg.price_label }}</span>
+                </div>
+              </div>
+
+              <!-- Includes -->
+              <ul v-if="pkg.includes && pkg.includes.length" class="space-y-2.5 mb-6">
+                <li v-for="(item, idx) in pkg.includes.slice(0, 4)" :key="idx" class="flex items-start gap-2.5 text-xs">
+                  <span class="mt-0.5 w-4 h-4 rounded-full bg-primary/15 flex items-center justify-center shrink-0">
+                    <svg class="w-2.5 h-2.5 text-primary" fill="none" stroke="currentColor" stroke-width="3.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+                  </span>
+                  <span :class="pkg.is_featured ? 'text-white/75' : 'text-muted-foreground'">{{ item }}</span>
+                </li>
+                <li v-if="pkg.includes.length > 4" class="text-xs font-semibold text-primary pl-[26px]">
+                  +{{ pkg.includes.length - 4 }} more included
+                </li>
+              </ul>
+
+              <!-- CTA (pinned to bottom so buttons align across cards) -->
+              <span
+                class="mt-auto inline-flex items-center justify-center gap-2 w-full py-3 rounded-full text-sm font-semibold transition-all"
+                :class="pkg.is_featured
+                  ? 'bg-primary text-white shadow-lg shadow-primary/25 group-hover:bg-primary/90'
+                  : 'border border-border text-foreground group-hover:border-primary group-hover:bg-primary group-hover:text-white'"
+              >
+                View details
+                <svg class="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+              </span>
+            </div>
+          </router-link>
+        </div>
+      </div>
+    </section>
+
     <!-- ═══════════════ TESTIMONIALS CAROUSEL ═══════════════ -->
     <section v-if="topReviews.length" class="py-16 md:py-24 bg-muted/20">
       <div class="container mx-auto px-6 max-w-6xl">
@@ -495,7 +584,7 @@
           <SwiperSlide v-for="post in recentBlogs" :key="post.id">
             <router-link :to="`/blog/${post.slug}`" class="group block bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/30 hover:shadow-lg transition-all duration-300">
               <div class="aspect-[4/3] bg-muted overflow-hidden">
-                <img v-if="getBlogImage(post)" :src="getBlogImage(post)" :alt="post.title" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img v-if="getBlogImage(post)" :src="getBlogImage(post)" :alt="post.title" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5">
                   <svg class="w-10 h-10 text-muted-foreground/20" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"><path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>
                 </div>
@@ -758,6 +847,24 @@ const topReviews = ref<any[]>([]);
 const faqs = ref<any[]>([]);
 const recentBlogs = ref<any[]>([]);
 const settings = ref<any>({});
+const packages = ref<any[]>([]);
+
+// Packages section styling
+const packageGradients = [
+  'from-blue-500 to-blue-600',
+  'from-green-500 to-emerald-600',
+  'from-purple-500 to-pink-600',
+  'from-amber-500 to-orange-600',
+];
+const packageIcons: Record<string, string> = {
+  'Starter': '🚀',
+  'Professional': '⭐',
+  'Business': '💼',
+  'Enterprise': '🏆',
+};
+function formatPackagePrice(price: number | string) {
+  return Number(price).toLocaleString('en-KE', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+}
 
 // Static Data — niches shown as quick-scan chips in the Services section
 const specializations = [
@@ -1148,6 +1255,15 @@ async function fetchFaqs() {
   }
 }
 
+async function fetchPackages() {
+  try {
+    const { data } = await axios.get('/api/v1/packages');
+    packages.value = Array.isArray(data) ? data : (data.data || []);
+  } catch (error) {
+    console.error('Error fetching packages:', error);
+  }
+}
+
 const showCookieConsent = ref(true);
 const showPreferencesModal = ref(false);
 const showCookieSuccessCard = ref(false);
@@ -1251,6 +1367,9 @@ async function saveAndClosePreferences() {
 }
 
 onMounted(async () => {
+  // Start loading page content immediately — don't wait on the cookie consent lookup
+  const contentLoaded = Promise.all([fetchHomeData(), fetchFaqs(), fetchPackages()]);
+
   // Check if user has already given cookie consent
   const savedCookieConsent = localStorage.getItem('cookieConsent');
   if (savedCookieConsent) {
@@ -1276,7 +1395,7 @@ onMounted(async () => {
     }
   }
 
-  await Promise.all([fetchHomeData(), fetchFaqs()]);
+  await contentLoaded;
   setTimeout(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
