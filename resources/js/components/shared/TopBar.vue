@@ -1,31 +1,31 @@
 ﻿<template>
-  <div class="top-bar bg-card text-foreground text-sm border-b border-border">
-    <div class="container mx-auto px-4 flex items-center justify-between h-10">
+  <div class="top-bar bg-card text-foreground text-xs border-b border-border">
+    <div class="container mx-auto px-4 flex items-center justify-between h-8">
       <!-- Marquee -->
       <div class="flex-1 overflow-hidden mr-4">
         <div class="marquee-track flex whitespace-nowrap" :style="{ animationDuration: marqueeDuration }">
           <span
             v-for="(item, i) in marqueeItems"
             :key="i"
-            class="marquee-item inline-flex items-center gap-2 mx-8 text-muted-foreground"
+            class="marquee-item inline-flex items-center gap-1.5 mx-6 text-muted-foreground"
           >
-            <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+            <span class="w-1 h-1 rounded-full bg-primary animate-pulse"></span>
             {{ item }}
           </span>
           <!-- Duplicate for seamless loop -->
           <span
             v-for="(item, i) in marqueeItems"
             :key="'dup-' + i"
-            class="marquee-item inline-flex items-center gap-2 mx-8 text-muted-foreground"
+            class="marquee-item inline-flex items-center gap-1.5 mx-6 text-muted-foreground"
           >
-            <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+            <span class="w-1 h-1 rounded-full bg-primary animate-pulse"></span>
             {{ item }}
           </span>
         </div>
       </div>
 
       <!-- Social Links -->
-      <div class="hidden sm:flex items-center gap-3 shrink-0">
+      <div class="hidden sm:flex items-center gap-2.5 shrink-0">
         <a
           v-for="link in socialLinks"
           :key="link.name"
@@ -35,7 +35,7 @@
           :aria-label="link.name"
           class="text-muted-foreground hover:text-primary transition-colors duration-200"
         >
-          <component :is="link.icon" class="w-4 h-4" />
+          <component :is="link.icon" class="w-3.5 h-3.5" />
         </a>
       </div>
     </div>
