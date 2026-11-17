@@ -32,7 +32,7 @@
             <div class="w-12 h-12 mx-auto bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">📧</span></div>
             <h3 class="text-sm font-bold text-foreground mb-2">Email Support</h3>
             <p class="text-muted-foreground text-xs leading-relaxed mb-3">Send us a detailed inquiry and receive a comprehensive response within 24 hours during business days.</p>
-            <a href="mailto:info@omniviatech.com" class="text-primary text-xs font-semibold hover:underline">info@omniviatech.com</a>
+            <a href="mailto:reachout@omniviatech.co.ke" class="text-primary text-xs font-semibold hover:underline">reachout@omniviatech.co.ke</a>
           </div>
           <div class="bg-card border border-border rounded-xl p-6 text-center hover:shadow-lg transition-all">
             <div class="w-12 h-12 mx-auto bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">📞</span></div>

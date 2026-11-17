@@ -183,7 +183,6 @@
                 <select v-model="form.timezone" class="w-full bg-muted/50 border border-border rounded-lg px-4 py-2.5 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/30 transition">
                   <option value="Africa/Nairobi">Africa/Nairobi (EAT)</option>
                   <option value="Africa/Lagos">Africa/Lagos (WAT)</option>
-                  <option value="Africa/Johannesburg">Africa/Johannesburg (SAST)</option>
                   <option value="Africa/Cairo">Africa/Cairo (EET)</option>
                   <option value="Europe/London">Europe/London (GMT)</option>
                   <option value="America/New_York">America/New York (EST)</option>

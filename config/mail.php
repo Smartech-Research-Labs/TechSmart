@@ -49,6 +49,18 @@ return [
             'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url((string) env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
         ],
 
+        // Sends contact / quote enquiry emails from the reachout@ mailbox
+        'reachout' => [
+            'transport' => 'smtp',
+            'scheme' => env('REACHOUT_MAIL_SCHEME', env('MAIL_SCHEME')),
+            'host' => env('REACHOUT_MAIL_HOST', env('MAIL_HOST', '127.0.0.1')),
+            'port' => env('REACHOUT_MAIL_PORT', env('MAIL_PORT', 2525)),
+            'username' => env('REACHOUT_MAIL_USERNAME'),
+            'password' => env('REACHOUT_MAIL_PASSWORD'),
+            'timeout' => null,
+            'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url((string) env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
+        ],
+
         'ses' => [
             'transport' => 'ses',
         ],
@@ -113,6 +125,22 @@ return [
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Enquiry Inbox
+    |--------------------------------------------------------------------------
+    |
+    | Every contact-us and request-a-quote submission is emailed here, sent
+    | through the "reachout" mailer with Reply-To set to the customer.
+    |
+    */
+
+    'enquiries' => [
+        'to' => env('ENQUIRY_NOTIFICATION_EMAIL', 'reachout@omniviatech.co.ke'),
+        'mailer' => env('ENQUIRY_MAILER', 'reachout'),
+        'from' => env('REACHOUT_MAIL_USERNAME', 'reachout@omniviatech.co.ke'),
     ],
 
 ];

@@ -1213,6 +1213,10 @@ const blogImageMap: Record<string, string> = {
   'how cloud migration can cut your it costs by 40%': techImg4,
   'building a world-class e-commerce experience in south africa': techImg5,
   'popia compliance checklist: what your business must do in 2025': techImg6,
+  // Kenya-localized titles
+  '10 ways ai is transforming kenyan businesses in 2025': techImg1,
+  'building a world-class e-commerce experience in kenya': techImg5,
+  'data protection act compliance checklist: what your business must do in 2025': techImg6,
 };
 
 function getBlogImage(blog: any) {

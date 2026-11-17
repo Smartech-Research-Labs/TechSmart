@@ -36,7 +36,7 @@ return [
         'type' => env('SCHEMA_ORG_TYPE', 'Organization'),
         'name' => env('APP_NAME', 'OmniviaTech'),
         'url' => env('APP_URL', 'https://omniviatech.com'),
-        'email' => env('CONTACT_EMAIL', 'info@omniviatech.com'),
+        'email' => env('CONTACT_EMAIL', 'reachout@omniviatech.co.ke'),
         'phone' => env('CONTACT_PHONE', '+254710351517'),
         'logo' => '/storage/logo.png',
     ],

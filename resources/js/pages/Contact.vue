@@ -81,7 +81,7 @@
                 </div>
                 <div>
                   <div class="text-xs font-semibold text-foreground">Email</div>
-                  <a :href="`mailto:${s.contact_email || 'info@omniviatech.com'}`" class="text-muted-foreground text-sm hover:text-primary transition">{{ s.contact_email || 'info@omniviatech.com' }}</a>
+                  <a :href="`mailto:${s.contact_email || 'reachout@omniviatech.co.ke'}`" class="text-muted-foreground text-sm hover:text-primary transition">{{ s.contact_email || 'reachout@omniviatech.co.ke' }}</a>
                 </div>
               </div>
               <div class="flex items-center gap-3">
@@ -354,7 +354,7 @@ const contactFaqs = [
   { question: 'Do you offer free consultations?', answer: 'Yes! We offer a free 30-minute discovery call where we discuss your project requirements, challenges, and goals. This helps us understand your needs and provide accurate recommendations and pricing.' },
   { question: 'What information should I provide for a project quote?', answer: 'To provide an accurate quote, we need to understand: your project goals and scope, target audience, desired features and functionality, timeline and budget constraints, and any existing technology stack. The more details you provide, the better our estimate.' },
   { question: 'Can I schedule a call at a specific time?', answer: 'Absolutely! After you submit the contact form or email us, our team will reach out to schedule a convenient time for your free consultation. We work with clients across different time zones.' },
-  { question: 'What communication channels do you prefer?', answer: 'We use multiple channels: email (info@omniviatech.com), phone (+254 710 351 517), WhatsApp (+254 710 351 517), or our contact form. Feel free to use whichever is most convenient for you!' },
+  { question: 'What communication channels do you prefer?', answer: 'We use multiple channels: email (reachout@omniviatech.co.ke), phone (+254 710 351 517), WhatsApp (+254 710 351 517), or our contact form. Feel free to use whichever is most convenient for you!' },
   { question: 'What happens after I submit the contact form?', answer: 'Our team will review your inquiry, assess the project requirements, and reach out within 24 hours to discuss your needs in detail. We will schedule a consultation, answer any questions, and provide a tailored proposal.' },
 ];
 

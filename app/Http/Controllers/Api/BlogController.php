@@ -36,8 +36,12 @@ class BlogController extends Controller
      */
     public function show(string $slug)
     {
+        // Accept a renamed post's old or new slug (see config/redirects.php)
+        $renamed = config('redirects.blog_slugs', []);
+        $slugs = array_values(array_filter([$slug, $renamed[$slug] ?? null, array_search($slug, $renamed, true) ?: null]));
+
         $blog = Blog::published()
-            ->where('slug', $slug)
+            ->whereIn('slug', $slugs)
             ->with('author:id,name,avatar')
             ->firstOrFail();
 
@@ -52,10 +56,14 @@ class BlogController extends Controller
             ->get();
 
         // Sidebar data
+        // reorder(): published() sorts by published_at, which MySQL rejects with DISTINCT
+        // (error 3065) — that made every blog post page and the category list fail.
         $categories = Blog::published()
+            ->reorder()
             ->select('category')
             ->distinct()
             ->whereNotNull('category')
+            ->orderBy('category')
             ->pluck('category');
 
         $recentBlogs = Blog::published()
@@ -65,7 +73,7 @@ class BlogController extends Controller
 
         $mostViewed = Blog::published()
             ->where('id', '!=', $blog->id)
-            ->orderByDesc('views')
+            ->reorder('views', 'desc') // published() already sorts by date; views must come first
             ->take(5)
             ->get(['id', 'title', 'slug', 'featured_image', 'published_at', 'views']);
 
@@ -83,10 +91,14 @@ class BlogController extends Controller
      */
     public function categories()
     {
+        // reorder(): published() sorts by published_at, which MySQL rejects with DISTINCT
+        // (error 3065) — that made every blog post page and the category list fail.
         $categories = Blog::published()
+            ->reorder()
             ->select('category')
             ->distinct()
             ->whereNotNull('category')
+            ->orderBy('category')
             ->pluck('category');
 
         return response()->json(['categories' => $categories]);

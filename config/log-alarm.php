@@ -31,7 +31,7 @@ return [
     'discord_webhook_url' => env('LA_DISCORD_WEBHOOK_URL', ''),
 
     // notification email address for log alarm
-    'notification_email' => env('LA_NOTIFICATION_EMAIL', 'omniviatech@gmail.com'), // also possible: 'admin@example.com,admin2@example.com'
+    'notification_email' => env('LA_NOTIFICATION_EMAIL', 'info@omniviatech.co.ke'), // also possible: 'admin@example.com,admin2@example.com'
 
     // notification email subject for log alarm
     'notification_email_subject' => env('LA_NOTIFICATION_EMAIL_SUBJECT', 'Log Alarm Notification'),

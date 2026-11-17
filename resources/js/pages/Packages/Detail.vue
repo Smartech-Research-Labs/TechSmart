@@ -139,7 +139,7 @@
                   </a>
 
                   <a
-                    :href="`mailto:${s.contact_email || 'info@omniviatech.com'}`"
+                    :href="`mailto:${s.contact_email || 'reachout@omniviatech.co.ke'}`"
                     class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all text-sm font-semibold"
                   >
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">

@@ -613,7 +613,7 @@
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
                   <Label for="mail_host">SMTP Host</Label>
-                  <Input id="mail_host" v-model="form.mail_host" placeholder="smtp.gmail.com" />
+                  <Input id="mail_host" v-model="form.mail_host" placeholder="mail.omniviatech.co.ke" />
                 </div>
                 <div class="space-y-2">
                   <Label for="mail_port">SMTP Port</Label>
@@ -623,18 +623,18 @@
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
                   <Label for="mail_username">SMTP Username</Label>
-                  <Input id="mail_username" v-model="form.mail_username" placeholder="your-email@gmail.com" />
+                  <Input id="mail_username" v-model="form.mail_username" placeholder="info@omniviatech.co.ke" />
                 </div>
                 <div class="space-y-2">
                   <Label for="mail_password">SMTP Password</Label>
                   <Input id="mail_password" v-model="form.mail_password" type="password" placeholder="••••••••" />
-                  <p class="text-xs text-muted-foreground">App password recommended for Gmail</p>
+                  <p class="text-xs text-muted-foreground">Use the mailbox password (SSL, port 465)</p>
                 </div>
               </div>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
                   <Label for="mail_from_address">From Address</Label>
-                  <Input id="mail_from_address" v-model="form.mail_from_address" type="email" placeholder="noreply@omniviatech.com" />
+                  <Input id="mail_from_address" v-model="form.mail_from_address" type="email" placeholder="noreply@omniviatech.co.ke" />
                 </div>
                 <div class="space-y-2">
                   <Label for="mail_from_name">From Name</Label>
@@ -648,12 +648,12 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div class="space-y-2">
                     <Label for="notification_email">Enquiry Notification Email</Label>
-                    <Input id="notification_email" v-model="form.notification_email" type="email" placeholder="admin@omniviatech.com" />
+                    <Input id="notification_email" v-model="form.notification_email" type="email" placeholder="admin@omniviatech.co.ke" />
                     <p class="text-xs text-muted-foreground">Receives notifications for new enquiries and quote requests</p>
                   </div>
                   <div class="space-y-2">
                     <Label for="newsletter_from_email">Newsletter From Email</Label>
-                    <Input id="newsletter_from_email" v-model="form.newsletter_from_email" type="email" placeholder="newsletter@omniviatech.com" />
+                    <Input id="newsletter_from_email" v-model="form.newsletter_from_email" type="email" placeholder="newsletter@omniviatech.co.ke" />
                   </div>
                 </div>
               </div>

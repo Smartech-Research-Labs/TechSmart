@@ -195,7 +195,7 @@ const getDefaultResponse = (query: string): string => {
   const q = query.toLowerCase();
   
   if (q.includes('price') || q.includes('cost') || q.includes('pricing')) {
-    return "Our pricing varies based on project scope and requirements. For accurate pricing:\n\n• Request a quote through our website\n• Call us at +254 710 351 517\n• Email info@omniviatech.com\n\nWe offer competitive rates and flexible payment plans!";
+    return "Our pricing varies based on project scope and requirements. For accurate pricing:\n\n• Request a quote through our website\n• Call us at +254 710 351 517\n• Email reachout@omniviatech.co.ke\n\nWe offer competitive rates and flexible payment plans!";
   }
   
   if (q.includes('service') || q.includes('offer')) {
@@ -203,14 +203,14 @@ const getDefaultResponse = (query: string): string => {
   }
   
   if (q.includes('contact') || q.includes('call') || q.includes('reach')) {
-    return "You can reach us through:\n\n📧 Email: info@omniviatech.com\n📞 Phone: +254 710 351 517\n💬 WhatsApp: +254 710 351 517\n\nOur team responds within 24 hours!";
+    return "You can reach us through:\n\n📧 Email: reachout@omniviatech.co.ke\n📞 Phone: +254 710 351 517\n💬 WhatsApp: +254 710 351 517\n\nOur team responds within 24 hours!";
   }
   
   if (q.includes('hello') || q.includes('hi') || q.includes('hey')) {
     return "Hello! Great to hear from you! 😊\n\nHow can I assist you today? Feel free to ask about our services, products, or anything else!";
   }
   
-  return "Thank you for your message! Our team will review your inquiry and get back to you soon.\n\nFor immediate assistance:\n📞 +254 710 351 517\n📧 info@omniviatech.com\n\nIs there anything specific I can help you with?";
+  return "Thank you for your message! Our team will review your inquiry and get back to you soon.\n\nFor immediate assistance:\n📞 +254 710 351 517\n📧 reachout@omniviatech.co.ke\n\nIs there anything specific I can help you with?";
 };
 
 onMounted(() => {

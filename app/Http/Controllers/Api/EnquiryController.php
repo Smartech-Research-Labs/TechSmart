@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Mail\EnquiryReceived;
 use App\Models\Enquiry;
 use App\Models\User;
 use App\Notifications\EnquiryNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 
@@ -87,6 +90,18 @@ class EnquiryController extends Controller
                 $enquiry->id,
             ));
         }
+
+        // Email the enquiry inbox (reachout@). Sent after the response so the form stays fast,
+        // and a mail-server problem never makes the submission fail — it is already saved.
+        dispatch(function () use ($enquiry) {
+            try {
+                Mail::mailer(config('mail.enquiries.mailer'))
+                    ->to(config('mail.enquiries.to'))
+                    ->send(new EnquiryReceived($enquiry));
+            } catch (\Throwable $e) {
+                Log::error('Enquiry email failed', ['enquiry_id' => $enquiry->id, 'error' => $e->getMessage()]);
+            }
+        })->afterResponse();
 
         return response()->json([
             'message' => 'Your message has been sent successfully. We\'ll get back to you soon!',

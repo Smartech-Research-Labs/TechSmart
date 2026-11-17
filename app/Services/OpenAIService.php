@@ -232,7 +232,7 @@ class OpenAIService implements AiTextGenerator
             // Build rich knowledge base from actual website data
             $knowledgeBase = $this->buildKnowledgeBase($companyInfo);
 
-        $contactEmail = $companyInfo['email'] ?? 'info@omniviatech.com';
+        $contactEmail = $companyInfo['email'] ?? 'reachout@omniviatech.co.ke';
         $contactPhone = $companyInfo['phone'] ?? '+254 710 351 517';
 
         $systemPrompt = "You are a helpful, friendly customer support assistant for {$companyName}. You have deep knowledge about the company, its services, products, and pricing.
@@ -286,7 +286,7 @@ GUIDELINES:
                 'error' => $e->getMessage(),
             ]);
 
-            return "I apologize, but I'm temporarily unable to assist. Please wait for one of our human agents to join the chat, or email us at support@omniviatech.com.";
+            return "I apologize, but I'm temporarily unable to assist. Please wait for one of our human agents to join the chat, or email us at reachout@omniviatech.co.ke.";
         }
     }
 
@@ -389,7 +389,7 @@ Return as JSON array: [{\"step\": 1, \"title\": \"Discovery\", \"description\": 
         $sections[] = "- Tagline: " . ($settings['tagline'] ?? '');
         $sections[] = "- Description: " . ($settings['site_description'] ?? '');
         $sections[] = "- Location: " . ($settings['address'] ?? '') . ', ' . ($settings['city'] ?? 'Nairobi') . ', ' . ($settings['country'] ?? 'Kenya');
-        $sections[] = "- Email: " . ($settings['contact_email'] ?? 'info@omniviatech.com');
+        $sections[] = "- Email: " . ($settings['contact_email'] ?? 'reachout@omniviatech.co.ke');
         $sections[] = "- Phone: " . ($settings['contact_phone'] ?? '+254 710 351 517');
         $sections[] = "- WhatsApp: " . ($settings['whatsapp_number'] ?? '+254 710 351 517');
 

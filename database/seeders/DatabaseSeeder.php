@@ -54,7 +54,7 @@ class DatabaseSeeder extends Seeder
         // ──── Users ────
         $admin = User::create([
             'name' => 'Robert Gicheha',
-            'email' => 'robertgicheha3@gmail.com',
+            'email' => 'info@omniviatech.co.ke',
             'password' => Hash::make('Admin@123'),
             'email_verified_at' => now(),
         ]);
@@ -62,7 +62,7 @@ class DatabaseSeeder extends Seeder
 
         $editor = User::create([
             'name' => 'Editor',
-            'email' => 'editor@omniviatech.com',
+            'email' => 'editor@omniviatech.co.ke',
             'password' => Hash::make('password'),
             'email_verified_at' => now(),
         ]);
@@ -85,7 +85,7 @@ class DatabaseSeeder extends Seeder
             ['key' => 'copyright_text',  'value' => '© 2026 OmniviaTech Technologies. All rights reserved.', 'group' => 'general', 'type' => 'text'],
 
             // Contact
-            ['key' => 'contact_email',   'value' => 'info@omniviatech.co.ke',                   'group' => 'contact', 'type' => 'text'],
+            ['key' => 'contact_email',   'value' => 'reachout@omniviatech.co.ke',                   'group' => 'contact', 'type' => 'text'],
             ['key' => 'contact_phone',   'value' => '+254 710351517',                        'group' => 'contact', 'type' => 'text'],
             ['key' => 'address',         'value' => 'Nairobi, Kenya', 'group' => 'contact', 'type' => 'text'],
 
@@ -289,15 +289,15 @@ class DatabaseSeeder extends Seeder
 
         $faqs = [
             ['faq_category_id' => $generalCat->id, 'question' => 'What services does OmniviaTech offer?',              'answer' => 'We offer web development, mobile app development, cloud & infrastructure, AI & data analytics, cybersecurity, and IT consulting. Each service is fully customisable to your business needs.', 'is_visible' => true, 'order' => 1],
-            ['faq_category_id' => $generalCat->id, 'question' => 'Where is OmniviaTech based?',                        'answer' => 'We are headquartered in Sandton, Johannesburg, South Africa. We serve clients across Africa and internationally through our remote-capable team.', 'is_visible' => true, 'order' => 2],
+            ['faq_category_id' => $generalCat->id, 'question' => 'Where is OmniviaTech based?',                        'answer' => 'We are headquartered in Nairobi, Kenya. We serve clients across Africa and internationally through our remote-capable team.', 'is_visible' => true, 'order' => 2],
             ['faq_category_id' => $generalCat->id, 'question' => 'How long does a typical project take?',            'answer' => 'Project timelines vary based on scope. A standard website takes 4-8 weeks, a mobile app 8-16 weeks, and enterprise solutions 3-6 months. We provide detailed timelines during the proposal phase.', 'is_visible' => true, 'order' => 3],
             ['faq_category_id' => $techCat->id,    'question' => 'What technologies do you use?',                    'answer' => 'Our primary stack includes Laravel, Vue.js, React, React Native, Flutter, Python, AWS, Azure, and Google Cloud. We select the best fit based on your project requirements.', 'is_visible' => true, 'order' => 1],
-            ['faq_category_id' => $techCat->id,    'question' => 'Do you provide API integrations?',                 'answer' => 'Yes, we specialise in RESTful and GraphQL API development and can integrate with payment gateways (PayFast, Stripe), CRMs (Salesforce, HubSpot), ERPs, and third-party services.', 'is_visible' => true, 'order' => 2],
+            ['faq_category_id' => $techCat->id,    'question' => 'Do you provide API integrations?',                 'answer' => 'Yes, we specialise in RESTful and GraphQL API development and can integrate with payment gateways (M-Pesa Daraja, Stripe), CRMs (Salesforce, HubSpot), ERPs, and third-party services.', 'is_visible' => true, 'order' => 2],
             ['faq_category_id' => $techCat->id,    'question' => 'Can I host the solution on my own servers?',       'answer' => 'Absolutely. We support cloud, on-premise, and hybrid deployments. We will help you choose the optimal infrastructure for your workload and budget.', 'is_visible' => true, 'order' => 3],
             ['faq_category_id' => $pricingCat->id, 'question' => 'How is pricing structured?',                       'answer' => 'We offer flexible pricing including fixed-price projects, monthly retainers, and time-and-materials billing. All proposals include transparent cost breakdowns with no hidden fees.', 'is_visible' => true, 'order' => 1],
             ['faq_category_id' => $pricingCat->id, 'question' => 'Do you offer payment plans?',                      'answer' => 'Yes. For larger projects we offer milestone-based payments — typically 30% upfront, 40% at mid-project, and 30% on delivery. Custom plans are available for enterprise clients.', 'is_visible' => true, 'order' => 2],
             ['faq_category_id' => $supportCat->id, 'question' => 'What post-launch support do you offer?',           'answer' => 'All projects include 3 months of complimentary support. Extended support packages (24/7 monitoring, SLA guarantees, and priority hotline) are available at competitive rates.', 'is_visible' => true, 'order' => 1],
-            ['faq_category_id' => $supportCat->id, 'question' => 'How do I report a bug or request a feature?',      'answer' => 'You can reach our support team via the in-app chat, email support@omniviatech.com, or our client portal. Critical issues receive a response within 1 hour during business days.', 'is_visible' => true, 'order' => 2],
+            ['faq_category_id' => $supportCat->id, 'question' => 'How do I report a bug or request a feature?',      'answer' => 'You can reach our support team via the in-app chat, email reachout@omniviatech.co.ke, or our client portal. Critical issues receive a response within 1 hour during business days.', 'is_visible' => true, 'order' => 2],
         ];
 
         foreach ($faqs as $f) {
@@ -347,37 +347,37 @@ class DatabaseSeeder extends Seeder
         // ──── Blog Posts ────
         $blogPosts = [
             [
-                'title'           => '10 Ways AI Is Transforming South African Businesses in 2025',
+                'title'           => '10 Ways AI Is Transforming Kenyan Businesses in 2025',
                 'excerpt'         => 'Artificial intelligence is no longer a futuristic concept — it is reshaping how businesses operate across the continent. Here are the top 10 trends driving change.',
-                'content'         => '<h2>The AI Revolution in Africa</h2><p>From automated customer service to predictive maintenance in mining operations, artificial intelligence is fundamentally changing how South African businesses compete globally. In 2025, adoption has accelerated across every sector.</p><h3>1. Intelligent Customer Service</h3><p>AI chatbots now handle up to 70% of first-line customer queries, dramatically reducing wait times and support costs. Companies like banks and telecoms lead the way with NLP-powered assistants that understand isiZulu, Afrikaans, and Sesotho.</p><h3>2. Predictive Analytics for Retail</h3><p>Retailers are using machine learning to forecast demand, optimise inventory, and personalise recommendations. This has led to a 25% reduction in stockouts and a 15% increase in average order value.</p><h3>3. Automated Financial Compliance</h3><p>RegTech solutions powered by AI are helping financial institutions meet FICA and POPIA requirements automatically, reducing compliance costs by up to 40%.</p><h3>4. Smart Agriculture</h3><p>Precision farming technologies use satellite imagery and ML models to optimise irrigation, detect crop diseases, and predict yields with remarkable accuracy.</p><h3>5. Healthcare Diagnostics</h3><p>AI-assisted diagnostics are expanding access to quality healthcare in rural areas, with image recognition models screening for conditions like diabetic retinopathy and tuberculosis.</p><p>The remaining five trends — fraud detection, logistics optimisation, energy management, HR automation, and content generation — are equally transformative. Contact OmniviaTech to explore how AI can benefit your business.</p>',
+                'content'         => '<h2>The AI Revolution in Africa</h2><p>From automated customer service to predictive maintenance in mining operations, artificial intelligence is fundamentally changing how Kenyan businesses compete globally. In 2025, adoption has accelerated across every sector.</p><h3>1. Intelligent Customer Service</h3><p>AI chatbots now handle up to 70% of first-line customer queries, dramatically reducing wait times and support costs. Companies like banks and telecoms lead the way with NLP-powered assistants that understand isiZulu, Afrikaans, and Sesotho.</p><h3>2. Predictive Analytics for Retail</h3><p>Retailers are using machine learning to forecast demand, optimise inventory, and personalise recommendations. This has led to a 25% reduction in stockouts and a 15% increase in average order value.</p><h3>3. Automated Financial Compliance</h3><p>RegTech solutions powered by AI are helping financial institutions meet KYC, anti-money-laundering and Data Protection Act requirements automatically, reducing compliance costs by up to 40%.</p><h3>4. Smart Agriculture</h3><p>Precision farming technologies use satellite imagery and ML models to optimise irrigation, detect crop diseases, and predict yields with remarkable accuracy.</p><h3>5. Healthcare Diagnostics</h3><p>AI-assisted diagnostics are expanding access to quality healthcare in rural areas, with image recognition models screening for conditions like diabetic retinopathy and tuberculosis.</p><p>The remaining five trends — fraud detection, logistics optimisation, energy management, HR automation, and content generation — are equally transformative. Contact OmniviaTech to explore how AI can benefit your business.</p>',
                 'featured_image'  => 'blog/tech1.webp',
                 'category'        => 'Artificial Intelligence',
-                'tags'            => ['AI', 'machine learning', 'South Africa', 'digital transformation', 'business'],
+                'tags'            => ['AI', 'machine learning', 'Kenya', 'digital transformation', 'business'],
                 'author_id'       => $admin->id,
                 'seo_title'       => '10 Ways AI Is Transforming SA Businesses in 2025 | OmniviaTech',
-                'seo_description' => 'Discover how artificial intelligence is reshaping South African businesses. From chatbots to predictive analytics — the 10 biggest AI trends of 2025.',
-                'seo_keywords'    => 'AI South Africa, machine learning business, digital transformation africa',
+                'seo_description' => 'Discover how artificial intelligence is reshaping Kenyan businesses. From chatbots to predictive analytics — the 10 biggest AI trends of 2025.',
+                'seo_keywords'    => 'AI Kenya, machine learning business, digital transformation africa',
                 'is_published'    => true,
                 'published_at'    => now()->subDays(3),
             ],
             [
                 'title'           => 'Why Every Business Needs a Cybersecurity Strategy in 2025',
                 'excerpt'         => 'Cyber attacks on African businesses surged 150% last year. Here is why a proactive cybersecurity strategy is no longer optional — and how to get started.',
-                'content'         => '<h2>The Growing Threat Landscape</h2><p>South Africa ranks among the top 10 most targeted countries for cyber attacks globally. Ransomware, phishing, and supply-chain attacks have escalated dramatically, costing businesses billions in damages and lost productivity.</p><h3>Understanding the Risk</h3><p>Small and medium businesses are particularly vulnerable because they often lack dedicated security teams. A single breach can result in data loss, regulatory penalties under POPIA, and irreparable reputational damage.</p><h3>Building Your Defence</h3><p>A comprehensive cybersecurity strategy includes: vulnerability assessments, employee security awareness training, multi-factor authentication, endpoint protection, and incident response planning.</p><h3>The ROI of Security</h3><p>For every R1 invested in proactive cybersecurity, companies save an average of R7 in breach-related costs. It is one of the highest-return investments a business can make.</p><p>OmniviaTech offers end-to-end cybersecurity services including penetration testing, SOC-as-a-Service, and POPIA compliance consulting. Reach out for a free security assessment.</p>',
+                'content'         => '<h2>The Growing Threat Landscape</h2><p>Cyber attacks on Kenyan businesses are rising every year. Ransomware, phishing, and supply-chain attacks have escalated dramatically, costing businesses billions in damages and lost productivity.</p><h3>Understanding the Risk</h3><p>Small and medium businesses are particularly vulnerable because they often lack dedicated security teams. A single breach can result in data loss, regulatory penalties under Data Protection Act, and irreparable reputational damage.</p><h3>Building Your Defence</h3><p>A comprehensive cybersecurity strategy includes: vulnerability assessments, employee security awareness training, multi-factor authentication, endpoint protection, and incident response planning.</p><h3>The ROI of Security</h3><p>For every KES 1 invested in proactive cybersecurity, companies save an average of KES 7 in breach-related costs. It is one of the highest-return investments a business can make.</p><p>OmniviaTech offers end-to-end cybersecurity services including penetration testing, SOC-as-a-Service, and Data Protection Act compliance consulting. Reach out for a free security assessment.</p>',
                 'featured_image'  => 'blog/tech2.webp',
                 'category'        => 'Cybersecurity',
-                'tags'            => ['cybersecurity', 'POPIA', 'data protection', 'ransomware', 'business security'],
+                'tags'            => ['cybersecurity', 'Data Protection Act', 'data protection', 'ransomware', 'business security'],
                 'author_id'       => $admin->id,
                 'seo_title'       => 'Why Every Business Needs Cybersecurity in 2025 | OmniviaTech',
                 'seo_description' => 'Cyber attacks on African businesses surged 150%. Learn why a cybersecurity strategy is essential and how to protect your company in 2025.',
-                'seo_keywords'    => 'cybersecurity South Africa, POPIA compliance, business security',
+                'seo_keywords'    => 'cybersecurity Kenya, Data Protection Act compliance, business security',
                 'is_published'    => true,
                 'published_at'    => now()->subDays(7),
             ],
             [
                 'title'           => 'The Complete Guide to Choosing the Right Tech Stack for Your Startup',
                 'excerpt'         => 'Your technology choices define your startup pace. Learn how to pick the right frameworks, databases, and hosting for speed, cost, and scalability.',
-                'content'         => '<h2>Stack Decisions Matter</h2><p>Choosing the wrong tech stack can cost startups months of development time and tens of thousands of rands. The right choice accelerates your MVP, simplifies hiring, and positions you for growth.</p><h3>Frontend Frameworks</h3><p>React dominates the market with its vast ecosystem, while Vue.js offers a gentler learning curve and excellent performance. For SSR and SEO, Next.js (React) and Nuxt.js (Vue) are top picks.</p><h3>Backend Frameworks</h3><p>Laravel (PHP) excels for rapid development with its built-in authentication, ORM, and queue system. Node.js with Express is ideal for real-time applications. Django (Python) shines for data-heavy applications and ML integration.</p><h3>Database Selection</h3><p>PostgreSQL is the all-rounder for structured data. MongoDB suits flexible schemas and rapid prototyping. Redis is essential for caching and real-time features.</p><h3>Hosting & Infrastructure</h3><p>AWS dominates enterprise, while DigitalOcean and Hetzner offer cost-effective options for startups. Serverless architectures using Lambda or Cloud Functions reduce operational overhead.</p><p>At OmniviaTech, we help startups make informed stack decisions that balance speed, cost, and long-term maintainability.</p>',
+                'content'         => '<h2>Stack Decisions Matter</h2><p>Choosing the wrong tech stack can cost startups months of development time and hundreds of thousands of shillings. The right choice accelerates your MVP, simplifies hiring, and positions you for growth.</p><h3>Frontend Frameworks</h3><p>React dominates the market with its vast ecosystem, while Vue.js offers a gentler learning curve and excellent performance. For SSR and SEO, Next.js (React) and Nuxt.js (Vue) are top picks.</p><h3>Backend Frameworks</h3><p>Laravel (PHP) excels for rapid development with its built-in authentication, ORM, and queue system. Node.js with Express is ideal for real-time applications. Django (Python) shines for data-heavy applications and ML integration.</p><h3>Database Selection</h3><p>PostgreSQL is the all-rounder for structured data. MongoDB suits flexible schemas and rapid prototyping. Redis is essential for caching and real-time features.</p><h3>Hosting & Infrastructure</h3><p>AWS dominates enterprise, while DigitalOcean and Hetzner offer cost-effective options for startups. Serverless architectures using Lambda or Cloud Functions reduce operational overhead.</p><p>At OmniviaTech, we help startups make informed stack decisions that balance speed, cost, and long-term maintainability.</p>',
                 'featured_image'  => 'blog/tech3.webp',
                 'category'        => 'Development',
                 'tags'            => ['startup', 'tech stack', 'Laravel', 'Vue.js', 'React', 'development'],
@@ -398,35 +398,35 @@ class DatabaseSeeder extends Seeder
                 'author_id'       => $admin->id,
                 'seo_title'       => 'Cloud Migration: Cut IT Costs by 40% | OmniviaTech',
                 'seo_description' => 'Discover how cloud migration can reduce your IT costs by 40%. Learn about phased migration strategies and the performance benefits of cloud platforms.',
-                'seo_keywords'    => 'cloud migration South Africa, AWS migration, reduce IT costs',
+                'seo_keywords'    => 'cloud migration Kenya, AWS migration, reduce IT costs',
                 'is_published'    => true,
                 'published_at'    => now()->subDays(21),
             ],
             [
-                'title'           => 'Building a World-Class E-Commerce Experience in South Africa',
-                'excerpt'         => 'South African e-commerce is booming. Here is how to build an online store that converts visitors into loyal customers with local payment methods and fast delivery.',
-                'content'         => '<h2>The E-Commerce Opportunity</h2><p>South African online retail grew 30% year-on-year, reaching R71 billion in 2024. Mobile commerce now accounts for 65% of all transactions, making mobile-first design essential.</p><h3>Payment Integration</h3><p>Supporting local payment methods is critical. PayFast and Peach Payments handle card transactions, while SnapScan and Zapper cater to mobile-first shoppers. Integration with Ozow enables instant EFT, which is South Africas most popular online payment method.</p><h3>Logistics and Delivery</h3><p>Partner with multiple couriers (The Courier Guy, Pargo, Dawn Wing) to offer competitive rates and click-and-collect options. Real-time tracking and proactive SMS notifications reduce "where is my order" queries by 50%.</p><h3>Conversion Optimisation</h3><p>Key factors: page load speed under 3 seconds, simplified checkout (max 3 steps), trust signals (SSL badge, return policy), and personalised product recommendations powered by AI.</p><p>SmartShop by OmniviaTech provides all these capabilities out of the box. Launch your store and start selling within weeks.</p>',
+                'title'           => 'Building a World-Class E-Commerce Experience in Kenya',
+                'excerpt'         => 'Kenyan e-commerce is booming. Here is how to build an online store that converts visitors into loyal customers with local payment methods and fast delivery.',
+                'content'         => '<h2>The E-Commerce Opportunity</h2><p>Online retail in Kenya is growing fast, and most shoppers browse and pay on their phones — making mobile-first design essential.</p><h3>Payment Integration</h3><p>Supporting local payment methods is critical. M-Pesa is the payment method most Kenyan shoppers expect, so an STK Push checkout is essential. Add Airtel Money and card payments through gateways such as Pesapal or Flutterwave to cover everyone else.</p><h3>Logistics and Delivery</h3><p>Partner with multiple couriers (G4S, Fargo Courier, Pick Up Mtaani) to offer competitive rates and click-and-collect options. Real-time tracking and proactive SMS notifications reduce "where is my order" queries by 50%.</p><h3>Conversion Optimisation</h3><p>Key factors: page load speed under 3 seconds, simplified checkout (max 3 steps), trust signals (SSL badge, return policy), and personalised product recommendations powered by AI.</p><p>SmartShop by OmniviaTech provides all these capabilities out of the box. Launch your store and start selling within weeks.</p>',
                 'featured_image'  => 'blog/tech5.webp',
                 'category'        => 'E-Commerce',
-                'tags'            => ['e-commerce', 'online store', 'PayFast', 'South Africa', 'mobile commerce'],
+                'tags'            => ['e-commerce', 'online store', 'M-Pesa', 'Kenya', 'mobile commerce'],
                 'author_id'       => $editor->id,
                 'seo_title'       => 'Building a World-Class E-Commerce Site in SA | OmniviaTech',
-                'seo_description' => 'South African e-commerce hit R71 billion. Learn how to build an online store that converts with local payments, fast delivery, and mobile-first design.',
-                'seo_keywords'    => 'e-commerce South Africa, online store development, PayFast integration',
+                'seo_description' => 'Kenyan e-commerce is booming. Learn how to build an online store that converts with local payments, fast delivery, and mobile-first design.',
+                'seo_keywords'    => 'e-commerce Kenya, online store development, M-Pesa integration',
                 'is_published'    => true,
                 'published_at'    => now()->subDays(28),
             ],
             [
-                'title'           => 'POPIA Compliance Checklist: What Your Business Must Do in 2025',
-                'excerpt'         => 'The Protection of Personal Information Act is fully enforceable. Use this comprehensive checklist to ensure your business meets all POPIA requirements.',
-                'content'         => '<h2>POPIA Is Here to Stay</h2><p>The Information Regulator has begun issuing enforcement notices and fines. Non-compliance can result in penalties of up to R10 million or imprisonment. Every South African business that processes personal information must comply.</p><h3>Your Compliance Checklist</h3><p><strong>1. Appoint an Information Officer</strong> — Register them with the Information Regulator.</p><p><strong>2. Data Mapping</strong> — Document what personal information you collect, where its stored, and who has access.</p><p><strong>3. Privacy Policy</strong> — Update your website and internal policies to clearly explain how you handle personal data.</p><p><strong>4. Consent Management</strong> — Implement opt-in mechanisms for marketing communications and data collection.</p><p><strong>5. Security Measures</strong> — Encrypt personal data at rest and in transit. Implement access controls and regular security audits.</p><p><strong>6. Breach Procedures</strong> — Establish an incident response plan with notification procedures for the Regulator and affected parties.</p><p><strong>7. Third-Party Contracts</strong> — Ensure all data processors (cloud providers, marketing agencies) have compliant agreements in place.</p><p>OmniviaTech provides POPIA compliance consulting, technical implementation, and ongoing auditing services. Get compliant before the regulator comes knocking.</p>',
+                'title'           => 'Data Protection Act Compliance Checklist: What Your Business Must Do in 2025',
+                'excerpt'         => 'Kenya\'s Data Protection Act, 2019 is fully enforceable. Use this comprehensive checklist to ensure your business meets all of its requirements.',
+                'content'         => '<h2>The Data Protection Act Is Here to Stay</h2><p>The Office of the Data Protection Commissioner (ODPC) has begun issuing enforcement notices and fines. Non-compliance can result in penalties of up to KES 5 million or 1% of annual turnover, whichever is lower. Every Kenyan business that processes personal information must comply.</p><h3>Your Compliance Checklist</h3><p><strong>1. Appoint a Data Protection Officer</strong> — and register your business with the ODPC as a data controller or processor.</p><p><strong>2. Data Mapping</strong> — Document what personal information you collect, where its stored, and who has access.</p><p><strong>3. Privacy Policy</strong> — Update your website and internal policies to clearly explain how you handle personal data.</p><p><strong>4. Consent Management</strong> — Implement opt-in mechanisms for marketing communications and data collection.</p><p><strong>5. Security Measures</strong> — Encrypt personal data at rest and in transit. Implement access controls and regular security audits.</p><p><strong>6. Breach Procedures</strong> — Establish an incident response plan with notification procedures for the ODPC and affected parties.</p><p><strong>7. Third-Party Contracts</strong> — Ensure all data processors (cloud providers, marketing agencies) have compliant agreements in place.</p><p>OmniviaTech provides Data Protection Act compliance consulting, technical implementation, and ongoing auditing services. Get compliant before the regulator comes knocking.</p>',
                 'featured_image'  => 'blog/tech6.webp',
                 'category'        => 'Compliance',
-                'tags'            => ['POPIA', 'data protection', 'compliance', 'privacy', 'South Africa'],
+                'tags'            => ['Data Protection Act', 'data protection', 'compliance', 'privacy', 'Kenya'],
                 'author_id'       => $admin->id,
-                'seo_title'       => 'POPIA Compliance Checklist 2025 | OmniviaTech',
-                'seo_description' => 'Complete POPIA compliance checklist for South African businesses. Learn the 7 essential steps to meet the Protection of Personal Information Act requirements.',
-                'seo_keywords'    => 'POPIA compliance, data protection South Africa, privacy act checklist',
+                'seo_title'       => 'Kenya Data Protection Act Compliance Checklist 2025 | OmniviaTech',
+                'seo_description' => 'Complete Data Protection Act compliance checklist for Kenyan businesses. Learn the 7 essential steps to meet the requirements of Kenya\'s Data Protection Act, 2019.',
+                'seo_keywords'    => 'Data Protection Act compliance, data protection Kenya, ODPC checklist',
                 'is_published'    => true,
                 'published_at'    => now()->subDays(35),
             ],
@@ -503,7 +503,7 @@ class DatabaseSeeder extends Seeder
                 'reviewable_type' => Service::class,
                 'reviewable_id'   => Service::where('slug', 'e-commerce-development')->value('id') ?? 3,
                 'rating'          => 4,
-                'content'         => 'OmniviaTech built our multi-vendor marketplace from the ground up. The payment integrations with PayFast and Ozow work perfectly, and the vendor dashboard is incredibly intuitive. They truly understand the South African e-commerce landscape.',
+                'content'         => 'OmniviaTech built our multi-vendor marketplace from the ground up. The M-Pesa and Pesapal payment integrations work perfectly, and the vendor dashboard is incredibly intuitive. They truly understand the Kenyan e-commerce landscape.',
                 'status'          => 'approved',
             ],
         ];
@@ -516,7 +516,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PackageSeeder::class);
 
         $this->command->info('🚀 OmniviaTech database seeded successfully!');
-        $this->command->info('   Admin login: robertgicheha3@gmail.com / Admin@123');
+        $this->command->info('   Admin login: info@omniviatech.co.ke / Admin@123');
         $this->command->info('   User login:  john@example.com / password');
     }
 }

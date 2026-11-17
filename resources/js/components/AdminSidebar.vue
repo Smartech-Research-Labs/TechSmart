@@ -46,7 +46,7 @@ const showSearch = ref(false)
 
 const userData = computed(() => ({
   name: authStore.user?.name || "Admin",
-  email: authStore.user?.email || "admin@omniviatech.com",
+  email: authStore.user?.email || "info@omniviatech.co.ke",
   avatar: "",
 }))
 

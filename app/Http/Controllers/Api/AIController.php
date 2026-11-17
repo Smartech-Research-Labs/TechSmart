@@ -181,7 +181,7 @@ class AIController extends Controller
             $settings = \App\Models\Setting::all()->pluck('value', 'key');
             $companyInfo = [
                 'name' => $settings['site_name'] ?? 'OmniviaTech',
-                'email' => $settings['contact_email'] ?? 'info@omniviatech.com',
+                'email' => $settings['contact_email'] ?? 'reachout@omniviatech.co.ke',
                 'phone' => $settings['contact_phone'] ?? '+254 710 351 517',
             ];
 
