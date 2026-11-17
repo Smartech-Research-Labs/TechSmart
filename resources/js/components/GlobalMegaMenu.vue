@@ -1,6 +1,6 @@
 <template>
-  <nav class="sticky top-0 z-40 border-b border-[#3a3a3a] bg-slate-950/95">
-    <div class="container mx-auto flex flex-wrap items-center justify-between gap-3 px-4 py-3 lg:px-6">
+  <nav ref="navEl" class="sticky top-0 z-40 border-b border-[#3a3a3a] bg-slate-950/95">
+    <div class="container mx-auto flex flex-wrap items-center justify-between gap-3 px-4 py-2 lg:px-6">
       <router-link to="/" class="flex items-center gap-3 text-white">
         <img
           v-if="settings?.logo_url || settings?.logo_path"
@@ -37,7 +37,7 @@
             <svg class="w-3.5 h-3.5 transition-transform duration-100" :class="{ 'rotate-180': megaOpen === 'what' }" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
           </button>
 
-          <div v-if="megaOpen === 'what'" class="mega-dropdown fixed left-1/2 top-[74px] z-50 mt-2 w-[min(94vw,1160px)] -translate-x-1/2 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl animate-mega-in">
+          <div v-if="megaOpen === 'what'" :style="{ top: `${megaTop}px` }" class="mega-dropdown fixed left-1/2 z-50 w-[min(94vw,1160px)] -translate-x-1/2 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl animate-mega-in">
             <div class="flex items-center justify-between border-b border-slate-200 px-6 py-3">
               <p class="text-sm font-semibold text-slate-900">What We Offer</p>
               <button type="button" class="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 hover:text-slate-900" @click="closeMega" aria-label="Close mega menu">
@@ -116,7 +116,7 @@
 
         <div class="mega-trigger" @mouseenter="hoverOpen('solutions')" @mouseleave="hoverClose">
           <button @click.prevent="toggleMega('solutions')" class="nav-link px-3 py-2 text-white/80 hover:text-primary transition font-medium text-sm rounded-lg hover:bg-white/10" :class="{ 'text-primary': megaOpen === 'solutions' }">Solutions <svg class="w-3.5 h-3.5 inline-block ml-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg></button>
-          <div v-if="megaOpen === 'solutions'" class="mega-dropdown fixed left-1/2 top-[74px] z-50 mt-2 w-[min(94vw,980px)] -translate-x-1/2 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl animate-mega-in">
+          <div v-if="megaOpen === 'solutions'" :style="{ top: `${megaTop}px` }" class="mega-dropdown fixed left-1/2 z-50 w-[min(94vw,980px)] -translate-x-1/2 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl animate-mega-in">
             <div class="flex items-center justify-between border-b border-slate-200 px-6 py-3">
               <p class="text-sm font-semibold text-slate-900">Solutions</p>
               <button type="button" class="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 hover:text-slate-900" @click="closeMega" aria-label="Close mega menu">
@@ -135,7 +135,7 @@
 
         <div class="mega-trigger" @mouseenter="hoverOpen('company')" @mouseleave="hoverClose">
           <button @click.prevent="toggleMega('company')" class="nav-link px-3 py-2 text-white/80 hover:text-primary transition font-medium text-sm rounded-lg hover:bg-white/10" :class="{ 'text-primary': megaOpen === 'company' }">Company <svg class="w-3.5 h-3.5 inline-block ml-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg></button>
-          <div v-if="megaOpen === 'company'" class="mega-dropdown fixed left-1/2 top-[74px] z-50 mt-2 w-[min(94vw,920px)] -translate-x-1/2 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl animate-mega-in">
+          <div v-if="megaOpen === 'company'" :style="{ top: `${megaTop}px` }" class="mega-dropdown fixed left-1/2 z-50 w-[min(94vw,920px)] -translate-x-1/2 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl animate-mega-in">
             <div class="flex items-center justify-between border-b border-slate-200 px-6 py-3">
               <p class="text-sm font-semibold text-slate-900">Company</p>
               <button type="button" class="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 hover:text-slate-900" @click="closeMega" aria-label="Close mega menu">
@@ -154,7 +154,7 @@
 
         <div class="mega-trigger" @mouseenter="hoverOpen('marketplace')" @mouseleave="hoverClose">
           <button @click.prevent="toggleMega('marketplace')" class="nav-link px-3 py-2 text-white/80 hover:text-primary transition font-medium text-sm rounded-lg hover:bg-white/10" :class="{ 'text-primary': megaOpen === 'marketplace' }">Marketplace <svg class="w-3.5 h-3.5 inline-block ml-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg></button>
-          <div v-if="megaOpen === 'marketplace'" class="mega-dropdown fixed left-1/2 top-[74px] z-50 mt-2 w-[min(94vw,1100px)] -translate-x-1/2 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl animate-mega-in">
+          <div v-if="megaOpen === 'marketplace'" :style="{ top: `${megaTop}px` }" class="mega-dropdown fixed left-1/2 z-50 w-[min(94vw,1100px)] -translate-x-1/2 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl animate-mega-in">
             <div class="flex items-center justify-between border-b border-slate-200 px-6 py-3">
               <p class="text-sm font-semibold text-slate-900">Marketplace</p>
               <button type="button" class="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 hover:text-slate-900" @click="closeMega" aria-label="Close mega menu">
@@ -518,6 +518,16 @@ function closeMega() {
   openedByHover.value = false;
 }
 
+// Open panels just below the header's real bottom edge (it moves as the top bar scrolls away)
+const navEl = ref<HTMLElement | null>(null);
+const megaTop = ref(64);
+function updateMegaTop() {
+  if (navEl.value) megaTop.value = Math.round(navEl.value.getBoundingClientRect().bottom) + 8;
+}
+watch(megaOpen, (open) => {
+  if (open) updateMegaTop();
+});
+
 function handleKeydown(event: KeyboardEvent) {
   if (event.key === 'Escape' && megaOpen.value) closeMega();
 }
@@ -556,6 +566,8 @@ const marketProducts = computed(() => cmsStore.homeData?.featured_products || []
 onMounted(() => {
   document.addEventListener('click', handleDocumentClick);
   document.addEventListener('keydown', handleKeydown);
+  window.addEventListener('scroll', updateMegaTop, { passive: true });
+  window.addEventListener('resize', updateMegaTop, { passive: true });
   const idle = (window as any).requestIdleCallback || ((cb: () => void) => setTimeout(cb, 1200));
   idle(preloadMenuImages);
 });
@@ -564,6 +576,8 @@ onBeforeUnmount(() => {
   clearHoverTimer();
   document.removeEventListener('click', handleDocumentClick);
   document.removeEventListener('keydown', handleKeydown);
+  window.removeEventListener('scroll', updateMegaTop);
+  window.removeEventListener('resize', updateMegaTop);
 });
 
 async function handleLogout() {
