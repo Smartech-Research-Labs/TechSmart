@@ -320,6 +320,7 @@ function getTypeLabel(type: string): string {
   if (type.includes('Product')) return 'Product';
   if (type.includes('Service')) return 'Service';
   if (type.includes('Bundle')) return 'Bundle';
+  if (type.includes('Package')) return 'Website Package';
   return 'Item';
 }
 
@@ -327,6 +328,7 @@ function getTypeEmoji(type: string): string {
   if (type.includes('Product')) return '📦';
   if (type.includes('Service')) return '🚀';
   if (type.includes('Bundle')) return '📁';
+  if (type.includes('Package')) return '🌐';
   return '💎';
 }
 

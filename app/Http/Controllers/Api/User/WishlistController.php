@@ -28,9 +28,14 @@ class WishlistController extends Controller implements HasMiddleware
     public function store(Request $request)
     {
         $request->validate([
-            'wishlistable_type' => 'required|in:App\\Models\\Product,App\\Models\\Service',
+            'wishlistable_type' => 'required|in:App\\Models\\Product,App\\Models\\Service,App\\Models\\Package,App\\Models\\Bundle',
             'wishlistable_id' => 'required|integer',
         ]);
+
+        $item = $request->wishlistable_type::find($request->wishlistable_id);
+        if (!$item) {
+            return response()->json(['message' => 'Item not found'], 404);
+        }
 
         $exists = Wishlist::where('user_id', auth()->id())
             ->where('wishlistable_type', $request->wishlistable_type)
@@ -48,7 +53,6 @@ class WishlistController extends Controller implements HasMiddleware
         ]);
 
         // Notify admin users
-        $item = $request->wishlistable_type::find($request->wishlistable_id);
         $itemName = $item->name ?? $item->title ?? 'Unknown';
         $userName = auth()->user()->name ?? auth()->user()->email;
 

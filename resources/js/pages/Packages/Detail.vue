@@ -133,7 +133,7 @@
                     class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#25D366] text-white rounded-lg hover:bg-[#20ba5a] transition-all text-sm font-semibold"
                   >
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-5.031 1.378c-3.055 2.116-4.922 5.636-4.922 9.28 0 5.494 4.479 9.968 9.973 9.968a9.9 9.9 0 005.461-1.64l.084.05c1.046.31 2.151.271 3.182-.12 1.034-.394 1.978-1.247 2.583-2.335.338-.627.56-1.316.645-2.019.085-.703.041-1.425-.128-2.117-.326-1.379-1.045-2.656-2.066-3.704-2.23-2.216-5.392-3.606-8.809-3.606z"/>
+                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                     </svg>
                     Chat on WhatsApp
                   </a>
@@ -359,7 +359,7 @@
       </section>
 
       <!-- ═══════════════ GET A QUOTE FORM ═══════════════ -->
-      <section id="quote-form" class="py-14 md:py-20 bg-muted/30">
+      <section id="quote-form" class="scroll-mt-24 py-14 md:py-20 bg-muted/30">
         <div class="container mx-auto px-6">
           <div class="max-w-2xl mx-auto">
             <div class="text-center mb-12">
@@ -466,7 +466,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 import { useCmsStore } from '@/stores/cms';
 import { useToast } from '@/composables';
@@ -475,6 +475,7 @@ import axios from 'axios';
 import tech1 from '@/../img/tech1.webp';
 
 const route = useRoute();
+const router = useRouter();
 const authStore = useAuthStore();
 const cmsStore = useCmsStore();
 const toast = useToast();
@@ -521,7 +522,7 @@ const checkWishlistStatus = async () => {
 
   try {
     const response = await axios.get('/api/v1/user/wishlist');
-    const wishlist = response.data.data || response.data;
+    const wishlist: any[] = response.data.wishlist || response.data.data || [];
     isInWishlist.value = wishlist.some(
       (item: any) => item.wishlistable_type === 'App\\Models\\Package' && item.wishlistable_id === pkg.value?.id
     );
@@ -532,7 +533,9 @@ const checkWishlistStatus = async () => {
 
 const toggleWishlist = async () => {
   if (!authStore.isAuthenticated) {
-    (authStore as any).showAuthModal = true;
+    // Send guests to log in, then bring them straight back to this package
+    toast.info('Please log in to save packages to your wishlist.');
+    router.push({ name: 'login', query: { redirect: route.fullPath } });
     return;
   }
 
@@ -544,23 +547,26 @@ const toggleWishlist = async () => {
     if (isInWishlist.value) {
       // Remove from wishlist
       const wishlist = await axios.get('/api/v1/user/wishlist');
-      const item = (wishlist.data.data || wishlist.data).find(
+      const item = (wishlist.data.wishlist || wishlist.data.data || []).find(
         (w: any) => w.wishlistable_type === 'App\\Models\\Package' && w.wishlistable_id === pkg.value?.id
       );
       if (item) {
         await axios.delete(`/api/v1/user/wishlist/${item.id}`);
       }
+      isInWishlist.value = false;
+      toast.success('Removed from your wishlist.');
     } else {
       // Add to wishlist
       await axios.post('/api/v1/user/wishlist', {
         wishlistable_type: 'App\\Models\\Package',
         wishlistable_id: pkg.value?.id,
       });
+      isInWishlist.value = true;
+      toast.success('Added to your wishlist.');
     }
-
-    isInWishlist.value = !isInWishlist.value;
-  } catch (error) {
+  } catch (error: any) {
     console.error('Failed to toggle wishlist:', error);
+    toast.error(error?.response?.data?.message || 'Could not update your wishlist. Please try again.');
   } finally {
     wishlistLoading.value = false;
   }
@@ -583,7 +589,9 @@ const submitQuoteForm = async () => {
       phone: quoteForm.value.phone,
       company: quoteForm.value.company,
       service: pkg.value?.name,
-      message: quoteForm.value.message,
+      subject: `Quote request: ${pkg.value?.name || 'Website'} package`,
+      // The message box is optional on this form, but the API requires a message
+      message: quoteForm.value.message?.trim() || `I would like a quote for the ${pkg.value?.name || 'website'} package.`,
     });
     toast.success('Quote request submitted! We will contact you within 24 hours.');
     quoteForm.value = {
@@ -594,9 +602,11 @@ const submitQuoteForm = async () => {
       message: '',
       agreeTerms: false,
     };
-  } catch (error) {
+  } catch (error: any) {
     console.error('Failed to submit quote form:', error);
-    toast.error('Failed to submit. Please try again.');
+    const errors = error?.response?.data?.errors;
+    const first = errors ? (Object.values(errors)[0] as string[])?.[0] : null;
+    toast.error(first || 'Failed to submit. Please try again.');
   } finally {
     submittingQuote.value = false;
   }

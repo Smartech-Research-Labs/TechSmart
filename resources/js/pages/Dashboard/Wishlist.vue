@@ -142,6 +142,7 @@ function getTypeLabel(type: string): string {
   if (type.includes('Product')) return 'Product';
   if (type.includes('Service')) return 'Service';
   if (type.includes('Bundle')) return 'Bundle';
+  if (type.includes('Package')) return 'Website Package';
   return 'Item';
 }
 
@@ -149,6 +150,7 @@ function getTypeEmoji(type: string): string {
   if (type.includes('Product')) return '📦';
   if (type.includes('Service')) return '🚀';
   if (type.includes('Bundle')) return '📁';
+  if (type.includes('Package')) return '🌐';
   return '💎';
 }
 
@@ -158,6 +160,7 @@ function getDetailLink(item: any): string {
   if (item.wishlistable_type.includes('Product')) return `/products/${slug}`;
   if (item.wishlistable_type.includes('Service')) return `/services/${slug}`;
   if (item.wishlistable_type.includes('Bundle')) return `/bundles/${slug}`;
+  if (item.wishlistable_type.includes('Package')) return `/packages/${slug}`;
   return '#';
 }
 
