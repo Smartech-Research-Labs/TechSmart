@@ -47,18 +47,10 @@ class ProductController extends Controller
             ->get()
             ->append('image_url');
 
-        // Get case studies linked to this product (if CaseStudy model exists)
+        // Case studies are linked to services (service_id / service_ids), not products —
+        // the case_studies table has no product columns, and querying them made every
+        // product page fail with a 500 ("Product Not Found" on the frontend).
         $caseStudies = [];
-        if (class_exists(\App\Models\CaseStudy::class)) {
-            $caseStudies = \App\Models\CaseStudy::where('is_published', true)
-                ->where(function ($q) use ($product) {
-                    $q->where('product_id', $product->id)
-                      ->orWhereJsonContains('product_ids', $product->id);
-                })
-                ->latest()
-                ->take(3)
-                ->get();
-        }
 
         // Get related blog posts (matching product category or name)
         $relatedBlogs = Blog::published()

@@ -64,22 +64,30 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  async function fetchUser() {
-    if (!token.value) return;
-    
+  // Share one in-flight request between the router guard and App.vue's startup check
+  let fetchUserPending: Promise<void> | null = null;
+
+  function fetchUser() {
+    if (!token.value) return Promise.resolve();
+    if (fetchUserPending) return fetchUserPending;
+
     loading.value = true;
-    try {
-      const response = await axios.get('/api/v1/auth/user');
-      user.value = response.data.user;
-    } catch (err: any) {
-      error.value = err.response?.data?.message || 'Failed to fetch user';
-      // If token is invalid, clear auth state
-      if (err.response?.status === 401) {
-        logout();
+    fetchUserPending = (async () => {
+      try {
+        const response = await axios.get('/api/v1/auth/user');
+        user.value = response.data.user;
+      } catch (err: any) {
+        error.value = err.response?.data?.message || 'Failed to fetch user';
+        // If token is invalid, clear auth state
+        if (err.response?.status === 401) {
+          logout();
+        }
+      } finally {
+        loading.value = false;
+        fetchUserPending = null;
       }
-    } finally {
-      loading.value = false;
-    }
+    })();
+    return fetchUserPending;
   }
 
   async function logout() {

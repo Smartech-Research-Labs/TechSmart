@@ -1,4 +1,5 @@
 import axios, { type AxiosInstance, type AxiosRequestConfig } from 'axios';
+import { installApiCache } from '@/lib/apiCache';
 
 // Global in-flight request counter for progress bar
 let activeRequests = 0;
@@ -100,5 +101,8 @@ export function useApi() {
       api.delete<T>(url, config).then(res => res.data),
   };
 }
+
+// Same public-content cache as the global axios instance
+installApiCache(api);
 
 export default api;

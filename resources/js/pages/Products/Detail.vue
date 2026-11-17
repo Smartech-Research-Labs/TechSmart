@@ -415,6 +415,7 @@
 </template>
 
 <script setup lang="ts">
+import { productImageMap as sharedProductImageMap } from '@/lib/productImages';
 import heroLaptop from '@/../img/Laptop.webp';
 import heroLaptopDark from '@/../img/tech-background.webp';
 import heroTech7 from '@/../img/tech7.webp';
@@ -431,14 +432,8 @@ import api from '@/services/api';
 import { useCmsStore } from '@/stores/cms';
 import { useToast } from '@/composables';
 
-const productImageMap: Record<string, string> = {
-  'smartcms-pro': svcCustomWeb,
-  'smartshop-platform': svcEcommerce,
-  'smartanalytics-dashboard': svcSeo,
-  'smartchat-ai': svcApi,
-  'smartsecure-firewall': svcCrmErp,
-  'smartbackup-cloud': svcMobileApp,
-};
+// Default cover images per product slug (shared across product pages)
+const productImageMap = sharedProductImageMap;
 
 function getProductImage(product: any): string | undefined {
   const slug = (product.slug || '').toLowerCase().trim();

@@ -3,7 +3,7 @@
     <div class="container mx-auto px-4 flex items-center justify-between h-10">
       <!-- Marquee -->
       <div class="flex-1 overflow-hidden mr-4">
-        <div class="marquee-track flex whitespace-nowrap">
+        <div class="marquee-track flex whitespace-nowrap" :style="{ animationDuration: marqueeDuration }">
           <span
             v-for="(item, i) in marqueeItems"
             :key="i"
@@ -50,20 +50,47 @@ const cmsStore = useCmsStore();
 
 const settings = computed(() => cmsStore.homeData?.settings);
 
-// Default marquee items
+// Industries shown in the homepage "Industries we serve" section
+const industries = [
+  { icon: '🏥', title: 'Healthcare' },
+  { icon: '🏦', title: 'Finance' },
+  { icon: '📚', title: 'Education' },
+  { icon: '🛒', title: 'Retail' },
+  { icon: '🚚', title: 'Logistics' },
+  { icon: '🏭', title: 'Manufacturing' },
+  { icon: '🌾', title: 'Agriculture' },
+  { icon: '⚡', title: 'Energy' },
+];
+
+// Marquee: what we actually offer — products, services and industries from the CMS,
+// interleaved so the ticker alternates between them. Any announcement set in
+// Admin → Settings ("Marquee / Announcement Text", separated by |) is shown first.
 const marqueeItems = computed(() => {
-  const marquee = settings.value?.marquee_text;
-  if (marquee) {
-    return marquee.split('|').map((s: string) => s.trim()).filter(Boolean);
+  const announcements: string[] = (settings.value?.marquee_text || '')
+    .split('|')
+    .map((s: string) => s.trim())
+    .filter(Boolean);
+
+  const products: string[] = (cmsStore.homeData?.featured_products || []).map((p: any) =>
+    p.category ? `📦 ${p.name} — ${p.category}` : `📦 ${p.name}`,
+  );
+  const services: string[] = (cmsStore.homeData?.all_services || []).map((s: any) => `💻 ${s.title}`);
+  const sectors: string[] = industries.map((i) => `${i.icon} Solutions for ${i.title}`);
+
+  const offerings: string[] = [];
+  const longest = Math.max(products.length, services.length, sectors.length);
+  for (let i = 0; i < longest; i++) {
+    if (products[i]) offerings.push(products[i]);
+    if (services[i]) offerings.push(services[i]);
+    if (sectors[i]) offerings.push(sectors[i]);
   }
-  return [
-    '🚀 Welcome to OmniviaTech — Innovative Tech Solutions',
-    '💡 Free consultation for new clients',
-    '🔥 Check out our latest products and services',
-    '📞 Contact us today for a custom quote',
-    '⭐ 24/7 customer support available',
-  ];
+
+  const items = [...announcements, ...offerings];
+  return items.length ? items : sectors;
 });
+
+// Keep a steady, readable scroll speed however many items there are
+const marqueeDuration = computed(() => `${Math.max(40, marqueeItems.value.length * 5)}s`);
 
 // Icons as functional components
 const FacebookIcon: FunctionalComponent = () =>

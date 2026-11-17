@@ -56,7 +56,7 @@ class HomeController extends Controller
             $products = Product::where('is_featured', true)
                 ->where('is_published', true)
                 ->orderBy('order')
-                ->take(6)
+                ->take(18) // homepage shows these as a carousel of 6-card mosaic pages
                 ->with('media')
                 ->get()
                 ->map(function ($p) {
@@ -67,7 +67,7 @@ class HomeController extends Controller
                         'excerpt' => $p->short_description,
                         'price' => $p->price,
                         'price_label' => $p->price_label,
-                        'image_url' => $p->getFirstMediaUrl('images') ?: null,
+                        'image_url' => $p->getFirstMediaUrl('images') ?: $p->image_url,
                         'category' => $p->category,
                         'is_featured' => $p->is_featured,
                     ];

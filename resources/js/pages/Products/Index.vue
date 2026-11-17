@@ -210,6 +210,7 @@
 </template>
 
 <script setup lang="ts">
+import { productImageMap as sharedProductImageMap } from '@/lib/productImages';
 import axios from 'axios';
 import { ref, computed, onMounted } from 'vue';
 import heroOrbit from '@/../img/Orbit.webp';
@@ -229,14 +230,8 @@ import svcCrmErp from '@/../img/services/CRM & ERP Development.webp';
 import svcMobileApp from '@/../img/services/Mobile App Development.webp';
 import svcSeo from '@/../img/services/SEO Optimization.webp';
 
-const productImageMap: Record<string, string> = {
-  'smartcms-pro': svcCustomWeb,
-  'smartshop-platform': svcEcommerce,
-  'smartanalytics-dashboard': svcSeo,
-  'smartchat-ai': svcApi,
-  'smartsecure-firewall': svcCrmErp,
-  'smartbackup-cloud': svcMobileApp,
-};
+// Default cover images per product slug (shared across product pages)
+const productImageMap = sharedProductImageMap;
 
 function getProductImage(product: any): string | undefined {
   const slug = (product.slug || '').toLowerCase().trim();

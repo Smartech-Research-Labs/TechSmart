@@ -373,11 +373,15 @@ router.beforeEach(async (to, from, next) => {
   const appName = import.meta.env.VITE_APP_NAME || 'OmniviaTech';
   document.title = to.meta.title ? `${to.meta.title} - ${appName}` : appName;
 
-  // Fetch user if token exists but user not loaded
+  // Fetch user if token exists but user not loaded. Only block navigation on it for routes
+  // whose access depends on who is logged in — public pages render immediately and the
+  // user loads in the background (App.vue also triggers this on startup).
   if (authStore.token && !authStore.user) {
-    await authStore.fetchUser().catch(() => {
+    const needsUser = requiresAuth || requiresAdmin || requiresSuperAdmin || guestOnly;
+    const pending = authStore.fetchUser().catch(() => {
       // Token invalid, will be handled by store
     });
+    if (needsUser) await pending;
   }
 
   // Guest only routes (login, register) - redirect if authenticated

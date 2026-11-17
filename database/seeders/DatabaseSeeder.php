@@ -99,7 +99,7 @@ class DatabaseSeeder extends Seeder
             ['key' => 'whatsapp_url',    'value' => 'https://wa.me/254710351517',              'group' => 'social', 'type' => 'text'],
 
             // Marquee / Top Bar
-            ['key' => 'marquee_text',    'value' => '🚀 Free consultation for new clients|💡 AI-powered solutions now available|🔒 Cybersecurity audit — limited offer|📱 Mobile app development starting at R15,000|⭐ Rated #1 tech agency in Johannesburg', 'group' => 'general', 'type' => 'text'],
+            ['key' => 'marquee_text',    'value' => '', 'group' => 'general', 'type' => 'text'], // optional announcements (| separated); products, services & industries are added automatically
 
             // SEO
             ['key' => 'seo_title',       'value' => 'OmniviaTech Technologies | Custom Web, Mobile App & E-Commerce Development', 'group' => 'seo', 'type' => 'text'],
@@ -246,81 +246,8 @@ class DatabaseSeeder extends Seeder
         // ──── Services (handled by dedicated seeder) ────
         $this->call(ServicesSeeder::class);
 
-        // ──── Products ────
-        $products = [
-            [
-                'name'              => 'SmartCMS Pro',
-                'slug'              => 'smartcms-pro',
-                'short_description' => 'A powerful content management system with drag-and-drop page building, multi-language support, and built-in analytics.',
-                'description'       => '<p>SmartCMS Pro is our flagship CMS designed for businesses that need full control over their digital presence. Features include visual page builder, role-based access control, media management, and SEO tools.</p>',
-                'category'          => 'Software',
-                'features'          => ['Drag & Drop Builder', 'Multi-Language', 'Built-in Analytics', 'Role-Based Access', 'REST API', 'White-Label Option'],
-                'specifications'    => ['Framework' => 'Laravel + Vue.js', 'Hosting' => 'Cloud / On-Premise', 'Support' => '24/7 Priority', 'Updates' => 'Monthly'],
-                'is_featured'       => true,
-                'is_published'      => true,
-                'order'             => 1,
-            ],
-            [
-                'name'              => 'SmartShop Platform',
-                'slug'              => 'smartshop-platform',
-                'short_description' => 'Full-featured e-commerce platform with payment gateways, inventory management, and marketing automation.',
-                'description'       => '<p>SmartShop is a turnkey e-commerce solution supporting PayFast, Stripe, and mobile money. Features include product variants, bulk import, automated email marketing, and real-time inventory tracking.</p>',
-                'category'          => 'E-Commerce',
-                'features'          => ['Multi-Gateway Payments', 'Inventory Management', 'Marketing Automation', 'Mobile-First Design', 'Order Tracking', 'Abandoned Cart Recovery'],
-                'specifications'    => ['Framework' => 'Laravel + Vue.js', 'Payments' => 'PayFast, Stripe, PayPal', 'Shipping' => 'Courier Guy, DHL', 'Updates' => 'Bi-weekly'],
-                'is_featured'       => true,
-                'is_published'      => true,
-                'order'             => 2,
-            ],
-            [
-                'name'              => 'SmartAnalytics Dashboard',
-                'slug'              => 'smartanalytics-dashboard',
-                'short_description' => 'Real-time business intelligence dashboard with custom KPIs, data visualisation, and automated reporting.',
-                'description'       => '<p>Connect your databases, APIs, and spreadsheets into a single pane of glass. SmartAnalytics provides interactive charts, drill-down capabilities, and scheduled PDF/Excel reports.</p>',
-                'category'          => 'Analytics',
-                'features'          => ['Real-Time Dashboards', 'Custom KPIs', 'Multi-Source Integration', 'Scheduled Reports', 'Role-Based Views', 'Export to PDF/Excel'],
-                'is_featured'       => true,
-                'is_published'      => true,
-                'order'             => 3,
-            ],
-            [
-                'name'              => 'SmartChat AI',
-                'slug'              => 'smartchat-ai',
-                'short_description' => 'AI-powered customer support chatbot with natural language understanding and seamless human handoff.',
-                'description'       => '<p>Reduce support costs by up to 60%. SmartChat AI handles FAQs, appointment booking, and order enquiries around the clock. Escalates complex queries to human agents with full context.</p>',
-                'category'          => 'AI',
-                'features'          => ['24/7 Availability', 'NLP Understanding', 'Human Handoff', 'Multi-Language', 'Analytics Dashboard', 'Custom Training'],
-                'is_featured'       => false,
-                'is_published'      => true,
-                'order'             => 4,
-            ],
-            [
-                'name'              => 'SmartSecure Firewall',
-                'slug'              => 'smartsecure-firewall',
-                'short_description' => 'Managed web application firewall with DDoS protection, bot mitigation, and real-time threat alerts.',
-                'description'       => '<p>Protect your web applications with enterprise-grade security. SmartSecure Firewall provides layer-7 protection, rate limiting, geo-blocking, and SSL certificate management.</p>',
-                'category'          => 'Security',
-                'features'          => ['DDoS Protection', 'Bot Mitigation', 'SSL Management', 'Geo-Blocking', 'Real-Time Alerts', 'Custom Rules'],
-                'is_featured'       => false,
-                'is_published'      => true,
-                'order'             => 5,
-            ],
-            [
-                'name'              => 'SmartBackup Cloud',
-                'slug'              => 'smartbackup-cloud',
-                'short_description' => 'Automated cloud backup solution with encryption, versioning, and one-click disaster recovery.',
-                'description'       => '<p>Never lose data again. SmartBackup Cloud provides incremental backups, AES-256 encryption, point-in-time recovery, and compliance-ready audit logs.</p>',
-                'category'          => 'Infrastructure',
-                'features'          => ['Automated Backups', 'AES-256 Encryption', 'Point-in-Time Recovery', 'Multi-Region Storage', 'Compliance Logs', 'One-Click Restore'],
-                'is_featured'       => false,
-                'is_published'      => true,
-                'order'             => 6,
-            ],
-        ];
-
-        foreach ($products as $p) {
-            Product::create($p);
-        }
+        // ──── Products (handled by dedicated seeder) ────
+        $this->call(ProductSeeder::class);
 
         // ──── Clients ────
         // NOTE: Parkrose, Frarega and Smartech have no matching logo asset in
@@ -380,17 +307,17 @@ class DatabaseSeeder extends Seeder
         // ──── Bundles ────
         $webService  = Service::where('slug', 'custom-web-development')->first();
         $aiService   = Service::where('slug', 'business-intelligence-analytics')->first();
-        $cmsProduct  = Product::where('slug', 'smartcms-pro')->first();
-        $chatProduct = Product::where('slug', 'smartchat-ai')->first();
+        $cmsProduct  = Product::where('slug', 'tillpilot')->first();
+        $chatProduct = Product::where('slug', 'chatshop')->first();
 
         $starterBundle = Bundle::create([
             'name'              => 'Digital Starter Pack',
             'slug'              => 'digital-starter-pack',
-            'short_description' => 'Everything you need to launch your online presence — website, CMS, and AI chatbot bundled at a special rate.',
-            'description'       => '<p>Get online fast with our curated starter bundle. Includes a custom-built website, SmartCMS Pro for content management, and SmartChat AI for 24/7 customer support. Contact us for pricing and a personalized quote.</p>',
+            'short_description' => 'Everything you need to start selling online — website, M-Pesa invoicing and WhatsApp commerce bundled at a special rate.',
+            'description'       => '<p>Get online fast with our curated starter bundle. Includes a custom-built website, TillPilot for M-Pesa invoicing and reconciliation, and ChatShop for selling on WhatsApp. Contact us for pricing and a personalized quote.</p>',
             'price'             => null,
             'price_label'       => 'Contact us for pricing',
-            'whats_included'    => ['Custom Website', 'SmartCMS Pro (6 months)', 'SmartChat AI (6 months)', 'SEO Setup', '3 Months Support'],
+            'whats_included'    => ['Custom Website', 'TillPilot (6 months)', 'ChatShop (6 months)', 'SEO Setup', '3 Months Support'],
             'is_featured'       => true,
             'is_published'      => true,
             'order'             => 1,
@@ -407,11 +334,11 @@ class DatabaseSeeder extends Seeder
         $enterpriseBundle = Bundle::create([
             'name'              => 'Enterprise Growth Suite',
             'slug'              => 'enterprise-growth-suite',
-            'short_description' => 'Complete digital transformation package with AI analytics, e-commerce platform, cybersecurity, and ongoing consulting.',
+            'short_description' => 'Complete retail operations suite — multi-branch POS, owner dashboards, KRA eTIMS compliance and ongoing consulting.',
             'description'       => '<p>Our most comprehensive bundle for enterprises ready to dominate their market. Combines our top products with premium services for an end-to-end digital strategy. Contact us for a customized enterprise quote.</p>',
             'price'             => null,
             'price_label'       => 'Contact us for enterprise pricing',
-            'whats_included'    => ['SmartShop E-Commerce', 'SmartAnalytics Dashboard', 'SmartSecure Firewall', 'AI Consulting (40 hrs)', 'Cloud Migration', '12 Months Priority Support'],
+            'whats_included'    => ['StockSync Multi-Branch POS', 'DukaBoard Owner Dashboards', 'eTIMS Bridge', 'Business Consulting (40 hrs)', 'Data Migration', '12 Months Priority Support'],
             'is_featured'       => true,
             'is_published'      => true,
             'order'             => 2,

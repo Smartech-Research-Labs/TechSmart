@@ -62,12 +62,12 @@
       <!-- ═══════════════ COUNTER BAR ═══════════════ -->
       <section class="relative z-10 py-8 md:py-10 border-t border-white/10 bg-black/20 backdrop-blur-sm">
         <div class="container mx-auto px-6 max-w-5xl">
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div v-for="counter in countersFinal" :key="counter.id" class="text-center">
-              <div class="text-3xl md:text-4xl font-bold text-white mb-1.5 tabular-nums">
+          <div class="grid grid-flow-col auto-cols-fr gap-3 md:gap-8">
+            <div v-for="counter in countersFinal" :key="counter.id" class="text-center min-w-0">
+              <div class="text-xl sm:text-3xl md:text-4xl font-bold text-white mb-1.5 tabular-nums">
                 <span ref="counterRefs" :data-target="counter.number || counter.value" :data-suffix="counter.suffix || '+'">0</span>
               </div>
-              <div class="text-white/60 text-xs font-semibold tracking-wide uppercase">{{ counter.label || counter.title }}</div>
+              <div class="text-white/60 text-[10px] sm:text-xs font-semibold tracking-wide uppercase leading-tight">{{ counter.label || counter.title }}</div>
             </div>
           </div>
         </div>
@@ -234,102 +234,235 @@
           </router-link>
         </div>
 
+        <!-- Carousel of mosaic pages: 6 cards per page (wide + tall pattern), autoplaying -->
         <Swiper
-          :modules="[Autoplay, Navigation]"
+          :modules="[Autoplay]"
           :slides-per-view="1"
-          :space-between="20"
-          :navigation="servicesNavigation"
-          :autoplay="productsAutoplay"
-          :breakpoints="productsBreakpoints"
-          class="cards-swiper"
+          :space-between="24"
+          :speed="700"
+          :rewind="true"
+          :autoplay="productPages.length > 1 ? { delay: 6000, disableOnInteraction: false, pauseOnMouseEnter: true } : false"
+          class="products-mosaic-swiper"
+          @swiper="syncProducts"
+          @slide-change="syncProducts"
         >
-          <SwiperSlide v-for="product in products" :key="product.id">
-            <router-link :to="`/products/${product.slug}`" class="group block bg-card rounded-2xl overflow-hidden border border-border hover:border-primary/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
-              <div class="aspect-[4/3] bg-muted overflow-hidden relative shrink-0">
-                <img v-if="getProductImage(product) || product.image_url" :src="getProductImage(product) || product.image_url" :alt="product.name" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-accent/5 to-primary/5">
-                  <svg class="w-10 h-10 text-muted-foreground/20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
-                </div>
-                <div class="absolute top-3 right-3 z-10">
-                  <WishlistButton type="App\\Models\\Product" :item-id="product.id" />
-                </div>
-              </div>
-              <div class="p-5 flex flex-col flex-grow">
-                <h3 class="text-sm font-semibold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">{{ product.name }}</h3>
-                <p class="text-muted-foreground text-xs leading-relaxed line-clamp-2 mb-3 flex-grow">{{ product.excerpt || product.short_description }}</p>
-                <span class="text-primary font-medium text-xs flex items-center gap-1 group-hover:gap-2 transition-all">View <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg></span>
-              </div>
-            </router-link>
+          <SwiperSlide v-for="(page, pi) in productPages" :key="pi">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-[220px] lg:auto-rows-[190px] gap-5 lg:grid-flow-dense p-1">
+                <router-link
+                  v-for="(product, i) in page"
+                  :key="`${pi}-${product.id}`"
+                  :to="`/products/${product.slug}`"
+                  class="group relative overflow-hidden rounded-xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+                  :class="productMosaic[i % productMosaic.length].span"
+                >
+                  <!-- Image (or theme gradient when there is none) -->
+                  <img
+                    v-if="getProductImage(product) || product.image_url"
+                    :src="getProductImage(product) || product.image_url"
+                    :alt="product.name"
+                    decoding="async"
+                    class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  <div v-else class="absolute inset-0 bg-gradient-to-br from-primary to-accent"></div>
+
+                  <!-- Theme-coloured tint, strongest behind the text -->
+                  <div class="absolute inset-0 bg-gradient-to-br" :class="productMosaic[i % productMosaic.length].tint"></div>
+
+                  <div class="absolute top-3 right-3 z-20" @click.stop.prevent>
+                    <WishlistButton type="App\\Models\\Product" :item-id="product.id" />
+                  </div>
+
+                  <!-- Copy -->
+                  <div class="relative z-10 h-full flex flex-col p-5 lg:p-6">
+                    <p class="text-[10px] font-semibold uppercase tracking-widest text-white/80 mb-2">{{ product.category || 'Product' }}</p>
+                    <h3 class="text-white text-lg lg:text-xl font-bold leading-snug max-w-[16rem] line-clamp-3 drop-shadow-sm">{{ product.name }}</h3>
+                    <span class="mt-auto self-start inline-flex items-center gap-1.5 rounded bg-white px-3.5 py-1.5 text-[11px] font-semibold text-primary shadow-sm transition-all group-hover:gap-2.5">
+                      Explore product
+                      <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
+                    </span>
+                  </div>
+                </router-link>
+            </div>
           </SwiperSlide>
         </Swiper>
+
+        <!-- Controls -->
+        <div v-if="productPages.length > 1" class="products-nav flex items-center justify-center gap-4 mt-8">
+          <button
+            type="button"
+            class="rounded-full w-11 aspect-square flex items-center justify-center bg-primary text-white transition hover:opacity-90"
+            aria-label="Previous products"
+            @click="productsSwiperInst?.slidePrev()"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+          </button>
+          <div class="flex items-center gap-2" role="group" aria-label="Choose products page">
+            <button
+              v-for="n in productPages.length"
+              :key="n"
+              type="button"
+              class="products-dot"
+              :class="{ 'is-active': productsPage === n - 1 }"
+              :aria-label="`Go to products page ${n}`"
+              :aria-current="productsPage === n - 1"
+              @click="productsSwiperInst?.slideTo(n - 1)"
+            ></button>
+          </div>
+          <button
+            type="button"
+            class="rounded-full w-11 aspect-square flex items-center justify-center bg-primary text-white transition hover:opacity-90"
+            aria-label="Next products"
+            @click="productsSwiperInst?.slideNext()"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </div>
       </div>
     </section>
 
     <!-- ═══════════════ INDUSTRIES WE SERVE ═══════════════ -->
-    <section class="py-16 md:py-24 bg-muted/20">
-      <div class="container mx-auto px-6 max-w-6xl">
-        <div class="text-center max-w-2xl mx-auto mb-10">
-          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Industries</p>
-          <h2 class="text-3xl md:text-4xl font-bold text-foreground leading-tight tracking-tight">Industries we serve</h2>
-        </div>
+    <section class="industries-serve-section bg-muted/40 py-[clamp(48px,5.25vw,100px)]">
+      <div class="max-w-[min(94vw,1500px)] mx-auto bg-card py-[clamp(48px,5.25vw,100px)] rounded-3xl overflow-hidden">
+        <div class="container mx-auto px-6 max-w-6xl">
 
-        <Swiper
-          :modules="[Autoplay]"
-          :slides-per-view="1"
-          :space-between="16"
-          :autoplay="industriesAutoplay"
-          :loop="true"
-          :breakpoints="industriesBreakpoints"
-          @mouseenter="($refs.industriesSwiper as any)?.$el.__swiper.autoplay.stop()"
-          @mouseleave="($refs.industriesSwiper as any)?.$el.__swiper.autoplay.start()"
-          ref="industriesSwiper"
-          class="industries-carousel"
-        >
-          <SwiperSlide v-for="(industry, i) in industries" :key="i">
-            <router-link :to="`/industries#${industry.title.toLowerCase()}`" class="group block bg-card border border-border rounded-2xl overflow-hidden hover:border-accent/40 hover:shadow-md transition-all duration-300 h-full">
-              <div class="aspect-video bg-muted overflow-hidden">
-                <img :src="industry.image" :alt="industry.title" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-              </div>
-              <div class="p-4 text-center">
-                <div class="w-9 h-9 mx-auto bg-accent/15 rounded-lg flex items-center justify-center mb-2 group-hover:bg-accent/25 transition-colors">
-                  <span class="text-base">{{ industry.icon }}</span>
-                </div>
-                <h3 class="text-xs font-bold text-foreground mb-1 group-hover:text-accent transition-colors line-clamp-2">{{ industry.title }}</h3>
-                <p class="text-muted-foreground text-xs leading-snug line-clamp-2">{{ industry.desc }}</p>
-              </div>
-            </router-link>
-          </SwiperSlide>
-        </Swiper>
+          <!-- Heading + description -->
+          <div class="grid grid-cols-12 gap-[clamp(16px,1.26vw,24px)] items-end mb-[clamp(24px,2.52vw,48px)]">
+            <div class="col-span-12 md:col-span-7">
+              <p class="inline-flex items-center gap-2 text-primary text-xs font-semibold tracking-widest uppercase mb-3">
+                <span class="w-2 h-2 rounded-full bg-primary"></span> Industries
+              </p>
+              <h2 class="text-3xl md:text-4xl font-bold text-foreground leading-tight tracking-tight">
+                Industries <span class="font-light">We Serve</span>
+              </h2>
+            </div>
+            <div class="col-span-12 md:col-span-5">
+              <p class="text-muted-foreground text-[15px] leading-[1.5]">
+                From healthcare and finance to retail, logistics and energy, we build digital solutions around the way each sector actually operates.
+              </p>
+            </div>
+          </div>
 
-        <div class="text-center mt-10 sm:hidden">
-          <router-link to="/industries" class="inline-flex items-center gap-2 px-7 py-3 border border-accent text-accent text-sm font-semibold rounded-full hover:bg-accent hover:text-white transition-all">
-            View all industries
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-          </router-link>
+          <!-- Carousel -->
+          <div class="relative">
+            <Swiper
+              :modules="[Autoplay]"
+              :slides-per-view="1.15"
+              :space-between="18"
+              :speed="600"
+              :grab-cursor="true"
+              :autoplay="{ delay: 3500, disableOnInteraction: false, pauseOnMouseEnter: true }"
+              :breakpoints="{ 480: { slidesPerView: 2, spaceBetween: 18 }, 768: { slidesPerView: 3, spaceBetween: 20 }, 1100: { slidesPerView: 4, spaceBetween: 24 } }"
+              class="industries-swiper"
+              @swiper="syncIndustries"
+              @slide-change="syncIndustries"
+              @snap-grid-length-change="syncIndustries"
+              @breakpoint="syncIndustries"
+              @reach-end="syncIndustries"
+              @reach-beginning="syncIndustries"
+            >
+              <SwiperSlide v-for="(industry, i) in industries" :key="i">
+                <router-link
+                  :to="`/industries#${industry.title.toLowerCase()}`"
+                  :aria-label="`${industry.title}: see how we work with this sector`"
+                  class="industries-card group block relative rounded-[16px] overflow-hidden bg-primary w-full"
+                >
+                  <img :src="industry.image" :alt="industry.title" decoding="async" class="ind-img absolute inset-0 w-full h-full object-cover" />
+                  <div class="ind-overlay absolute inset-0"></div>
+                  <h4 class="relative z-[2] text-white text-center text-[clamp(18px,1.37vw,22px)] font-semibold leading-[1.3] px-[clamp(16px,1.58vw,30px)] pt-[clamp(22px,1.89vw,36px)]">
+                    {{ industry.title }}
+                  </h4>
+                  <p class="relative z-[2] text-white/75 text-center text-xs px-6 mt-1.5">{{ industry.desc }}</p>
+                </router-link>
+              </SwiperSlide>
+            </Swiper>
+
+            <!-- Controls -->
+            <div class="industries-nav flex items-center justify-center gap-[clamp(10px,0.84vw,16px)] mt-[clamp(20px,2.10vw,40px)]">
+              <button
+                type="button"
+                class="rounded-full w-[clamp(40px,2.36vw,45px)] aspect-square flex items-center justify-center bg-primary transition"
+                aria-label="Previous industries"
+                :disabled="industriesNav.begin"
+                @click="industriesSwiperInst?.slidePrev()"
+              >
+                <svg width="28" height="18" viewBox="0 0 28 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M27.3337 10.3334L27.3338 7.66685H5.77123L11.0375 2.40051L9.15191 0.514893L0.666626 9.00019L9.15191 17.4855L11.0375 15.5998L5.77116 10.3335L27.3337 10.3334Z" fill="#ffffff" /></svg>
+              </button>
+              <div class="industries-pagination" role="group" aria-label="Choose industries slide">
+                <button
+                  v-for="n in industriesNav.count"
+                  :key="n"
+                  type="button"
+                  class="industries-dot"
+                  :class="{ 'is-active': industriesNav.index === n - 1 }"
+                  :aria-label="`Go to industry slide ${n}`"
+                  :aria-current="industriesNav.index === n - 1"
+                  @click="industriesSwiperInst?.slideTo(n - 1)"
+                ></button>
+              </div>
+              <button
+                type="button"
+                class="rounded-full w-[clamp(40px,2.36vw,45px)] aspect-square flex items-center justify-center bg-primary transition"
+                aria-label="Next industries"
+                :disabled="industriesNav.end"
+                @click="industriesSwiperInst?.slideNext()"
+              >
+                <svg width="28" height="18" viewBox="0 0 28 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.666324 10.3334L0.666138 7.66685H22.2287L16.9624 2.40051L18.848 0.514893L27.3333 9.00019L18.848 17.4855L16.9624 15.5998L22.2288 10.3335L0.666324 10.3334Z" fill="#ffffff" /></svg>
+              </button>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
 
     <!-- ═══════════════ WHY CHOOSE US ═══════════════ -->
-    <section class="py-16 md:py-24">
-      <div class="container mx-auto px-6 max-w-6xl">
-        <div class="text-center max-w-2xl mx-auto mb-12">
-          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Why Choose Us</p>
-          <h2 class="text-3xl md:text-4xl font-bold text-foreground leading-tight tracking-tight">Why {{ settings.site_name || 'OmniviaTech' }}?</h2>
+    <section class="why-section relative overflow-hidden bg-black py-16 md:py-24">
+      <div class="relative container mx-auto px-6 max-w-6xl">
+        <div class="max-w-xl mb-10">
+          <h2 class="text-3xl md:text-4xl font-bold text-white leading-tight tracking-tight">
+            Why {{ settings.site_name || 'OmniviaTech' }}<sup class="text-lg md:text-xl align-super">®</sup>
+          </h2>
+          <p class="mt-4 text-white/60 text-sm md:text-[15px] leading-relaxed">
+            From the first conversation to long after launch, we give your business every advantage in the digital race.
+          </p>
+          <p class="mt-6 text-white/60 text-sm">Here's how we deliver on that promise every day.</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           <div
             v-for="(reason, i) in whyUsReasons"
             :key="i"
-            class="relative rounded-2xl p-7 bg-gray-900 border border-white/10 hover:border-primary/40 hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-xl"
+            class="glow-card group relative flex flex-col rounded-[20px] p-5 md:p-6 min-h-[210px] transition-transform duration-300 hover:-translate-y-1"
+            :style="{ '--glow': whyGlows[i % whyGlows.length] }"
           >
-            <div class="w-12 h-12 bg-primary/15 rounded-xl flex items-center justify-center mb-5">
-              <span class="text-2xl">{{ reason.icon }}</span>
+            <div class="glow-icon w-10 h-10 rounded-lg flex items-center justify-center mb-5">
+              <span class="text-lg">{{ reason.icon }}</span>
             </div>
-            <h3 class="text-base font-bold text-white mb-2.5">{{ reason.title }}</h3>
-            <p class="text-white/60 text-sm leading-relaxed">{{ reason.desc }}</p>
+            <h3 class="text-lg md:text-xl font-semibold text-foreground tracking-tight leading-tight mb-2">{{ reason.title }}</h3>
+            <p class="text-muted-foreground text-sm leading-relaxed mb-4">{{ reason.desc }}</p>
+            <router-link to="/about" class="glow-link relative z-10 mt-auto self-start inline-flex items-center gap-1.5 text-sm font-semibold hover:gap-2.5 transition-all">
+              Learn more
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </router-link>
           </div>
+        </div>
+
+        <!-- Feature strip -->
+        <div class="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3 text-white/60 text-sm">
+          <span class="inline-flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg>
+            Always On Time
+          </span>
+          <span class="h-4 w-px bg-white/20" aria-hidden="true"></span>
+          <span class="inline-flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.5 18.5a6 6 0 0111 0"/></svg>
+            Focused on You
+          </span>
+          <span class="h-4 w-px bg-white/20" aria-hidden="true"></span>
+          <span class="inline-flex items-center gap-2">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"/></svg>
+            Measurable Results
+          </span>
         </div>
       </div>
     </section>
@@ -337,20 +470,70 @@
     <!-- ═══════════════ PROCESS ═══════════════ -->
     <section class="py-16 md:py-24 bg-muted/20">
       <div class="container mx-auto px-6 max-w-6xl">
-        <div class="text-center max-w-2xl mx-auto mb-14">
+        <div class="text-center max-w-2xl mx-auto mb-12">
           <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Our Process</p>
           <h2 class="text-3xl md:text-4xl font-bold text-foreground leading-tight tracking-tight">How we bring your ideas to life</h2>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div v-for="(step, idx) in processSteps" :key="idx" class="relative">
-            <div class="rounded-2xl p-7 bg-card border border-border h-full shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-              <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-5">
-                <span class="text-lg font-bold text-primary">{{ Number(idx) + 1 }}</span>
+        <div>
+          <div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-0">
+              <div
+                v-for="(step, idx) in processSteps"
+                :key="idx"
+                class="process-col flex flex-col"
+                :class="{ 'is-active': activeStep === Number(idx) }"
+                @mouseenter="activeStep = Number(idx)"
+                @focusin="activeStep = Number(idx)"
+              >
+                <!-- Step tab -->
+                <div class="px-4 lg:px-0">
+                  <span
+                    class="inline-flex items-center rounded-full px-3.5 py-1.5 text-xs font-semibold border transition-colors duration-200"
+                    :class="activeStep === Number(idx) ? 'bg-primary text-white border-primary shadow-md shadow-primary/25' : 'bg-card text-foreground border-border'"
+                  >Step {{ Number(idx) + 1 }}</span>
+                </div>
+                <!-- Tick ruler -->
+                <div class="process-ruler mt-3" aria-hidden="true"></div>
+
+                <div class="process-body flex-1 flex flex-col rounded-2xl lg:rounded-none border border-border lg:border-0 bg-card lg:bg-transparent transition-colors duration-200" :class="{ 'lg:border-l': Number(idx) > 0 }">
+                  <div class="px-4 pt-6 pb-5">
+                    <h3 class="text-base font-bold text-foreground mb-2">{{ step.title }}</h3>
+                    <p class="text-muted-foreground text-sm leading-relaxed">{{ step.description }}</p>
+                  </div>
+
+                  <!-- Illustration -->
+                  <div class="process-art mt-auto mx-4 mb-4 rounded-xl bg-card border border-border h-36 flex items-center justify-center text-muted-foreground/70 transition-all duration-200">
+                    <!-- Discovery -->
+                    <svg v-if="Number(idx) % 4 === 0" class="w-36 h-24" viewBox="0 0 160 100" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round">
+                      <path d="M30 20h48v58H30z"/><path d="M38 32h32M38 40h32M38 48h22M38 56h28"/>
+                      <path d="M86 28h44v50H86z"/><path d="M94 40h28M94 48h20M94 56h24"/>
+                      <circle cx="100" cy="62" r="16" fill="var(--color-card)"/><path d="M111.5 73.5L126 88"/><path d="M93 60a8 8 0 0 1 8-8"/>
+                    </svg>
+                    <!-- Strategy -->
+                    <svg v-else-if="Number(idx) % 4 === 1" class="w-36 h-24" viewBox="0 0 160 100" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round">
+                      <path d="M22 16h116v62H22z"/><path d="M60 78l-10 14M100 78l10 14"/>
+                      <rect x="34" y="28" width="26" height="14" rx="2"/><rect x="72" y="28" width="26" height="14" rx="2"/><rect x="110" y="44" width="20" height="14" rx="2"/>
+                      <rect x="34" y="54" width="26" height="14" rx="2"/>
+                      <path d="M60 35h12M98 35h6v16h6M47 42v12M60 61h20"/>
+                    </svg>
+                    <!-- Development -->
+                    <svg v-else-if="Number(idx) % 4 === 2" class="w-36 h-24" viewBox="0 0 160 100" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round">
+                      <path d="M34 14h92v60H34z"/><path d="M34 24h92"/><circle cx="41" cy="19" r="1.5"/><circle cx="47" cy="19" r="1.5"/>
+                      <path d="M70 42l-10 8 10 8M90 42l10 8-10 8M84 38l-8 24"/>
+                      <path d="M66 74l-4 12h36l-4-12"/><path d="M54 86h52"/>
+                    </svg>
+                    <!-- Launch -->
+                    <svg v-else class="w-36 h-24" viewBox="0 0 160 100" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round">
+                      <path d="M28 20h84v56H28z"/><path d="M28 30h84"/>
+                      <path d="M38 64l14-12 12 8 16-18 16 10"/><path d="M38 70h64"/>
+                      <path d="M128 18c8 6 10 18 4 30l-8 0c-6-12-4-24 4-30z"/><circle cx="128" cy="32" r="3"/>
+                      <path d="M124 48l-4 8M132 48l4 8M128 50v10"/>
+                    </svg>
+                  </div>
+                </div>
               </div>
-              <h3 class="text-base font-bold text-foreground mb-2">{{ step.title }}</h3>
-              <p class="text-muted-foreground text-sm leading-relaxed">{{ step.description }}</p>
             </div>
-            <div v-if="Number(idx) < processSteps.length - 1" class="hidden lg:block absolute top-1/2 -right-3 w-6 h-px bg-border -translate-y-1/2"></div>
           </div>
         </div>
       </div>
@@ -409,7 +592,107 @@
       </div>
     </section>
 
-    <!-- ═══════════════ PACKAGES ═══════════════ -->
+  
+
+    <!-- ═══════════════ TESTIMONIALS CAROUSEL ═══════════════ -->
+    <section v-if="topReviews.length" class="py-16 md:py-24 bg-muted/20">
+      <div class="container mx-auto px-6 max-w-6xl">
+        <div class="text-center max-w-xl mx-auto mb-12">
+          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Testimonials</p>
+          <h2 class="text-3xl md:text-4xl font-bold text-foreground leading-tight tracking-tight">What our clients say</h2>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-[220px_minmax(0,1fr)] gap-5">
+          <!-- Rating summary -->
+          <div class="rounded-2xl bg-card border border-border shadow-sm p-6 flex flex-col items-center justify-center text-center">
+            <p class="text-5xl font-bold text-foreground leading-none tracking-tight tabular-nums">{{ reviewsAverage.toFixed(1) }}</p>
+            <div class="flex gap-0.5 mt-3 mb-2" :aria-label="`Rated ${reviewsAverage.toFixed(1)} out of 5`">
+              <svg v-for="n in 5" :key="n" class="w-4 h-4" :class="n <= Math.round(reviewsAverage) ? 'text-amber-400' : 'text-border'" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+            </div>
+            <p class="text-sm font-semibold text-foreground">{{ topReviews.length }} {{ topReviews.length === 1 ? 'review' : 'reviews' }}</p>
+            <p class="mt-1 text-xs text-muted-foreground">From verified {{ settings.site_name || 'OmniviaTech' }} clients</p>
+          </div>
+
+          <!-- Review cards -->
+          <div class="min-w-0">
+            <Swiper
+              :modules="[Autoplay]"
+              :slides-per-view="1"
+              :space-between="20"
+              :speed="600"
+              :autoplay="{ delay: 5000, disableOnInteraction: false, pauseOnMouseEnter: true }"
+              :rewind="true"
+              :breakpoints="{ 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }"
+              class="testimonials-cards !p-1 !-m-1"
+              @swiper="syncTestimonials"
+              @slide-change="syncTestimonials"
+              @snap-grid-length-change="syncTestimonials"
+              @breakpoint="syncTestimonials"
+            >
+              <SwiperSlide v-for="review in topReviews" :key="review.id" class="!h-auto">
+                <div class="h-full flex flex-col rounded-2xl bg-card border border-border p-5 shadow-sm hover:shadow-lg hover:border-primary/30 transition-all duration-300">
+                  <div class="flex gap-0.5 mb-3">
+                    <svg v-for="n in Number(review.rating) || 5" :key="n" class="w-3.5 h-3.5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  </div>
+                  <p class="text-foreground/90 text-sm leading-relaxed line-clamp-4 mb-4 flex-1">&ldquo;{{ review.comment }}&rdquo;</p>
+                  <div class="flex items-center gap-3 pt-4 border-t border-border">
+                    <div class="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white text-xs font-bold shrink-0">
+                      {{ review.user_name?.charAt(0).toUpperCase() }}
+                    </div>
+                    <div class="min-w-0 flex-1">
+                      <p class="text-sm font-semibold text-foreground truncate">{{ review.user_name }}</p>
+                      <p class="text-xs text-muted-foreground truncate">{{ review.company || 'Verified Client' }}</p>
+                    </div>
+                    <router-link to="/case-studies" class="shrink-0 text-primary text-xs font-medium inline-flex items-center gap-1 hover:gap-1.5 transition-all">
+                      Story
+                      <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
+                    </router-link>
+                  </div>
+                </div>
+              </SwiperSlide>
+            </Swiper>
+          </div>
+        </div>
+
+        <!-- Controls (same style as the other carousels) -->
+        <div v-if="testimonialsNav.count > 1" class="flex items-center justify-center gap-4 mt-8">
+          <button
+            type="button"
+            class="rounded-full w-11 aspect-square flex items-center justify-center bg-primary text-white transition hover:opacity-90"
+            aria-label="Previous testimonial"
+            @click="testimonialsSwiperInst?.slidePrev()"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+          </button>
+          <div class="flex items-center gap-2" role="group" aria-label="Choose testimonials">
+            <button
+              v-for="n in testimonialsNav.count"
+              :key="n"
+              type="button"
+              class="products-dot"
+              :class="{ 'is-active': testimonialsNav.index === n - 1 }"
+              :aria-label="`Go to testimonial ${n}`"
+              :aria-current="testimonialsNav.index === n - 1"
+              @click="testimonialsSwiperInst?.slideTo(n - 1)"
+            ></button>
+          </div>
+          <button
+            type="button"
+            class="rounded-full w-11 aspect-square flex items-center justify-center bg-primary text-white transition hover:opacity-90"
+            aria-label="Next testimonial"
+            @click="testimonialsSwiperInst?.slideNext()"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+      <!-- ═══════════════ PACKAGES ═══════════════ -->
     <section class="bg-slate-100 dark:bg-gray-900/40 py-16 md:py-24">
       <div class="container mx-auto px-6 max-w-6xl">
         <div class="text-center max-w-2xl mx-auto mb-12">
@@ -431,46 +714,6 @@
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </router-link>
         </div>
-      </div>
-    </section>
-
-    <!-- ═══════════════ TESTIMONIALS CAROUSEL ═══════════════ -->
-    <section v-if="topReviews.length" class="py-16 md:py-24 bg-muted/20">
-      <div class="container mx-auto px-6 max-w-6xl">
-        <div class="text-center max-w-xl mx-auto mb-12">
-          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">Testimonials</p>
-          <h2 class="text-3xl md:text-4xl font-bold text-foreground leading-tight tracking-tight">What our clients say</h2>
-        </div>
-
-        <Swiper
-          :modules="[Autoplay, Pagination]"
-          :slides-per-view="1"
-          :space-between="16"
-          :pagination="testimonialsPagination"
-          :autoplay="testimonialsAutoplay"
-          :breakpoints="{ 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }"
-          class="testimonials-swiper pb-16"
-        >
-          <SwiperSlide v-for="review in topReviews" :key="review.id">
-            <div class="rounded-2xl p-6 h-full flex flex-col bg-gray-900 border border-white/10 shadow-sm hover:shadow-lg transition-all">
-              <div class="flex gap-0.5 mb-4">
-                <svg v-for="s in review.rating" :key="s" class="w-4 h-4 text-amber-400 fill-current" viewBox="0 0 20 20">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-              </div>
-              <p class="text-white/80 text-sm leading-relaxed mb-5 flex-1 line-clamp-4">&ldquo;{{ review.comment }}&rdquo;</p>
-              <div class="flex items-center gap-3 pt-4 border-t border-white/10">
-                <div class="w-9 h-9 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0">
-                  {{ review.user_name?.charAt(0).toUpperCase() }}
-                </div>
-                <div class="min-w-0">
-                  <div class="font-semibold text-white text-sm truncate">{{ review.user_name }}</div>
-                  <div class="text-white/50 text-xs truncate">{{ review.company || 'Verified Client' }}</div>
-                </div>
-              </div>
-            </div>
-          </SwiperSlide>
-        </Swiper>
       </div>
     </section>
 
@@ -745,6 +988,7 @@
 </template>
 
 <script setup lang="ts">
+import { productImageMap as sharedProductImageMap } from '@/lib/productImages';
 import axios from 'axios';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/vue';
@@ -953,14 +1197,8 @@ const serviceImagePaths: Record<string, string> = {
   'data protection': customWebDevelopmentImage,
 };
 
-const productImageMap: Record<string, string> = {
-  'smartcms-pro': customWebDevelopmentImage,
-  'smartshop-platform': eCommerceDevelopmentImage,
-  'smartanalytics-dashboard': seoOptimizationImage,
-  'smartchat-ai': apiDevelopmentImage,
-  'smartsecure-firewall': crmErpDevelopmentImage,
-  'smartbackup-cloud': mobileAppDevelopmentImage,
-};
+// Default cover images per product slug (shared across product pages)
+const productImageMap = sharedProductImageMap;
 
 function getProductImage(product: any) {
   const slug = (product.slug || '').toString().trim().toLowerCase();
@@ -1148,6 +1386,22 @@ const industries = [
   { icon: '⚡', title: 'Energy', desc: 'Smart energy systems', image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&h=600&fit=crop&q=80' },
 ];
 
+// Process — the highlighted step follows hover/focus
+const activeStep = ref(0);
+
+// Testimonials — average rating for the summary panel + swiper handle for the arrows
+const testimonialsSwiperInst = ref<any>(null);
+const testimonialsNav = ref({ index: 0, count: 0 });
+function syncTestimonials(swiper: any) {
+  testimonialsSwiperInst.value = swiper;
+  testimonialsNav.value = { index: swiper.snapIndex, count: swiper.snapGrid?.length || 0 };
+}
+const reviewsAverage = computed(() => {
+  const rated = topReviews.value.filter((r: any) => Number(r.rating) > 0);
+  if (!rated.length) return 5;
+  return rated.reduce((sum: number, r: any) => sum + Number(r.rating), 0) / rated.length;
+});
+
 const processSteps = [
   { title: 'Discovery', description: 'We understand your business goals and requirements' },
   { title: 'Strategy', description: 'We create a detailed plan tailored to your needs' },
@@ -1164,6 +1418,9 @@ const whyUsReasons = [
   { icon: '💰', title: 'Cost-Effective Solutions', desc: 'Maximum value for your investment, with no hidden fees.' },
 ];
 
+// A distinct glow colour per Why Choose Us card — led by the theme's primary & accent
+const whyGlows = ['var(--color-primary)', 'var(--color-accent)', '#10b981', '#f97316', '#f43f5e', '#06b6d4'];
+
 const heroAutoplay = { delay: 6000, disableOnInteraction: false } as any;
 const heroPagination = { clickable: true } as any;
 const industriesAutoplay = { delay: 3000, disableOnInteraction: false } as any;
@@ -1171,6 +1428,48 @@ const industriesBreakpoints = { 480: { slidesPerView: 2 }, 768: { slidesPerView:
 const servicesNavigation = true as any;
 const productsAutoplay = { delay: 5000, disableOnInteraction: false } as any;
 const productsBreakpoints = industriesBreakpoints;
+
+// Products mosaic — wide/tall pattern from the editorial card layout, tinted with theme colours
+const productMosaic = [
+  { span: 'lg:col-span-2', tint: 'from-primary/75 via-primary/25 to-transparent' },
+  { span: 'lg:row-span-2', tint: 'from-gray-900/85 via-gray-900/40 to-transparent' },
+  { span: 'lg:row-span-2', tint: 'from-accent/80 via-accent/25 to-transparent' },
+  { span: 'lg:row-span-2', tint: 'from-accent/80 via-accent/25 to-transparent' },
+  { span: 'lg:row-span-2', tint: 'from-primary/75 via-primary/25 to-transparent' },
+  { span: 'lg:col-span-2', tint: 'from-gray-900/85 via-gray-900/40 to-transparent' },
+];
+
+// Products carousel — split products into pages of 6 for the mosaic layout.
+// When the last page is short, it is topped up from the start of the list so every page is a full mosaic.
+const PRODUCTS_PER_PAGE = 6;
+const productPages = computed<any[][]>(() => {
+  const list = products.value;
+  if (list.length <= PRODUCTS_PER_PAGE) return list.length ? [list] : [];
+  const pages: any[][] = [];
+  for (let i = 0; i < list.length; i += PRODUCTS_PER_PAGE) pages.push(list.slice(i, i + PRODUCTS_PER_PAGE));
+  const last = pages[pages.length - 1];
+  for (let k = 0; last.length < PRODUCTS_PER_PAGE; k++) last.push(list[k % list.length]);
+  return pages;
+});
+const productsSwiperInst = ref<any>(null);
+const productsPage = ref(0);
+function syncProducts(swiper: any) {
+  productsSwiperInst.value = swiper;
+  productsPage.value = swiper.activeIndex;
+}
+
+// Industries carousel — custom arrows + dots driven by the Swiper instance
+const industriesSwiperInst = ref<any>(null);
+const industriesNav = ref({ index: 0, count: 0, begin: true, end: false });
+function syncIndustries(swiper: any) {
+  industriesSwiperInst.value = swiper;
+  industriesNav.value = {
+    index: swiper.snapIndex,
+    count: swiper.snapGrid?.length || 0,
+    begin: swiper.isBeginning,
+    end: swiper.isEnd,
+  };
+}
 const blogAutoplay = { delay: 4500, disableOnInteraction: false } as any;
 const blogBreakpoints = { 480: { slidesPerView: 2 }, 768: { slidesPerView: 3 }, 1024: { slidesPerView: 4 } } as any;
 const blogNavigation = true as any;
@@ -1371,6 +1670,90 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+/* ── Why choose us: glow cards in the site theme (light & dark) ── */
+.glow-card {
+  background:
+    radial-gradient(120% 55% at 50% 118%, color-mix(in srgb, var(--glow) 30%, transparent) 0%, transparent 60%),
+    linear-gradient(180deg, var(--color-card) 0%, var(--color-card) 55%, color-mix(in srgb, var(--glow) 10%, var(--color-card)) 100%);
+  border: 1px solid var(--color-border);
+  box-shadow:
+    inset 0 -14px 24px -14px color-mix(in srgb, var(--glow) 65%, transparent),
+    inset 0 -3px 0 color-mix(in srgb, var(--glow) 80%, transparent),
+    0 16px 36px -26px color-mix(in srgb, var(--glow) 60%, transparent);
+}
+/* Rim light on the top-left corner */
+.glow-card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: radial-gradient(70% 55% at 0% 0%, var(--glow) 0%, transparent 55%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+/* Soft colour wash in the top-left corner */
+.glow-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(55% 40% at 0% 0%, color-mix(in srgb, var(--glow) 12%, transparent), transparent 70%);
+  pointer-events: none;
+}
+.glow-card:hover {
+  box-shadow:
+    inset 0 -18px 30px -14px color-mix(in srgb, var(--glow) 80%, transparent),
+    inset 0 -3px 0 var(--glow),
+    0 22px 46px -24px color-mix(in srgb, var(--glow) 75%, transparent);
+}
+.glow-icon {
+  position: relative;
+  z-index: 1;
+  background: color-mix(in srgb, var(--glow) 12%, var(--color-card));
+  border: 1px solid color-mix(in srgb, var(--glow) 45%, transparent);
+  box-shadow: 0 0 14px -4px color-mix(in srgb, var(--glow) 60%, transparent);
+}
+.glow-link { color: var(--glow); }
+.glow-card > * { position: relative; z-index: 1; }
+
+/* ── Process steps ── */
+.process-ruler {
+  height: 10px;
+  background-image: repeating-linear-gradient(90deg, var(--color-border) 0 1px, transparent 1px 5px);
+}
+.process-col.is-active .process-body { background: color-mix(in srgb, var(--color-primary) 5%, transparent); }
+.process-col.is-active .process-art { border-color: color-mix(in srgb, var(--color-primary) 35%, transparent); color: var(--color-primary); }
+.process-col.is-active .process-ruler { background-image: repeating-linear-gradient(90deg, color-mix(in srgb, var(--color-primary) 55%, transparent) 0 1px, transparent 1px 5px); }
+
+
+/* ── Products mosaic carousel ── */
+.products-dot { width: 10px; height: 10px; border-radius: 9999px; background: var(--color-primary); opacity: .25; cursor: pointer; transition: width .3s ease, opacity .3s ease; }
+.products-dot:hover { opacity: .5; }
+.products-dot.is-active { width: 28px; opacity: 1; }
+.products-dot:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; }
+
+/* ── Industries we serve (theme colours) ── */
+.industries-card { height: clamp(340px, 26vw, 440px); }
+.industries-card .ind-img { filter: grayscale(1) contrast(1.05); transition: transform .6s ease, filter .4s ease; }
+.industries-card:hover .ind-img { transform: scale(1.06); filter: grayscale(.6) contrast(1.05); }
+.industries-card .ind-overlay {
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--color-primary) 55%, transparent) 0%,
+    color-mix(in srgb, var(--color-primary) 32%, transparent) 25%,
+    color-mix(in srgb, var(--color-primary) 10%, transparent) 55%,
+    transparent 100%);
+}
+.industries-swiper :deep(.swiper-slide) { height: auto; }
+.industries-nav button:disabled { opacity: .35; cursor: default; }
+.industries-pagination { display: flex; align-items: center; gap: 8px; margin: 0 clamp(6px, 0.63vw, 12px); }
+.industries-dot { width: 10px; height: 10px; border-radius: 9999px; background: var(--color-primary); opacity: .25; cursor: pointer; transition: width .3s ease, opacity .3s ease; }
+.industries-dot:hover { opacity: .5; }
+.industries-dot.is-active { width: 28px; opacity: 1; }
+.industries-dot:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; }
+
 .hero-swiper :deep(.swiper-pagination-bullet) { width: 8px; height: 8px; background: var(--color-primary); opacity: 0.3; transition: all 0.3s; }
 .hero-swiper :deep(.swiper-pagination-bullet-active) { opacity: 1; width: 20px; border-radius: 4px; }
 
