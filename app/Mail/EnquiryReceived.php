@@ -19,7 +19,8 @@ class EnquiryReceived extends Mailable
     public function envelope(): Envelope
     {
         $label = self::typeLabel($this->enquiry->type);
-        $subject = $this->enquiry->subject ?: ($this->enquiry->form_data['service'] ?? null);
+        $formData = $this->enquiry->form_data ?? [];
+        $subject = $this->enquiry->subject ?: ($formData['requested_service'] ?? $formData['service'] ?? null);
 
         return new Envelope(
             from: new Address(config('mail.enquiries.from'), config('mail.from.name')),
