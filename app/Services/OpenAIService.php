@@ -23,7 +23,12 @@ class OpenAIService implements AiTextGenerator
             throw new Exception('OpenAI API key not configured');
         }
 
-        $this->client = OpenAI::client($key);
+        // Long articles can take minutes, and creating the client directly means
+        // a server problem is reported with its real cause.
+        $this->client = OpenAI::factory()
+            ->withApiKey($key)
+            ->withHttpClient(new \GuzzleHttp\Client(['timeout' => 300, 'connect_timeout' => 30]))
+            ->make();
     }
 
     /**

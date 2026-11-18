@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Contracts\AiTextGenerator;
+use App\Exceptions\AiProviderUnavailable;
 use App\Mail\BlogAutomationAlert;
 use App\Models\Blog;
 use App\Models\Bundle;
@@ -72,20 +73,17 @@ class AiBlogGeneratorService
     public function __construct(protected SiteSeo $siteSeo) {}
 
     /**
-     * The configured provider first, then any other provider that has a key,
-     * so one provider's outage or empty account does not stop the schedule.
+     * Free providers only, so the blog automation never creates an AI bill.
+     * If the first has no quota left, the next one takes over.
      *
      * @return array<string, callable(): AiTextGenerator>
      */
     protected function providers(): array
     {
-        $all = [
-            'openai' => fn () => new OpenAIService(),
+        return [
             'gemini' => fn () => new GeminiService(),
+            'openrouter' => fn () => new OpenRouterService(),
         ];
-        $preferred = Setting::get('default_ai_provider', 'openai');
-
-        return isset($all[$preferred]) ? [$preferred => $all[$preferred]] + $all : $all;
     }
 
     /** Generate one post, publish it and notify the admin inbox. */
@@ -157,6 +155,9 @@ class AiBlogGeneratorService
 
                     $feedback = "Your previous draft was only {$draft['word_count']} words. Write at least 1,300 words.";
                     $errors[] = "{$name}: draft too short ({$draft['word_count']} words)";
+                } catch (AiProviderUnavailable $e) {
+                    $errors[] = "{$name}: {$e->getMessage()}";
+                    break;
                 } catch (Throwable $e) {
                     $feedback = 'Your previous response could not be used. Return complete, valid JSON with every field.';
                     $errors[] = "{$name}: {$e->getMessage()}";

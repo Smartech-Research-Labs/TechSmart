@@ -56,6 +56,9 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
+// AYRank blog publishing (authenticated by its signature)
+Route::post('/ayrank', \App\Http\Controllers\Api\AyrankWebhookController::class)->middleware('throttle:120,1');
+
 // Public API Routes
 Route::prefix('v1')->group(function () {
 

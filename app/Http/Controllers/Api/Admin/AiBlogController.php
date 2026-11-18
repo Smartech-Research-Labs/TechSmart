@@ -58,7 +58,7 @@ class AiBlogController extends Controller
             Log::error('Manual AI blog generation failed', ['error' => $e->getMessage()]);
 
             return response()->json([
-                'message' => 'Failed to generate blog post. Check the AI provider key and account credit in Settings > AI.',
+                'message' => 'Failed to generate blog post. Check the free Gemini and OpenRouter API keys.',
             ], 500);
         }
     }

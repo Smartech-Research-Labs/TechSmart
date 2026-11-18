@@ -44,6 +44,15 @@ return [
         'key' => env('GEMINI_API_KEY'),
     ],
 
+    'ayrank' => [
+        'webhook_secret' => env('AYRANK_WEBHOOK_SECRET'),
+    ],
+
+    'openrouter' => [
+        'key' => env('OPENROUTER_API_KEY'),
+        'model' => env('OPENROUTER_MODEL') ?: 'openrouter/free',
+    ],
+
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID'),
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),

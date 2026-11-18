@@ -28,7 +28,7 @@
                 @else
                     <p style="margin:0 0 12px;">The automatic blog post could not be published after all attempts today.</p>
                     <p style="margin:0 0 16px;padding:12px;background:#fef2f2;color:#991b1b;border-radius:6px;">{{ $failure }}</p>
-                    <p style="margin:0;">Check the AI provider key and account credit under Settings &gt; AI. You can publish a post from there with Generate now.</p>
+                    <p style="margin:0;">Check GEMINI_API_KEY and OPENROUTER_API_KEY in the server's .env file. The free daily limit may also have been reached, in which case the next scheduled run can try again.</p>
                 @endif
             </td>
         </tr>
