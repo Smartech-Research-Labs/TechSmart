@@ -1,9 +1,14 @@
 User-agent: *
 Allow: /
+Allow: /api/v1/
+Disallow: /api/
+Disallow: /api/v1/admin/
+Disallow: /api/v1/user/
+Disallow: /api/v1/auth/
 Disallow: /admin
-Disallow: /api
+Disallow: /dashboard
 Disallow: /login
 Disallow: /register
 Disallow: /_debugbar
 
-Sitemap: https://omniviatech.com/sitemap.xml
+Sitemap: https://omniviatech.co.ke/sitemap.xml

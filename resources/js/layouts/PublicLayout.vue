@@ -218,7 +218,7 @@
 
 <script setup lang="ts">
 import axios from 'axios';
-import { ref, onMounted, computed, watch, watchEffect, onUnmounted } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import defaultLogo from '@/../img/Omnivatech-logo.webp';
 import FloatingChatButton from '@/components/FloatingChatButton.vue';
@@ -240,179 +240,21 @@ const newsletterEmail = ref('');
 const settings = computed(() => cmsStore.homeData?.settings);
 
 // Dynamic header logo styling from CMS settings
-// ── SEO: JSON-LD Schema Markup ──
-const seoScriptEl = ref<HTMLScriptElement | null>(null);
-const breadcrumbScriptEl = ref<HTMLScriptElement | null>(null);
-
 const pageNameMap: Record<string, string> = {
   '/': 'Home',
   '/about': 'About Us',
-  '/services': 'Services',
+  '/services': 'Our Solutions',
+  '/packages': 'Our Packages',
   '/products': 'Products',
   '/bundles': 'Bundles',
   '/case-studies': 'Case Studies',
   '/blog': 'Blog',
-  '/contact': 'Contact',
+  '/contact': 'Contact Us',
   '/industries': 'Industries',
   '/faqs': 'FAQs',
+  '/privacy': 'Privacy Policy',
+  '/terms': 'Terms of Service',
 };
-
-watchEffect(() => {
-  const s = settings.value;
-  if (!s) return;
-  const baseUrl = (s as any)?.canonical_url || window.location.origin;
-  const path = route.path;
-  const pageKey = path === '/' ? 'home' : path.split('/')[1]?.replace(/-/g, '_');
-  const metaTitle = (s as any)[`${pageKey}_meta_title`] || (s as any)?.meta_title || s.site_name || 'OmniviaTech';
-  const metaDesc = (s as any)[`${pageKey}_meta_description`] || (s as any)?.meta_description || (s as any)?.site_description || 'OmniviaTech is a leading technology company delivering innovative digital solutions, AI, cloud computing, and cybersecurity services across Africa and beyond.';
-
-  const logoUrl = (s as any)?.logo_url || (s.logo_path ? `${baseUrl}/storage/${s.logo_path}` : null);
-  const ogImage = (s as any)?.og_image_default || (s as any)?.schema_org_logo || logoUrl;
-
-  // ── Organization Schema ──
-  const orgSchema: any = {
-    '@context': 'https://schema.org',
-    '@type': (s as any)?.schema_org_type || 'Organization',
-    name: (s as any)?.schema_org_name || s.site_name || 'OmniviaTech',
-    url: baseUrl,
-    description: metaDesc,
-  };
-  if (logoUrl) orgSchema.logo = logoUrl;
-  if ((s as any)?.schema_org_logo) orgSchema.logo = (s as any)?.schema_org_logo;
-  if ((s as any)?.schema_same_as) {
-    orgSchema.sameAs = (s as any)?.schema_same_as.split(',').map((u: string) => u.trim()).filter(Boolean);
-  }
-  if (s.contact_email) orgSchema.email = s.contact_email;
-  if (s.contact_phone) orgSchema.telephone = s.contact_phone;
-  if (s.address) {
-    orgSchema.address = {
-      '@type': 'PostalAddress',
-      streetAddress: s.address,
-      ...(((s as any)?.city) && { addressLocality: (s as any)?.city }),
-      ...(((s as any)?.country) && { addressCountry: (s as any)?.country }),
-    };
-  }
-
-  // ── WebSite Schema ──
-  const websiteSchema: any = {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: s.site_name || 'OmniviaTech',
-    url: baseUrl,
-    description: metaDesc,
-  };
-  if ((s as any)?.schema_same_as) {
-    websiteSchema.sameAs = (s as any)?.schema_same_as.split(',').map((u: string) => u.trim()).filter(Boolean);
-  }
-
-  // Inject Organization schema
-  if (!seoScriptEl.value) {
-    seoScriptEl.value = document.createElement('script');
-    seoScriptEl.value.type = 'application/ld+json';
-    seoScriptEl.value.id = 'srl-org-schema';
-    document.head.appendChild(seoScriptEl.value);
-  }
-  seoScriptEl.value.textContent = JSON.stringify(orgSchema);
-
-  // Inject WebSite schema
-  let wsScript = document.querySelector('script#srl-website-schema') as HTMLScriptElement;
-  if (!wsScript) {
-    wsScript = document.createElement('script');
-    wsScript.type = 'application/ld+json';
-    wsScript.id = 'srl-website-schema';
-    document.head.appendChild(wsScript);
-  }
-  wsScript.textContent = JSON.stringify(websiteSchema);
-
-  // ── Breadcrumb Schema ──
-  const breadcrumbItems: any[] = [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
-  ];
-  if (path !== '/') {
-    const segments = path.split('/').filter(Boolean);
-    let accumulated = '';
-    segments.forEach((seg, i) => {
-      accumulated += `/${seg}`;
-      const segName = pageNameMap[accumulated] || seg.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-      breadcrumbItems.push({
-        '@type': 'ListItem',
-        position: i + 2,
-        name: segName,
-        item: `${baseUrl}${accumulated}`,
-      });
-    });
-  }
-
-  const breadcrumbSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: breadcrumbItems,
-  };
-
-  if (!breadcrumbScriptEl.value) {
-    breadcrumbScriptEl.value = document.createElement('script');
-    breadcrumbScriptEl.value.type = 'application/ld+json';
-    breadcrumbScriptEl.value.id = 'srl-breadcrumb-schema';
-    document.head.appendChild(breadcrumbScriptEl.value);
-  }
-  breadcrumbScriptEl.value.textContent = JSON.stringify(breadcrumbSchema);
-
-  // ── Meta Tags ──
-  document.title = metaTitle;
-
-  setOrUpdateMeta('description', metaDesc);
-  setOrUpdateMeta('keywords', (s as any)?.meta_keywords || (s as any)?.site_keywords || 'technology, digital solutions, software development, AI, cloud computing, Africa');
-
-  // Canonical URL
-  let canonicalTag = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
-  if (!canonicalTag) {
-    canonicalTag = document.createElement('link');
-    canonicalTag.rel = 'canonical';
-    document.head.appendChild(canonicalTag);
-  }
-  canonicalTag.href = `${baseUrl}${path}`;
-
-  // OG tags
-  setMetaTag('og:title', metaTitle);
-  setMetaTag('og:description', metaDesc);
-  setMetaTag('og:url', `${baseUrl}${path}`);
-  setMetaTag('og:type', 'website');
-  setMetaTag('og:locale', 'en_US');
-  setMetaTag('og:site_name', s.site_name || 'OmniviaTech');
-  if (ogImage) {
-    setMetaTag('og:image', ogImage);
-    setMetaTag('twitter:image', ogImage);
-  }
-  setMetaTag('twitter:card', (s as any)?.twitter_card_type || 'summary_large_image');
-  if ((s as any)?.twitter_handle) setMetaTag('twitter:site', (s as any)?.twitter_handle);
-});
-
-function setOrUpdateMeta(name: string, content: string) {
-  let tag = document.querySelector(`meta[name="${name}"]`) as HTMLMetaElement;
-  if (!tag) {
-    tag = document.createElement('meta');
-    tag.name = name;
-    document.head.appendChild(tag);
-  }
-  tag.content = content;
-}
-
-function setMetaTag(property: string, content: string) {
-  const attr = property.startsWith('twitter:') ? 'name' : 'property';
-  let tag = document.querySelector(`meta[${attr}="${property}"]`) as HTMLMetaElement;
-  if (!tag) {
-    tag = document.createElement('meta');
-    tag.setAttribute(attr, property);
-    document.head.appendChild(tag);
-  }
-  tag.content = content;
-}
-
-onUnmounted(() => {
-  seoScriptEl.value?.remove();
-  breadcrumbScriptEl.value?.remove();
-  document.querySelector('script#srl-website-schema')?.remove();
-});
 
 // ── Visible Breadcrumbs ──
 const breadcrumbs = computed(() => {

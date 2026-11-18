@@ -33,7 +33,7 @@ class OpenAIService implements AiTextGenerator
      *
      * @return array<string, mixed>
      */
-    public function chatJson(string $systemPrompt, string $userPrompt, string $model = 'gpt-4o', float $temperature = 0.7, int $maxTokens = 2000): array
+    public function chatJson(string $systemPrompt, string $userPrompt, string $model = 'gpt-4o', float $temperature = 0.7, int $maxTokens = 8000): array
     {
         try {
             $response = $this->client->chat()->create([

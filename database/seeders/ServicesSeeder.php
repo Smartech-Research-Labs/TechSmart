@@ -22,7 +22,7 @@ class ServicesSeeder extends Seeder
                 'image'             => 'services/custom-web-development.webp',
                 'category'          => 'Web Development',
                 'category_group'    => 'Development Solutions',
-                'price_from'        => 15000.00,
+                'price_from'        => 100000.00,
                 'price_label'       => 'From KES 100,000',
                 'features'          => ['Custom CMS Development', 'Responsive & Mobile-First Design', 'SEO-Optimised Architecture', 'API Integrations & Headless CMS', 'CI/CD Deployment Pipeline', 'Performance Monitoring & Analytics', 'WCAG 2.1 Accessibility', 'Progressive Web App (PWA)'],
                 'process_steps'     => [
@@ -45,7 +45,7 @@ class ServicesSeeder extends Seeder
                 'image'             => 'services/mobile-app-development.webp',
                 'category'          => 'Mobile Development',
                 'category_group'    => 'Development Solutions',
-                'price_from'        => 25000.00,
+                'price_from'        => 175000.00,
                 'price_label'       => 'From KES 175,000',
                 'features'          => ['Cross-Platform (React Native & Flutter)', 'Native iOS & Android', 'Push Notifications', 'Offline Mode & Data Sync', 'Biometric Authentication', 'In-App Payments', 'App Store Optimisation (ASO)', 'Analytics Dashboard'],
                 'process_steps'     => [
@@ -68,7 +68,7 @@ class ServicesSeeder extends Seeder
                 'image'             => 'services/e-commerce-development.webp',
                 'category'          => 'E-Commerce',
                 'category_group'    => 'Development Solutions',
-                'price_from'        => 20000.00,
+                'price_from'        => 140000.00,
                 'price_label'       => 'From KES 140,000',
                 'features'          => ['Custom Online Store', 'Multi-Payment Gateways', 'Inventory Management', 'Order Tracking System', 'Abandoned Cart Recovery', 'Product Reviews & Ratings', 'Mobile-First Design', 'SEO & Marketing Tools'],
                 'process_steps'     => [
@@ -91,7 +91,7 @@ class ServicesSeeder extends Seeder
                 'image'             => 'services/api-development.webp',
                 'category'          => 'Development',
                 'category_group'    => 'Development Solutions',
-                'price_from'        => 12000.00,
+                'price_from'        => 85000.00,
                 'price_label'       => 'From KES 85,000',
                 'features'          => ['RESTful API Design', 'GraphQL Development', 'Third-Party Integrations', 'API Documentation (Swagger)', 'OAuth 2.0 & JWT Auth', 'Webhook Systems', 'Rate Limiting & Caching', 'API Versioning'],
                 'process_steps'     => [
@@ -113,7 +113,7 @@ class ServicesSeeder extends Seeder
                 'image'             => 'services/crm-erp-development.webp',
                 'category'          => 'Enterprise',
                 'category_group'    => 'Development Solutions',
-                'price_from'        => 50000.00,
+                'price_from'        => 350000.00,
                 'price_label'       => 'From KES 350,000',
                 'features'          => ['Custom CRM Development', 'ERP System Design', 'Sales Pipeline Automation', 'Inventory Management', 'Financial Reporting', 'HR & Payroll Modules', 'Customer Portal', 'API Integrations'],
                 'process_steps'     => [
@@ -140,7 +140,7 @@ class ServicesSeeder extends Seeder
                 'image'             => 'services/seo-optimization.webp',
                 'category'          => 'SEO & Analytics',
                 'category_group'    => 'Growth & Marketing Solutions',
-                'price_from'        => 5000.00,
+                'price_from'        => 35000.00,
                 'price_label'       => 'From KES 35,000/mo',
                 'features'          => ['Technical SEO Audit', 'Keyword Research', 'On-Page Optimisation', 'Link Building', 'Local SEO', 'Google Analytics 4 Setup', 'Search Console Integration', 'Monthly Reports'],
                 'process_steps'     => [
@@ -162,7 +162,7 @@ class ServicesSeeder extends Seeder
                 'image'             => 'services/paid-ads-management.webp',
                 'category'          => 'Digital Marketing',
                 'category_group'    => 'Growth & Marketing Solutions',
-                'price_from'        => 8000.00,
+                'price_from'        => 55000.00,
                 'price_label'       => 'From KES 55,000/mo',
                 'features'          => ['Google Ads Management', 'Facebook & Instagram Ads', 'LinkedIn Advertising', 'Audience Targeting & Retargeting', 'A/B Testing', 'Conversion Tracking', 'Ad Creative Design', 'Monthly ROI Reports'],
                 'process_steps'     => [
@@ -184,7 +184,7 @@ class ServicesSeeder extends Seeder
                 'image'             => 'services/conversion-rate-optimization.webp',
                 'category'          => 'CRO',
                 'category_group'    => 'Growth & Marketing Solutions',
-                'price_from'        => 7000.00,
+                'price_from'        => 50000.00,
                 'price_label'       => 'From KES 50,000/mo',
                 'features'          => ['Heatmap Analysis', 'A/B Testing', 'Funnel Optimisation', 'Landing Page Design', 'User Behaviour Analytics', 'Checkout Optimisation', 'CTA Testing', 'Monthly Performance Reports'],
                 'process_steps'     => [
@@ -206,7 +206,7 @@ class ServicesSeeder extends Seeder
                 'image'             => 'services/social-media-marketing.webp',
                 'category'          => 'Social Media',
                 'category_group'    => 'Growth & Marketing Solutions',
-                'price_from'        => 6000.00,
+                'price_from'        => 40000.00,
                 'price_label'       => 'From KES 40,000/mo',
                 'features'          => ['Social Media Strategy', 'Content Creation & Design', 'Community Management', 'Influencer Partnerships', 'Social Listening', 'Analytics & Reporting', 'Paid Social Campaigns', 'Brand Voice Development'],
                 'process_steps'     => [
@@ -228,7 +228,7 @@ class ServicesSeeder extends Seeder
                 'image'             => 'services/business-intelligence.webp',
                 'category'          => 'Analytics',
                 'category_group'    => 'Growth & Marketing Solutions',
-                'price_from'        => 15000.00,
+                'price_from'        => 100000.00,
                 'price_label'       => 'From KES 100,000',
                 'features'          => ['Custom BI Dashboards', 'Data Warehouse Design', 'ETL Pipelines', 'Predictive Analytics', 'Real-Time KPI Tracking', 'Automated Reporting', 'Multi-Source Integration', 'AI-Powered Insights'],
                 'process_steps'     => [
@@ -254,7 +254,7 @@ class ServicesSeeder extends Seeder
                 'image'             => 'services/automation-testing.webp',
                 'category'          => 'Automation',
                 'category_group'    => 'Enterprise & Technical Solutions',
-                'price_from'        => 10000.00,
+                'price_from'        => 70000.00,
                 'price_label'       => 'From KES 70,000',
                 'features'          => ['UI Test Automation', 'API Testing', 'Performance Testing', 'CI/CD Pipeline Setup', 'Workflow Automation', 'Regression Testing', 'Quality Assurance', 'Bug Tracking Integration'],
                 'process_steps'     => [
@@ -276,7 +276,7 @@ class ServicesSeeder extends Seeder
                 'image'             => 'services/audit-trail-development.webp',
                 'category'          => 'Compliance',
                 'category_group'    => 'Enterprise & Technical Solutions',
-                'price_from'        => 18000.00,
+                'price_from'        => 125000.00,
                 'price_label'       => 'From KES 125,000',
                 'features'          => ['User Activity Tracking', 'Data Change Logging', 'Immutable Audit Logs', 'Data Protection Act Compliance', 'GDPR Compliance', 'Real-Time Alerts', 'Compliance Reporting', 'API Integration'],
                 'process_steps'     => [
@@ -298,7 +298,7 @@ class ServicesSeeder extends Seeder
                 'image'             => 'services/ui-ux-design.webp',
                 'category'          => 'Design',
                 'category_group'    => 'Enterprise & Technical Solutions',
-                'price_from'        => 12000.00,
+                'price_from'        => 85000.00,
                 'price_label'       => 'From KES 85,000',
                 'features'          => ['User Research & Personas', 'Wireframing & Prototyping', 'High-Fidelity Design', 'Design Systems', 'Usability Testing', 'Responsive Layouts', 'Figma Handoff', 'Accessibility Design'],
                 'process_steps'     => [
@@ -320,7 +320,7 @@ class ServicesSeeder extends Seeder
                 'image'             => 'services/cloud-deployment-devops.webp',
                 'category'          => 'DevOps',
                 'category_group'    => 'Enterprise & Technical Solutions',
-                'price_from'        => 15000.00,
+                'price_from'        => 100000.00,
                 'price_label'       => 'From KES 100,000',
                 'features'          => ['AWS / Azure / GCP', 'Docker & Kubernetes', 'CI/CD Pipelines', 'Infrastructure as Code', 'Auto-Scaling', '24/7 Monitoring', 'Disaster Recovery', 'Cost Optimisation'],
                 'process_steps'     => [
@@ -342,7 +342,7 @@ class ServicesSeeder extends Seeder
                 'image'             => 'services/performance-optimization.webp',
                 'category'          => 'Performance',
                 'category_group'    => 'Enterprise & Technical Solutions',
-                'price_from'        => 8000.00,
+                'price_from'        => 55000.00,
                 'price_label'       => 'From KES 55,000',
                 'features'          => ['Core Web Vitals', 'Database Optimisation', 'Caching Strategy', 'CDN Configuration', 'Image Optimisation', 'Code Minification', 'Server-Side Rendering', 'Load Testing'],
                 'process_steps'     => [
@@ -364,7 +364,7 @@ class ServicesSeeder extends Seeder
                 'image'             => 'services/website-maintenance.webp',
                 'category'          => 'Support',
                 'category_group'    => 'Enterprise & Technical Solutions',
-                'price_from'        => 3000.00,
+                'price_from'        => 20000.00,
                 'price_label'       => 'From KES 20,000/mo',
                 'features'          => ['Security Updates', 'Daily Backups', '99.9% Uptime SLA', 'Performance Monitoring', 'Content Updates', 'Bug Fixes', 'SSL Management', 'Priority Support'],
                 'process_steps'     => [
@@ -386,7 +386,7 @@ class ServicesSeeder extends Seeder
                 'image'             => 'services/cybersecurity.webp',
                 'category'          => 'Security',
                 'category_group'    => 'Enterprise & Technical Solutions',
-                'price_from'        => 12000.00,
+                'price_from'        => 85000.00,
                 'price_label'       => 'From KES 85,000',
                 'features'          => ['Penetration Testing', 'SOC-as-a-Service', 'Data Protection Act / GDPR Compliance', 'Incident Response', 'Security Training', 'DDoS Protection', 'Data Encryption', 'Threat Intelligence'],
                 'process_steps'     => [

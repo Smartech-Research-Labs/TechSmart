@@ -6,20 +6,20 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         @php
+            $seo ??= app(\App\Services\SiteSeo::class)->resolve(request()->path());
+            $jsonLd = fn ($data) => json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP);
             $siteName = \App\Models\Setting::get('site_name', config('app.name', 'OmniviaTech'));
-            $metaTitle = \App\Models\Setting::get('meta_title', $siteName);
-            $metaDesc = \App\Models\Setting::get('meta_description', \App\Models\Setting::get('site_description', ''));
+            $metaTitle = $seo['title'];
+            $metaDesc = $seo['description'];
             $metaKeywords = \App\Models\Setting::get('meta_keywords', '');
-            $canonicalUrl = \App\Models\Setting::get('canonical_url', url('/'));
-            $currentUrl = url()->current();
+            $currentUrl = $seo['canonical'];
 
             $faviconPath = \App\Models\Setting::get('favicon_path');
             $faviconUrl = $faviconPath ? asset('storage/' . $faviconPath) : asset('favicon.ico');
             $logoPath = \App\Models\Setting::get('logo_path');
             $logoUrl = $logoPath ? asset('storage/' . $logoPath) : '';
 
-            $ogImageDefault = \App\Models\Setting::get('og_image_default', '');
-            $ogImage = $ogImageDefault ?: (\App\Models\Setting::get('schema_org_logo', '') ?: $logoUrl);
+            $ogImage = $seo['image'];
 
             $schemaOrgType = \App\Models\Setting::get('schema_org_type', 'Organization');
             $schemaOrgName = \App\Models\Setting::get('schema_org_name', $siteName);
@@ -32,12 +32,12 @@
             $twitterCardType = \App\Models\Setting::get('twitter_card_type', 'summary_large_image');
             $twitterHandle = \App\Models\Setting::get('twitter_handle', '');
 
-            $gaId = \App\Models\Setting::get('google_analytics_id', '');
-            $gtmId = \App\Models\Setting::get('google_tag_manager_id', '');
+            $gaId = \App\Models\Setting::get('google_analytics_id') ?: config('seo.tracking.google_analytics');
+            $gtmId = \App\Models\Setting::get('google_tag_manager_id') ?: config('seo.tracking.google_tag_manager');
             $fbPixelId = \App\Models\Setting::get('facebook_pixel_id', '');
             $hotjarId = \App\Models\Setting::get('hotjar_id', '');
-            $searchConsole = \App\Models\Setting::get('google_search_console', '');
-            $clarityId = \App\Models\Setting::get('clarity_id', '');
+            $searchConsole = \App\Models\Setting::get('google_search_console') ?: config('seo.search_console.verification_code');
+            $clarityId = \App\Models\Setting::get('clarity_id') ?: config('seo.tracking.microsoft_clarity');
 
             $customHeadScripts = \App\Models\Setting::get('custom_head_scripts', '');
             $customBodyScripts = \App\Models\Setting::get('custom_body_scripts', '');
@@ -45,6 +45,7 @@
 
         <title>{{ $metaTitle }}</title>
         <meta name="description" content="{{ $metaDesc }}">
+        <meta name="robots" content="{{ $seo['robots'] }}">
         @if($metaKeywords)
             <meta name="keywords" content="{{ $metaKeywords }}">
         @endif
@@ -54,7 +55,8 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://cdnjs.cloudflare.com">
         <link rel="prefetch" href="//www.google-analytics.com/analytics.js" as="script">
-        @if($searchConsole)
+        <meta name="google-site-verification" content="9K72kf0v5VJc43JFCOKJ11LyxHjRXW-i8X9oZEU_zhc" />
+        @if($searchConsole && $searchConsole !== '9K72kf0v5VJc43JFCOKJ11LyxHjRXW-i8X9oZEU_zhc')
             <meta name="google-site-verification" content="{{ $searchConsole }}">
         @endif
 
@@ -70,13 +72,11 @@
         <meta property="og:title" content="{{ $metaTitle }}">
         <meta property="og:description" content="{{ $metaDesc }}">
         <meta property="og:url" content="{{ $currentUrl }}">
-        <meta property="og:type" content="website">
-        <meta property="og:locale" content="en_US">
+        <meta property="og:type" content="{{ $seo['type'] }}">
+        <meta property="og:locale" content="en_KE">
         <meta property="og:site_name" content="{{ $siteName }}">
         @if($ogImage)
             <meta property="og:image" content="{{ $ogImage }}">
-            <meta property="og:image:width" content="1200">
-            <meta property="og:image:height" content="630">
         @endif
 
         <!-- Twitter Card -->
@@ -90,50 +90,14 @@
             <meta name="twitter:site" content="{{ $twitterHandle }}">
         @endif
 
-        <!-- JSON-LD: Organization -->
-        <script type="application/ld+json">
-        {
-            "@@context": "https://schema.org",
-            "@@type": "{{ $schemaOrgType }}",
-            "name": "{{ $schemaOrgName }}",
-            "url": "{{ $canonicalUrl }}",
-            "description": "{{ $metaDesc }}"
-            @if($schemaOrgLogo)
-                ,"logo": "{{ $schemaOrgLogo }}"
-            @endif
-            @if($schemaSameAs)
-                ,"sameAs": [@foreach(explode("\n", $schemaSameAs) as $url)"{{ trim($url) }}"@if(!$loop->last),@endif @endforeach]
-            @endif
-            @if($address || $city || $country)
-                ,"address": {
-                    "@@type": "PostalAddress"
-                    @if($address)
-                        ,"streetAddress": "{{ $address }}"
-                    @endif
-                    @if($city)
-                        ,"addressLocality": "{{ $city }}"
-                    @endif
-                    @if($country)
-                        ,"addressCountry": "{{ $country }}"
-                    @endif
-                }
-            @endif
-        }
-        </script>
-
-        <!-- JSON-LD: WebSite -->
-        <script type="application/ld+json">
-        {
-            "@@context": "https://schema.org",
-            "@@type": "WebSite",
-            "name": "{{ $siteName }}",
-            "url": "{{ $canonicalUrl }}",
-            "description": "{{ $metaDesc }}"
-            @if($schemaSameAs)
-                ,"sameAs": [@foreach(explode("\n", $schemaSameAs) as $url)"{{ trim($url) }}"@if(!$loop->last),@endif @endforeach]
-            @endif
-        }
-        </script>
+        <!-- Structured data -->
+        <script type="application/ld+json">{!! $jsonLd(app(\App\Services\SiteSeo::class)->siteSchema()) !!}</script>
+        @if($seo['breadcrumb_schema'])
+            <script id="page-breadcrumb-schema" type="application/ld+json">{!! $jsonLd($seo['breadcrumb_schema']) !!}</script>
+        @endif
+        @if($seo['article_schema'])
+            <script id="page-article-schema" type="application/ld+json">{!! $jsonLd($seo['article_schema']) !!}</script>
+        @endif
 
         @if($gaId)
             <script async src="https://www.googletagmanager.com/gtag/js?id={{ $gaId }}"></script>
@@ -219,7 +183,33 @@
             <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ $gtmId }}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         @endif
 
-        <div id="app"></div>
+        <div id="app">
+            {{-- Replaced as soon as the app starts; gives crawlers the page content and links in the first response. --}}
+            <div style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;">
+                <nav aria-label="Main">
+                    @foreach ($seo['key_links'] as $link)
+                        <a href="{{ $link['url'] }}">{{ $link['label'] }}</a>
+                    @endforeach
+                </nav>
+                @if (count($seo['breadcrumbs']) > 1)
+                    <nav aria-label="Breadcrumb">
+                        @foreach ($seo['breadcrumbs'] as $crumb)
+                            <a href="{{ $crumb['url'] }}">{{ $crumb['name'] }}</a>
+                        @endforeach
+                    </nav>
+                @endif
+                <main>
+                    <h1>{{ $seo['name'] === 'Home' ? $siteName : $seo['name'] }}</h1>
+                    <p>{{ $seo['description'] }}</p>
+                    @if ($seo['body'])
+                        <article>{!! $seo['body'] !!}</article>
+                    @endif
+                    @foreach ($seo['links'] as $link)
+                        <a href="{{ $link['url'] }}">{{ $link['label'] }}</a>
+                    @endforeach
+                </main>
+            </div>
+        </div>
 
         @if($customBodyScripts)
             {!! $customBodyScripts !!}

@@ -20,7 +20,7 @@ class AiBlogController extends Controller
     {
         return response()->json([
             'enabled' => Setting::get('ai_blog_automation_enabled', '1') === '1',
-            'schedule' => 'Mondays & Thursdays, 09:00',
+            'schedule' => 'Mondays & Thursdays, 09:00 Nairobi time',
             'recent_posts' => Blog::orderByDesc('created_at')
                 ->limit(10)
                 ->get(['id', 'title', 'category', 'is_published', 'published_at', 'created_at']),
@@ -58,7 +58,7 @@ class AiBlogController extends Controller
             Log::error('Manual AI blog generation failed', ['error' => $e->getMessage()]);
 
             return response()->json([
-                'message' => 'Failed to generate blog post. Check that an OpenAI API key is configured in Settings > AI.',
+                'message' => 'Failed to generate blog post. Check the AI provider key and account credit in Settings > AI.',
             ], 500);
         }
     }

@@ -274,20 +274,6 @@ async function fetchBlog(slug: string) {
     categories.value = response.data.categories || [];
     recent.value = response.data.recent || [];
     mostViewed.value = response.data.most_viewed || [];
-
-    if (blog.value?.seo_title || blog.value?.title) {
-      document.title = `${blog.value.seo_title || blog.value.title} - OmniviaTech`;
-    }
-
-    if (blog.value?.seo_description) {
-      let meta = document.querySelector('meta[name="description"]');
-      if (!meta) {
-        meta = document.createElement('meta');
-        meta.setAttribute('name', 'description');
-        document.head.appendChild(meta);
-      }
-      meta.setAttribute('content', blog.value.seo_description);
-    }
   } catch {
     blog.value = null;
   } finally {

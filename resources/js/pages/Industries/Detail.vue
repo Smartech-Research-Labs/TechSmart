@@ -366,13 +366,6 @@ async function fetchIndustry(slug: string) {
     ]);
     industry.value = detailData.industry || null;
     allIndustries.value = listData.industries || [];
-
-    // Update page title for SEO
-    if (industry.value?.meta_title) {
-      document.title = industry.value.meta_title;
-    } else if (industry.value?.title) {
-      document.title = `${industry.value.title} | Industries`;
-    }
   } catch {
     industry.value = null;
   } finally {

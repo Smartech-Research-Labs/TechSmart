@@ -5,6 +5,17 @@
 
     RewriteEngine On
 
+    # One address for search engines: https://omniviatech.co.ke
+    RewriteCond %{REQUEST_URI} !^/\.well-known/
+    RewriteCond %{HTTP_HOST} ^www\.omniviatech\.co\.ke$ [NC]
+    RewriteRule ^ https://omniviatech.co.ke%{REQUEST_URI} [L,R=301]
+
+    RewriteCond %{REQUEST_URI} !^/\.well-known/
+    RewriteCond %{HTTP_HOST} ^omniviatech\.co\.ke$ [NC]
+    RewriteCond %{HTTPS} !=on
+    RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+    RewriteRule ^ https://omniviatech.co.ke%{REQUEST_URI} [L,R=301]
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]

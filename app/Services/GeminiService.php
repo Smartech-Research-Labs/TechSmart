@@ -28,7 +28,7 @@ class GeminiService implements AiTextGenerator
         }
 
         $this->apiKey = $key;
-        $this->model = Setting::get('gemini_model', 'gemini-1.5-flash');
+        $this->model = Setting::get('gemini_model', 'gemini-2.5-flash');
     }
 
     public function chatJson(string $systemPrompt, string $userPrompt): array
@@ -46,7 +46,7 @@ class GeminiService implements AiTextGenerator
                 ],
                 'generationConfig' => [
                     'temperature' => 0.7,
-                    'maxOutputTokens' => 4000,
+                    'maxOutputTokens' => 16000,
                     'responseMimeType' => 'application/json',
                 ],
             ]);

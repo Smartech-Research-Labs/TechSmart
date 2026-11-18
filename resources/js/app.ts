@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { createPinia } from 'pinia';
 import { createApp } from 'vue';
+import { installPageSeo } from './lib/pageSeo';
 import App from './App.vue';
 import { installApiCache, prefetchPublicContent } from './lib/apiCache';
 import router from './router';
@@ -20,6 +21,7 @@ app.use(pinia);
 app.use(router);
 
 // Mount app
+installPageSeo(router);
 app.mount('#app');
 
 // Once the first page is up, quietly load the main listing pages' content in the background

@@ -1,4 +1,4 @@
-﻿import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
+﻿import { START_LOCATION, createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 
 const routes: RouteRecordRaw[] = [
@@ -68,6 +68,18 @@ const routes: RouteRecordRaw[] = [
     name: 'faqs',
     component: () => import('@/pages/Faqs.vue'),
     meta: { title: 'FAQs' },
+  },
+  {
+    path: '/privacy',
+    name: 'privacy',
+    component: () => import('@/pages/Legal.vue'),
+    meta: { title: 'Privacy Policy', legalPage: 'privacy' },
+  },
+  {
+    path: '/terms',
+    name: 'terms',
+    component: () => import('@/pages/Legal.vue'),
+    meta: { title: 'Terms of Service', legalPage: 'terms' },
   },
   {
     path: '/contact',
@@ -371,7 +383,10 @@ router.beforeEach(async (to, from, next) => {
 
   // Set page title
   const appName = import.meta.env.VITE_APP_NAME || 'OmniviaTech';
-  document.title = to.meta.title ? `${to.meta.title} - ${appName}` : appName;
+  // A public page's first load keeps the full title the server already sent
+  if (from !== START_LOCATION || to.meta.requiresAuth || to.meta.guest) {
+    document.title = to.meta.title ? `${to.meta.title} - ${appName}` : appName;
+  }
 
   // Fetch user if token exists but user not loaded. Only block navigation on it for routes
   // whose access depends on who is logged in — public pages render immediately and the

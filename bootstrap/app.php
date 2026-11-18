@@ -21,10 +21,15 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withSchedule(function (Schedule $schedule) {
-        // AI blog automation: publishes a new SEO-optimized post every
-        // Monday and Thursday. Toggle via Settings > AI in the admin panel.
-        $schedule->command('blog:generate-ai-post')->mondays()->at('09:00');
-        $schedule->command('blog:generate-ai-post')->thursdays()->at('09:00');
+        // AI blog automation: one post every Monday and Thursday, Nairobi time.
+        // The later runs are retries; the command does nothing once today's post is out.
+        foreach (['09:00', '12:00', '15:00'] as $time) {
+            $schedule->command('blog:generate-ai-post')
+                ->days([Schedule::MONDAY, Schedule::THURSDAY])
+                ->at($time)
+                ->timezone('Africa/Nairobi')
+                ->withoutOverlapping(60);
+        }
     })
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->encryptCookies(except: ['appearance', 'sidebar_state']);

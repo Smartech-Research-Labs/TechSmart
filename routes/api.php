@@ -143,6 +143,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/pages/{slug}', [AdminPageController::class, 'showBySlug']);
     
     // ──── SEO Data (Public) ────
+    Route::get('/seo/resolve', [\App\Http\Controllers\SpaController::class, 'pageSeo']);
     Route::get('/seo/page/{pageName}', [SeoDataController::class, 'getByPageName']);
     
     // ──── User Dashboard Routes (Protected) ────

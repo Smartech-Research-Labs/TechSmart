@@ -36,9 +36,13 @@ class Setting extends Model
 
     public static function set(string $key, $value, string $group = 'general', string $type = 'text')
     {
-        return static::updateOrCreate(
+        $setting = static::updateOrCreate(
             ['key' => $key],
             ['value' => $value, 'group' => $group, 'type' => $type]
         );
+
+        Cache::forget('settings');
+
+        return $setting;
     }
 }

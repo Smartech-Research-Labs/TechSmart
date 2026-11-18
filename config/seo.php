@@ -11,6 +11,8 @@ return [
     |
     */
 
+    'site_url' => env('SITE_URL') ?: 'https://omniviatech.co.ke',
+
     'defaults' => [
         'title' => env('APP_NAME', 'OmniviaTech'),
         'description' => 'Transform your business with cutting-edge digital solutions',
@@ -35,21 +37,21 @@ return [
     'schema' => [
         'type' => env('SCHEMA_ORG_TYPE', 'Organization'),
         'name' => env('APP_NAME', 'OmniviaTech'),
-        'url' => env('APP_URL', 'https://omniviatech.com'),
+        'url' => env('SITE_URL') ?: 'https://omniviatech.co.ke',
         'email' => env('CONTACT_EMAIL', 'reachout@omniviatech.co.ke'),
         'phone' => env('CONTACT_PHONE', '+254710351517'),
         'logo' => '/storage/logo.png',
     ],
 
     'tracking' => [
-        'google_analytics' => env('GOOGLE_ANALYTICS_ID'),
+        'google_analytics' => env('GOOGLE_ANALYTICS_MEASUREMENT_ID') ?: env('GOOGLE_ANALYTICS_ID') ?: 'G-D3XZ6XMQ27',
         'google_tag_manager' => env('GOOGLE_TAG_MANAGER_ID'),
         'facebook_pixel' => env('FACEBOOK_PIXEL_ID'),
-        'microsoft_clarity' => env('MICROSOFT_CLARITY_ID'),
+        'microsoft_clarity' => env('MICROSOFT_CLARITY_ID') ?: 'wjof09y7rj',
     ],
 
     'search_console' => [
-        'verification_code' => env('GOOGLE_SEARCH_CONSOLE_CODE'),
+        'verification_code' => env('GOOGLE_SEARCH_CONSOLE_CODE') ?: '9K72kf0v5VJc43JFCOKJ11LyxHjRXW-i8X9oZEU_zhc',
         'credentials_path' => storage_path('app/google-credentials.json'),
     ],
 

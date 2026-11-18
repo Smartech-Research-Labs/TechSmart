@@ -137,6 +137,9 @@ return [
     |
     */
 
+    // Receives an alert for each automated blog post
+    'blog_alerts_to' => env('BLOG_ALERT_EMAIL', 'info@omniviatech.co.ke'),
+
     'enquiries' => [
         'to' => env('ENQUIRY_NOTIFICATION_EMAIL', 'reachout@omniviatech.co.ke'),
         'mailer' => env('ENQUIRY_MAILER', 'reachout'),
