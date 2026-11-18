@@ -9,7 +9,7 @@
       <div class="relative mb-12">
         <div v-if="blog.featured_image" class="h-[400px] overflow-hidden rounded-2xl">
           <img
-            :src="blog.featured_image.startsWith('http') ? blog.featured_image : `/storage/${blog.featured_image}`"
+            :src="blogImageUrl(blog.featured_image)"
             :alt="blog.title"
             loading="eager"
             class="w-full h-full object-cover"
@@ -78,7 +78,7 @@
                     <div class="w-14 h-14 shrink-0 rounded-lg overflow-hidden bg-muted">
                       <img
                         v-if="post.featured_image"
-                        :src="post.featured_image.startsWith('http') ? post.featured_image : `/storage/${post.featured_image}`"
+                        :src="blogImageUrl(post.featured_image)"
                         :alt="post.title"
                         class="w-full h-full object-cover"
                       />
@@ -166,7 +166,7 @@
                   <div class="aspect-[16/10] bg-card overflow-hidden">
                     <img
                       v-if="post.featured_image"
-                      :src="post.featured_image.startsWith('http') ? post.featured_image : `/storage/${post.featured_image}`"
+                      :src="blogImageUrl(post.featured_image)"
                       :alt="post.title"
                       class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
@@ -238,6 +238,7 @@
 </template>
 
 <script setup lang="ts">
+import { blogImageUrl } from '@/lib/blogImages';
 import axios from 'axios';
 import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';

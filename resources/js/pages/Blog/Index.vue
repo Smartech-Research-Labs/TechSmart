@@ -82,7 +82,7 @@
         <div v-else class="grid grid-cols-1 sm:grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <router-link v-for="blog in blogs" :key="blog.id" :to="`/blog/${blog.slug}`" class="group bg-card border border-border rounded-xl overflow-hidden hover:border-primary/30 hover:shadow-lg transition-all">
             <div class="aspect-[4/3] bg-muted overflow-hidden">
-              <img v-if="blog.featured_image" :src="blog.featured_image.startsWith('http') ? blog.featured_image : `/storage/${blog.featured_image}`" :alt="blog.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <img v-if="blog.featured_image" :src="blogImageUrl(blog.featured_image)" :alt="blog.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
               <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/10 to-accent/10">
                 <svg class="w-8 h-8 text-muted-foreground/20" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"><path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>
               </div>
@@ -235,6 +235,7 @@
 </template>
 
 <script setup lang="ts">
+import { blogImageUrl } from '@/lib/blogImages';
 import axios from 'axios';
 import { Autoplay, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/vue';

@@ -68,9 +68,12 @@
                 v-else
                 :src="defaultLogo"
                 alt="OmniviaTech Logo"
-                class="h-10 w-auto brightness-0 invert"
+                class="h-12 w-44 object-cover mix-blend-screen"
               />
-              <span class="text-lg font-bold text-white">
+              <span
+                v-if="(settings as any)?.footer_logo_url || (settings as any)?.footer_logo_path || settings?.logo_url || settings?.logo_path"
+                class="text-lg font-bold text-white"
+              >
                 {{ settings?.site_name || 'OmniviaTech' }}
               </span>
             </router-link>

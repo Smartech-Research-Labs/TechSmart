@@ -988,6 +988,7 @@
 </template>
 
 <script setup lang="ts">
+import { blogImageUrl } from '@/lib/blogImages';
 import { productImageMap as sharedProductImageMap } from '@/lib/productImages';
 import axios from 'axios';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
@@ -1222,9 +1223,7 @@ const blogImageMap: Record<string, string> = {
 function getBlogImage(blog: any) {
   // First, use featured_image from API if available
   if (blog.featured_image) {
-    return blog.featured_image.startsWith('http')
-      ? blog.featured_image
-      : `/storage/${blog.featured_image}`;
+    return blogImageUrl(blog.featured_image);
   }
 
   // Fallback to title-based mapping for demo content

@@ -219,7 +219,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <router-link v-for="post in relatedBlogs.slice(0, 3)" :key="post.id" :to="`/blog/${post.slug}`" class="group bg-card border border-border rounded-xl overflow-hidden hover:shadow-lg hover:border-primary/20 transition-all">
               <div class="aspect-[16/10] overflow-hidden">
-                <img :src="post.featured_image ? (post.featured_image.startsWith('http') ? post.featured_image : `/storage/${post.featured_image}`) : heroTech7" :alt="post.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img :src="blogImageUrl(post.featured_image) || heroTech7" :alt="post.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
               </div>
               <div class="p-5">
                 <div class="flex items-center gap-2 mb-2">
@@ -532,6 +532,7 @@
 </template>
 
 <script setup lang="ts">
+import { blogImageUrl } from '@/lib/blogImages';
 import heroLaptop from '@/../img/Laptop.webp';
 import svcApi from '@/../img/services/API Development.webp';
 import svcCrmErp from '@/../img/services/CRM & ERP Development.webp';
