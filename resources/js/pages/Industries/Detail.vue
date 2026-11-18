@@ -82,7 +82,7 @@
               class="bg-card border border-border rounded-xl p-6 hover:border-primary/30 hover:shadow-md transition-all"
             >
               <div class="w-10 h-10 bg-primary/10 text-primary rounded-lg flex items-center justify-center mb-4 text-lg">
-                {{ sub.icon || '📋' }}
+                <PageIcon :icon="sub.icon || '📋'" />
               </div>
               <h3 class="text-sm font-semibold text-foreground mb-2">{{ sub.name }}</h3>
               <p class="text-xs text-muted-foreground leading-relaxed">{{ sub.description }}</p>
@@ -241,7 +241,7 @@
               <div class="aspect-[4/3] bg-muted overflow-hidden">
                 <img v-if="rel.image" :src="rel.image" :alt="rel.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/10 to-accent/10">
-                  <span class="text-3xl">🏢</span>
+                  <PageIcon icon="🏢" />
                 </div>
               </div>
               <div class="p-4">
@@ -266,6 +266,7 @@
 </template>
 
 <script setup lang="ts">
+import PageIcon from '@/components/PageIcon.vue';
 import axios from 'axios';
 import { Autoplay, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/vue';

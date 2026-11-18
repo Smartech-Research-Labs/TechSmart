@@ -37,10 +37,12 @@
         </div>
       </div>
     </section>
+    <PageCta eyebrow="Questions" title="Need to discuss these terms or your data?" text="Contact our team and we will point you in the right direction." />
   </PublicLayout>
 </template>
 
 <script setup lang="ts">
+import PageCta from '@/components/PageCta.vue';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import heroLaptopDark from '@/../img/tech-background.webp';

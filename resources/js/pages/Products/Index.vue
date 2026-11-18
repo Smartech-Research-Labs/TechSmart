@@ -29,32 +29,32 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">⚡</span></div>
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><PageIcon icon="⚡" /></div>
             <h3 class="text-sm font-bold text-foreground mb-2">Lightning-Fast Performance</h3>
             <p class="text-muted-foreground text-xs leading-relaxed">Optimized for speed with efficient code, CDN delivery, and caching strategies that ensure sub-second load times across all devices and network conditions.</p>
           </div>
           <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">🔐</span></div>
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><PageIcon icon="🔐" /></div>
             <h3 class="text-sm font-bold text-foreground mb-2">Enterprise-Grade Security</h3>
             <p class="text-muted-foreground text-xs leading-relaxed">Multi-layered security with encryption at rest and in transit, role-based access control, two-factor authentication, and regular security audits and penetration testing.</p>
           </div>
           <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">📱</span></div>
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><PageIcon icon="📱" /></div>
             <h3 class="text-sm font-bold text-foreground mb-2">Responsive & Mobile-First</h3>
             <p class="text-muted-foreground text-xs leading-relaxed">Every product is designed mobile-first, ensuring seamless experiences across desktop, tablet, and mobile devices with adaptive layouts and touch-friendly interfaces.</p>
           </div>
           <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">🔄</span></div>
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><PageIcon icon="🔄" /></div>
             <h3 class="text-sm font-bold text-foreground mb-2">Seamless Integrations</h3>
             <p class="text-muted-foreground text-xs leading-relaxed">RESTful APIs, webhooks, and pre-built connectors for popular platforms like Salesforce, Stripe, Slack, and more, enabling effortless integration with your existing tools.</p>
           </div>
           <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">📊</span></div>
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><PageIcon icon="📊" /></div>
             <h3 class="text-sm font-bold text-foreground mb-2">Advanced Analytics</h3>
             <p class="text-muted-foreground text-xs leading-relaxed">Built-in dashboards, real-time reporting, and customizable metrics give you deep insights into user behavior, system performance, and business outcomes.</p>
           </div>
           <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">🌍</span></div>
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><PageIcon icon="🌍" /></div>
             <h3 class="text-sm font-bold text-foreground mb-2">Multi-Region Deployment</h3>
             <p class="text-muted-foreground text-xs leading-relaxed">Deploy across multiple regions for low-latency access worldwide. Our products support multi-language, multi-currency, and localized content out of the box.</p>
           </div>
@@ -88,7 +88,7 @@
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           <div v-for="(val, i) in valueProps" :key="i" class="bg-card border border-border rounded-xl p-5 text-center hover:border-primary/40 hover:shadow-md transition-all">
-            <div class="w-12 h-12 mx-auto bg-primary/10 rounded-xl flex items-center justify-center mb-3"><span class="text-xl">{{ val.icon }}</span></div>
+            <div class="w-12 h-12 mx-auto bg-primary/10 rounded-xl flex items-center justify-center mb-3"><span class="text-xl"><PageIcon :icon="val.icon" /></span></div>
             <h3 class="text-xs font-semibold text-foreground mb-1">{{ val.title }}</h3>
             <p class="text-muted-foreground text-[11px] leading-relaxed">{{ val.desc }}</p>
           </div>
@@ -200,7 +200,7 @@
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           <router-link v-for="area in otherAreas" :key="area.label" :to="area.to" class="group bg-card border border-border rounded-xl p-5 text-center hover:border-primary/40 hover:shadow-md transition-all">
-            <div class="w-12 h-12 mx-auto bg-primary/10 rounded-xl flex items-center justify-center mb-3 group-hover:bg-primary/20 transition"><span class="text-xl">{{ area.icon }}</span></div>
+            <div class="w-12 h-12 mx-auto bg-primary/10 rounded-xl flex items-center justify-center mb-3 group-hover:bg-primary/20 transition"><span class="text-xl"><PageIcon :icon="area.icon" /></span></div>
             <h3 class="text-xs font-semibold text-foreground group-hover:text-primary transition-colors">{{ area.label }}</h3>
           </router-link>
         </div>
@@ -210,6 +210,7 @@
 </template>
 
 <script setup lang="ts">
+import PageIcon from '@/components/PageIcon.vue';
 import { productImageMap as sharedProductImageMap } from '@/lib/productImages';
 import axios from 'axios';
 import { ref, computed, onMounted } from 'vue';

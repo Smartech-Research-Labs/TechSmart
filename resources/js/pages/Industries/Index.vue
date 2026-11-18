@@ -72,7 +72,7 @@
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/10 to-accent/10">
-                <span class="text-4xl">{{ iconMap[ind.icon] || '🏢' }}</span>
+                <span class="text-4xl"><PageIcon :icon="iconMap[ind.icon] || '🏢'" /></span>
               </div>
             </div>
             <div class="p-4">
@@ -112,7 +112,7 @@
               <div class="absolute -top-6 -right-6 w-24 h-24 bg-primary/5 rounded-full group-hover:scale-150 group-hover:bg-primary/10 transition-all duration-500"></div>
               <div class="relative z-10">
                 <div class="w-14 h-14 bg-gradient-to-br from-primary/30 to-primary/20 rounded-xl flex items-center justify-center mb-5 group-hover:from-primary/50 group-hover:to-primary/30 group-hover:scale-110 transition-all duration-300 shadow-md">
-                  <span class="text-3xl" v-html="reason.icon"></span>
+                  <PageIcon :icon="reason.icon" />
                 </div>
                 <h3 class="text-lg font-bold text-white mb-3 group-hover:text-primary transition-colors">{{ reason.title }}</h3>
                 <p class="text-white/80 text-sm leading-relaxed group-hover:text-white/90 transition-colors">{{ reason.desc }}</p>
@@ -231,6 +231,7 @@
 </template>
 
 <script setup lang="ts">
+import PageIcon from '@/components/PageIcon.vue';
 import { blogImageUrl } from '@/lib/blogImages';
 import axios from 'axios';
 import { Autoplay, Pagination } from 'swiper/modules';

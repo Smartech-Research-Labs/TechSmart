@@ -77,12 +77,23 @@ class BlogController extends Controller
             ->take(5)
             ->get(['id', 'title', 'slug', 'featured_image', 'published_at', 'views']);
 
+        $previous = Blog::published()
+            ->where('published_at', '<', $blog->published_at)
+            ->first(['title', 'slug']);
+
+        $next = Blog::published()
+            ->where('published_at', '>', $blog->published_at)
+            ->reorder('published_at', 'asc')
+            ->first(['title', 'slug']);
+
         return response()->json([
             'blog' => $blog,
             'related' => $related,
             'categories' => $categories,
             'recent' => $recentBlogs,
             'most_viewed' => $mostViewed,
+            'previous' => $previous,
+            'next' => $next,
         ]);
     }
 

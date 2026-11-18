@@ -98,7 +98,7 @@
               <div class="absolute -top-6 -right-6 w-24 h-24 bg-primary/5 rounded-full group-hover:scale-150 group-hover:bg-primary/10 transition-all duration-500"></div>
               <div class="relative z-10">
                 <div class="w-14 h-14 bg-gradient-to-br from-primary/30 to-primary/20 rounded-xl flex items-center justify-center mb-5 group-hover:from-primary/50 group-hover:to-primary/30 group-hover:scale-110 transition-all duration-300 shadow-md">
-                  <span class="text-3xl" v-html="reason.icon"></span>
+                  <PageIcon :icon="reason.icon" />
                 </div>
                 <h3 class="text-lg font-bold text-white mb-3 group-hover:text-primary transition-colors">{{ reason.title }}</h3>
                 <p class="text-white/80 text-sm leading-relaxed group-hover:text-white/90 transition-colors">{{ reason.desc }}</p>
@@ -233,6 +233,7 @@
 </template>
 
 <script setup lang="ts">
+import PageIcon from '@/components/PageIcon.vue';
 import axios from 'axios';
 import { ref, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';

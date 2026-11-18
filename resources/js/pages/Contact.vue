@@ -29,32 +29,32 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">💻</span></div>
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><PageIcon icon="💻" /></div>
             <h3 class="text-sm font-bold text-foreground mb-2">Custom Software Development</h3>
             <p class="text-muted-foreground text-xs leading-relaxed">Need a tailored web or mobile application? We build scalable, secure software solutions designed specifically for your business requirements and user needs.</p>
           </div>
           <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">☁️</span></div>
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><PageIcon icon="☁️" /></div>
             <h3 class="text-sm font-bold text-foreground mb-2">Cloud Migration & Infrastructure</h3>
             <p class="text-muted-foreground text-xs leading-relaxed">Move your operations to the cloud with confidence. We plan, execute, and manage cloud migrations on AWS, Azure, and Google Cloud with zero downtime.</p>
           </div>
           <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">🤖</span></div>
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><PageIcon icon="🤖" /></div>
             <h3 class="text-sm font-bold text-foreground mb-2">AI & Automation Solutions</h3>
             <p class="text-muted-foreground text-xs leading-relaxed">Automate repetitive tasks, gain predictive insights, and enhance decision-making with our AI and machine learning services tailored to your industry.</p>
           </div>
           <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">🔒</span></div>
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><PageIcon icon="🔒" /></div>
             <h3 class="text-sm font-bold text-foreground mb-2">Cybersecurity Assessment</h3>
             <p class="text-muted-foreground text-xs leading-relaxed">Protect your business from cyber threats with comprehensive security audits, vulnerability assessments, and implementation of robust defense strategies.</p>
           </div>
           <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">📱</span></div>
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><PageIcon icon="📱" /></div>
             <h3 class="text-sm font-bold text-foreground mb-2">Mobile App Development</h3>
             <p class="text-muted-foreground text-xs leading-relaxed">From concept to launch, we design and develop native and cross-platform mobile applications for iOS and Android that users love.</p>
           </div>
           <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">📈</span></div>
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><PageIcon icon="📈" /></div>
             <h3 class="text-sm font-bold text-foreground mb-2">Digital Marketing & SEO</h3>
             <p class="text-muted-foreground text-xs leading-relaxed">Boost your online presence with data-driven digital marketing strategies including SEO, content marketing, social media management, and paid advertising.</p>
           </div>
@@ -116,7 +116,7 @@
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           <div v-for="(val, i) in valueProps" :key="i" class="bg-card border border-border rounded-xl p-5 text-center hover:border-primary/40 hover:shadow-md transition-all">
-            <div class="w-12 h-12 mx-auto bg-primary/10 rounded-xl flex items-center justify-center mb-3"><span class="text-xl">{{ val.icon }}</span></div>
+            <div class="w-12 h-12 mx-auto bg-primary/10 rounded-xl flex items-center justify-center mb-3"><span class="text-xl"><PageIcon :icon="val.icon" /></span></div>
             <h3 class="text-xs font-semibold text-foreground mb-1">{{ val.title }}</h3>
             <p class="text-muted-foreground text-[11px] leading-relaxed">{{ val.desc }}</p>
           </div>
@@ -290,7 +290,7 @@
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           <router-link v-for="area in otherAreas" :key="area.label" :to="area.to" class="group bg-card border border-border rounded-xl p-5 text-center hover:border-primary/40 hover:shadow-md transition-all">
-            <div class="w-12 h-12 mx-auto bg-primary/10 rounded-xl flex items-center justify-center mb-3 group-hover:bg-primary/20 transition"><span class="text-xl">{{ area.icon }}</span></div>
+            <div class="w-12 h-12 mx-auto bg-primary/10 rounded-xl flex items-center justify-center mb-3 group-hover:bg-primary/20 transition"><span class="text-xl"><PageIcon :icon="area.icon" /></span></div>
             <h3 class="text-xs font-semibold text-foreground group-hover:text-primary transition-colors">{{ area.label }}</h3>
           </router-link>
         </div>
@@ -300,6 +300,7 @@
 </template>
 
 <script setup lang="ts">
+import PageIcon from '@/components/PageIcon.vue';
 import { blogImageUrl } from '@/lib/blogImages';
 import axios from 'axios';
 import { Autoplay, Pagination } from 'swiper/modules';

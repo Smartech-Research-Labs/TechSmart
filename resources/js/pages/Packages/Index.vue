@@ -59,37 +59,37 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div class="rounded-xl p-6 border border-white/10 hover:border-primary/40 hover:bg-primary/5 transition-all">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">🎯</span></div>
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><PageIcon icon="🎯" /></div>
             <h3 class="text-sm font-bold text-white mb-2">Custom-Tailored</h3>
             <p class="text-white/70 text-xs leading-relaxed">Each package is designed to meet specific business needs with flexibility to scale as you grow.</p>
           </div>
 
           <div class="rounded-xl p-6 border border-white/10 hover:border-primary/40 hover:bg-primary/5 transition-all">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">🛡️</span></div>
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><PageIcon icon="🛡️" /></div>
             <h3 class="text-sm font-bold text-white mb-2">Full Security</h3>
             <p class="text-white/70 text-xs leading-relaxed">SSL certificates, regular backups, malware protection, and GDPR compliance included in all packages.</p>
           </div>
 
           <div class="rounded-xl p-6 border border-white/10 hover:border-primary/40 hover:bg-primary/5 transition-all">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">⚡</span></div>
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><PageIcon icon="⚡" /></div>
             <h3 class="text-sm font-bold text-white mb-2">Optimized Performance</h3>
             <p class="text-white/70 text-xs leading-relaxed">Lightning-fast loading times, CDN delivery, and automatic optimization for search engines.</p>
           </div>
 
           <div class="rounded-xl p-6 border border-white/10 hover:border-primary/40 hover:bg-primary/5 transition-all">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">📱</span></div>
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><PageIcon icon="📱" /></div>
             <h3 class="text-sm font-bold text-white mb-2">Mobile Ready</h3>
             <p class="text-white/70 text-xs leading-relaxed">Fully responsive design that works perfectly on all devices and screen sizes.</p>
           </div>
 
           <div class="rounded-xl p-6 border border-white/10 hover:border-primary/40 hover:bg-primary/5 transition-all">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">🤝</span></div>
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><PageIcon icon="🤝" /></div>
             <h3 class="text-sm font-bold text-white mb-2">Expert Support</h3>
             <p class="text-white/70 text-xs leading-relaxed">Dedicated support team available to help with training, updates, and troubleshooting.</p>
           </div>
 
           <div class="rounded-xl p-6 border border-white/10 hover:border-primary/40 hover:bg-primary/5 transition-all">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">📊</span></div>
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><PageIcon icon="📊" /></div>
             <h3 class="text-sm font-bold text-white mb-2">Analytics Included</h3>
             <p class="text-white/70 text-xs leading-relaxed">Google Analytics, Search Console integration, and performance reports included.</p>
           </div>
@@ -293,6 +293,7 @@
 </template>
 
 <script setup lang="ts">
+import PageIcon from '@/components/PageIcon.vue';
 import { computed, ref, onMounted } from 'vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import axios from 'axios';

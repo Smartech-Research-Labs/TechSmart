@@ -64,7 +64,7 @@
                 <h2 class="text-2xl font-bold text-foreground mb-6">Key Features</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div v-for="feature in pkg.package_features" :key="feature.id" class="bg-card border border-border rounded-xl p-6 hover:border-primary/30 transition-all">
-                    <div v-if="feature.icon" class="text-3xl mb-3">{{ feature.icon }}</div>
+                    <div v-if="feature.icon" class="text-3xl mb-3"><PageIcon :icon="feature.icon" /></div>
                     <h3 class="text-sm font-bold text-foreground mb-2">{{ feature.title }}</h3>
                     <p v-if="feature.description" class="text-muted-foreground text-xs leading-relaxed">{{ feature.description }}</p>
                   </div>
@@ -465,6 +465,7 @@
 </template>
 
 <script setup lang="ts">
+import PageIcon from '@/components/PageIcon.vue';
 import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';

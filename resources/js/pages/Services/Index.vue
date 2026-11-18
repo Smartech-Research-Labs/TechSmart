@@ -29,32 +29,32 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">🏆</span></div>
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><PageIcon icon="🏆" /></div>
             <h3 class="text-sm font-bold text-foreground mb-2">Proven Track Record</h3>
             <p class="text-muted-foreground text-xs leading-relaxed">Over 500 projects delivered successfully across 15+ countries, serving clients ranging from startups to Fortune 500 enterprises.</p>
           </div>
           <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">👥</span></div>
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><PageIcon icon="👥" /></div>
             <h3 class="text-sm font-bold text-foreground mb-2">Expert Team</h3>
             <p class="text-muted-foreground text-xs leading-relaxed">Our team of 50+ certified engineers, architects, and consultants bring deep expertise in cutting-edge technologies and industry best practices.</p>
           </div>
           <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">⚡</span></div>
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><PageIcon icon="⚡" /></div>
             <h3 class="text-sm font-bold text-foreground mb-2">Agile Delivery</h3>
             <p class="text-muted-foreground text-xs leading-relaxed">We use agile methodologies to deliver solutions faster, with iterative development cycles that ensure your project stays on time and on budget.</p>
           </div>
           <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">🔒</span></div>
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><PageIcon icon="🔒" /></div>
             <h3 class="text-sm font-bold text-foreground mb-2">Security First</h3>
             <p class="text-muted-foreground text-xs leading-relaxed">Every solution we build follows industry-standard security practices, including OWASP guidelines, regular audits, and compliance with data protection regulations.</p>
           </div>
           <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">📈</span></div>
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><PageIcon icon="📈" /></div>
             <h3 class="text-sm font-bold text-foreground mb-2">Scalable Solutions</h3>
             <p class="text-muted-foreground text-xs leading-relaxed">Our solutions are designed to grow with your business, from initial MVP to enterprise-scale deployments handling millions of users.</p>
           </div>
           <div class="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">🤝</span></div>
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4"><PageIcon icon="🤝" /></div>
             <h3 class="text-sm font-bold text-foreground mb-2">Dedicated Support</h3>
             <p class="text-muted-foreground text-xs leading-relaxed">24/7 support with dedicated account managers, ensuring you have expert assistance whenever you need it throughout your project lifecycle.</p>
           </div>
@@ -147,7 +147,7 @@
                 <router-link v-for="service in groupedServices[group]" :key="service.id" :to="`/services/${service.slug}`" class="group bg-card border border-border rounded-xl overflow-hidden hover:border-primary/30 hover:shadow-lg transition-all">
                   <div class="aspect-[4/3] bg-muted overflow-hidden relative">
                     <img v-if="getServiceImage(service)" :src="getServiceImage(service)" :alt="service.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                    <div v-else class="w-full h-full flex items-center justify-center"><span class="text-3xl">💡</span></div>
+                    <div v-else class="w-full h-full flex items-center justify-center"><PageIcon icon="💡" /></div>
                     <span class="absolute top-2 left-2 px-2 py-0.5 bg-primary/90 text-white text-[10px] font-medium rounded">{{ service.category }}</span>
                     <div class="absolute top-2 right-2 z-10" @click.prevent><WishlistButton type="App\\Models\\Service" :item-id="service.id" /></div>
                   </div>
@@ -166,7 +166,7 @@
                 <div class="aspect-[4/3] bg-muted overflow-hidden relative">
                   <img v-if="getServiceImage(service)" :src="getServiceImage(service)" :alt="service.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   <img v-else-if="service.image_url" :src="service.image_url" :alt="service.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                  <div v-else class="w-full h-full flex items-center justify-center"><span class="text-3xl">💡</span></div>
+                  <div v-else class="w-full h-full flex items-center justify-center"><PageIcon icon="💡" /></div>
                   <span class="absolute top-2 left-2 px-2 py-0.5 bg-primary/90 text-white text-[10px] font-medium rounded">{{ service.category }}</span>
                   <div class="absolute top-2 right-2 z-10" @click.prevent><WishlistButton type="App\\Models\\Service" :item-id="service.id" /></div>
                 </div>
@@ -346,7 +346,7 @@
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
           <router-link v-for="area in otherAreas" :key="area.label" :to="area.to" class="group bg-card border border-border rounded-xl p-5 text-center hover:border-primary/40 hover:shadow-md transition-all">
             <div class="w-12 h-12 mx-auto bg-primary/10 rounded-xl flex items-center justify-center mb-3 group-hover:bg-primary/20 transition">
-              <span class="text-xl">{{ area.icon }}</span>
+              <span class="text-xl"><PageIcon :icon="area.icon" /></span>
             </div>
             <h3 class="text-xs font-semibold text-foreground group-hover:text-primary transition-colors">{{ area.label }}</h3>
           </router-link>
@@ -357,6 +357,7 @@
 </template>
 
 <script setup lang="ts">
+import PageIcon from '@/components/PageIcon.vue';
 import { blogImageUrl } from '@/lib/blogImages';
 import axios from 'axios';
 import { Autoplay, Pagination } from 'swiper/modules';
@@ -478,7 +479,7 @@ async function fetchServices() {
     const d = data.data || data;
     services.value = d.services || [];
     categoryGroups.value = d.category_groups || [];
-    groupedServices.value = d.grouped || {};
+    groupedServices.value = Object.fromEntries((d.grouped || []).map((group: any) => [group.name, group.services || []]));
   } catch (error) {
     console.error('Error fetching services:', error);
   } finally {

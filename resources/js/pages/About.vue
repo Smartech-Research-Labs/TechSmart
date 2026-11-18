@@ -99,7 +99,7 @@
             <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none rounded-2xl"></div>
 
             <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-primary/20 transition">
-              <span class="text-2xl">{{ svc.icon }}</span>
+              <span class="text-2xl"><PageIcon :icon="svc.icon" /></span>
             </div>
             <h3 class="text-sm font-bold text-foreground mb-2 group-hover:text-primary transition-colors">{{ svc.title }}</h3>
             <p class="text-muted-foreground text-xs leading-relaxed">{{ svc.desc }}</p>
@@ -147,7 +147,7 @@
           <SwiperSlide v-for="(ind, i) in industries" :key="i">
             <div class="group bg-card border border-border rounded-2xl p-6 text-center hover:border-primary/50 hover:shadow-lg transition-all duration-300 cursor-default">
               <div class="w-14 h-14 mx-auto bg-primary/10 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-primary/20 group-hover:scale-110 transition-all duration-300">
-                <span class="text-3xl">{{ ind.icon }}</span>
+                <span class="text-3xl"><PageIcon :icon="ind.icon" /></span>
               </div>
               <h3 class="text-sm font-semibold text-foreground group-hover:text-primary transition-colors mb-1">{{ ind.name }}</h3>
                <p class="text-gray-500 text-[11px] leading-relaxed">{{ ind.blurb }}</p>
@@ -180,7 +180,7 @@
             <div class="absolute -top-8 -right-8 w-28 h-28 bg-primary/5 rounded-full group-hover:scale-150 group-hover:bg-primary/10 transition-all duration-500"></div>
             <div class="relative z-10">
               <div class="w-14 h-14 bg-gradient-to-br from-primary/30 to-primary/10 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-all duration-300 shadow-md">
-                <span class="text-2xl">{{ reason.icon }}</span>
+                <span class="text-2xl"><PageIcon :icon="reason.icon" /></span>
               </div>
               <h3 class="text-base font-bold text-white mb-2 group-hover:text-primary transition-colors">{{ reason.title }}</h3>
               <p class="text-white/70 text-sm leading-relaxed group-hover:text-white/90 transition-colors">{{ reason.desc }}</p>
@@ -331,7 +331,7 @@
             class="group bg-card border border-border rounded-2xl p-6 text-center hover:border-primary/40 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
           >
             <div class="w-14 h-14 mx-auto bg-primary/10 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-primary/20 group-hover:scale-110 transition-all">
-              <span class="text-2xl">{{ val.emoji }}</span>
+              <span class="text-2xl"><PageIcon :icon="val.emoji" /></span>
             </div>
             <h3 class="text-sm font-bold text-foreground mb-2 group-hover:text-primary transition-colors">{{ val.title }}</h3>
             <p class="text-gray-500 text-[11px] leading-relaxed">{{ val.description }}</p>
@@ -573,7 +573,7 @@
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           <router-link v-for="area in otherAreas" :key="area.label" :to="area.to" class="group bg-card border border-border rounded-xl p-5 text-center hover:border-primary/40 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
-            <div class="w-12 h-12 mx-auto bg-primary/10 rounded-xl flex items-center justify-center mb-3 group-hover:bg-primary/20 transition"><span class="text-xl">{{ area.icon }}</span></div>
+            <div class="w-12 h-12 mx-auto bg-primary/10 rounded-xl flex items-center justify-center mb-3 group-hover:bg-primary/20 transition"><span class="text-xl"><PageIcon :icon="area.icon" /></span></div>
             <h3 class="text-xs font-semibold text-foreground group-hover:text-primary transition-colors">{{ area.label }}</h3>
           </router-link>
         </div>
@@ -584,6 +584,7 @@
 </template>
 
 <script setup lang="ts">
+import PageIcon from '@/components/PageIcon.vue';
 import { blogImageUrl } from '@/lib/blogImages';
 import axios from 'axios';
 import { Autoplay, Pagination } from 'swiper/modules';

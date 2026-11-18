@@ -88,6 +88,8 @@
       </div>
     </section>
 
+    <PageProcess />
+
     <!-- ═══════════════ CTA ═══════════════ -->
     <section class="relative py-16 md:py-20 bg-black text-white overflow-hidden">
       <div class="absolute inset-0 opacity-30 bg-cover bg-center" :style="{ backgroundImage: 'url(' + heroTechGlow + ')' }"></div>
@@ -104,6 +106,7 @@
 </template>
 
 <script setup lang="ts">
+import PageProcess from '@/components/PageProcess.vue';
 import { ref, computed, onMounted } from 'vue';
 import heroLaptopDark from '@/../img/tech-background.webp';
 import heroTech7 from '@/../img/tech7.webp';

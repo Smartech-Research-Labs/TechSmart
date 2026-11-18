@@ -1,12 +1,12 @@
 ﻿<template>
-  <div class="public-layout min-h-screen flex flex-col bg-background text-foreground">
+  <div class="public-layout min-h-screen flex flex-col bg-background text-foreground" :class="{ 'site-inner': route.path !== '/' }">
     <!-- Top Bar -->
     <TopBar />
 
     <GlobalMegaMenu />
 
     <!-- Breadcrumbs (visible on non-home pages) -->    <!-- Breadcrumbs (visible on non-home pages) -->
-    <nav v-if="route.path !== '/'" aria-label="Breadcrumb" class="bg-muted/30 border-b border-border">
+    <nav v-if="route.path !== '/'" aria-label="Breadcrumb" class="site-crumbs bg-muted/30 border-b border-border">
       <div class="container mx-auto px-4 py-2 flex items-center gap-1.5 text-xs text-muted-foreground">
         <router-link to="/" class="hover:text-primary transition">Home</router-link>
         <template v-for="(crumb, i) in breadcrumbs" :key="crumb.path">

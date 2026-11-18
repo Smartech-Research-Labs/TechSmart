@@ -83,10 +83,14 @@
       <p class="text-muted-foreground mb-6">The bundle you're looking for doesn't exist or has been removed.</p>
       <router-link to="/bundles" class="px-6 py-2.5 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition">Browse Bundles</router-link>
     </div>
+    <PageProcess />
+    <PageCta title="Need this bundle adapted to your business?" />
   </PublicLayout>
 </template>
 
 <script setup lang="ts">
+import PageCta from '@/components/PageCta.vue';
+import PageProcess from '@/components/PageProcess.vue';
 import { computed, ref, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import heroTechBg from '@/../img/tech-background.webp';
