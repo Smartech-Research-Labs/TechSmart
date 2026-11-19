@@ -20,9 +20,29 @@ app.use(pinia);
 // Use Vue Router
 app.use(router);
 
-// Mount app
+// The stylesheet is loaded without holding up the first paint (see app.blade.php), so wait
+// until it is applied before starting; otherwise the app would flash unstyled.
+function appStylesReady(): Promise<void> {
+  const link = document.querySelector<HTMLLinkElement>('link[data-app-css]');
+  if (!link) return Promise.resolve();
+  return new Promise((resolve) => {
+    const check = () => {
+      if (link.rel === 'stylesheet' && link.sheet) resolve();
+    };
+    link.addEventListener('load', () => {
+      if (link.rel !== 'stylesheet') link.rel = 'stylesheet';
+      check();
+    });
+    link.addEventListener('error', () => resolve());
+    setTimeout(resolve, 4000);
+    check();
+  });
+}
+
+// Mount once the styles and the first page's code are ready, so the still copy of the
+// page in the HTML is swapped straight for the finished page, with no blank moment.
 installPageSeo(router);
-app.mount('#app');
+Promise.all([appStylesReady(), router.isReady()]).then(() => app.mount('#app'));
 
 // Once the first page is up, quietly load the main listing pages' content in the background
 router.isReady().then(prefetchPublicContent);

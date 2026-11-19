@@ -43,6 +43,34 @@ class ReviewController extends Controller implements HasMiddleware
         return response()->json($reviews);
     }
 
+    /**
+     * Latest approved reviews across all services and products, for the testimonial
+     * sections on public pages. Only the reviewer's public details are returned.
+     */
+    public function latest(Request $request)
+    {
+        $limit = min(max((int) $request->query('limit', 8), 1), 20);
+
+        $reviews = Review::approved()
+            ->with('user:id,name,company')
+            ->latest()
+            ->limit($limit)
+            ->get()
+            ->map(fn (Review $review) => [
+                'id' => $review->id,
+                'rating' => (int) $review->rating,
+                'comment' => $review->content,
+                'content' => $review->content,
+                'user_name' => $review->user?->name ?? 'Client',
+                'name' => $review->user?->name ?? 'Client',
+                'company' => $review->user?->company,
+                'created_at' => $review->created_at,
+            ]);
+
+        return response()->json(['data' => $reviews])
+            ->header('Cache-Control', 'public, max-age=600');
+    }
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [

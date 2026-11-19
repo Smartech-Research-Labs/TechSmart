@@ -98,6 +98,9 @@
       </div>
     </section>
 
+    <!-- Sections below the first screen are rendered in short steps right after the first one, so
+         no single task blocks the page for long (see renderStage). -->
+    <template v-if="renderStage >= 1">
     <!-- ═══════════════ ABOUT US ═══════════════ -->
     <section class="py-16 md:py-24">
       <div class="container mx-auto px-6 max-w-6xl">
@@ -334,6 +337,8 @@
       </div>
     </section>
 
+    </template>
+    <template v-if="renderStage >= 2">
     <!-- ═══════════════ INDUSTRIES WE SERVE ═══════════════ -->
     <section class="industries-serve-section bg-muted/40 py-[clamp(48px,5.25vw,100px)]">
       <div class="max-w-[min(94vw,1500px)] mx-auto bg-card py-[clamp(48px,5.25vw,100px)] rounded-3xl overflow-hidden">
@@ -555,6 +560,8 @@
       </div>
     </section>
 
+    </template>
+    <template v-if="renderStage >= 3">
     <!-- ═══════════════ EXPLORE WHAT WE OFFER ═══════════════ -->
     <section class="bg-gray-50 dark:bg-gray-900/40 py-16 md:py-20 w-full">
       <div class="max-w-5xl mx-auto px-6">
@@ -1006,12 +1013,13 @@
         </div>
       </div>
     </div>
+    </template>
   </PublicLayout>
 </template>
 
 <script setup lang="ts">
 import axios from 'axios';
-import { ref, shallowRef, computed, onMounted, onBeforeUnmount, type Component } from 'vue';
+import { ref, shallowRef, computed, onMounted, onBeforeUnmount, nextTick, type Component } from 'vue';
 import { blogImageUrl } from '@/lib/blogImages';
 import { onEngaged } from '@/lib/engagement';
 import { productImageMap as sharedProductImageMap } from '@/lib/productImages';
@@ -1497,6 +1505,26 @@ function whenNear(el: HTMLElement | null, callback: () => void) {
   observer.observe(el);
   observers.push(observer);
 }
+
+// Render the sections below the first screen one group per task, after the first screen is up.
+// A link to a section (#hash) renders everything at once so the browser can scroll to it.
+const LAST_STAGE = 3;
+const renderStage = ref(typeof location !== 'undefined' && location.hash ? LAST_STAGE : 0);
+let stageTimer: ReturnType<typeof setTimeout> | undefined;
+function renderNextStage() {
+  if (renderStage.value >= LAST_STAGE) {
+    nextTick(() => {
+      whenNear(carouselSentinel.value, loadSwiper);
+      whenNear(ctaSentinel.value, () => { ctaNear.value = true; });
+    });
+    return;
+  }
+  stageTimer = setTimeout(() => {
+    renderStage.value++;
+    renderNextStage();
+  }, 0);
+}
+
 const industriesAutoplay = { delay: 3000, disableOnInteraction: false } as any;
 const industriesBreakpoints = { 480: { slidesPerView: 2 }, 768: { slidesPerView: 3 }, 1024: { slidesPerView: 4 } } as any;
 const servicesNavigation = true as any;
@@ -1704,6 +1732,7 @@ async function saveAndClosePreferences() {
 
 onBeforeUnmount(() => {
   clearInterval(heroTimer);
+  clearTimeout(stageTimer);
   observers.forEach((observer) => observer.disconnect());
 });
 
@@ -1713,8 +1742,7 @@ onMounted(async () => {
 
   // The hero starts rotating once the visitor interacts, so the first paint stays still and light
   onEngaged(startHeroTimer);
-  whenNear(carouselSentinel.value, loadSwiper);
-  whenNear(ctaSentinel.value, () => { ctaNear.value = true; });
+  renderNextStage();
 
   // Check if user has already given cookie consent
   const savedCookieConsent = localStorage.getItem('cookieConsent');

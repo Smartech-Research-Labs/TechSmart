@@ -28,6 +28,9 @@
       <slot />
     </main>
 
+    <!-- The footer and floating buttons render one step after the page itself, so the first
+         render (the longest task while the page loads) stays small. -->
+    <template v-if="showRest">
     <!-- Modern Footer -->
     <footer class="bg-gray-950 text-gray-300">
       <!-- Newsletter Strip -->
@@ -213,6 +216,7 @@
     
     <!-- Scroll to Top Button (Bottom Right, above chat) -->
     <ScrollToTopButton />
+    </template>
   </div>
 </template>
 
@@ -293,7 +297,11 @@ async function fetchSettings() {
   });
 }
 
-onMounted(fetchSettings);
+const showRest = ref(false);
+onMounted(() => {
+  fetchSettings();
+  setTimeout(() => { showRest.value = true; }, 0);
+});
 
 watch(() => route.path, fetchSettings);
 

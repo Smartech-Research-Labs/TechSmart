@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\SiteSeo;
+use App\Support\PageCache;
 use Illuminate\Http\Request;
 
 class SpaController extends Controller
@@ -12,7 +13,10 @@ class SpaController extends Controller
     {
         $seo = $siteSeo->resolve($request->path());
 
-        return response()->view('app', ['seo' => $seo], $seo['status']);
+        $response = response()->view('app', ['seo' => $seo], $seo['status']);
+        PageCache::store($request, $response);
+
+        return $response;
     }
 
     public function sitemap(SiteSeo $siteSeo)

@@ -51,7 +51,7 @@
 
         {{-- Fetch the font and the home hero image straight away, before the app's JavaScript runs --}}
         <link rel="preload" href="/fonts/dm-sans/dm-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-        @if(request()->path() === '/')
+        @if($seo['name'] === 'Home')
             <link rel="preload" href="{{ \Illuminate\Support\Facades\Vite::asset('resources/img/tech-background.webp') }}" as="image" type="image/webp" fetchpriority="high">
         @endif
         <meta name="google-site-verification" content="9K72kf0v5VJc43JFCOKJ11LyxHjRXW-i8X9oZEU_zhc" />
@@ -150,7 +150,23 @@
             {!! $customHeadScripts !!}
         @endif
 
-        @vite(['resources/js/app.ts'])
+        @php
+            // The stylesheet downloads at full priority but doesn't hold up the first paint
+            // (the home page paints its own still copy straight away). app.ts starts the app
+            // once the styles are applied, so the app itself never shows unstyled.
+            \Illuminate\Support\Facades\Vite::useStyleTagAttributes(fn () => [
+                'rel' => 'preload',
+                'as' => 'style',
+                'data-app-css' => true,
+                'onload' => "this.onload=null;this.rel='stylesheet'",
+            ]);
+        @endphp
+        @if($seo['name'] === 'Home')
+            {{-- Added by the script at the end of the page once the still copy has painted --}}
+            <template id="app-boot">@vite(['resources/js/app.ts'])</template>
+        @else
+            @vite(['resources/js/app.ts'])
+        @endif
     </head>
     <body class="font-sans antialiased">
         @if($gtmId)
@@ -158,6 +174,9 @@
         @endif
 
         <div id="app">
+            @if($seo['name'] === 'Home')
+                @include('partials.home-shell')
+            @endif
             {{-- Replaced as soon as the app starts; gives crawlers the page content and links in the first response. --}}
             <div style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;">
                 <nav aria-label="Main">
@@ -173,7 +192,9 @@
                     </nav>
                 @endif
                 <main>
-                    <h1>{{ $seo['name'] === 'Home' ? $siteName : $seo['name'] }}</h1>
+                    @if($seo['name'] !== 'Home')
+                        <h1>{{ $seo['name'] }}</h1>
+                    @endif
                     <p>{{ $seo['description'] }}</p>
                     @if ($seo['body'])
                         <article>{!! $seo['body'] !!}</article>
@@ -184,6 +205,34 @@
                 </main>
             </div>
         </div>
+
+        @if($seo['name'] === 'Home')
+            <script>
+                // Start the app once the still copy of the page and its hero image are on screen,
+                // so its downloads don't compete with that first paint. A tap or key press starts it at once.
+                (function (w, d) {
+                    var started = false, img = d.querySelector('.hs-bg');
+                    function boot() {
+                        if (started) return;
+                        started = true;
+                        d.head.appendChild(d.importNode(d.getElementById('app-boot').content, true));
+                    }
+                    // Browsers that report paints: start as soon as the hero image has been shown.
+                    // Others (Safari): start shortly after it has loaded.
+                    var P = w.PerformanceObserver;
+                    if (img && P && (P.supportedEntryTypes || []).indexOf('largest-contentful-paint') > -1) {
+                        new P(function (list) {
+                            list.getEntries().forEach(function (e) { if (e.element === img) setTimeout(boot, 0); });
+                        }).observe({ type: 'largest-contentful-paint', buffered: true });
+                    }
+                    function afterLoad() { setTimeout(boot, 300); }
+                    if (!img || img.complete) afterLoad();
+                    else { img.addEventListener('load', afterLoad); img.addEventListener('error', boot); }
+                    ['pointerdown', 'keydown', 'touchstart'].forEach(function (e) { w.addEventListener(e, boot, { once: true, passive: true }); });
+                    setTimeout(boot, 2500);
+                })(window, document);
+            </script>
+        @endif
 
         @if($customBodyScripts)
             {!! $customBodyScripts !!}

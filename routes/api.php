@@ -111,7 +111,8 @@ Route::prefix('v1')->group(function () {
     Route::get('/faqs/search', [FaqController::class, 'search']);
     
     // ──── Reviews ────
-    Route::get('/reviews/{type}/{id}', [ReviewController::class, 'index']);
+    Route::get('/reviews', [ReviewController::class, 'latest']);
+    Route::get('/reviews/{type}/{id}',[ReviewController::class, 'index']);
     Route::post('/reviews', [ReviewController::class, 'store'])->middleware('auth:sanctum');
     
     // ──── Enquiries ────
