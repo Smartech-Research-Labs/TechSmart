@@ -38,7 +38,8 @@ const scrollToTop = () => {
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll, { passive: true });
-  handleScroll();
+  // Read the scroll position on the next frame, so it doesn't force a layout of the new page
+  requestAnimationFrame(handleScroll);
 });
 
 onUnmounted(() => {

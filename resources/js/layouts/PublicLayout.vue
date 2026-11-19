@@ -164,7 +164,7 @@
 
             <!-- Payment Methods -->
             <div class="mt-6">
-              <h5 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">We Accept</h5>
+              <h5 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">We Accept</h5>
               <div class="flex flex-wrap items-center gap-2">
                 <div class="h-8 px-3 bg-gray-800 rounded-md flex items-center justify-center" title="Visa">
                   <span class="text-xs font-bold text-blue-400 tracking-wide">VISA</span>
@@ -179,7 +179,7 @@
                   <span class="text-xs font-bold text-green-400">M-PESA</span>
                 </div>
                 <div class="h-8 px-3 bg-gray-800 rounded-md flex items-center justify-center" title="PayPal">
-                  <span class="text-xs font-bold text-blue-300">Pay<span class="text-blue-500">Pal</span></span>
+                  <span class="text-xs font-bold text-blue-300">Pay<span class="text-blue-400">Pal</span></span>
                 </div>
                 <div class="h-8 px-3 bg-gray-800 rounded-md flex items-center justify-center" title="Bank Transfer">
                   <span class="text-xs font-bold text-gray-300">BANK</span>
@@ -193,10 +193,10 @@
       <!-- Bottom Bar -->
       <div class="border-t border-gray-800">
         <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p class="text-sm text-gray-500">
+          <p class="text-sm text-gray-400">
             &copy; {{ new Date().getFullYear() }} {{ settings?.site_name || 'OmniviaTech' }}. All rights reserved.
           </p>
-          <div class="flex items-center gap-6 text-sm text-gray-500">
+          <div class="flex items-center gap-6 text-sm text-gray-400">
             <router-link to="/privacy" class="hover:text-primary transition">Privacy Policy</router-link>
             <router-link to="/terms" class="hover:text-primary transition">Terms of Service</router-link>
             <router-link to="/sitemap" class="hover:text-primary transition">Sitemap</router-link>
@@ -226,7 +226,7 @@ import GlobalMegaMenu from '@/components/GlobalMegaMenu.vue';
 import ScrollToTopButton from '@/components/ScrollToTopButton.vue';
 import TopBar from '@/components/shared/TopBar.vue';
 import WhatsAppButton from '@/components/WhatsAppButton.vue';
-import { useToast } from '@/composables';
+import { useToast } from '@/composables/useToast';
 import { useAuthStore } from '@/stores/auth';
 import { useCmsStore } from '@/stores/cms';
 

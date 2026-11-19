@@ -4,59 +4,64 @@
     <div class="relative overflow-hidden min-h-[64vh] md:min-h-[78vh]">
       <!-- Shared background layer — stretches behind both hero AND counter -->
       <div class="absolute inset-0 z-0 w-full h-full">
-        <!-- All slide backgrounds are rendered up front (stacked) so they download immediately
-             and switching slides is just an opacity change — no network wait on each slide. -->
-        <img
-          v-for="(slide, i) in heroSlides"
-          :key="slide.id"
-          :src="slide.bg_image"
-          :alt="i === currentHeroSlide ? slide.title : ''"
-          :aria-hidden="i !== currentHeroSlide"
-          :fetchpriority="i === 0 ? 'high' : 'low'"
-          :decoding="i === 0 ? 'sync' : 'async'"
-          loading="eager"
-          class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700"
-          :class="i === currentHeroSlide ? 'opacity-100' : 'opacity-0'"
-        />
+        <!-- Slide backgrounds are stacked so switching is just an opacity change. Only the first is
+             fetched up front (it is also preloaded from the page head); each later one is added a
+             slide ahead of being shown, so it is ready without competing with the first paint. -->
+        <template v-for="(slide, i) in heroSlides" :key="slide.id">
+          <img
+            v-if="i <= heroLoadedUpTo"
+            :src="slide.bg_image"
+            alt=""
+            aria-hidden="true"
+            :fetchpriority="i === 0 ? 'high' : 'low'"
+            :decoding="i === 0 ? 'sync' : 'async'"
+            width="1920"
+            height="1080"
+            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700"
+            :class="i === currentHeroSlide ? 'opacity-100' : 'opacity-0'"
+          />
+        </template>
         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/55 to-black/40"></div>
       </div>
 
       <!-- ═══════════════ HERO SECTION ═══════════════ -->
-      <section class="relative min-h-[64vh] md:min-h-[78vh] flex items-center z-10">
-        <Swiper
-          :modules="[Autoplay, Pagination]"
-          :slides-per-view="1"
-          :autoplay="heroAutoplay"
-          :pagination="heroPagination"
-          :loop="true"
-          class="hero-swiper w-full h-full"
-          @slide-change="(swiper: any) => currentHeroSlide = swiper.realIndex"
-        >
-          <SwiperSlide v-for="slide in heroSlides" :key="slide.id">
-            <div class="relative w-full min-h-[64vh] md:min-h-[78vh] flex items-center">
-              <div class="relative z-10 w-full">
-                <div class="container mx-auto px-6 py-16 md:py-20">
-                  <div class="max-w-3xl">
-                    <span class="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-primary mb-6">
-                      {{ slide.subtitle }}
-                    </span>
-                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.05] tracking-tight text-white mb-6">{{ slide.title }}</h1>
-                    <p class="text-white/80 text-base md:text-lg leading-relaxed mb-10 max-w-xl">{{ slide.description }}</p>
-                    <div class="flex flex-wrap items-center gap-4">
-                      <router-link :to="slide.cta_link" class="inline-flex items-center gap-2 px-8 py-3.5 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg shadow-primary/25">
-                        {{ slide.cta_text }}
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-                      </router-link>
-                      <router-link v-if="slide.cta_text_2" :to="slide.cta_link_2" class="inline-flex items-center px-8 py-3.5 border border-white/30 text-white text-sm font-semibold rounded-full hover:bg-white/10 hover:border-white/50 transition-all">
-                        {{ slide.cta_text_2 }}
-                      </router-link>
-                    </div>
+      <section class="relative min-h-[64vh] md:min-h-[78vh] flex items-center z-10" aria-roledescription="carousel" aria-label="Highlights">
+        <div class="relative w-full min-h-[64vh] md:min-h-[78vh] flex items-center">
+          <Transition name="hero-fade" mode="out-in">
+            <div :key="heroSlide.id" class="relative z-10 w-full">
+              <div class="container mx-auto px-6 py-16 md:py-20">
+                <div class="max-w-3xl">
+                  <span class="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-primary-on-dark mb-6">
+                    {{ heroSlide.subtitle }}
+                  </span>
+                  <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.05] tracking-tight text-white mb-6">{{ heroSlide.title }}</h1>
+                  <p class="text-white/80 text-base md:text-lg leading-relaxed mb-10 max-w-xl">{{ heroSlide.description }}</p>
+                  <div class="flex flex-wrap items-center gap-4">
+                    <router-link :to="heroSlide.cta_link" class="inline-flex items-center gap-2 px-8 py-3.5 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-all shadow-lg shadow-primary/25">
+                      {{ heroSlide.cta_text }}
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+                    </router-link>
+                    <router-link v-if="heroSlide.cta_text_2" :to="heroSlide.cta_link_2" class="inline-flex items-center px-8 py-3.5 border border-white/30 text-white text-sm font-semibold rounded-full hover:bg-white/10 hover:border-white/50 transition-all">
+                      {{ heroSlide.cta_text_2 }}
+                    </router-link>
                   </div>
                 </div>
               </div>
             </div>
-          </SwiperSlide>
-        </Swiper>
+          </Transition>
+        </div>
+        <div class="hero-dots absolute bottom-3 left-0 right-0 z-20 flex justify-center" role="group" aria-label="Choose slide">
+          <button
+            v-for="(slide, i) in heroSlides"
+            :key="slide.id"
+            type="button"
+            class="hero-dot"
+            :class="{ 'is-active': i === currentHeroSlide }"
+            :aria-label="`Show slide ${i + 1}: ${slide.title}`"
+            :aria-current="i === currentHeroSlide"
+            @click="goToHeroSlide(i)"
+          ></button>
+        </div>
       </section>
 
       <!-- ═══════════════ COUNTER BAR ═══════════════ -->
@@ -87,7 +92,7 @@
             rel="noopener"
             class="opacity-50 hover:opacity-100 transition-opacity duration-300"
           >
-            <img :src="client.logo_url" :alt="client.name" class="max-h-10 grayscale hover:grayscale-0 transition" decoding="async" />
+            <img :src="client.logo_url" :alt="client.name" class="max-h-10 w-auto grayscale hover:grayscale-0 transition" loading="lazy" decoding="async" />
           </a>
         </div>
       </div>
@@ -99,7 +104,7 @@
         <div class="grid lg:grid-cols-2 gap-14 items-center">
           <div class="relative">
             <div class="rounded-2xl overflow-hidden shadow-lg">
-              <img :src="settings.about_section_image || 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop&q=80'" alt="Our Team" decoding="async" class="w-full aspect-[4/3] object-cover" />
+              <img :src="settings.about_section_image || 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=640&h=480&fit=crop&q=70&auto=format'" alt="Our Team" width="640" height="480" loading="lazy" decoding="async" class="w-full aspect-[4/3] object-cover" />
             </div>
             <div class="absolute -bottom-6 -right-6 md:bottom-6 md:right-6 bg-primary text-white rounded-2xl p-5 shadow-xl">
               <div class="text-3xl font-bold">10+</div>
@@ -153,7 +158,7 @@
     <section class="py-16 md:py-24 bg-gray-900">
       <div class="container mx-auto px-6 max-w-6xl">
         <div class="text-center max-w-2xl mx-auto mb-10">
-          <p class="text-primary text-xs font-semibold tracking-widest uppercase mb-3">What We Do</p>
+          <p class="text-primary-on-dark text-xs font-semibold tracking-widest uppercase mb-3">What We Do</p>
           <h2 class="text-3xl md:text-4xl font-bold text-white leading-tight tracking-tight">Services built to move your business forward</h2>
         </div>
 
@@ -191,7 +196,10 @@
                 v-if="getServiceImage(service) || service.image_url || service.image"
                 :src="getServiceImage(service) || service.image_url || service.image"
                 :alt="service.title"
-               
+                width="400"
+                height="300"
+                loading="lazy"
+                decoding="async"
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-white/10 to-white/5">
@@ -220,6 +228,8 @@
       </div>
     </section>
 
+    <div ref="carouselSentinel" aria-hidden="true"></div>
+
     <!-- ═══════════════ PRODUCTS ═══════════════ -->
     <section v-if="products.length" class="py-16 md:py-24">
       <div class="container mx-auto px-6 max-w-6xl">
@@ -235,8 +245,10 @@
         </div>
 
         <!-- Carousel of mosaic pages: 6 cards per page (wide + tall pattern), autoplaying -->
-        <Swiper
-          :modules="[Autoplay]"
+        <component
+            :is="sw.Swiper"
+            v-if="sw"
+          :modules="[sw.Autoplay]"
           :slides-per-view="1"
           :space-between="24"
           :speed="700"
@@ -246,7 +258,7 @@
           @swiper="syncProducts"
           @slide-change="syncProducts"
         >
-          <SwiperSlide v-for="(page, pi) in productPages" :key="pi">
+          <component :is="sw.SwiperSlide" v-for="(page, pi) in productPages" :key="pi">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-[220px] lg:auto-rows-[190px] gap-5 lg:grid-flow-dense p-1">
                 <router-link
                   v-for="(product, i) in page"
@@ -260,6 +272,7 @@
                     v-if="getProductImage(product) || product.image_url"
                     :src="getProductImage(product) || product.image_url"
                     :alt="product.name"
+                    loading="lazy"
                     decoding="async"
                     class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
@@ -283,8 +296,9 @@
                   </div>
                 </router-link>
             </div>
-          </SwiperSlide>
-        </Swiper>
+          </component>
+        </component>
+        <div v-else class="h-[1340px] sm:h-[700px] lg:h-[400px]" aria-hidden="true"></div>
 
         <!-- Controls -->
         <div v-if="productPages.length > 1" class="products-nav flex items-center justify-center gap-4 mt-8">
@@ -296,7 +310,7 @@
           >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
           </button>
-          <div class="flex items-center gap-2" role="group" aria-label="Choose products page">
+          <div class="flex items-center" role="group" aria-label="Choose products page">
             <button
               v-for="n in productPages.length"
               :key="n"
@@ -344,8 +358,10 @@
 
           <!-- Carousel -->
           <div class="relative">
-            <Swiper
-              :modules="[Autoplay]"
+            <component
+            :is="sw.Swiper"
+            v-if="sw"
+              :modules="[sw.Autoplay]"
               :slides-per-view="1.15"
               :space-between="18"
               :speed="600"
@@ -360,21 +376,21 @@
               @reach-end="syncIndustries"
               @reach-beginning="syncIndustries"
             >
-              <SwiperSlide v-for="(industry, i) in industries" :key="i">
+              <component :is="sw.SwiperSlide" v-for="(industry, i) in industries" :key="i">
                 <router-link
                   :to="`/industries#${industry.title.toLowerCase()}`"
-                  :aria-label="`${industry.title}: see how we work with this sector`"
                   class="industries-card group block relative rounded-[16px] overflow-hidden bg-primary w-full"
                 >
-                  <img :src="industry.image" :alt="industry.title" decoding="async" class="ind-img absolute inset-0 w-full h-full object-cover" />
+                  <img :src="industry.image" alt="" width="480" height="600" loading="lazy" decoding="async" class="ind-img absolute inset-0 w-full h-full object-cover" />
                   <div class="ind-overlay absolute inset-0"></div>
-                  <h4 class="relative z-[2] text-white text-center text-[clamp(18px,1.37vw,22px)] font-semibold leading-[1.3] px-[clamp(16px,1.58vw,30px)] pt-[clamp(22px,1.89vw,36px)]">
+                  <h3 class="relative z-[2] text-white text-center text-[clamp(18px,1.37vw,22px)] font-semibold leading-[1.3] px-[clamp(16px,1.58vw,30px)] pt-[clamp(22px,1.89vw,36px)]">
                     {{ industry.title }}
-                  </h4>
-                  <p class="relative z-[2] text-white/75 text-center text-xs px-6 mt-1.5">{{ industry.desc }}</p>
+                  </h3>
+                  <p class="relative z-[2] text-white text-center text-xs px-6 mt-1.5">{{ industry.desc }}</p>
                 </router-link>
-              </SwiperSlide>
-            </Swiper>
+              </component>
+            </component>
+            <div v-else class="industries-card" aria-hidden="true"></div>
 
             <!-- Controls -->
             <div class="industries-nav flex items-center justify-center gap-[clamp(10px,0.84vw,16px)] mt-[clamp(20px,2.10vw,40px)]">
@@ -441,8 +457,8 @@
             <h3 class="text-lg md:text-xl font-semibold text-foreground tracking-tight leading-tight mb-2">{{ reason.title }}</h3>
             <p class="text-muted-foreground text-sm leading-relaxed mb-4">{{ reason.desc }}</p>
             <router-link to="/about" class="glow-link relative z-10 mt-auto self-start inline-flex items-center gap-1.5 text-sm font-semibold hover:gap-2.5 transition-all">
-              Learn more
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              Learn more<span class="sr-only"> about our {{ reason.title.toLowerCase() }}</span>
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </router-link>
           </div>
         </div>
@@ -555,37 +571,37 @@
             </div>
             <div>
               <p class="text-sm font-medium text-white mb-0.5">Services</p>
-              <p class="text-xs text-white/70 leading-snug">Web, mobile &amp; cloud solutions</p>
+              <p class="text-xs text-white leading-snug">Web, mobile &amp; cloud solutions</p>
             </div>
           </router-link>
 
-          <router-link to="/industries" class="rounded-2xl overflow-hidden h-36 flex flex-col justify-between p-4 transition-transform duration-200 hover:-translate-y-1 bg-emerald-600">
+          <router-link to="/industries" class="rounded-2xl overflow-hidden h-36 flex flex-col justify-between p-4 transition-transform duration-200 hover:-translate-y-1 bg-emerald-700">
             <div class="w-9 h-9 rounded-lg bg-white/20 flex items-center justify-center shrink-0">
               <svg width="16" height="16" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
             </div>
             <div>
               <p class="text-sm font-medium text-white mb-0.5">Industries</p>
-              <p class="text-xs text-white/70 leading-snug">Sector-specific expertise</p>
+              <p class="text-xs text-white leading-snug">Sector-specific expertise</p>
             </div>
           </router-link>
 
-          <router-link to="/products" class="rounded-2xl overflow-hidden h-36 flex flex-col justify-between p-4 transition-transform duration-200 hover:-translate-y-1 bg-amber-600">
+          <router-link to="/products" class="rounded-2xl overflow-hidden h-36 flex flex-col justify-between p-4 transition-transform duration-200 hover:-translate-y-1 bg-amber-700">
             <div class="w-9 h-9 rounded-lg bg-white/20 flex items-center justify-center shrink-0">
               <svg width="16" height="16" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
             </div>
             <div>
               <p class="text-sm font-medium text-white mb-0.5">Marketplace</p>
-              <p class="text-xs text-white/70 leading-snug">Ready-made digital products</p>
+              <p class="text-xs text-white leading-snug">Ready-made digital products</p>
             </div>
           </router-link>
 
-          <router-link to="/case-studies" class="rounded-2xl overflow-hidden h-36 flex flex-col justify-between p-4 transition-transform duration-200 hover:-translate-y-1 bg-rose-600">
+          <router-link to="/case-studies" class="rounded-2xl overflow-hidden h-36 flex flex-col justify-between p-4 transition-transform duration-200 hover:-translate-y-1 bg-rose-700">
             <div class="w-9 h-9 rounded-lg bg-white/20 flex items-center justify-center shrink-0">
               <svg width="16" height="16" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0012 18.469a3.374 3.374 0 00-2.495-1.022l-.548-.547z"/></svg>
             </div>
             <div>
               <p class="text-sm font-medium text-white mb-0.5">Case Studies</p>
-              <p class="text-xs text-white/70 leading-snug">See our work in action</p>
+              <p class="text-xs text-white leading-snug">See our work in action</p>
             </div>
           </router-link>
         </div>
@@ -606,7 +622,7 @@
           <!-- Rating summary -->
           <div class="rounded-2xl bg-card border border-border shadow-sm p-6 flex flex-col items-center justify-center text-center">
             <p class="text-5xl font-bold text-foreground leading-none tracking-tight tabular-nums">{{ reviewsAverage.toFixed(1) }}</p>
-            <div class="flex gap-0.5 mt-3 mb-2" :aria-label="`Rated ${reviewsAverage.toFixed(1)} out of 5`">
+            <div class="flex gap-0.5 mt-3 mb-2" role="img" :aria-label="`Rated ${reviewsAverage.toFixed(1)} out of 5`">
               <svg v-for="n in 5" :key="n" class="w-4 h-4" :class="n <= Math.round(reviewsAverage) ? 'text-amber-400' : 'text-border'" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
               </svg>
@@ -617,8 +633,10 @@
 
           <!-- Review cards -->
           <div class="min-w-0">
-            <Swiper
-              :modules="[Autoplay]"
+            <component
+            :is="sw.Swiper"
+            v-if="sw"
+              :modules="[sw.Autoplay]"
               :slides-per-view="1"
               :space-between="20"
               :speed="600"
@@ -631,7 +649,7 @@
               @snap-grid-length-change="syncTestimonials"
               @breakpoint="syncTestimonials"
             >
-              <SwiperSlide v-for="review in topReviews" :key="review.id" class="!h-auto">
+              <component :is="sw.SwiperSlide" v-for="review in topReviews" :key="review.id" class="!h-auto">
                 <div class="h-full flex flex-col rounded-2xl bg-card border border-border p-5 shadow-sm hover:shadow-lg hover:border-primary/30 transition-all duration-300">
                   <div class="flex gap-0.5 mb-3">
                     <svg v-for="n in Number(review.rating) || 5" :key="n" class="w-3.5 h-3.5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
@@ -653,8 +671,9 @@
                     </router-link>
                   </div>
                 </div>
-              </SwiperSlide>
-            </Swiper>
+              </component>
+            </component>
+            <div v-else class="h-[230px]" aria-hidden="true"></div>
           </div>
         </div>
 
@@ -668,7 +687,7 @@
           >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
           </button>
-          <div class="flex items-center gap-2" role="group" aria-label="Choose testimonials">
+          <div class="flex items-center" role="group" aria-label="Choose testimonials">
             <button
               v-for="n in testimonialsNav.count"
               :key="n"
@@ -721,9 +740,9 @@
     <section class="py-16 md:py-24 bg-background">
       <div class="container mx-auto px-6 max-w-6xl">
         <h2 class="sr-only">Call to action section with auto-playing video on the left and a description on the right</h2>
-        <div class="cta-wrap">
+        <div ref="ctaSentinel" class="cta-wrap">
           <div class="video-side">
-            <video autoplay muted loop playsinline>
+            <video v-if="ctaNear" autoplay muted loop playsinline preload="none" width="640" height="360">
               <source :src="videoCTA" type="video/mp4" />
               <track kind="captions" src="/captions/cta-video.vtt" srclang="en" label="English" />
               Your browser does not support the video tag.
@@ -757,8 +776,10 @@
           <h2 class="text-3xl md:text-4xl font-bold text-foreground leading-tight tracking-tight">From our blog</h2>
         </div>
 
-        <Swiper
-          :modules="[Autoplay, Navigation]"
+        <component
+            :is="sw.Swiper"
+            v-if="sw"
+          :modules="[sw.Autoplay, sw.Navigation]"
           :slides-per-view="1"
           :space-between="20"
           :navigation="blogNavigation"
@@ -766,10 +787,10 @@
           :breakpoints="blogBreakpoints"
           class="cards-swiper"
         >
-          <SwiperSlide v-for="post in recentBlogs" :key="post.id">
+          <component :is="sw.SwiperSlide" v-for="post in recentBlogs" :key="post.id">
             <router-link :to="`/blog/${post.slug}`" class="group block bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/30 hover:shadow-lg transition-all duration-300">
               <div class="aspect-[4/3] bg-muted overflow-hidden">
-                <img v-if="getBlogImage(post)" :src="getBlogImage(post)" :alt="post.title" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img v-if="getBlogImage(post)" :src="getBlogImage(post)" :alt="post.title" width="400" height="300" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5">
                   <svg class="w-10 h-10 text-muted-foreground/20" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"><path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>
                 </div>
@@ -783,8 +804,9 @@
                 <p class="text-muted-foreground text-xs leading-relaxed line-clamp-2">{{ post.excerpt }}</p>
               </div>
             </router-link>
-          </SwiperSlide>
-        </Swiper>
+          </component>
+        </component>
+        <div v-else class="h-[400px]" aria-hidden="true"></div>
 
         <div class="text-center mt-12">
           <router-link to="/blog" class="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline underline-offset-4">
@@ -820,7 +842,7 @@
     <!-- ═══════════════ FINAL CTA ═══════════════ -->
     <section class="w-full relative overflow-hidden">
       <div class="relative min-h-[420px] bg-gray-950 flex items-center">
-        <div class="absolute inset-0 opacity-25 bg-cover bg-center" :style="{ backgroundImage: 'url(' + heroTechGlow + ')' }"></div>
+        <div class="absolute inset-0 opacity-25 bg-cover bg-center" :style="ctaNear ? { backgroundImage: 'url(' + heroTechGlow + ')' } : undefined"></div>
         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/70"></div>
 
         <div class="relative z-10 w-full text-center px-6 py-20">
@@ -857,7 +879,7 @@
             <!-- Preferences Button (Gray) -->
             <button
               @click="showPreferencesModal = true"
-              class="px-5 py-2 bg-gray-400 hover:bg-gray-500 text-white text-sm font-semibold rounded-lg transition-colors duration-200 whitespace-nowrap"
+              class="px-5 py-2 bg-gray-600 hover:bg-gray-700 text-white text-sm font-semibold rounded-lg transition-colors duration-200 whitespace-nowrap"
             >
               Preferences
             </button>
@@ -865,7 +887,7 @@
             <!-- Decline Button (Red) -->
             <button
               @click="declineCookies()"
-              class="px-5 py-2 bg-red-500 hover:bg-red-600 text-white text-sm font-semibold rounded-lg transition-colors duration-200 whitespace-nowrap"
+              class="px-5 py-2 bg-red-700 hover:bg-red-800 text-white text-sm font-semibold rounded-lg transition-colors duration-200 whitespace-nowrap"
             >
               Decline
             </button>
@@ -873,7 +895,7 @@
             <!-- Accept Button (Green) -->
             <button
               @click="acceptAllCookies()"
-              class="px-5 py-2 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold rounded-lg transition-colors duration-200 whitespace-nowrap"
+              class="px-5 py-2 bg-green-700 hover:bg-green-800 text-white text-sm font-semibold rounded-lg transition-colors duration-200 whitespace-nowrap"
             >
               Accept
             </button>
@@ -892,7 +914,7 @@
           <p class="text-sm sm:text-base font-semibold">Cookie preferences saved</p>
           <p class="text-xs sm:text-sm text-green-100 mt-1">Your settings have been applied successfully.</p>
         </div>
-        <button @click="showCookieSuccessCard = false" class="flex-shrink-0 text-green-100 hover:text-white transition-colors">
+        <button @click="showCookieSuccessCard = false" aria-label="Dismiss" class="flex-shrink-0 text-green-100 hover:text-white transition-colors">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path d="M6 18L18 6M6 6l12 12"/>
           </svg>
@@ -977,7 +999,7 @@
           </button>
           <button
             @click="saveAndClosePreferences()"
-            class="flex-1 px-4 py-2 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold rounded-lg transition-colors duration-200"
+            class="flex-1 px-4 py-2 bg-green-700 hover:bg-green-800 text-white text-sm font-semibold rounded-lg transition-colors duration-200"
           >
             Save
           </button>
@@ -988,16 +1010,12 @@
 </template>
 
 <script setup lang="ts">
-import { blogImageUrl } from '@/lib/blogImages';
-import { productImageMap as sharedProductImageMap } from '@/lib/productImages';
 import axios from 'axios';
-import { Autoplay, Pagination, Navigation } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/vue';
-import { ref, computed, onMounted } from 'vue';
+import { ref, shallowRef, computed, onMounted, onBeforeUnmount, type Component } from 'vue';
+import { blogImageUrl } from '@/lib/blogImages';
+import { onEngaged } from '@/lib/engagement';
+import { productImageMap as sharedProductImageMap } from '@/lib/productImages';
 import { useCmsStore } from '@/stores/cms';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
 import heroTech3 from '../../img/Laptop.webp';
 import apiDevelopmentImage from '../../img/services/API Development.webp';
 import crmErpDevelopmentImage from '../../img/services/CRM & ERP Development.webp';
@@ -1010,19 +1028,19 @@ import seoOptimizationImage from '../../img/services/SEO Optimization.webp';
 import heroTechBg from '../../img/tech-background.webp';
 import heroTech2 from '../../img/tech-closeup.webp';
 import heroTechGlow from '../../img/tech-glow.webp';
-import heroTech1 from '../../img/tech2.webp';
-import heroTech5 from '../../img/tech3.webp';
-import heroCTAbg from '../../img/tech4.webp';
-import heroTech6 from '../../img/tech7.webp';
 import techImg1 from '../../img/tech1.webp';
+import heroTech1 from '../../img/tech2.webp';
 import techImg2 from '../../img/tech2.webp';
+import heroTech5 from '../../img/tech3.webp';
 import techImg3 from '../../img/tech3.webp';
+import heroCTAbg from '../../img/tech4.webp';
 import techImg4 from '../../img/tech4.webp';
 import techImg5 from '../../img/tech5.webp';
 import techImg6 from '../../img/tech6.webp';
+import heroTech6 from '../../img/tech7.webp';
 import videoCTA from '../../videos/omniviatech.mp4';
-import WishlistButton from '../components/WishlistButton.vue';
 import PackageCard from '../components/PackageCard.vue';
+import WishlistButton from '../components/WishlistButton.vue';
 import PublicLayout from '../layouts/PublicLayout.vue';
 
 // Data
@@ -1278,6 +1296,8 @@ function getServiceImage(service: any) {
 }
 
 const currentHeroSlide = ref(0);
+// Hero backgrounds rendered so far (see the template): the first, then one slide ahead of the visible one
+const heroLoadedUpTo = ref(0);
 
 // Start downloading the first hero image as soon as this module is evaluated,
 // before Vue renders the template, so it's ready by the time the <img> mounts.
@@ -1298,7 +1318,7 @@ const heroSlides = [
     description: 'Empowering businesses with cutting-edge technology and digital transformation services across the globe.',
     cta_text: 'Explore Solutions',
     cta_link: '/services',
-    cta_text_2: 'Learn More',
+    cta_text_2: 'About OmniviaTech',
     cta_link_2: '/about',
     bg_image: heroTechBg,
   },
@@ -1379,14 +1399,14 @@ const countersFallback = [
 const countersFinal = computed(() => counters.value.length ? counters.value : countersFallback);
 
 const industries = [
-  { icon: '🏥', title: 'Healthcare', desc: 'Digital health solutions', image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&h=600&fit=crop&q=80' },
-  { icon: '🏦', title: 'Finance', desc: 'Fintech & banking systems', image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=600&fit=crop&q=80' },
-  { icon: '📚', title: 'Education', desc: 'E-learning platforms', image: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=800&h=600&fit=crop&q=80' },
-  { icon: '🛒', title: 'Retail', desc: 'E-commerce solutions', image: 'https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=800&h=600&fit=crop&q=80' },
-  { icon: '🚚', title: 'Logistics', desc: 'Supply chain management', image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&h=600&fit=crop&q=80' },
-  { icon: '🏭', title: 'Manufacturing', desc: 'Industrial automation', image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&h=600&fit=crop&q=80' },
-  { icon: '🌾', title: 'Agriculture', desc: 'AgriTech solutions', image: 'https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=800&h=600&fit=crop&q=80' },
-  { icon: '⚡', title: 'Energy', desc: 'Smart energy systems', image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&h=600&fit=crop&q=80' },
+  { icon: '🏥', title: 'Healthcare', desc: 'Digital health solutions', image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=480&h=600&fit=crop&q=70&auto=format' },
+  { icon: '🏦', title: 'Finance', desc: 'Fintech & banking systems', image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=480&h=600&fit=crop&q=70&auto=format' },
+  { icon: '📚', title: 'Education', desc: 'E-learning platforms', image: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=480&h=600&fit=crop&q=70&auto=format' },
+  { icon: '🛒', title: 'Retail', desc: 'E-commerce solutions', image: 'https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=480&h=600&fit=crop&q=70&auto=format' },
+  { icon: '🚚', title: 'Logistics', desc: 'Supply chain management', image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=480&h=600&fit=crop&q=70&auto=format' },
+  { icon: '🏭', title: 'Manufacturing', desc: 'Industrial automation', image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=480&h=600&fit=crop&q=70&auto=format' },
+  { icon: '🌾', title: 'Agriculture', desc: 'AgriTech solutions', image: 'https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=480&h=600&fit=crop&q=70&auto=format' },
+  { icon: '⚡', title: 'Energy', desc: 'Smart energy systems', image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=480&h=600&fit=crop&q=70&auto=format' },
 ];
 
 // Process — the highlighted step follows hover/focus
@@ -1424,8 +1444,59 @@ const whyUsReasons = [
 // A distinct glow colour per Why Choose Us card — led by the theme's primary & accent
 const whyGlows = ['var(--color-primary)', 'var(--color-accent)', '#10b981', '#f97316', '#f43f5e', '#06b6d4'];
 
-const heroAutoplay = { delay: 6000, disableOnInteraction: false } as any;
-const heroPagination = { clickable: true } as any;
+const heroSlide = computed(() => heroSlides[currentHeroSlide.value]);
+const HERO_DELAY = 6000;
+let heroTimer: ReturnType<typeof setInterval> | undefined;
+
+function showHeroSlide(i: number) {
+  currentHeroSlide.value = i;
+  heroLoadedUpTo.value = Math.max(heroLoadedUpTo.value, Math.min(i + 1, heroSlides.length - 1));
+}
+function startHeroTimer() {
+  clearInterval(heroTimer);
+  if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+  heroTimer = setInterval(() => showHeroSlide((currentHeroSlide.value + 1) % heroSlides.length), HERO_DELAY);
+}
+function goToHeroSlide(i: number) {
+  showHeroSlide(i);
+  startHeroTimer();
+}
+
+// Swiper only powers the carousels further down the page, so it is downloaded when the
+// visitor scrolls near them instead of holding up the first paint.
+type SwiperLib = { Swiper: Component; SwiperSlide: Component; Autoplay: any; Navigation: any };
+const sw = shallowRef<SwiperLib | null>(null);
+let swiperRequested = false;
+function loadSwiper() {
+  if (swiperRequested) return;
+  swiperRequested = true;
+  Promise.all([import('swiper/vue'), import('swiper/modules'), import('swiper/css'), import('swiper/css/navigation')])
+    .then(([swiperVue, modules]) => {
+      sw.value = { Swiper: swiperVue.Swiper, SwiperSlide: swiperVue.SwiperSlide, Autoplay: modules.Autoplay, Navigation: modules.Navigation };
+    })
+    .catch(() => { swiperRequested = false; });
+}
+
+// The CTA video and final banner image load once the visitor gets close to them
+const ctaNear = ref(false);
+const carouselSentinel = ref<HTMLElement | null>(null);
+const ctaSentinel = ref<HTMLElement | null>(null);
+const observers: IntersectionObserver[] = [];
+
+function whenNear(el: HTMLElement | null, callback: () => void) {
+  if (!el || typeof IntersectionObserver === 'undefined') {
+    callback();
+    return;
+  }
+  const observer = new IntersectionObserver((entries) => {
+    if (entries.some((entry) => entry.isIntersecting)) {
+      observer.disconnect();
+      callback();
+    }
+  }, { rootMargin: '800px 0px' });
+  observer.observe(el);
+  observers.push(observer);
+}
 const industriesAutoplay = { delay: 3000, disableOnInteraction: false } as any;
 const industriesBreakpoints = { 480: { slidesPerView: 2 }, 768: { slidesPerView: 3 }, 1024: { slidesPerView: 4 } } as any;
 const servicesNavigation = true as any;
@@ -1551,13 +1622,13 @@ function animateCounter(element: HTMLElement) {
   const target = parseInt(element.dataset.target || '0');
   const suffix = element.dataset.suffix || '';
   const duration = 2000;
-  const step = Math.ceil(target / (duration / 16));
-  let current = 0;
-  const timer = setInterval(() => {
-    current += step;
-    if (current >= target) { current = target; clearInterval(timer); }
-    element.textContent = current.toLocaleString() + suffix;
-  }, 16);
+  const start = performance.now();
+  const tick = (now: number) => {
+    const progress = Math.min((now - start) / duration, 1);
+    element.textContent = Math.round(target * progress).toLocaleString() + suffix;
+    if (progress < 1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
 }
 
 // Generate or retrieve visitor ID
@@ -1631,9 +1702,19 @@ async function saveAndClosePreferences() {
   showPreferencesModal.value = false;
 }
 
+onBeforeUnmount(() => {
+  clearInterval(heroTimer);
+  observers.forEach((observer) => observer.disconnect());
+});
+
 onMounted(async () => {
   // Start loading page content immediately — don't wait on the cookie consent lookup
   const contentLoaded = Promise.all([fetchHomeData(), fetchFaqs(), fetchPackages()]);
+
+  // The hero starts rotating once the visitor interacts, so the first paint stays still and light
+  onEngaged(startHeroTimer);
+  whenNear(carouselSentinel.value, loadSwiper);
+  whenNear(ctaSentinel.value, () => { ctaNear.value = true; });
 
   // Check if user has already given cookie consent
   const savedCookieConsent = localStorage.getItem('cookieConsent');
@@ -1732,11 +1813,26 @@ onMounted(async () => {
 .process-col.is-active .process-ruler { background-image: repeating-linear-gradient(90deg, color-mix(in srgb, var(--color-primary) 55%, transparent) 0 1px, transparent 1px 5px); }
 
 
-/* ── Products mosaic carousel ── */
-.products-dot { width: 10px; height: 10px; border-radius: 9999px; background: var(--color-primary); opacity: .25; cursor: pointer; transition: width .3s ease, opacity .3s ease; }
-.products-dot:hover { opacity: .5; }
-.products-dot.is-active { width: 28px; opacity: 1; }
-.products-dot:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; }
+/* ── Carousel dots: a 24px tap target around a small visible dot ── */
+.products-dot, .industries-dot, .hero-dot {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 24px; height: 24px; padding: 0 2px; background: none; border-radius: 9999px; cursor: pointer;
+  transition: min-width .3s ease;
+}
+.products-dot::before, .industries-dot::before, .hero-dot::before {
+  content: ''; display: block; width: 10px; height: 10px; border-radius: 9999px;
+  background: var(--color-primary); opacity: .3; transition: width .3s ease, opacity .3s ease;
+}
+.products-dot:hover::before, .industries-dot:hover::before, .hero-dot:hover::before { opacity: .6; }
+.products-dot.is-active, .industries-dot.is-active, .hero-dot.is-active { min-width: 32px; }
+.products-dot.is-active::before, .industries-dot.is-active::before, .hero-dot.is-active::before { width: 28px; opacity: 1; }
+.products-dot:focus-visible, .industries-dot:focus-visible, .hero-dot:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 1px; }
+.hero-dot::before { width: 8px; height: 8px; background: #fff; opacity: .5; }
+.hero-dot.is-active::before { width: 20px; background: var(--color-primary); }
+
+/* ── Hero slide text cross-fade ── */
+.hero-fade-enter-active, .hero-fade-leave-active { transition: opacity .35s ease; }
+.hero-fade-enter-from, .hero-fade-leave-to { opacity: 0; }
 
 /* ── Industries we serve (theme colours) ── */
 .industries-card { height: clamp(340px, 26vw, 440px); }
@@ -1751,14 +1847,7 @@ onMounted(async () => {
 }
 .industries-swiper :deep(.swiper-slide) { height: auto; }
 .industries-nav button:disabled { opacity: .35; cursor: default; }
-.industries-pagination { display: flex; align-items: center; gap: 8px; margin: 0 clamp(6px, 0.63vw, 12px); }
-.industries-dot { width: 10px; height: 10px; border-radius: 9999px; background: var(--color-primary); opacity: .25; cursor: pointer; transition: width .3s ease, opacity .3s ease; }
-.industries-dot:hover { opacity: .5; }
-.industries-dot.is-active { width: 28px; opacity: 1; }
-.industries-dot:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; }
-
-.hero-swiper :deep(.swiper-pagination-bullet) { width: 8px; height: 8px; background: var(--color-primary); opacity: 0.3; transition: all 0.3s; }
-.hero-swiper :deep(.swiper-pagination-bullet-active) { opacity: 1; width: 20px; border-radius: 4px; }
+.industries-pagination { display: flex; align-items: center; gap: 0; margin: 0 clamp(6px, 0.63vw, 12px); }
 
 .cards-swiper :deep(.swiper-button-prev),
 .cards-swiper :deep(.swiper-button-next) { color: var(--color-primary); width: 32px; height: 32px; background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: 50%; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
@@ -1852,7 +1941,7 @@ button.bg-primary.text-white:hover {
   align-items: center;
   gap: 8px;
   padding: 12px 24px;
-  background: #d311f5;
+  background: var(--color-primary);
   color: #fff;
   font-size: 13px;
   font-weight: 600;

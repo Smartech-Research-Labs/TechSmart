@@ -532,7 +532,6 @@
 </template>
 
 <script setup lang="ts">
-import { blogImageUrl } from '@/lib/blogImages';
 import heroLaptop from '@/../img/Laptop.webp';
 import svcApi from '@/../img/services/API Development.webp';
 import svcCrmErp from '@/../img/services/CRM & ERP Development.webp';
@@ -543,6 +542,7 @@ import svcMobileApp2 from '@/../img/services/Mobile App.webp';
 import svcPaidAds from '@/../img/services/Paid Ads.webp';
 import svcSeo from '@/../img/services/SEO Optimization.webp';
 import heroLaptopDark from '@/../img/tech-background.webp';
+import { blogImageUrl } from '@/lib/blogImages';
 import heroTech7 from '@/../img/tech7.webp';
 
 const serviceImageMap: Record<string, string> = {
@@ -605,7 +605,7 @@ import { Autoplay, Navigation } from 'swiper/modules';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import api from '@/services/api';
 import { useCmsStore } from '@/stores/cms';
-import { useToast } from '@/composables';
+import { useToast } from '@/composables/useToast';
 // Swiper styles are imported globally in the main layout
 // import 'swiper/css';
 // import 'swiper/css/navigation';

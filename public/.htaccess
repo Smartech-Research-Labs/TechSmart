@@ -1,3 +1,26 @@
+# Browser caching. Vite build files carry a content hash in their name (app-CZcHsKEj.js),
+# so a new build always gets a new URL and they can be cached for a year.
+<IfModule mod_mime.c>
+    AddType font/woff2 .woff2
+    AddType text/javascript .js .mjs
+</IfModule>
+
+<IfModule mod_headers.c>
+    <FilesMatch "-[A-Za-z0-9_-]{8}\.(js|mjs|css|woff2?|ttf|webp|avif|png|jpe?g|gif|svg|ico|mp4|webm)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+    <FilesMatch "\.(woff2?)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+    <FilesMatch "^(favicon\.ico|favicon-.*\.png|apple-touch-icon\.png|android-chrome-.*\.png|site\.webmanifest)$">
+        Header set Cache-Control "public, max-age=2592000"
+    </FilesMatch>
+</IfModule>
+
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json image/svg+xml application/xml text/plain
+</IfModule>
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
@@ -10,18 +33,18 @@
     # rewrite into the public folder.
     RewriteCond %{THE_REQUEST} !\s/\.well-known/
     RewriteCond %{HTTP_HOST} ^www\.omniviatech\.co\.ke$ [NC]
-    RewriteCond %{THE_REQUEST} ^[A-Z]+\s(/[^\s]*)\s
+    RewriteCond %{THE_REQUEST} ^[A-Z]+\s(/[^\s?]*)[^\s]*\s
     RewriteRule ^ https://omniviatech.co.ke%1 [L,R=301,NE]
 
     RewriteCond %{THE_REQUEST} !\s/\.well-known/
     RewriteCond %{HTTP_HOST} ^omniviatech\.co\.ke$ [NC]
     RewriteCond %{HTTPS} !=on
     RewriteCond %{HTTP:X-Forwarded-Proto} !=https
-    RewriteCond %{THE_REQUEST} ^[A-Z]+\s(/[^\s]*)\s
+    RewriteCond %{THE_REQUEST} ^[A-Z]+\s(/[^\s?]*)[^\s]*\s
     RewriteRule ^ https://omniviatech.co.ke%1 [L,R=301,NE]
 
     RewriteCond %{HTTP_HOST} ^omniviatech\.co\.ke$ [NC]
-    RewriteCond %{THE_REQUEST} ^[A-Z]+\s/public(/[^\s]*)?\s
+    RewriteCond %{THE_REQUEST} ^[A-Z]+\s/public(/[^\s?]*)?(\?[^\s]*)?\s
     RewriteRule ^ https://omniviatech.co.ke%1 [L,R=301,NE]
 
     # Handle Authorization Header
@@ -34,8 +57,8 @@
 
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{THE_REQUEST} ^[A-Z]+\s(/[^\s?]*[^\s?/])/+(\?[^\s]*)?\s
-    RewriteRule ^ %1%2 [L,R=301,NE]
+    RewriteCond %{THE_REQUEST} ^[A-Z]+\s(/[^\s?]*[^\s?/])/+(?:\?[^\s]*)?\s
+    RewriteRule ^ %1 [L,R=301,NE]
 
     # Send Requests To Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d

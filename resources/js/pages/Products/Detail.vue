@@ -415,23 +415,23 @@
 </template>
 
 <script setup lang="ts">
-import { blogImageUrl } from '@/lib/blogImages';
-import { productImageMap as sharedProductImageMap } from '@/lib/productImages';
-import heroLaptop from '@/../img/Laptop.webp';
-import heroLaptopDark from '@/../img/tech-background.webp';
-import heroTech7 from '@/../img/tech7.webp';
-import svcCustomWeb from '@/../img/services/Custom Web Development.webp';
-import svcEcommerce from '@/../img/services/E-commerece Development.webp';
-import svcApi from '@/../img/services/API Development.webp';
-import svcCrmErp from '@/../img/services/CRM & ERP Development.webp';
-import svcMobileApp from '@/../img/services/Mobile App Development.webp';
-import svcSeo from '@/../img/services/SEO Optimization.webp';
 import { computed, ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
+import heroLaptop from '@/../img/Laptop.webp';
+import svcApi from '@/../img/services/API Development.webp';
+import svcCrmErp from '@/../img/services/CRM & ERP Development.webp';
+import svcCustomWeb from '@/../img/services/Custom Web Development.webp';
+import svcEcommerce from '@/../img/services/E-commerece Development.webp';
+import svcMobileApp from '@/../img/services/Mobile App Development.webp';
+import svcSeo from '@/../img/services/SEO Optimization.webp';
+import heroLaptopDark from '@/../img/tech-background.webp';
+import heroTech7 from '@/../img/tech7.webp';
+import { useToast } from '@/composables/useToast';
 import PublicLayout from '@/layouts/PublicLayout.vue';
+import { blogImageUrl } from '@/lib/blogImages';
+import { productImageMap as sharedProductImageMap } from '@/lib/productImages';
 import api from '@/services/api';
 import { useCmsStore } from '@/stores/cms';
-import { useToast } from '@/composables';
 
 // Default cover images per product slug (shared across product pages)
 const productImageMap = sharedProductImageMap;

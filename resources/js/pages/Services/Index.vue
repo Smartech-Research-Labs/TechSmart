@@ -379,7 +379,7 @@ import heroTechGlow from '@/../img/tech-glow.webp';
 import heroTech2 from '@/../img/tech2.webp';
 import heroTech4 from '@/../img/tech4.webp';
 import WishlistButton from '@/components/WishlistButton.vue';
-import { useToast } from '@/composables';
+import { useToast } from '@/composables/useToast';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import { useCmsStore } from '@/stores/cms';
 

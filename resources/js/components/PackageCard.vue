@@ -69,7 +69,7 @@ const props = withDefaults(defineProps<{
 const themes = [
   { gradient: 'linear-gradient(90deg, #22d3ee, #3b82f6)', mid: '#2eaaf2', text: '#2563eb' }, // cyan → blue
   { gradient: 'linear-gradient(90deg, #ec4899, #f43f5e)', mid: '#f0437b', text: '#e11d48' }, // pink → red
-  { gradient: 'linear-gradient(90deg, #f97316, #facc15)', mid: '#faa016', text: '#ea580c' }, // orange → yellow
+  { gradient: 'linear-gradient(90deg, #f97316, #facc15)', mid: '#faa016', text: '#c2410c' }, // orange → yellow
   { gradient: 'linear-gradient(90deg, #8b5cf6, #d946ef)', mid: '#b251f2', text: '#9333ea' }, // violet → fuchsia
 ];
 

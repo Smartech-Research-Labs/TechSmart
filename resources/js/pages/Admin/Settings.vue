@@ -539,7 +539,7 @@
                       v-model="form.theme_primary_color"
                       class="w-12 h-12 rounded-lg border border-border cursor-pointer"
                     />
-                    <Input v-model="form.theme_primary_color" placeholder="#d311f5" class="flex-1" />
+                    <Input v-model="form.theme_primary_color" placeholder="#ad0ec9" class="flex-1" />
                   </div>
                   <p class="text-xs text-muted-foreground">Used for buttons, links, active tabs, and primary accents</p>
                 </div>
@@ -563,16 +563,16 @@
                 <Label class="mb-3 block">Live Preview</Label>
                 <div class="p-6 bg-muted/30 rounded-2xl border border-border space-y-4">
                   <div class="flex flex-wrap gap-3">
-                    <button :style="{ background: form.theme_primary_color || '#d311f5' }" class="px-6 py-2.5 text-white font-semibold rounded-lg shadow">Primary Button</button>
+                    <button :style="{ background: form.theme_primary_color || '#ad0ec9' }" class="px-6 py-2.5 text-white font-semibold rounded-lg shadow">Primary Button</button>
                     <button :style="{ background: form.theme_accent_color || '#3b82f6' }" class="px-6 py-2.5 text-white font-semibold rounded-lg shadow">Accent Button</button>
-                    <button :style="{ border: '2px solid ' + (form.theme_primary_color || '#d311f5'), color: form.theme_primary_color || '#d311f5' }" class="px-6 py-2.5 font-semibold rounded-lg bg-transparent">Outline Button</button>
+                    <button :style="{ border: '2px solid ' + (form.theme_primary_color || '#ad0ec9'), color: form.theme_primary_color || '#ad0ec9' }" class="px-6 py-2.5 font-semibold rounded-lg bg-transparent">Outline Button</button>
                   </div>
                   <div class="flex items-center gap-4">
-                    <span :style="{ color: form.theme_primary_color || '#d311f5' }" class="font-semibold">Primary Text</span>
+                    <span :style="{ color: form.theme_primary_color || '#ad0ec9' }" class="font-semibold">Primary Text</span>
                     <span :style="{ color: form.theme_accent_color || '#3b82f6' }" class="font-semibold">Accent Text</span>
                   </div>
                   <div class="h-4 rounded-full overflow-hidden flex">
-                    <div :style="{ background: form.theme_primary_color || '#d311f5' }" class="flex-1"></div>
+                    <div :style="{ background: form.theme_primary_color || '#ad0ec9' }" class="flex-1"></div>
                     <div :style="{ background: form.theme_accent_color || '#3b82f6' }" class="flex-1"></div>
                   </div>
                 </div>
@@ -1369,7 +1369,7 @@ const seoPages = [
 
 // ── Theme Presets ──
 const themePresets = [
-  { name: 'purple', primary: '#d311f5', accent: '#3b82f6' },
+  { name: 'purple', primary: '#ad0ec9', accent: '#3b82f6' },
   { name: 'blue', primary: '#2563eb', accent: '#06b6d4' },
   { name: 'green', primary: '#16a34a', accent: '#84cc16' },
   { name: 'orange', primary: '#ea580c', accent: '#f59e0b' },

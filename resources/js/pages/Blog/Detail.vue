@@ -107,8 +107,8 @@ import { ArrowLeft, ArrowRight, Search } from 'lucide-vue-next';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import heroTechBg from '@/../img/tech-background.webp';
-import { useToast } from '@/composables';
 import PageCta from '@/components/PageCta.vue';
+import { useToast } from '@/composables/useToast';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import { blogImageUrl } from '@/lib/blogImages';
 

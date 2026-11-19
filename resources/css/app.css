@@ -1,44 +1,38 @@
-/* Local Fonts */
+/* Local fonts: DM Sans variable (WOFF2, one file per subset covers every weight) */
 @font-face {
     font-family: 'DM Sans';
-    src: url('/fonts/dm-sans/DM_Sans-Regular.ttf') format('truetype');
-    font-weight: 400;
+    src: url('/fonts/dm-sans/dm-sans-latin-ext-wght-normal.woff2') format('woff2');
+    font-weight: 100 1000;
     font-style: normal;
+    font-display: swap;
+    unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
 }
 
 @font-face {
     font-family: 'DM Sans';
-    src: url('/fonts/dm-sans/DM_Sans-Italic.ttf') format('truetype');
-    font-weight: 400;
+    src: url('/fonts/dm-sans/dm-sans-latin-wght-normal.woff2') format('woff2');
+    font-weight: 100 1000;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+@font-face {
+    font-family: 'DM Sans';
+    src: url('/fonts/dm-sans/dm-sans-latin-ext-wght-italic.woff2') format('woff2');
+    font-weight: 100 1000;
     font-style: italic;
+    font-display: swap;
+    unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
 }
 
 @font-face {
     font-family: 'DM Sans';
-    src: url('/fonts/dm-sans/DM_Sans-Medium.ttf') format('truetype');
-    font-weight: 500;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'DM Sans';
-    src: url('/fonts/dm-sans/DM_Sans-SemiBold.ttf') format('truetype');
-    font-weight: 600;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'DM Sans';
-    src: url('/fonts/dm-sans/DM_Sans-Bold.ttf') format('truetype');
-    font-weight: 700;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'DM Sans';
-    src: url('/fonts/dm-sans/DM_Sans-BoldItalic.ttf') format('truetype');
-    font-weight: 700;
+    src: url('/fonts/dm-sans/dm-sans-latin-wght-italic.woff2') format('woff2');
+    font-weight: 100 1000;
     font-style: italic;
+    font-display: swap;
+    unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
 
 @import 'tailwindcss';
@@ -128,14 +122,14 @@
     --popover: #ffffff;
     --popover-foreground: #0f172a;
 
-    --primary: #d311f5;
+    --primary: #ad0ec9;
     --primary-foreground: #ffffff;
 
     --secondary: #f1f5f9;
     --secondary-foreground: #0f172a;
 
     --muted: #f1f5f9;
-    --muted-foreground: #64748b;
+    --muted-foreground: #55657a;
 
     --accent: #3b82f6;
     --accent-foreground: #ffffff;
@@ -145,7 +139,7 @@
 
     --border: #e2e8f0;
     --input: #e2e8f0;
-    --ring: #d311f5;
+    --ring: #ad0ec9;
 
     --chart-1: hsl(12 76% 61%);
     --chart-2: hsl(173 58% 39%);
@@ -158,12 +152,12 @@
     --sidebar: #f8fafc;
     --sidebar-background: #f8fafc;
     --sidebar-foreground: #334155;
-    --sidebar-primary: #d311f5;
+    --sidebar-primary: #ad0ec9;
     --sidebar-primary-foreground: #ffffff;
     --sidebar-accent: #f1f5f9;
     --sidebar-accent-foreground: #0f172a;
     --sidebar-border: #e2e8f0;
-    --sidebar-ring: #d311f5;
+    --sidebar-ring: #ad0ec9;
 }
 
 /* ==============================
@@ -1122,4 +1116,10 @@ html {
 .site-inner main section .sticky.bg-gray-900 .space-y-3 > button:last-child {
     color: var(--page-ink);
     background: #fff;
+}
+
+/* Primary-tinted text for dark sections: the brand primary is tuned for light backgrounds,
+   so on near-black it is lightened to keep text readable (WCAG AA). */
+.text-primary-on-dark {
+    color: color-mix(in srgb, var(--primary) 40%, white);
 }

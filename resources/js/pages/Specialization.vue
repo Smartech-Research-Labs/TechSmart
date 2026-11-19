@@ -233,14 +233,14 @@
 </template>
 
 <script setup lang="ts">
-import PageIcon from '@/components/PageIcon.vue';
 import axios from 'axios';
 import { ref, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import heroLaptop from '@/../img/Laptop.webp';
 import heroLaptopDark from '@/../img/tech-background.webp';
 import heroTech from '@/../img/tech.webp';
-import { useToast } from '@/composables';
+import PageIcon from '@/components/PageIcon.vue';
+import { useToast } from '@/composables/useToast';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 
 const toast = useToast();

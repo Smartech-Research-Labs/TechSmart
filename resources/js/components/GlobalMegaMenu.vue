@@ -340,6 +340,7 @@ import tech4 from '@/../img/tech4.webp';
 import tech5 from '@/../img/tech5.webp';
 import tech6 from '@/../img/tech6.webp';
 import ThemeToggle from '@/components/shared/ThemeToggle.vue';
+import { onEngaged } from '@/lib/engagement';
 import { useAuthStore } from '@/stores/auth';
 import { useCmsStore } from '@/stores/cms';
 
@@ -569,7 +570,7 @@ onMounted(() => {
   window.addEventListener('scroll', updateMegaTop, { passive: true });
   window.addEventListener('resize', updateMegaTop, { passive: true });
   const idle = (window as any).requestIdleCallback || ((cb: () => void) => setTimeout(cb, 1200));
-  idle(preloadMenuImages);
+  onEngaged(() => idle(preloadMenuImages));
 });
 
 onBeforeUnmount(() => {

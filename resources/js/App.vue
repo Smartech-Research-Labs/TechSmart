@@ -14,15 +14,16 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { defineAsyncComponent, onMounted } from 'vue';
 import { RouterView } from 'vue-router';
-import ChatWidget from '@/components/shared/ChatWidget.vue';
 import LoadingIndicator from '@/components/shared/LoadingIndicator.vue';
 import ToastContainer from '@/components/shared/ToastContainer.vue';
 import { initializeTheme } from '@/composables/useAppearance';
 import { initializeThemeColors, useThemeColors } from '@/composables/useThemeColors';
 import { useAuthStore } from '@/stores/auth';
-import { useChatStore } from '@/stores/chat';
+
+// Chat (and its socket.io client) is only needed by signed-in users, so it loads on demand
+const ChatWidget = defineAsyncComponent(() => import('@/components/shared/ChatWidget.vue'));
 
 // Initialize theme before mount (SSR-safe)
 initializeTheme();
@@ -31,7 +32,6 @@ initializeTheme();
 initializeThemeColors();
 
 const authStore = useAuthStore();
-const chatStore = useChatStore();
 
 // Activate reactive theme colour syncing from CMS settings
 useThemeColors();
@@ -46,7 +46,8 @@ onMounted(async () => {
 
   // Initialize socket connection if authenticated
   if (authStore.isAuthenticated) {
-    chatStore.initializeSocket(authStore.user?.id);
+    const { useChatStore } = await import('@/stores/chat');
+    useChatStore().initializeSocket(authStore.user?.id);
   }
 });
 </script>

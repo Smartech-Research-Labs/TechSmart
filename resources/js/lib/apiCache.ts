@@ -1,4 +1,5 @@
 import axios, { type AxiosAdapter, type AxiosInstance, type AxiosResponse, type InternalAxiosRequestConfig } from 'axios';
+import { onEngaged } from './engagement';
 
 /**
  * Short-lived cache for public, read-only API content (home, products, packages, services,
@@ -126,8 +127,6 @@ export function prefetchPublicContent() {
     ['/api/v1/services'],
     ['/api/v1/bundles'],
     ['/api/v1/home/faqs'],
-    ['/api/v1/reviews', { limit: 6 }],
-    ['/api/v1/reviews', { limit: 8 }],
     ['/api/v1/blogs', { limit: 4 }],
   ];
 
@@ -139,5 +138,5 @@ export function prefetchPublicContent() {
     if (!item) return;
     axios.get(item[0], item[1] ? { params: item[1] } : undefined).catch(() => {}).finally(() => idle(next));
   };
-  idle(next);
+  onEngaged(() => idle(next));
 }

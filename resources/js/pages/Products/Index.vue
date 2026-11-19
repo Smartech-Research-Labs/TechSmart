@@ -210,26 +210,26 @@
 </template>
 
 <script setup lang="ts">
-import PageIcon from '@/components/PageIcon.vue';
-import { productImageMap as sharedProductImageMap } from '@/lib/productImages';
 import axios from 'axios';
 import { ref, computed, onMounted } from 'vue';
 import heroOrbit from '@/../img/Orbit.webp';
+import svcApi from '@/../img/services/API Development.webp';
+import svcCrmErp from '@/../img/services/CRM & ERP Development.webp';
+import svcCustomWeb from '@/../img/services/Custom Web Development.webp';
+import svcEcommerce from '@/../img/services/E-commerece Development.webp';
+import svcMobileApp from '@/../img/services/Mobile App Development.webp';
+import svcSeo from '@/../img/services/SEO Optimization.webp';
 import heroLaptopDark from '@/../img/tech-background.webp';
 import heroTechGlow from '@/../img/tech-glow.webp';
 import heroTech2 from '@/../img/tech2.webp';
 import heroTech4 from '@/../img/tech4.webp';
+import PageIcon from '@/components/PageIcon.vue';
 import PaginationControls from '@/components/ui/pagination/PaginationControls.vue';
 import WishlistButton from '@/components/WishlistButton.vue';
-import { useToast } from '@/composables';
+import { useToast } from '@/composables/useToast';
 import PublicLayout from '@/layouts/PublicLayout.vue';
+import { productImageMap as sharedProductImageMap } from '@/lib/productImages';
 import { useCmsStore } from '@/stores/cms';
-import svcCustomWeb from '@/../img/services/Custom Web Development.webp';
-import svcEcommerce from '@/../img/services/E-commerece Development.webp';
-import svcApi from '@/../img/services/API Development.webp';
-import svcCrmErp from '@/../img/services/CRM & ERP Development.webp';
-import svcMobileApp from '@/../img/services/Mobile App Development.webp';
-import svcSeo from '@/../img/services/SEO Optimization.webp';
 
 // Default cover images per product slug (shared across product pages)
 const productImageMap = sharedProductImageMap;

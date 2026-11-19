@@ -465,15 +465,15 @@
 </template>
 
 <script setup lang="ts">
-import PageIcon from '@/components/PageIcon.vue';
+import axios from 'axios';
 import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import tech1 from '@/../img/tech1.webp';
+import PageIcon from '@/components/PageIcon.vue';
+import { useToast } from '@/composables/useToast';
+import PublicLayout from '@/layouts/PublicLayout.vue';
 import { useAuthStore } from '@/stores/auth';
 import { useCmsStore } from '@/stores/cms';
-import { useToast } from '@/composables';
-import PublicLayout from '@/layouts/PublicLayout.vue';
-import axios from 'axios';
-import tech1 from '@/../img/tech1.webp';
 
 const route = useRoute();
 const router = useRouter();

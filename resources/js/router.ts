@@ -1,4 +1,5 @@
 ﻿import { START_LOCATION, createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
+import { onEngaged } from '@/lib/engagement';
 import { useAuthStore } from '@/stores/auth';
 
 const routes: RouteRecordRaw[] = [
@@ -425,7 +426,7 @@ router.beforeEach(async (to, from, next) => {
   next();
 });
 
-// Prefetch the code for public pages once the browser is idle after the first page load,
+// Prefetch the code for public pages once the visitor starts interacting and the browser is idle,
 // so clicking a nav link renders instantly instead of waiting on a JS chunk download.
 // Skipped on data-saver / very slow connections. Auth-only and admin pages are not prefetched.
 router.isReady().then(() => {
@@ -446,7 +447,7 @@ router.isReady().then(() => {
     if (!load) return;
     load().catch(() => {}).finally(() => idle(next));
   };
-  idle(next);
+  onEngaged(() => idle(next));
 });
 
 export default router;

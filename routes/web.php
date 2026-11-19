@@ -5,6 +5,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
+// Public pages are the same Vue app shell for every visitor, and the app signs in with API
+// tokens, so they skip the session (a database write on every page view), CSRF and cookies.
+// This keeps the first response fast.
+$statelessPage = [
+    \Illuminate\Session\Middleware\StartSession::class,
+    \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+    \Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class,
+    \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+    \App\Http\Middleware\HandleInertiaRequests::class,
+];
+
 // Renamed blog posts: 301 old URLs to the new slug (once the post carries the new slug)
 Route::get('/blog/{slug}', function (Request $request, string $slug) {
     $new = config('redirects.blog_slugs')[$slug] ?? null;
@@ -13,7 +24,7 @@ Route::get('/blog/{slug}', function (Request $request, string $slug) {
     }
 
     return app()->call(SpaController::class, ['request' => $request]);
-});
+})->withoutMiddleware($statelessPage);
 
 // Serve uploaded files when the public/storage link is missing on the server.
 // If the link exists, the web server returns the file directly and this never runs.
@@ -32,5 +43,5 @@ Route::get('/sitemap.xml', [SpaController::class, 'sitemap']);
 Route::get('/indexnow.txt', [SpaController::class, 'indexNowKey']);
 
 // SPA catch-all route - serve Vue app for all non-API routes
-Route::get('/{any}', SpaController::class)->where('any', '.*');
+Route::get('/{any}', SpaController::class)->where('any', '.*')->withoutMiddleware($statelessPage);
 

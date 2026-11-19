@@ -1,6 +1,6 @@
 ﻿<template>
   <div class="top-bar bg-card text-foreground text-[11px] leading-none border-b border-border">
-    <div class="container mx-auto px-4 flex items-center justify-between h-3.5 overflow-hidden">
+    <div class="container mx-auto px-4 flex items-center justify-between h-6 overflow-hidden">
       <!-- Marquee -->
       <div class="flex-1 overflow-hidden mr-4">
         <div class="marquee-track flex whitespace-nowrap" :style="{ animationDuration: marqueeDuration }">
@@ -9,7 +9,7 @@
             :key="i"
             class="marquee-item inline-flex items-center gap-1.5 mx-6 leading-none text-muted-foreground"
           >
-            <span class="w-1 h-1 rounded-full bg-primary animate-pulse"></span>
+            <span class="w-1 h-1 rounded-full bg-primary"></span>
             {{ item }}
           </span>
           <!-- Duplicate for seamless loop -->
@@ -18,14 +18,14 @@
             :key="'dup-' + i"
             class="marquee-item inline-flex items-center gap-1.5 mx-6 leading-none text-muted-foreground"
           >
-            <span class="w-1 h-1 rounded-full bg-primary animate-pulse"></span>
+            <span class="w-1 h-1 rounded-full bg-primary"></span>
             {{ item }}
           </span>
         </div>
       </div>
 
       <!-- Social Links -->
-      <div class="hidden sm:flex items-center gap-2.5 shrink-0">
+      <div class="hidden sm:flex items-center gap-0.5 shrink-0">
         <a
           v-for="link in socialLinks"
           :key="link.name"
@@ -33,9 +33,9 @@
           target="_blank"
           rel="noopener noreferrer"
           :aria-label="link.name"
-          class="text-muted-foreground hover:text-primary transition-colors duration-200"
+          class="inline-flex w-6 h-6 items-center justify-center text-muted-foreground hover:text-primary transition-colors duration-200"
         >
-          <component :is="link.icon" class="w-3 h-3" />
+          <component :is="link.icon" class="w-3 h-3" aria-hidden="true" />
         </a>
       </div>
     </div>
@@ -163,9 +163,15 @@ const socialLinks = computed(() => {
 <style scoped>
 .marquee-track {
   animation: marquee 40s linear infinite;
+  /* starts moving on the visitor's first interaction (see lib/engagement.ts) */
+  animation-play-state: paused;
 }
 
-.marquee-track:hover {
+:global(html.engaged) .marquee-track {
+  animation-play-state: running;
+}
+
+:global(html.engaged) .marquee-track:hover {
   animation-play-state: paused;
 }
 

@@ -109,8 +109,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick, onMounted } from 'vue';
-import { useChatStore } from '@/stores/chat';
+import { ref, nextTick } from 'vue';
+
+// The chat store (and its socket.io client) is only loaded once a visitor actually sends a message
+const loadChatStore = () => import('@/stores/chat').then((m) => m.useChatStore());
 
 interface Message {
   text: string;
@@ -118,7 +120,6 @@ interface Message {
   timestamp: Date;
 }
 
-const chatStore = useChatStore();
 const isChatOpen = ref(false);
 const inputMessage = ref('');
 const isTyping = ref(false);
@@ -167,7 +168,7 @@ const sendMessage = async () => {
 
   try {
     // Try to get AI response
-    await chatStore.sendMessage(userMessage);
+    await (await loadChatStore()).sendMessage(userMessage);
     
     setTimeout(() => {
       isTyping.value = false;
@@ -213,7 +214,4 @@ const getDefaultResponse = (query: string): string => {
   return "Thank you for your message! Our team will review your inquiry and get back to you soon.\n\nFor immediate assistance:\n📞 +254 710 351 517\n📧 reachout@omniviatech.co.ke\n\nIs there anything specific I can help you with?";
 };
 
-onMounted(() => {
-  chatStore.disconnectSocket();
-});
 </script>
