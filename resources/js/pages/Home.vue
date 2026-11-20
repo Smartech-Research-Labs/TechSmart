@@ -92,7 +92,7 @@
             rel="noopener"
             class="opacity-50 hover:opacity-100 transition-opacity duration-300"
           >
-            <img :src="client.logo_url" :alt="client.name" class="max-h-10 w-auto grayscale hover:grayscale-0 transition" loading="lazy" decoding="async" />
+            <img :src="client.logo_url" :alt="client.name" width="160" height="40" class="max-h-10 w-auto grayscale hover:grayscale-0 transition" loading="lazy" decoding="async" />
           </a>
         </div>
       </div>
