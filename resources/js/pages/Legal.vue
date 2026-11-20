@@ -13,7 +13,10 @@
           <p class="text-white/60 text-xs mt-4">Last updated: {{ lastUpdated }}</p>
         </div>
       </div>
+      <PageHeroAside :image="pageImg.techCloseup" :title="'Questions about your data?'" :label="'Contact Us'" />
     </section>
+
+    <PageBento v-bind="bentoBlock" />
 
     <section class="py-14 md:py-20 bg-background">
       <div class="container mx-auto px-6">
@@ -37,16 +40,22 @@
         </div>
       </div>
     </section>
+    <PageSplit v-bind="splitBlock" />
+
     <PageCta eyebrow="Questions" title="Need to discuss these terms or your data?" text="Contact our team and we will point you in the right direction." />
   </PublicLayout>
 </template>
 
 <script setup lang="ts">
-import PageCta from '@/components/PageCta.vue';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import heroLaptopDark from '@/../img/tech-background.webp';
+import PageBento from '@/components/PageBento.vue';
+import PageCta from '@/components/PageCta.vue';
+import PageHeroAside from '@/components/PageHeroAside.vue';
+import PageSplit from '@/components/PageSplit.vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
+import { pageImg } from '@/lib/pageImages';
 
 type LegalSection = { heading: string; paragraphs: string[]; items?: string[] };
 type LegalPage = { title: string; intro: string; sections: LegalSection[] };
@@ -179,4 +188,45 @@ const pages: Record<'privacy' | 'terms', LegalPage> = {
 
 const route = useRoute();
 const page = computed(() => pages[route.meta.legalPage as 'privacy' | 'terms']);
+
+// Inner-page design blocks (bento row, split panel, image cards)
+const bentoBlock = {
+  "eyebrow": "Our Commitment",
+  "title": "Built on Trust and Transparency",
+  "image": pageImg.techBackground,
+  "imageTitle": "Your Data Stays Protected",
+  "statLabel": "Encrypted connections",
+  "statValue": "100",
+  "statUnit": "%",
+  "cards": [
+    {
+      "icon": "🔐",
+      "title": "Data Protection",
+      "text": "We collect only what we need, keep it secure and handle it in line with Kenya's Data Protection Act and good international practice."
+    },
+    {
+      "icon": "📋",
+      "title": "Plain-Language Terms",
+      "text": "Our policies explain clearly what we do, what you can expect from us and how to reach us if anything is unclear."
+    }
+  ]
+};
+const splitBlock = {
+  "eyebrow": "Your Rights",
+  "title": "You Stay in Control of Your Information",
+  "text": "You can ask what data we hold about you, request corrections or ask us to delete it. Reach out at any time and we will respond promptly.",
+  "points": [
+    "Access, correct or delete your personal data",
+    "Unsubscribe from communications at any time"
+  ],
+  "image": pageImg.tech5,
+  "statLabel": "Secure by design",
+  "statValue": "24/7",
+  "statUnit": "",
+  "note": "Monitored, regularly audited systems",
+  "statIcon": "🛡",
+  "noteIcon": "🔒",
+  "ctaLabel": "Ask a Question"
+};
+
 </script>

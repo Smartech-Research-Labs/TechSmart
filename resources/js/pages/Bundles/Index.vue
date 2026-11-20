@@ -17,7 +17,10 @@
           </router-link>
         </div>
       </div>
+      <PageHeroAside :image="pageImg.tech" :title="'Build a custom bundle for your business'" />
     </section>
+
+    <PageBento v-bind="bentoBlock" />
 
     <!-- ═══════════════ IMAGE LEFT + TEXT RIGHT ═══════════════ -->
     <section class="py-14 md:py-20">
@@ -120,6 +123,8 @@
     </section>
 
     <!-- ═══════════════ CTA (MAROON) ═══════════════ -->
+    <PageSplit v-bind="splitBlock" />
+
     <section class="py-14 md:py-20">
       <div class="container mx-auto px-6">
         <div class="relative bg-black rounded-2xl overflow-hidden">
@@ -143,6 +148,8 @@
     </section>
 
     <!-- ═══════════════ OTHER AREAS ═══════════════ -->
+    <PageImageCards v-bind="cardsBlock" />
+
     <section class="py-14 md:py-20 bg-muted/30">
       <div class="container mx-auto px-6">
         <div class="text-center max-w-xl mx-auto mb-8">
@@ -168,9 +175,14 @@ import heroTechGlow from '@/../img/tech-glow.webp';
 import heroTech from '@/../img/tech.webp';
 import heroTech2 from '@/../img/tech2.webp';
 import heroTech4 from '@/../img/tech4.webp';
+import PageBento from '@/components/PageBento.vue';
+import PageHeroAside from '@/components/PageHeroAside.vue';
 import PageIcon from '@/components/PageIcon.vue';
+import PageImageCards from '@/components/PageImageCards.vue';
+import PageSplit from '@/components/PageSplit.vue';
 import { useToast } from '@/composables/useToast';
 import PublicLayout from '@/layouts/PublicLayout.vue';
+import { pageImg } from '@/lib/pageImages';
 
 const toast = useToast();
 const bundles = ref<any[]>([]);
@@ -216,4 +228,71 @@ async function fetchBundles() {
 }
 
 onMounted(fetchBundles);
+
+// Inner-page design blocks (bento row, split panel, image cards)
+const bentoBlock = {
+  "eyebrow": "Solution Bundles",
+  "title": "More Value in Every Bundle",
+  "image": pageImg.tech2,
+  "imageTitle": "Services and Products, Combined",
+  "statLabel": "Average savings",
+  "statValue": "20",
+  "statUnit": "%",
+  "cards": [
+    {
+      "icon": "📦",
+      "title": "Everything in One Place",
+      "text": "Get the website, systems and marketing you need together, managed by one team instead of juggling several vendors."
+    },
+    {
+      "icon": "💰",
+      "title": "Better Value",
+      "text": "Bundled pricing costs less than buying each service separately, with one simple plan and one point of contact."
+    }
+  ]
+};
+const splitBlock = {
+  "eyebrow": "Custom Bundles",
+  "title": "Build the Bundle That Fits Your Business",
+  "text": "Mix and match services and products to create a package shaped around your goals, budget and timeline.",
+  "points": [
+    "Choose only what your business needs",
+    "One contract, one invoice, one team"
+  ],
+  "image": pageImg.tech5,
+  "statLabel": "Bundles delivered",
+  "statValue": "60",
+  "statUnit": "+",
+  "note": "One partner for everything digital",
+  "statIcon": "📦",
+  "noteIcon": "🤝"
+};
+const cardsBlock = {
+  "eyebrow": "Explore More",
+  "title": "Find the Right Mix for Your Team",
+  "items": [
+    {
+      "icon": "💻",
+      "title": "Our Services",
+      "text": "Web, mobile, cloud and automation built around your goals.",
+      "to": "/services",
+      "image": pageImg.svcCustomWeb
+    },
+    {
+      "icon": "🚀",
+      "title": "Products",
+      "text": "Ready-made software you can deploy and grow with.",
+      "to": "/products",
+      "image": pageImg.orbit
+    },
+    {
+      "icon": "📦",
+      "title": "Website Packages",
+      "text": "Fixed-scope packages with clear pricing and timelines.",
+      "to": "/packages",
+      "image": pageImg.laptop
+    }
+  ]
+};
+
 </script>

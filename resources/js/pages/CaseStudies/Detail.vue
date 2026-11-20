@@ -32,7 +32,10 @@
           </div>
           <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight max-w-3xl">{{ caseStudy.title }}</h1>
         </div>
+        <PageHeroAside :image="pageImg.tech7" :title="'Want similar results for your business?'" />
       </section>
+
+      <PageBento v-bind="bentoBlock" />
 
       <!-- ═══════════════ OVERVIEW ═══════════════ -->
       <section class="py-14 md:py-20">
@@ -147,6 +150,10 @@
       </section>
 
       <!-- ═══════════════ CTA ═══════════════ -->
+      <PageSplit v-bind="splitBlock" />
+
+      <PageImageCards v-bind="cardsBlock" />
+
       <section class="py-16 md:py-20 bg-black text-white relative overflow-hidden">
         <div class="absolute inset-0 opacity-30 bg-cover bg-center" :style="{ backgroundImage: 'url(' + heroTechGlow + ')' }"></div>
         <div class="absolute inset-0 bg-black/70"></div>
@@ -174,11 +181,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
+import { computed, ref, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import heroLaptopDark from '@/../img/tech-background.webp';
 import heroTech7 from '@/../img/tech7.webp';
+import PageBento from '@/components/PageBento.vue';
+import PageHeroAside from '@/components/PageHeroAside.vue';
+import PageImageCards from '@/components/PageImageCards.vue';
+import PageSplit from '@/components/PageSplit.vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
+import { pageImg } from '@/lib/pageImages';
 import api from '@/services/api';
 
 const route = useRoute();
@@ -205,4 +217,61 @@ onMounted(() => fetchCaseStudy(route.params.slug as string));
 watch(() => route.params.slug, (newSlug) => {
   if (newSlug) fetchCaseStudy(newSlug as string);
 });
+
+// Inner-page design blocks (bento row, split panel, image cards)
+const bentoBlock = computed(() => ({
+  eyebrow: 'Project Snapshot',
+  title: caseStudy.value?.title || 'Project Overview',
+  image: caseStudy.value?.image_url || caseStudy.value?.featured_image || pageImg.tech7,
+  imageTitle: caseStudy.value?.client_name ? `Delivered for ${caseStudy.value.client_name}` : 'Delivered by OmniviaTech',
+  statLabel: caseStudy.value?.metrics?.[0]?.label || 'Client satisfaction',
+  statValue: caseStudy.value?.metrics?.[0]?.value || '95%',
+  statUnit: '',
+  cards: [
+    { icon: '🎯', title: 'The Challenge', text: caseStudy.value?.excerpt || 'Understanding the problem in depth before writing a line of code.' },
+    { icon: '🏆', title: 'The Outcome', text: caseStudy.value?.industry ? `A tailored solution for the ${caseStudy.value.industry} sector, built to scale.` : 'A tailored solution built to scale, with measurable results.' },
+  ],
+}));
+const splitBlock = computed(() => ({
+  eyebrow: 'Your Turn',
+  title: 'Similar Results Made Easy',
+  text: 'Tell us about your challenge and we will show you how we would approach it, with clear goals and success metrics from day one.',
+  points: ['Proven approach across industries', 'Transparent timelines and pricing'],
+  image: pageImg.tech8,
+  statLabel: 'Projects delivered',
+  statValue: '120',
+  statUnit: '+',
+  statIcon: '🚀',
+  note: 'Trusted by 80+ businesses',
+  noteIcon: '👥',
+  ctaLabel: 'Start Your Project',
+}));
+const cardsBlock = {
+  "eyebrow": "Explore",
+  "title": "Discover More of Our Work",
+  "items": [
+    {
+      "icon": "🏆",
+      "title": "All Case Studies",
+      "text": "Browse every project in our portfolio.",
+      "to": "/case-studies",
+      "image": pageImg.tech2
+    },
+    {
+      "icon": "💻",
+      "title": "Our Services",
+      "text": "Web, mobile, cloud and automation built around your goals.",
+      "to": "/services",
+      "image": pageImg.svcCustomWeb
+    },
+    {
+      "icon": "🏢",
+      "title": "Industries",
+      "text": "Solutions shaped for the sector you work in.",
+      "to": "/industries",
+      "image": pageImg.population
+    }
+  ]
+};
+
 </script>

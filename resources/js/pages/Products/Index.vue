@@ -17,7 +17,10 @@
           </router-link>
         </div>
       </div>
+      <PageHeroAside :image="pageImg.orbit" :title="'Find the right product for your team'" :label="'Talk to Sales'" />
     </section>
+
+    <PageBento v-bind="bentoBlock" />
 
     <!-- ═══════════════ KEY FEATURES ═══════════════ -->
     <section class="py-14 md:py-20">
@@ -144,6 +147,8 @@
     </section>
 
     <!-- ═══════════════ REQUEST A QUOTE ═══════════════ -->
+    <PageSplit v-bind="splitBlock" />
+
     <section class="py-14 md:py-20 bg-muted/30">
       <div class="container mx-auto px-6">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
@@ -192,6 +197,8 @@
     </section>
 
     <!-- ═══════════════ OTHER AREAS ═══════════════ -->
+    <PageImageCards v-bind="cardsBlock" />
+
     <section class="py-14 md:py-20 bg-muted/30">
       <div class="container mx-auto px-6">
         <div class="text-center max-w-xl mx-auto mb-8">
@@ -223,11 +230,16 @@ import heroLaptopDark from '@/../img/tech-background.webp';
 import heroTechGlow from '@/../img/tech-glow.webp';
 import heroTech2 from '@/../img/tech2.webp';
 import heroTech4 from '@/../img/tech4.webp';
+import PageBento from '@/components/PageBento.vue';
+import PageHeroAside from '@/components/PageHeroAside.vue';
 import PageIcon from '@/components/PageIcon.vue';
+import PageImageCards from '@/components/PageImageCards.vue';
+import PageSplit from '@/components/PageSplit.vue';
 import PaginationControls from '@/components/ui/pagination/PaginationControls.vue';
 import WishlistButton from '@/components/WishlistButton.vue';
 import { useToast } from '@/composables/useToast';
 import PublicLayout from '@/layouts/PublicLayout.vue';
+import { pageImg } from '@/lib/pageImages';
 import { productImageMap as sharedProductImageMap } from '@/lib/productImages';
 import { useCmsStore } from '@/stores/cms';
 
@@ -300,4 +312,71 @@ function onPageChange(page: number) {
 }
 
 onMounted(fetchProducts);
+
+// Inner-page design blocks (bento row, split panel, image cards)
+const bentoBlock = {
+  "eyebrow": "Our Products",
+  "title": "Ready-Made Software, Ready to Grow With You",
+  "image": pageImg.orbit,
+  "imageTitle": "Deploy Faster With Proven Products",
+  "statLabel": "Faster time to launch",
+  "statValue": "3",
+  "statUnit": "x",
+  "cards": [
+    {
+      "icon": "⚡",
+      "title": "Quick to Deploy",
+      "text": "Skip months of development. Our products are tested, documented and can be configured for your business in days."
+    },
+    {
+      "icon": "🔄",
+      "title": "Customisable and Scalable",
+      "text": "Adapt features, branding and integrations as you grow, with our team ready to extend the product when you need more."
+    }
+  ]
+};
+const splitBlock = {
+  "eyebrow": "Product Support",
+  "title": "Launching a New Product Made Easy",
+  "text": "We help you choose, set up and roll out the right product, then train your team and stay on hand for updates and support.",
+  "points": [
+    "Guided setup, data migration and training",
+    "Regular updates and security patches"
+  ],
+  "image": pageImg.tech8,
+  "statLabel": "Uptime target",
+  "statValue": "99.9",
+  "statUnit": "%",
+  "note": "Hosted and supported by our team",
+  "statIcon": "☁",
+  "noteIcon": "🎧"
+};
+const cardsBlock = {
+  "eyebrow": "More To Explore",
+  "title": "Pair Your Product With the Right Service",
+  "items": [
+    {
+      "icon": "💻",
+      "title": "Our Services",
+      "text": "Web, mobile, cloud and automation built around your goals.",
+      "to": "/services",
+      "image": pageImg.svcCustomWeb
+    },
+    {
+      "icon": "💼",
+      "title": "Solution Bundles",
+      "text": "Services and products combined for better value.",
+      "to": "/bundles",
+      "image": pageImg.tech
+    },
+    {
+      "icon": "🏆",
+      "title": "Case Studies",
+      "text": "Real projects and the results they delivered.",
+      "to": "/case-studies",
+      "image": pageImg.tech7
+    }
+  ]
+};
+
 </script>

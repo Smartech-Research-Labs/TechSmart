@@ -54,7 +54,10 @@
             </div>
           </div>
         </div>
+        <PageHeroAside :image="pageImg.tech4" :title="`Start your ${service.name} project`" :label="'Get a Quote'" />
       </section>
+
+      <PageBento v-bind="bentoBlock" />
 
       <!-- ═══════════════ 2. ABOUT THE SERVICE ═══════════════ -->
       <section class="py-14 md:py-20">
@@ -304,6 +307,8 @@
       </section>
 
       <!-- ═══════════════ 8B. WHY CHOOSE US ═══════════════ -->
+      <PageSplit v-bind="splitBlock" />
+
       <section class="py-14 md:py-20">
         <div class="container mx-auto px-6">
           <div class="text-center max-w-2xl mx-auto mb-12">
@@ -330,6 +335,8 @@
       </section>
 
       <!-- ═══════════════ 8C. INDUSTRIES / AREAS OF INTEREST ═══════════════ -->
+      <PageImageCards v-bind="cardsBlock" />
+
       <section class="py-14 md:py-20 bg-muted/30">
         <div class="container mx-auto px-6">
           <div class="text-center max-w-2xl mx-auto mb-12">
@@ -540,6 +547,11 @@ import svcEcommerce from '@/../img/services/E-commerece Development.webp';
 import svcMobileApp from '@/../img/services/Mobile App Development.webp';
 import svcMobileApp2 from '@/../img/services/Mobile App.webp';
 import svcPaidAds from '@/../img/services/Paid Ads.webp';
+import PageBento from '@/components/PageBento.vue';
+import PageHeroAside from '@/components/PageHeroAside.vue';
+import { pageImg } from '@/lib/pageImages';
+import PageImageCards from '@/components/PageImageCards.vue';
+import PageSplit from '@/components/PageSplit.vue';
 import svcSeo from '@/../img/services/SEO Optimization.webp';
 import heroLaptopDark from '@/../img/tech-background.webp';
 import { blogImageUrl } from '@/lib/blogImages';
@@ -818,6 +830,63 @@ onMounted(async () => {
 watch(() => route.params.slug, (newSlug) => {
   if (newSlug) fetchService(newSlug as string);
 });
+
+// Inner-page design blocks (bento row, split panel, image cards)
+const bentoBlock = computed(() => ({
+  eyebrow: 'Service Overview',
+  title: `Why Choose Our ${service.value?.name || 'Service'}`,
+  image: getServiceImage(service.value) || service.value?.image_url || pageImg.techGlow,
+  imageTitle: `${service.value?.name || 'Our Service'} by OmniviaTech`,
+  statLabel: 'Projects delivered',
+  statValue: '500',
+  statUnit: '+',
+  cards: [
+    { icon: '🎯', title: 'Built Around Your Goals', text: service.value?.short_description || 'We start with your business goals and shape the solution around them, so it delivers real value from day one.' },
+    { icon: '🛡', title: 'Quality and Security', text: 'Every delivery is tested, secured and documented, with support available long after launch.' },
+  ],
+}));
+const splitBlock = computed(() => ({
+  eyebrow: 'How We Help',
+  title: `${service.value?.name || 'Your Project'} Made Easy With OmniviaTech`,
+  text: 'One accountable team takes you from discovery to launch. You get regular demos, clear timelines and a partner who stays with you after go-live.',
+  points: ['Agile delivery with demos at every stage', 'Maintenance and support after launch'],
+  image: pageImg.svcCrmErp,
+  statLabel: 'Client satisfaction',
+  statValue: '95',
+  statUnit: '%',
+  statIcon: '🏆',
+  note: 'Trusted by teams in 15+ countries',
+  noteIcon: '🌍',
+  ctaLabel: 'Request a Quote',
+}));
+const cardsBlock = {
+  "eyebrow": "Keep Exploring",
+  "title": "Pair This Service With More Solutions",
+  "items": [
+    {
+      "icon": "📦",
+      "title": "Website Packages",
+      "text": "Fixed-scope packages with clear pricing and timelines.",
+      "to": "/packages",
+      "image": pageImg.laptop
+    },
+    {
+      "icon": "🏆",
+      "title": "Case Studies",
+      "text": "Real projects and the results they delivered.",
+      "to": "/case-studies",
+      "image": pageImg.tech7
+    },
+    {
+      "icon": "🏢",
+      "title": "Industries",
+      "text": "Solutions shaped for the sector you work in.",
+      "to": "/industries",
+      "image": pageImg.population
+    }
+  ]
+};
+
 </script>
 
 <style scoped>

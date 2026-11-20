@@ -17,6 +17,7 @@
           <p class="text-white/80 text-base leading-relaxed mb-6">{{ pkg?.short_description }}</p>
         </div>
       </div>
+      <PageHeroAside :image="pageImg.laptop" :title="`Get started with ${pkg?.name || 'this package'}`" :to="'#quote-form'" :label="'Request a Quote'" />
     </section>
 
     <div v-if="loading" class="min-h-screen flex items-center justify-center">
@@ -27,6 +28,8 @@
 
     <div v-else-if="pkg">
       <!-- ═══════════════ MAIN CONTENT ═══════════════ -->
+      <PageBento v-bind="bentoBlock" />
+
       <section class="py-14 md:py-20">
         <div class="container mx-auto px-6">
           <div class="grid lg:grid-cols-3 gap-12">
@@ -301,6 +304,8 @@
       </section>
 
       <!-- ═══════════════ TESTIMONIALS ═══════════════ -->
+      <PageSplit v-bind="splitBlock" />
+
       <section v-if="topReviews.length" class="py-14 md:py-20 bg-gray-900">
         <div class="container mx-auto px-6">
           <div class="text-center max-w-2xl mx-auto mb-12">
@@ -330,6 +335,8 @@
       </section>
 
       <!-- ═══════════════ COMPARISON CTA ═══════════════ -->
+      <PageImageCards v-bind="cardsBlock" />
+
       <section class="py-14 md:py-20 bg-primary/5 border-y border-border">
         <div class="container mx-auto px-6">
           <div class="text-center max-w-2xl mx-auto">
@@ -469,9 +476,14 @@ import axios from 'axios';
 import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import tech1 from '@/../img/tech1.webp';
+import PageBento from '@/components/PageBento.vue';
+import PageHeroAside from '@/components/PageHeroAside.vue';
 import PageIcon from '@/components/PageIcon.vue';
+import PageImageCards from '@/components/PageImageCards.vue';
+import PageSplit from '@/components/PageSplit.vue';
 import { useToast } from '@/composables/useToast';
 import PublicLayout from '@/layouts/PublicLayout.vue';
+import { pageImg } from '@/lib/pageImages';
 import { useAuthStore } from '@/stores/auth';
 import { useCmsStore } from '@/stores/cms';
 
@@ -625,4 +637,62 @@ onMounted(() => {
   fetchPackage();
   loadReviews();
 });
+
+// Inner-page design blocks (bento row, split panel, image cards)
+const bentoBlock = computed(() => ({
+  eyebrow: 'Package Overview',
+  title: `What You Get With ${pkg.value?.name || 'This Package'}`,
+  image: pageImg.laptopDark,
+  imageTitle: `${pkg.value?.name || 'Your Website'}, Built to Perform`,
+  statLabel: 'Starting from',
+  statValue: pkg.value?.price ? Number(pkg.value.price).toLocaleString() : 'Custom',
+  statUnit: pkg.value?.price ? (pkg.value?.currency || 'KES') : '',
+  cards: [
+    { icon: '📋', title: 'Clear Scope', text: pkg.value?.short_description || 'Everything included is listed upfront, so you know exactly what you are paying for.' },
+    { icon: '🎧', title: 'Support Included', text: 'Launch help, training and post-launch support so your new website keeps running smoothly.' },
+  ],
+}));
+const splitBlock = computed(() => ({
+  eyebrow: 'Simple Process',
+  title: `Getting ${pkg.value?.name || 'Your Package'} Made Easy`,
+  text: 'Request a quote, agree on the details and we take it from there with regular updates until your website goes live.',
+  points: ['Free consultation before you commit', 'Upgrade any time as your business grows'],
+  image: pageImg.tech1,
+  statLabel: 'Websites launched',
+  statValue: '120',
+  statUnit: '+',
+  statIcon: '🚀',
+  note: 'Hosting, SSL and support included',
+  noteIcon: '🔒',
+  ctaLabel: 'Request a Quote',
+  ctaTo: '#quote-form',
+}));
+const cardsBlock = {
+  "eyebrow": "Compare Options",
+  "title": "Explore More Ways to Grow",
+  "items": [
+    {
+      "icon": "📦",
+      "title": "All Packages",
+      "text": "Compare every package side by side.",
+      "to": "/packages",
+      "image": pageImg.tech2
+    },
+    {
+      "icon": "💼",
+      "title": "Solution Bundles",
+      "text": "Services and products combined for better value.",
+      "to": "/bundles",
+      "image": pageImg.tech
+    },
+    {
+      "icon": "💻",
+      "title": "Our Services",
+      "text": "Web, mobile, cloud and automation built around your goals.",
+      "to": "/services",
+      "image": pageImg.svcCustomWeb
+    }
+  ]
+};
+
 </script>

@@ -68,6 +68,10 @@
       </div>
     </section>
 
+    <PageSplit v-bind="splitBlock" />
+
+    <PageImageCards v-bind="cardsBlock" />
+
     <PageCta
       eyebrow="Work with us"
       title="Let’s get started on something great"
@@ -83,8 +87,11 @@ import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import heroTechBg from '@/../img/tech-background.webp';
 import PageCta from '@/components/PageCta.vue';
+import PageImageCards from '@/components/PageImageCards.vue';
+import PageSplit from '@/components/PageSplit.vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import { blogImageUrl } from '@/lib/blogImages';
+import { pageImg } from '@/lib/pageImages';
 
 interface Blog {
   id: number;
@@ -171,4 +178,50 @@ onMounted(async () => {
     categories.value = [];
   }
 });
+
+// Inner-page design blocks (bento row, split panel, image cards)
+const splitBlock = {
+  "eyebrow": "From Insight to Action",
+  "title": "Ready to Put These Ideas to Work?",
+  "text": "Our articles share what we learn building for businesses every day. When you are ready to act on them, our team can help you plan and deliver.",
+  "points": [
+    "Practical advice from working engineers",
+    "Free consultation to discuss your idea"
+  ],
+  "image": pageImg.tech3,
+  "statLabel": "Articles published",
+  "statValue": "50",
+  "statUnit": "+",
+  "note": "New insights every week",
+  "statIcon": "📝",
+  "noteIcon": "💡"
+};
+const cardsBlock = {
+  "eyebrow": "Explore",
+  "title": "Turn Reading Into Results",
+  "items": [
+    {
+      "icon": "💻",
+      "title": "Our Services",
+      "text": "Web, mobile, cloud and automation built around your goals.",
+      "to": "/services",
+      "image": pageImg.svcCustomWeb
+    },
+    {
+      "icon": "🏆",
+      "title": "Case Studies",
+      "text": "Real projects and the results they delivered.",
+      "to": "/case-studies",
+      "image": pageImg.tech7
+    },
+    {
+      "icon": "💬",
+      "title": "Talk to Us",
+      "text": "Tell us about your project and get a free consultation.",
+      "to": "/contact",
+      "image": pageImg.tech6
+    }
+  ]
+};
+
 </script>

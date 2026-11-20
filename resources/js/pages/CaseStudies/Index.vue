@@ -17,6 +17,7 @@
           </router-link>
         </div>
       </div>
+      <PageHeroAside :image="pageImg.tech7" :title="'Have a project in mind?'" :label="'Start Now'" />
     </section>
 
     <!-- ═══════════════ FILTERS ═══════════════ -->
@@ -88,9 +89,15 @@
       </div>
     </section>
 
+    <PageBento v-bind="bentoBlock" />
+
     <PageProcess />
 
     <!-- ═══════════════ CTA ═══════════════ -->
+    <PageSplit v-bind="splitBlock" />
+
+    <PageImageCards v-bind="cardsBlock" />
+
     <section class="relative py-16 md:py-20 bg-black text-white overflow-hidden">
       <div class="absolute inset-0 opacity-30 bg-cover bg-center" :style="{ backgroundImage: 'url(' + heroTechGlow + ')' }"></div>
       <div class="relative container mx-auto px-6 text-center">
@@ -106,11 +113,16 @@
 </template>
 
 <script setup lang="ts">
-import PageProcess from '@/components/PageProcess.vue';
 import { ref, computed, onMounted } from 'vue';
 import heroLaptopDark from '@/../img/tech-background.webp';
 import heroTech7 from '@/../img/tech7.webp';
+import PageBento from '@/components/PageBento.vue';
+import PageHeroAside from '@/components/PageHeroAside.vue';
+import PageImageCards from '@/components/PageImageCards.vue';
+import PageProcess from '@/components/PageProcess.vue';
+import PageSplit from '@/components/PageSplit.vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
+import { pageImg } from '@/lib/pageImages';
 import api from '@/services/api';
 import { useCmsStore } from '@/stores/cms';
 
@@ -154,4 +166,71 @@ async function fetchCaseStudies(page = 1) {
 }
 
 onMounted(() => fetchCaseStudies());
+
+// Inner-page design blocks (bento row, split panel, image cards)
+const bentoBlock = {
+  "eyebrow": "Our Impact",
+  "title": "Results That Speak for Themselves",
+  "image": pageImg.tech7,
+  "imageTitle": "Real Projects, Measurable Results",
+  "statLabel": "Projects delivered",
+  "statValue": "120",
+  "statUnit": "+",
+  "cards": [
+    {
+      "icon": "📈",
+      "title": "Business Growth",
+      "text": "Our clients see more sales, more leads and faster operations after launch, and we track the numbers to prove it."
+    },
+    {
+      "icon": "🤝",
+      "title": "Long-Term Partnerships",
+      "text": "Most clients keep working with us after their first project, adding features and new products as they grow."
+    }
+  ]
+};
+const splitBlock = {
+  "eyebrow": "Your Success Story",
+  "title": "Your Project Could Be Our Next Case Study",
+  "text": "Tell us about your challenge. We will show you how we have solved similar problems and what results you can expect.",
+  "points": [
+    "Proven approach across industries",
+    "Clear goals and success metrics from day one"
+  ],
+  "image": pageImg.tech8,
+  "statLabel": "Client satisfaction",
+  "statValue": "95",
+  "statUnit": "%",
+  "note": "Trusted by 80+ businesses",
+  "statIcon": "🏆",
+  "noteIcon": "👥"
+};
+const cardsBlock = {
+  "eyebrow": "Explore",
+  "title": "Build Something Worth Showcasing",
+  "items": [
+    {
+      "icon": "💻",
+      "title": "Our Services",
+      "text": "Web, mobile, cloud and automation built around your goals.",
+      "to": "/services",
+      "image": pageImg.svcCustomWeb
+    },
+    {
+      "icon": "🏢",
+      "title": "Industries",
+      "text": "Solutions shaped for the sector you work in.",
+      "to": "/industries",
+      "image": pageImg.population
+    },
+    {
+      "icon": "📦",
+      "title": "Website Packages",
+      "text": "Fixed-scope packages with clear pricing and timelines.",
+      "to": "/packages",
+      "image": pageImg.laptop
+    }
+  ]
+};
+
 </script>

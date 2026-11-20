@@ -20,7 +20,10 @@
           </router-link>
         </div>
       </div>
+      <PageHeroAside :image="pageImg.tech4" :title="'Start your project with OmniviaTech'" />
     </section>
+
+    <PageBento v-bind="bentoBlock" />
 
 
     <!-- ═══════════════════════════════════════════
@@ -244,6 +247,8 @@
     <!-- ═══════════════════════════════════════════
          OUR JOURNEY — vertical timeline (2023–Now)
     ═══════════════════════════════════════════ -->
+    <PageSplit v-bind="splitBlock" />
+
     <section class="py-16 md:py-24 bg-muted/30">
       <div class="container mx-auto px-6">
         <div class="text-center max-w-2xl mx-auto mb-14">
@@ -565,6 +570,8 @@
     <!-- ═══════════════════════════════════════════
          EXPLORE MORE (bottom CTA grid)
     ═══════════════════════════════════════════ -->
+    <PageImageCards v-bind="cardsBlock" />
+
     <section class="py-16 md:py-24 bg-muted/30">
       <div class="container mx-auto px-6">
         <div class="text-center max-w-xl mx-auto mb-10">
@@ -593,10 +600,15 @@ import heroTechBg   from '@/../img/tech-background.webp';
 import heroTechGlow from '@/../img/tech-glow.webp';
 import heroTech2    from '@/../img/tech2.webp';
 import heroTech4    from '@/../img/tech4.webp';
+import PageBento from '@/components/PageBento.vue';
+import PageHeroAside from '@/components/PageHeroAside.vue';
 import PageIcon from '@/components/PageIcon.vue';
+import PageImageCards from '@/components/PageImageCards.vue';
+import PageSplit from '@/components/PageSplit.vue';
 import { useToast } from '@/composables/useToast';
 import PublicLayout  from '@/layouts/PublicLayout.vue';
 import { blogImageUrl } from '@/lib/blogImages';
+import { pageImg } from '@/lib/pageImages';
 import { useCmsStore } from '@/stores/cms';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -741,4 +753,72 @@ async function submitQuote() {
     quoteSubmitting.value = false;
   }
 }
+
+// Inner-page design blocks (bento row, split panel, image cards)
+const bentoBlock = {
+  "eyebrow": "Who We Are",
+  "title": "Technology That Moves African Business Forward",
+  "image": pageImg.techGlow,
+  "imageTitle": "Building Digital Products From Nairobi",
+  "statLabel": "Projects delivered",
+  "statValue": "120",
+  "statUnit": "+",
+  "cards": [
+    {
+      "icon": "🎯",
+      "title": "Strategy-Led Engineering",
+      "text": "Every build starts with your business goals, so the technology we deliver solves real problems and earns its keep from day one."
+    },
+    {
+      "icon": "🤝",
+      "title": "Partners Beyond Launch",
+      "text": "We stay with you after go-live with support, maintenance and improvements, so your platform keeps growing with your business."
+    }
+  ]
+};
+const splitBlock = {
+  "eyebrow": "Why OmniviaTech",
+  "title": "Digital Growth Made Simple With OmniviaTech",
+  "text": "From the first workshop to long-term support, one multidisciplinary team handles design, engineering, cloud and growth, so you get a single accountable partner.",
+  "points": [
+    "Global best practice with deep local market knowledge",
+    "Transparent stages, timelines and pricing"
+  ],
+  "image": pageImg.laptop,
+  "statLabel": "Client satisfaction",
+  "statValue": "95",
+  "statUnit": "%",
+  "note": "Trusted by 80+ growing businesses",
+  "statIcon": "🏆",
+  "noteIcon": "👥",
+  "ctaLabel": "Work With Us"
+};
+const cardsBlock = {
+  "eyebrow": "Keep Exploring",
+  "title": "See What We Can Build For You",
+  "items": [
+    {
+      "icon": "💻",
+      "title": "Our Services",
+      "text": "Web, mobile, cloud and automation built around your goals.",
+      "to": "/services",
+      "image": pageImg.svcCustomWeb
+    },
+    {
+      "icon": "🏢",
+      "title": "Industries",
+      "text": "Solutions shaped for the sector you work in.",
+      "to": "/industries",
+      "image": pageImg.population
+    },
+    {
+      "icon": "🏆",
+      "title": "Case Studies",
+      "text": "Real projects and the results they delivered.",
+      "to": "/case-studies",
+      "image": pageImg.tech7
+    }
+  ]
+};
+
 </script>

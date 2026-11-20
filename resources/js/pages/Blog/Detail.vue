@@ -91,6 +91,8 @@
         </div>
       </section>
 
+      <PageSplit v-bind="splitBlock" />
+
       <PageCta title="Need help putting this into practice?" />
     </template>
 
@@ -108,9 +110,11 @@ import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import heroTechBg from '@/../img/tech-background.webp';
 import PageCta from '@/components/PageCta.vue';
+import PageSplit from '@/components/PageSplit.vue';
 import { useToast } from '@/composables/useToast';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import { blogImageUrl } from '@/lib/blogImages';
+import { pageImg } from '@/lib/pageImages';
 
 const route = useRoute();
 const router = useRouter();
@@ -190,4 +194,23 @@ watch(() => route.params.slug, (slug) => {
 });
 
 onMounted(() => fetchBlog(String(route.params.slug)));
+
+// Inner-page design blocks (bento row, split panel, image cards)
+const splitBlock = {
+  "eyebrow": "Put It Into Practice",
+  "title": "Turning Ideas Into Results Made Easy",
+  "text": "Found this useful? Our team can help you apply these ideas to your own business, from planning to delivery and support.",
+  "points": [
+    "Free consultation with an expert",
+    "Practical, step-by-step delivery plan"
+  ],
+  "image": pageImg.tech3,
+  "statLabel": "Projects delivered",
+  "statValue": "120",
+  "statUnit": "+",
+  "note": "Real experience behind every article",
+  "statIcon": "🚀",
+  "noteIcon": "💡"
+};
+
 </script>

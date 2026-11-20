@@ -24,7 +24,10 @@
           </div>
         </div>
       </div>
+      <PageHeroAside :image="pageImg.tech" :title="`Get a quote for ${specialization.title}`" :label="'Get a Quote'" />
     </section>
+
+    <PageBento v-bind="bentoBlock" v-if="specialization" />
 
     <!-- ═══════════════ ABOUT THIS SPECIALIZATION ═══════════════ -->
     <section v-if="specialization" class="py-12 md:py-16">
@@ -174,6 +177,10 @@
     </section>
 
     <!-- ═══════════════ REQUEST A QUOTE ═══════════════ -->
+    <PageSplit v-bind="splitBlock" v-if="specialization" />
+
+    <PageImageCards v-bind="cardsBlock" v-if="specialization" />
+
     <section class="py-12 md:py-16 bg-gray-900">
       <div class="container mx-auto px-6 max-w-5xl">
         <div class="text-center max-w-2xl mx-auto mb-10">
@@ -239,9 +246,14 @@ import { useRoute } from 'vue-router';
 import heroLaptop from '@/../img/Laptop.webp';
 import heroLaptopDark from '@/../img/tech-background.webp';
 import heroTech from '@/../img/tech.webp';
+import PageBento from '@/components/PageBento.vue';
+import PageHeroAside from '@/components/PageHeroAside.vue';
 import PageIcon from '@/components/PageIcon.vue';
+import PageImageCards from '@/components/PageImageCards.vue';
+import PageSplit from '@/components/PageSplit.vue';
 import { useToast } from '@/composables/useToast';
 import PublicLayout from '@/layouts/PublicLayout.vue';
+import { pageImg } from '@/lib/pageImages';
 
 const toast = useToast();
 
@@ -353,6 +365,62 @@ async function submitQuoteRequest() {
 onMounted(() => {
   fetchSpecialization();
 });
+
+// Inner-page design blocks (bento row, split panel, image cards)
+const bentoBlock = computed(() => ({
+  eyebrow: 'Specialization',
+  title: `Expert ${specialization.value?.title || 'Technology'} Solutions`,
+  image: specialization.value?.description_image || pageImg.techGlow,
+  imageTitle: `Built Around Your ${specialization.value?.title || 'Business'} Goals`,
+  statLabel: 'Projects delivered',
+  statValue: '120',
+  statUnit: '+',
+  cards: [
+    { icon: '🎯', title: 'Focused Expertise', text: 'A dedicated team that works in this area every day and knows the tools, pitfalls and best practices inside out.' },
+    { icon: '🚀', title: 'Faster Results', text: 'Proven patterns and reusable components mean you launch sooner and spend less to get the outcome you need.' },
+  ],
+}));
+const splitBlock = computed(() => ({
+  eyebrow: 'Why It Works',
+  title: `${specialization.value?.title || 'Your Project'} Made Easy`,
+  text: 'We plan with you, build in reviewable stages and support you after launch, so you always know what is happening and why.',
+  points: ['Clear scope, timeline and pricing', 'Ongoing support and improvements after launch'],
+  image: pageImg.tech4,
+  statLabel: 'Client satisfaction',
+  statValue: '95',
+  statUnit: '%',
+  statIcon: '🏆',
+  note: 'Trusted by 80+ growing businesses',
+  noteIcon: '👥',
+}));
+const cardsBlock = {
+  "eyebrow": "Explore More",
+  "title": "Related Ways We Can Help",
+  "items": [
+    {
+      "icon": "💻",
+      "title": "Our Services",
+      "text": "Web, mobile, cloud and automation built around your goals.",
+      "to": "/services",
+      "image": pageImg.svcCustomWeb
+    },
+    {
+      "icon": "🏆",
+      "title": "Case Studies",
+      "text": "Real projects and the results they delivered.",
+      "to": "/case-studies",
+      "image": pageImg.tech7
+    },
+    {
+      "icon": "📦",
+      "title": "Website Packages",
+      "text": "Fixed-scope packages with clear pricing and timelines.",
+      "to": "/packages",
+      "image": pageImg.laptop
+    }
+  ]
+};
+
 </script>
 
 <style scoped>

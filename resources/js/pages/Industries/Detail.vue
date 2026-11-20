@@ -34,7 +34,10 @@
             </div>
           </div>
         </div>
+        <PageHeroAside :image="pageImg.population" :title="`Transform your ${industry.title} business`" />
       </section>
+
+      <PageBento v-bind="bentoBlock" />
 
       <!-- ═══════════════ 2. ABOUT / DESCRIPTION ═══════════════ -->
       <section v-if="industry.description" class="py-14 md:py-20">
@@ -145,6 +148,8 @@
       </section>
 
       <!-- ═══════════════ 7. CTA ═══════════════ -->
+      <PageSplit v-bind="splitBlock" />
+
       <section class="py-14 md:py-20 bg-gradient-to-r from-primary to-accent text-white">
         <div class="container mx-auto px-6 text-center max-w-2xl">
           <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">{{ industry.cta_title || `Ready to Transform Your ${industry.title} Business?` }}</h2>
@@ -225,6 +230,8 @@
             </section>
 
             <!-- ═══════════════ 10. RELATED INDUSTRIES ═══════════════ -->
+      <PageImageCards v-bind="cardsBlock" />
+
       <section v-if="relatedIndustries.length" class="py-14 md:py-20 bg-muted/30">
         <div class="container mx-auto px-6">
           <div class="text-center max-w-2xl mx-auto mb-10">
@@ -266,7 +273,6 @@
 </template>
 
 <script setup lang="ts">
-import PageIcon from '@/components/PageIcon.vue';
 import axios from 'axios';
 import { Autoplay, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/vue';
@@ -274,8 +280,14 @@ import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import heroLaptop from '@/../img/Laptop.webp';
 import heroTechBg from '@/../img/tech-background.webp';
+import PageBento from '@/components/PageBento.vue';
+import PageHeroAside from '@/components/PageHeroAside.vue';
+import PageIcon from '@/components/PageIcon.vue';
+import PageImageCards from '@/components/PageImageCards.vue';
+import PageSplit from '@/components/PageSplit.vue';
 import { useApi } from '@/composables/useApi';
 import PublicLayout from '@/layouts/PublicLayout.vue';
+import { pageImg } from '@/lib/pageImages';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
@@ -383,4 +395,60 @@ watch(() => route.params.slug, (newSlug) => {
     window.scrollTo(0, 0);
   }
 });
+
+// Inner-page design blocks (bento row, split panel, image cards)
+const bentoBlock = computed(() => ({
+  eyebrow: 'Industry Focus',
+  title: `Technology Built for ${industry.value?.title || 'Your Industry'}`,
+  image: industry.value?.image || pageImg.population,
+  imageTitle: `${industry.value?.title || 'Industry'} Solutions That Deliver`,
+  statLabel: industry.value?.stats?.[0]?.label || 'Projects delivered',
+  statValue: industry.value?.stats?.[0]?.value || '500+',
+  statUnit: '',
+  cards: [
+    { icon: '🎯', title: 'Sector Know-How', text: 'We understand the workflows, regulations and customers in your industry, so solutions fit how you really work.' },
+    { icon: '📊', title: 'Measurable Outcomes', text: 'We track the results that matter in your sector, from faster service to lower costs and better reporting.' },
+  ],
+}));
+const splitBlock = computed(() => ({
+  eyebrow: 'How We Help',
+  title: `${industry.value?.title || 'Industry'} Transformation Made Easy`,
+  text: 'We bring proven solutions, adapt them to your exact needs and support your team every step of the way.',
+  points: ['Compliance-aware, secure solutions', 'Integrations with the tools you already use'],
+  image: pageImg.tech4,
+  statLabel: 'Client satisfaction',
+  statValue: '95',
+  statUnit: '%',
+  statIcon: '🏆',
+  note: 'Proven across Africa and beyond',
+  noteIcon: '🌍',
+}));
+const cardsBlock = {
+  "eyebrow": "Keep Exploring",
+  "title": "See How We Deliver",
+  "items": [
+    {
+      "icon": "🏆",
+      "title": "Case Studies",
+      "text": "Real projects and the results they delivered.",
+      "to": "/case-studies",
+      "image": pageImg.tech7
+    },
+    {
+      "icon": "💻",
+      "title": "Our Services",
+      "text": "Web, mobile, cloud and automation built around your goals.",
+      "to": "/services",
+      "image": pageImg.svcCustomWeb
+    },
+    {
+      "icon": "🚀",
+      "title": "Products",
+      "text": "Ready-made software you can deploy and grow with.",
+      "to": "/products",
+      "image": pageImg.orbit
+    }
+  ]
+};
+
 </script>

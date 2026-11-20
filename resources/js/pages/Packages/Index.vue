@@ -17,7 +17,10 @@
           </router-link>
         </div>
       </div>
+      <PageHeroAside :image="pageImg.laptop" :title="'Not sure which package fits?'" :label="'Ask Us'" />
     </section>
+
+    <PageBento v-bind="bentoBlock" />
 
     <!-- ═══════════════ PACKAGES GRID ═══════════════ -->
     <section class="py-14 md:py-20 bg-slate-100 dark:bg-gray-900/40">
@@ -238,6 +241,8 @@
     </section>
 
     <!-- ═══════════════ CLIENTS SECTION ═══════════════ -->
+    <PageImageCards v-bind="cardsBlock" />
+
     <section v-if="clients.length" class="py-14 md:py-20 bg-gray-900">
       <div class="container mx-auto px-6">
         <div class="text-center max-w-2xl mx-auto mb-12">
@@ -262,6 +267,8 @@
     </section>
 
     <!-- ═══════════════ CTA SECTION ═══════════════ -->
+    <PageSplit v-bind="splitBlock" />
+
     <section class="py-14 md:py-20">
       <div class="container mx-auto px-6">
         <div class="bg-primary/10 border border-primary/20 rounded-xl p-8 md:p-12 text-center">
@@ -293,12 +300,17 @@
 </template>
 
 <script setup lang="ts">
-import PageIcon from '@/components/PageIcon.vue';
-import { computed, ref, onMounted } from 'vue';
-import PublicLayout from '@/layouts/PublicLayout.vue';
 import axios from 'axios';
-import PackageCard from '@/components/PackageCard.vue';
+import { computed, ref, onMounted } from 'vue';
 import heroLaptopDark from '@/../img/laptop-in-dark.webp';
+import PackageCard from '@/components/PackageCard.vue';
+import PageBento from '@/components/PageBento.vue';
+import PageHeroAside from '@/components/PageHeroAside.vue';
+import PageIcon from '@/components/PageIcon.vue';
+import PageImageCards from '@/components/PageImageCards.vue';
+import PageSplit from '@/components/PageSplit.vue';
+import PublicLayout from '@/layouts/PublicLayout.vue';
+import { pageImg } from '@/lib/pageImages';
 import { useCmsStore } from '@/stores/cms';
 
 const cmsStore = useCmsStore();
@@ -327,4 +339,71 @@ onMounted(async () => {
     loading.value = false;
   }
 });
+
+// Inner-page design blocks (bento row, split panel, image cards)
+const bentoBlock = {
+  "eyebrow": "Website Packages",
+  "title": "Clear Packages, Predictable Results",
+  "image": pageImg.laptopDark,
+  "imageTitle": "Websites That Work as Hard as You Do",
+  "statLabel": "Websites launched",
+  "statValue": "120",
+  "statUnit": "+",
+  "cards": [
+    {
+      "icon": "💰",
+      "title": "Transparent Pricing",
+      "text": "Every package lists exactly what is included, so you know the cost upfront with no surprise extras along the way."
+    },
+    {
+      "icon": "🚀",
+      "title": "Fast, Reliable Delivery",
+      "text": "Agreed timelines, regular progress updates and a launch checklist that makes sure nothing is missed on go-live day."
+    }
+  ]
+};
+const splitBlock = {
+  "eyebrow": "Package Guidance",
+  "title": "Choosing a Package Made Easy",
+  "text": "Tell us about your business and goals and we will recommend the package that fits, or tailor one if you need something in between.",
+  "points": [
+    "Free consultation before you commit",
+    "Upgrade to a bigger package as you grow"
+  ],
+  "image": pageImg.tech1,
+  "statLabel": "Client satisfaction",
+  "statValue": "95",
+  "statUnit": "%",
+  "note": "Hosting, SSL and support included",
+  "statIcon": "🏆",
+  "noteIcon": "🔒"
+};
+const cardsBlock = {
+  "eyebrow": "Beyond Websites",
+  "title": "Grow Further With OmniviaTech",
+  "items": [
+    {
+      "icon": "🚀",
+      "title": "Products",
+      "text": "Ready-made software you can deploy and grow with.",
+      "to": "/products",
+      "image": pageImg.orbit
+    },
+    {
+      "icon": "💼",
+      "title": "Solution Bundles",
+      "text": "Services and products combined for better value.",
+      "to": "/bundles",
+      "image": pageImg.tech
+    },
+    {
+      "icon": "🏆",
+      "title": "Case Studies",
+      "text": "Real projects and the results they delivered.",
+      "to": "/case-studies",
+      "image": pageImg.tech7
+    }
+  ]
+};
+
 </script>

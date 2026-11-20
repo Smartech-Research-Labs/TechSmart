@@ -17,7 +17,10 @@
           </router-link>
         </div>
       </div>
+      <PageHeroAside :image="pageImg.svcCustomWeb" :title="'Get a free project quote'" :label="'Get a Quote'" />
     </section>
+
+    <PageBento v-bind="bentoBlock" />
 
     <!-- ═══════════════ WHY CHOOSE US ═══════════════ -->
     <section class="py-14 md:py-20">
@@ -281,6 +284,8 @@
       </section>
 
     <!-- ═══════════════ REQUEST A QUOTE ═══════════════ -->
+    <PageSplit v-bind="splitBlock" />
+
     <section class="py-14 md:py-20">
       <div class="container mx-auto px-6">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
@@ -337,6 +342,8 @@
     </section>
 
     <!-- ═══════════════ OTHER AREAS ═══════════════ -->
+    <PageImageCards v-bind="cardsBlock" />
+
     <section class="py-14 md:py-20">
       <div class="container mx-auto px-6">
         <div class="text-center max-w-xl mx-auto mb-8">
@@ -357,8 +364,9 @@
 </template>
 
 <script setup lang="ts">
-import PageIcon from '@/components/PageIcon.vue';
-import { blogImageUrl } from '@/lib/blogImages';
+import { pageImg } from '@/lib/pageImages';
+import PageHeroAside from '@/components/PageHeroAside.vue';
+import PageBento from '@/components/PageBento.vue';
 import axios from 'axios';
 import { Autoplay, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/vue';
@@ -378,9 +386,13 @@ import heroLaptopDark from '@/../img/tech-background.webp';
 import heroTechGlow from '@/../img/tech-glow.webp';
 import heroTech2 from '@/../img/tech2.webp';
 import heroTech4 from '@/../img/tech4.webp';
+import PageIcon from '@/components/PageIcon.vue';
+import PageImageCards from '@/components/PageImageCards.vue';
+import PageSplit from '@/components/PageSplit.vue';
 import WishlistButton from '@/components/WishlistButton.vue';
 import { useToast } from '@/composables/useToast';
 import PublicLayout from '@/layouts/PublicLayout.vue';
+import { blogImageUrl } from '@/lib/blogImages';
 import { useCmsStore } from '@/stores/cms';
 
 const serviceImageMap: Record<string, string> = {
@@ -538,4 +550,68 @@ onMounted(() => {
   loadReviews();
   loadBlogs();
 });
+
+// Inner-page design blocks (bento row, split panel, image cards)
+const bentoBlock = {
+  "eyebrow": "Our Services",
+  "title": "Everything Your Business Needs to Grow Online",
+  "image": pageImg.svcCrmErp,
+  "imageTitle": "Complete Digital Delivery Under One Roof",
+  "statLabel": "Projects delivered",
+  "statValue": "500",
+  "statUnit": "+",
+  "cards": [
+    {
+      "icon": "💻",
+      "title": "Build and Modernise",
+      "text": "Custom websites, mobile apps, e-commerce stores and business systems designed around how your team actually works."
+    },
+    {
+      "icon": "📈",
+      "title": "Grow and Optimise",
+      "text": "SEO, paid ads, automation and analytics that bring in customers and help you make better decisions with your data."
+    }
+  ]
+};
+const splitBlock = {
+  "eyebrow": "End-to-End Delivery",
+  "title": "Technology Made Easy With OmniviaTech",
+  "text": "One accountable team takes you from idea to launch and beyond. You get clear plans, regular demos and support that continues long after go-live.",
+  "points": [
+    "Agile delivery with demos at every stage",
+    "Security and scalability built in from day one"
+  ],
+  "image": pageImg.svcMobileApp,
+  "statLabel": "Countries served",
+  "statValue": "15",
+  "statUnit": "+",
+  "note": "Making every project count",
+  "statIcon": "🌍",
+  "noteIcon": "🚀"
+};
+const cardsBlock = {
+  "eyebrow": "Featured Solutions",
+  "title": "Transform the Way Your Business Works",
+  "items": [
+    {
+      "icon": "🛒",
+      "title": "E-commerce Development",
+      "text": "Online stores with M-Pesa and card payments that are built to sell.",
+      "image": pageImg.svcEcommerce
+    },
+    {
+      "icon": "⚙",
+      "title": "API and Integrations",
+      "text": "Connect your systems, payment gateways and third-party tools.",
+      "image": pageImg.svcApi
+    },
+    {
+      "icon": "📊",
+      "title": "SEO and Digital Marketing",
+      "text": "Get found on Google and turn visitors into paying customers.",
+      "image": pageImg.svcSeo
+    }
+  ]
+};
+
 </script>

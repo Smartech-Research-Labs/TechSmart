@@ -17,7 +17,10 @@
           </a>
         </div>
       </div>
+      <PageHeroAside :image="pageImg.tech6" :title="'Not sure where to start? See our packages'" :to="'/packages'" :label="'View Packages'" />
     </section>
+
+    <PageBento v-bind="bentoBlock" />
 
     <!-- ═══════════════ HOW WE CAN HELP ═══════════════ -->
     <section class="py-14 md:py-20">
@@ -109,6 +112,8 @@
     </section>
 
     <!-- ═══════════════ VALUE CARDS ═══════════════ -->
+    <PageSplit v-bind="splitBlock" />
+
     <section class="py-14 md:py-20 bg-muted/30">
       <div class="container mx-auto px-6">
         <div class="text-center max-w-xl mx-auto mb-10">
@@ -282,6 +287,8 @@
     </section>
 
     <!-- ═══════════════ OTHER AREAS ═══════════════ -->
+    <PageImageCards v-bind="cardsBlock" />
+
     <section class="py-14 md:py-20">
       <div class="container mx-auto px-6">
         <div class="text-center max-w-xl mx-auto mb-8">
@@ -308,10 +315,15 @@ import heroLaptopDark from '@/../img/tech-background.webp';
 import heroTechGlow from '@/../img/tech-glow.webp';
 import heroTech4 from '@/../img/tech4.webp';
 import heroTech6 from '@/../img/tech6.webp';
+import PageBento from '@/components/PageBento.vue';
+import PageHeroAside from '@/components/PageHeroAside.vue';
 import PageIcon from '@/components/PageIcon.vue';
+import PageImageCards from '@/components/PageImageCards.vue';
+import PageSplit from '@/components/PageSplit.vue';
 import { useToast } from '@/composables/useToast';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import { blogImageUrl } from '@/lib/blogImages';
+import { pageImg } from '@/lib/pageImages';
 import { useCmsStore } from '@/stores/cms';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -399,4 +411,73 @@ async function submitContact() {
     submitting.value = false;
   }
 }
+
+// Inner-page design blocks (bento row, split panel, image cards)
+const bentoBlock = {
+  "eyebrow": "Get In Touch",
+  "title": "We Are Ready When You Are",
+  "image": pageImg.techBackground,
+  "imageTitle": "Real People, Fast Answers",
+  "statLabel": "Average response time",
+  "statValue": "<24",
+  "statUnit": "hrs",
+  "cards": [
+    {
+      "icon": "📞",
+      "title": "Talk to an Expert",
+      "text": "Call or WhatsApp our team for a quick chat about your idea, timeline and budget. No obligation, just honest advice."
+    },
+    {
+      "icon": "📧",
+      "title": "Send a Detailed Brief",
+      "text": "Share your requirements through the form below and we will reply with next steps and a tailored proposal."
+    }
+  ]
+};
+const splitBlock = {
+  "eyebrow": "Free Consultation",
+  "title": "Your Project Starts With One Conversation",
+  "text": "We listen first, then recommend the simplest route to your goal. You leave the call with clear next steps, whether or not you choose to work with us.",
+  "points": [
+    "Free, no-obligation discovery call",
+    "Clear quote with scope, timeline and cost"
+  ],
+  "image": pageImg.tech4,
+  "statLabel": "Projects delivered",
+  "statValue": "120",
+  "statUnit": "+",
+  "note": "Happy to sign an NDA before we talk",
+  "statIcon": "🚀",
+  "noteIcon": "🔒",
+  "ctaLabel": "View Packages",
+  "ctaTo": "/packages"
+};
+const cardsBlock = {
+  "eyebrow": "While You Are Here",
+  "title": "Learn More About How We Work",
+  "items": [
+    {
+      "icon": "💻",
+      "title": "Our Services",
+      "text": "Web, mobile, cloud and automation built around your goals.",
+      "to": "/services",
+      "image": pageImg.svcCustomWeb
+    },
+    {
+      "icon": "🏆",
+      "title": "Case Studies",
+      "text": "Real projects and the results they delivered.",
+      "to": "/case-studies",
+      "image": pageImg.tech7
+    },
+    {
+      "icon": "📝",
+      "title": "Blog & Insights",
+      "text": "Practical guides on technology and digital growth.",
+      "to": "/blog",
+      "image": pageImg.tech3
+    }
+  ]
+};
+
 </script>

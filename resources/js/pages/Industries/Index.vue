@@ -17,7 +17,10 @@
           </router-link>
         </div>
       </div>
+      <PageHeroAside :image="pageImg.population" :title="'Find solutions for your sector'" />
     </section>
+
+    <PageBento v-bind="bentoBlock" />
 
     <!-- ═══════════════ ABOUT ═══════════════ -->
     <section class="py-14 md:py-20">
@@ -217,6 +220,10 @@
       </section>
 
     <!-- ═══════════════ CTA ═══════════════ -->
+    <PageSplit v-bind="splitBlock" />
+
+    <PageImageCards v-bind="cardsBlock" />
+
     <section class="py-14 md:py-20 bg-gradient-to-r from-primary to-accent text-white">
       <div class="container mx-auto px-6 text-center max-w-2xl">
         <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">Don't See Your Industry?</h2>
@@ -231,16 +238,21 @@
 </template>
 
 <script setup lang="ts">
-import PageIcon from '@/components/PageIcon.vue';
-import { blogImageUrl } from '@/lib/blogImages';
 import axios from 'axios';
 import { Autoplay, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { ref, computed, onMounted } from 'vue';
 import heroLaptop from '@/../img/Laptop.webp';
 import heroTechBg from '@/../img/tech-background.webp';
+import PageBento from '@/components/PageBento.vue';
+import PageHeroAside from '@/components/PageHeroAside.vue';
+import PageIcon from '@/components/PageIcon.vue';
+import PageImageCards from '@/components/PageImageCards.vue';
+import PageSplit from '@/components/PageSplit.vue';
 import { useApi } from '@/composables/useApi';
 import PublicLayout from '@/layouts/PublicLayout.vue';
+import { blogImageUrl } from '@/lib/blogImages';
+import { pageImg } from '@/lib/pageImages';
 import { useCmsStore } from '@/stores/cms';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -346,4 +358,71 @@ onMounted(() => {
   loadReviews();
   loadBlogs();
 });
+
+// Inner-page design blocks (bento row, split panel, image cards)
+const bentoBlock = {
+  "eyebrow": "Industries",
+  "title": "Technology Shaped Around Your Sector",
+  "image": pageImg.population,
+  "imageTitle": "Solutions Built for Real-World Industries",
+  "statLabel": "Industries served",
+  "statValue": "12",
+  "statUnit": "+",
+  "cards": [
+    {
+      "icon": "🏥",
+      "title": "Sector Know-How",
+      "text": "We understand the rules, workflows and customers in your industry, so solutions fit how your business really runs."
+    },
+    {
+      "icon": "📊",
+      "title": "Measurable Outcomes",
+      "text": "We focus on results that matter in your sector, from faster service and lower costs to more sales and better reporting."
+    }
+  ]
+};
+const splitBlock = {
+  "eyebrow": "Industry Expertise",
+  "title": "Digital Transformation Made Easy for Your Sector",
+  "text": "From healthcare and finance to retail, logistics and education, we bring proven solutions and adapt them to your exact needs.",
+  "points": [
+    "Compliance-aware solutions for regulated sectors",
+    "Integrations with the tools your industry uses"
+  ],
+  "image": pageImg.tech4,
+  "statLabel": "Projects delivered",
+  "statValue": "500",
+  "statUnit": "+",
+  "note": "Proven across Africa and beyond",
+  "statIcon": "🌍",
+  "noteIcon": "🏆"
+};
+const cardsBlock = {
+  "eyebrow": "Related",
+  "title": "See Our Industry Work in Action",
+  "items": [
+    {
+      "icon": "🏆",
+      "title": "Case Studies",
+      "text": "Real projects and the results they delivered.",
+      "to": "/case-studies",
+      "image": pageImg.tech7
+    },
+    {
+      "icon": "💻",
+      "title": "Our Services",
+      "text": "Web, mobile, cloud and automation built around your goals.",
+      "to": "/services",
+      "image": pageImg.svcCustomWeb
+    },
+    {
+      "icon": "📝",
+      "title": "Blog & Insights",
+      "text": "Practical guides on technology and digital growth.",
+      "to": "/blog",
+      "image": pageImg.tech3
+    }
+  ]
+};
+
 </script>

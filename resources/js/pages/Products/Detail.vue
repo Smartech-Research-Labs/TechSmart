@@ -48,7 +48,10 @@
             </div>
           </div>
         </div>
+        <PageHeroAside :image="pageImg.orbit" :title="`Request a ${product.name} demo`" :label="'Request Demo'" />
       </section>
+
+      <PageBento v-bind="bentoBlock" />
 
       <section class="py-14 md:py-20">
         <div class="container mx-auto px-6">
@@ -221,6 +224,8 @@
         </div>
       </section>
 
+      <PageSplit v-bind="splitBlock" />
+
       <section class="py-14 md:py-20 bg-muted/30">
         <div class="container mx-auto px-6">
           <div class="text-center max-w-2xl mx-auto mb-12">
@@ -245,6 +250,8 @@
           </div>
         </div>
       </section>
+
+      <PageImageCards v-bind="cardsBlock" />
 
       <section class="py-14 md:py-20 bg-muted/30">
         <div class="container mx-auto px-6">
@@ -426,9 +433,14 @@ import svcMobileApp from '@/../img/services/Mobile App Development.webp';
 import svcSeo from '@/../img/services/SEO Optimization.webp';
 import heroLaptopDark from '@/../img/tech-background.webp';
 import heroTech7 from '@/../img/tech7.webp';
+import PageBento from '@/components/PageBento.vue';
+import PageHeroAside from '@/components/PageHeroAside.vue';
+import PageImageCards from '@/components/PageImageCards.vue';
+import PageSplit from '@/components/PageSplit.vue';
 import { useToast } from '@/composables/useToast';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import { blogImageUrl } from '@/lib/blogImages';
+import { pageImg } from '@/lib/pageImages';
 import { productImageMap as sharedProductImageMap } from '@/lib/productImages';
 import api from '@/services/api';
 import { useCmsStore } from '@/stores/cms';
@@ -555,4 +567,61 @@ onMounted(async () => {
   await fetchProduct(route.params.slug as string);
   await fetchAdditionalData();
 });
+
+// Inner-page design blocks (bento row, split panel, image cards)
+const bentoBlock = computed(() => ({
+  eyebrow: 'Product Overview',
+  title: `Why Teams Choose ${product.value?.name || 'This Product'}`,
+  image: getProductImage(product.value) || product.value?.image_url || pageImg.orbit,
+  imageTitle: `${product.value?.name || 'Our Product'} by OmniviaTech`,
+  statLabel: 'Uptime target',
+  statValue: '99.9',
+  statUnit: '%',
+  cards: [
+    { icon: '⚡', title: 'Ready to Deploy', text: product.value?.short_description || 'Tested, documented and ready to configure for your business in days, not months.' },
+    { icon: '🔄', title: 'Grows With You', text: 'Adapt features, branding and integrations as your needs change, with regular updates included.' },
+  ],
+}));
+const splitBlock = computed(() => ({
+  eyebrow: 'Getting Started',
+  title: `Launching ${product.value?.name || 'Your Product'} Made Easy`,
+  text: 'We handle setup, data migration and team training, then stay on hand for updates and support so you can focus on your business.',
+  points: ['Guided setup and team training', 'Ongoing updates and security patches'],
+  image: pageImg.tech8,
+  statLabel: 'Client satisfaction',
+  statValue: '95',
+  statUnit: '%',
+  statIcon: '🏆',
+  note: 'Hosted and supported by our team',
+  noteIcon: '☁',
+  ctaLabel: 'Request a Demo',
+}));
+const cardsBlock = {
+  "eyebrow": "Keep Exploring",
+  "title": "Get More From Your Product",
+  "items": [
+    {
+      "icon": "💻",
+      "title": "Our Services",
+      "text": "Web, mobile, cloud and automation built around your goals.",
+      "to": "/services",
+      "image": pageImg.svcCustomWeb
+    },
+    {
+      "icon": "💼",
+      "title": "Solution Bundles",
+      "text": "Services and products combined for better value.",
+      "to": "/bundles",
+      "image": pageImg.tech
+    },
+    {
+      "icon": "🏆",
+      "title": "Case Studies",
+      "text": "Real projects and the results they delivered.",
+      "to": "/case-studies",
+      "image": pageImg.tech7
+    }
+  ]
+};
+
 </script>

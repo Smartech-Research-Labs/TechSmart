@@ -17,7 +17,10 @@
           </router-link>
         </div>
       </div>
+      <PageHeroAside :image="pageImg.tech2" :title="'Still have questions? Talk to our team'" />
     </section>
+
+    <PageBento v-bind="bentoBlock" />
 
     <!-- ═══════════════ SUPPORT CHANNELS ═══════════════ -->
     <section class="py-14 md:py-20">
@@ -173,6 +176,8 @@
     </section>
 
     <!-- ═══════════════ VALUE CARDS ═══════════════ -->
+    <PageSplit v-bind="splitBlock" />
+
     <section class="py-14 md:py-20">
       <div class="container mx-auto px-6">
         <div class="text-center max-w-xl mx-auto mb-10">
@@ -236,6 +241,8 @@
     </section>
 
     <!-- ═══════════════ OTHER AREAS ═══════════════ -->
+    <PageImageCards v-bind="cardsBlock" />
+
     <section class="py-14 md:py-20 bg-muted/30">
       <div class="container mx-auto px-6">
         <div class="text-center max-w-xl mx-auto mb-8">
@@ -261,9 +268,14 @@ import heroTechGlow from '@/../img/tech-glow.webp';
 import heroTech2 from '@/../img/tech2.webp';
 import heroTech4 from '@/../img/tech4.webp';
 import heroTech6 from '@/../img/tech6.webp';
+import PageBento from '@/components/PageBento.vue';
+import PageHeroAside from '@/components/PageHeroAside.vue';
 import PageIcon from '@/components/PageIcon.vue';
+import PageImageCards from '@/components/PageImageCards.vue';
+import PageSplit from '@/components/PageSplit.vue';
 import { useToast } from '@/composables/useToast';
 import PublicLayout from '@/layouts/PublicLayout.vue';
+import { pageImg } from '@/lib/pageImages';
 
 const toast = useToast();
 const openFaq = ref<number | null>(0);
@@ -316,4 +328,72 @@ async function submitQuote() {
   } catch { toast.error('Failed to submit. Please try again.'); }
   finally { quoteSubmitting.value = false; }
 }
+
+// Inner-page design blocks (bento row, split panel, image cards)
+const bentoBlock = {
+  "eyebrow": "Help Centre",
+  "title": "Answers That Help You Decide With Confidence",
+  "image": pageImg.techCloseup,
+  "imageTitle": "Clear Answers, No Jargon",
+  "statLabel": "Questions answered",
+  "statValue": "100",
+  "statUnit": "+",
+  "cards": [
+    {
+      "icon": "💡",
+      "title": "Pricing and Timelines",
+      "text": "Understand how we scope projects, what affects cost and how long a typical website, app or system takes to deliver."
+    },
+    {
+      "icon": "🛠",
+      "title": "Support and Maintenance",
+      "text": "Learn what happens after launch, from hosting and security updates to training your team and adding new features."
+    }
+  ]
+};
+const splitBlock = {
+  "eyebrow": "Personal Help",
+  "title": "Can't Find Your Answer? Ask Us Directly",
+  "text": "Every business is different. If your question is not covered here, our team will give you a straight answer, usually within one working day.",
+  "points": [
+    "Speak to a real consultant, not a bot",
+    "Get guidance tailored to your project"
+  ],
+  "image": pageImg.tech6,
+  "statLabel": "Average response time",
+  "statValue": "<24",
+  "statUnit": "hrs",
+  "note": "Support by phone, email and WhatsApp",
+  "statIcon": "🎧",
+  "noteIcon": "💬",
+  "ctaLabel": "Contact Support"
+};
+const cardsBlock = {
+  "eyebrow": "Next Steps",
+  "title": "Explore Our Solutions",
+  "items": [
+    {
+      "icon": "💻",
+      "title": "Our Services",
+      "text": "Web, mobile, cloud and automation built around your goals.",
+      "to": "/services",
+      "image": pageImg.svcCustomWeb
+    },
+    {
+      "icon": "📦",
+      "title": "Website Packages",
+      "text": "Fixed-scope packages with clear pricing and timelines.",
+      "to": "/packages",
+      "image": pageImg.laptop
+    },
+    {
+      "icon": "🚀",
+      "title": "Products",
+      "text": "Ready-made software you can deploy and grow with.",
+      "to": "/products",
+      "image": pageImg.orbit
+    }
+  ]
+};
+
 </script>

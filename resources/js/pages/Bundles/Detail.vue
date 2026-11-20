@@ -22,7 +22,10 @@
             </router-link>
           </div>
         </div>
+        <PageHeroAside :image="pageImg.tech" :title="`Get the ${bundle.name} bundle`" :to="`/contact?bundle=${bundle.slug}`" :label="'Get This Bundle'" />
       </section>
+
+      <PageBento v-bind="bentoBlock" />
 
       <div class="container mx-auto px-6 py-14 md:py-20">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -75,6 +78,10 @@
           </div>
         </div>
       </div>
+      <PageSplit v-bind="splitBlock" />
+
+      <PageImageCards v-bind="cardsBlock" />
+
     </template>
 
     <!-- Not Found -->
@@ -89,12 +96,17 @@
 </template>
 
 <script setup lang="ts">
-import PageCta from '@/components/PageCta.vue';
-import PageProcess from '@/components/PageProcess.vue';
 import { computed, ref, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import heroTechBg from '@/../img/tech-background.webp';
+import PageBento from '@/components/PageBento.vue';
+import PageCta from '@/components/PageCta.vue';
+import PageHeroAside from '@/components/PageHeroAside.vue';
+import PageImageCards from '@/components/PageImageCards.vue';
+import PageProcess from '@/components/PageProcess.vue';
+import PageSplit from '@/components/PageSplit.vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
+import { pageImg } from '@/lib/pageImages';
 import api from '@/services/api';
 
 const route = useRoute();
@@ -125,4 +137,62 @@ onMounted(() => fetchBundle(route.params.slug as string));
 watch(() => route.params.slug, (newSlug) => {
   if (newSlug) fetchBundle(newSlug as string);
 });
+
+// Inner-page design blocks (bento row, split panel, image cards)
+const bentoBlock = computed(() => ({
+  eyebrow: 'Bundle Overview',
+  title: `Why Choose ${bundle.value?.name || 'This Bundle'}`,
+  image: bundle.value?.image || pageImg.tech2,
+  imageTitle: 'Services and Products, Combined',
+  statLabel: 'Items included',
+  statValue: String(bundle.value?.items?.length || whatsIncluded.value.length || 1),
+  statUnit: '',
+  cards: [
+    { icon: '💰', title: 'Better Value', text: bundle.value?.short_description || 'Bundled pricing costs less than buying each service separately.' },
+    { icon: '🤝', title: 'One Team, One Plan', text: 'A single point of contact manages every part of your bundle from kickoff to launch and beyond.' },
+  ],
+}));
+const splitBlock = computed(() => ({
+  eyebrow: 'Tailored For You',
+  title: 'Adapting Your Bundle Made Easy',
+  text: 'Need to add, swap or remove something? We will adjust this bundle to fit your goals, timeline and budget.',
+  points: ['Mix and match services and products', 'One contract, one invoice, one team'],
+  image: pageImg.tech5,
+  statLabel: 'Bundles delivered',
+  statValue: '60',
+  statUnit: '+',
+  statIcon: '📦',
+  note: 'One partner for everything digital',
+  noteIcon: '🤝',
+  ctaLabel: 'Get This Bundle',
+  ctaTo: `/contact?bundle=${bundle.value?.slug || ''}`,
+}));
+const cardsBlock = {
+  "eyebrow": "Explore More",
+  "title": "Other Ways We Can Help",
+  "items": [
+    {
+      "icon": "💼",
+      "title": "All Bundles",
+      "text": "Compare all of our solution bundles.",
+      "to": "/bundles",
+      "image": pageImg.tech2
+    },
+    {
+      "icon": "💻",
+      "title": "Our Services",
+      "text": "Web, mobile, cloud and automation built around your goals.",
+      "to": "/services",
+      "image": pageImg.svcCustomWeb
+    },
+    {
+      "icon": "🚀",
+      "title": "Products",
+      "text": "Ready-made software you can deploy and grow with.",
+      "to": "/products",
+      "image": pageImg.orbit
+    }
+  ]
+};
+
 </script>
